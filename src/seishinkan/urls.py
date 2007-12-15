@@ -6,7 +6,7 @@ urlpatterns = patterns( '',
 
     # Uncomment this for admin:
     ( r'^i18n/', include( 'django.conf.urls.i18n' ) ),
-    ( r'^admin/', include( 'django.contrib.admin.urls' ) ),
+    ( r'^verwaltung/', include( 'django.contrib.admin.urls' ) ),
 )
 
 # Simple Generic Views
