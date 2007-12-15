@@ -52,7 +52,7 @@
         </ul>
       </li>
     </ul>
-    
+
     <h2>Termine</h2>
     {% if not termine %}
       <p>Keine neuen Termine.</p>
@@ -131,7 +131,7 @@
       <h2>{{ art.get_title }}</h2>
       <div class="postentry">
         {% if art.bild %}
-          <p><img class="image{% if art.bild_ausrichtung %}{{ art.bild_ausrichtung }}{% endif %}" 
+          <p><img class="image{% if art.bild_ausrichtung %}{{ art.bild_ausrichtung }}{% endif %}"
                src="{{ art.bild.get_bild_url }}"
                title="{{ art.bild.name }}"
                alt="[{{ art.bild.name }}]" /></p>
@@ -148,7 +148,7 @@
   <div id="footer">
     <table width="100%">
       <tr>
-        <td align="left"><a href="/admin/" target="_blank">Verwaltung</a></td>
+        <td align="left"><a href="/verwaltung/">Verwaltung</a></td>
         <td align="right">&copy; Aikido Dojo Seishinkan</td>
       </tr>
     </table>
