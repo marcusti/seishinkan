@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+ <meta name="robots" content="noindex" />
+ <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+ <meta name="description" content="Website des Aikido Dojo Seishinkan, Hamburg" />
+ <link rel="stylesheet" href="/css/spring.css" type="text/css" media="screen" />
+ <title>Aikido Dojo Seishinkan</title>
+
+ <script type="text/javascript">
+  function Absenden() {
+    document.getElementById("setlang").submit();
+  }
+ </script>
+</head>
+
+<body>
+  {% load i18n %}
+  <div id="wrapper">
+
+  <div id="header">
+    <h1 align="center">
+      <a href="/">
+      Tendoryu
+      Aikido Dojo Seishinkan</a>
+    </h1>
+  </div>
+
+  <div id="sidebar">
+    <form id="setlang" action="/i18n/setlang/" method="post">
+     <input name="next" type="hidden" value="" />
+     <select name="language" onchange="Absenden()">
+     {% for lang in LANGUAGES %}
+       <option value="{{ lang.0 }}" {% ifequal language lang.0 %}selected{% endifequal %}>{{ lang.1 }}</option>
+     {% endfor %}
+     </select>
+    </form>
+
+    <br/>
+    <h2>Menu</h2>
+    <ul>
+      <li>
+        <ul>
+          {% for kat in kategorien %}
+            <li class="page_item"><a href="{{ kat.get_absolute_url }}">{{ kat.get_name }}</a>
+              {% for sub in kat.child_set.all %}
+                {% if sub.public %}<ul><li class="page_item"><a href="{{ sub.get_absolute_url }}">{{ sub.get_name }}</a></li></ul>{% endif %}
+              {% endfor %}
+            </li>
+          {% endfor %}
+        </ul>
+      </li>
+    </ul>
+    
+    <h2>Termine</h2>
+    {% if not termine %}
+      <p>Keine neuen Termine.</p>
+    {% else %}
+    <ul>
+      <li>
+        <ul>
+          {% for termin in termine %}
+            <li>
+              <a href=""><small class="postmeta">{{ termin.beginn|date:"j.n.Y" }}
+                {% ifnotequal termin.beginn termin.ende %} - {{ termin.ende|date:"j.n.Y" }}{% endifnotequal %}</small><br/>
+              {{ termin.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </li>
+    </ul>
+    {% endif %}
+
+    <h2>Beiträge</h2>
+    {% if not beitraege %}
+      <p>Zur Zeit gibt es keine Beiträge.</p>
+    {% else %}
+    <ul>
+      <li>
+        <ul>
+          {% for beitrag in beitraege %}
+            <li>
+              <a href="/beitrag/{{ beitrag.id }}/">
+              {% if beitrag.neu %}<span style="color:red;">NEU</span>{% endif %}
+              <small class="postmeta">{{ beitrag.datum|date:"j.n.Y" }}</small><br/>
+              {{ beitrag.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </li>
+    </ul>
+    {% endif %}
+
+  </div>
+
+  <div id="content">
+    {% block content %}
+    {% if wochenplan %}
+    <div class="post">
+    <div class="postentry">
+      <p>
+      <table id="trainingszeiten" class="small">
+        <tr>
+          {% for tag in wochentage %}
+            <th>{{ tag }}</th>
+          {% endfor %}
+        </tr>
+
+        {% for tage in wochenplan %}
+          <tr>
+          {% for training in tage %}
+            <td class="training{{ training.art.id }}">
+              {% if training %}
+                {{ training.von|time:"G:i" }} - {{ training.bis|time:"G:i" }}<br />
+                {{ training.art }}
+              {% endif %}
+            </td>
+          {% endfor %}
+          </tr>
+        {% endfor %}
+      </table>
+      </p>
+    </div>
+    </div>
+    {% endif %}
+
+    {% for art in artikel %}
+    <div class="post">
+    {% autoescape off%}
+      <h2>{{ art.get_title }}</h2>
+      <div class="postentry">
+        {% if art.bild %}
+          <p><img class="image{% if art.bild_ausrichtung %}{{ art.bild_ausrichtung }}{% endif %}" 
+               src="{{ art.bild.get_bild_url }}"
+               title="{{ art.bild.name }}"
+               alt="[{{ art.bild.name }}]" /></p>
+        {% endif %}
+        <p>{{ art.get_text|linebreaksbr }}</p>
+      </div>
+    </div>
+    {% endautoescape %}
+    {% endfor %}
+  <br />
+    {% endblock %}
+  </div>
+
+  <div id="footer">
+    <table width="100%">
+      <tr>
+        <td align="left"><a href="/admin/" target="_blank">Verwaltung</a></td>
+        <td align="right">&copy; Aikido Dojo Seishinkan</td>
+      </tr>
+    </table>
+  </div>
+  </div>
+</body>
+</html>

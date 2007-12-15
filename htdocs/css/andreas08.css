@@ -1,0 +1,338 @@
+/* andreas08 - an open source xhtml/css website layout by Andreas Viklund - http://andreasviklund.com . Free to use in any way and for any purpose as long as the proper credits are given to the original designer. Version: 1.0, November 28, 2005 */
+
+/**************** Body and tag styles ****************/
+
+*{margin:0; padding:0;}
+
+body{
+font:80% 'Bitstream Vera Sans',Verdana,Tahoma,Arial,sans-serif;
+line-height:1.4em;
+text-align:center;
+color:#303030;
+background:#e8eaec;
+}
+
+a{
+color:#467aa7;
+font-weight:bold;
+text-decoration:none;
+background-color:inherit;
+}
+
+a:hover{color:#2a5a8a; text-decoration:none; background-color:inherit;}
+a img{border:none;}
+
+p{padding:0 0 2em 0;text-align: justify;}
+p form{margin-top:0; margin-bottom:20px;}
+
+ul, li {list-style-type: none;}
+
+img.left,img.center,img.right,.photo{padding:1px; border:1px solid #a0a0a0;}
+img.left{float:left; margin:0 12px 5px 0;}
+img.center{display:block; margin:0 auto 5px auto;}
+img.right{float:right; margin:0 0 0 12px;}
+.photo{margin:5px;}
+
+/**************** Header and navigation styles ****************/
+
+#container{
+width:760px;
+margin:20px auto;
+padding:1px 0;
+text-align:left;
+background:#ffffff;
+color:#303030;
+border:2px solid #a0a0a0;
+}
+
+#header{
+height:110px;
+width:758px;
+margin:0 1px 1px 1px;
+background: url(/images/header110b.gif) no-repeat top #9AB2DD;
+color:#ffffff;
+}
+
+#header h1{
+padding:35px 0 0 10px;
+font-size:1.9em;
+color:#ffffff;
+font-weight:normal;
+}
+
+#header h1 a{
+color:#ffffff;
+font-weight:normal;
+}
+
+#header h1 a:hover{text-decoration: underline}
+
+#header h2{
+margin:20px 0 0 10px;
+font-size:1.4em;
+color:#f0f2f4;
+font-weight:normal;
+line-height:1em;
+}
+
+#navigation{
+height:2.2em;
+line-height:2.2em;
+width:758px;
+margin:0 1px;
+/*background:#578bb8;*/
+background:#9AB2DD;
+color:#ffffff;
+}
+
+#navigation li{
+float:left;
+list-style-type:none;
+border-right:1px solid #ffffff;
+white-space:nowrap;
+}
+
+#navigation li a{
+display:block;
+padding:0 10px;
+font-size:0.8em;
+font-weight:normal;
+text-transform:uppercase;
+text-decoration:none;
+background-color:inherit;
+color: #ffffff;
+}
+
+* html #navigation a {width:1%;}
+
+#navigation .selected,#navigation a:hover{
+background:#80b0da;
+background:#2a5a8a;
+color:#ffffff;
+text-decoration:none;
+}
+
+/**************** Content styles ****************/
+
+#content{
+float:left;
+width:540px;
+font-size:0.9em;
+padding:20px 0 20px 10px;
+}
+
+#content h2{
+display:block;
+margin:0 0 4px 0;
+padding: 0 0 4px 0;
+font-size:1.7em;
+font-weight:normal;
+line-height:1em;
+/*letter-spacing:-1px;*/
+color:#505050;
+background-color:inherit;
+border-bottom:1px solid #a0a0a0;
+}
+
+#content h1{
+display:block;
+margin:0 0 4px 0;
+padding: 0 0 4px 0;
+font-size:2.4em;
+font-weight:normal;
+line-height:1em;
+/*letter-spacing:-1px;*/
+color:#505050;
+background-color:inherit;
+}
+
+#content h2 a{font-weight:normal;}
+#content h3{margin:0 0 5px 0; font-size:1.4em; letter-spacing:-1px;}
+#content a:hover,#subcontent a:hover{text-decoration:underline;}
+#content ul,#content ol{margin:0 5px 0px 35px; list-style-type: none;}
+#content dl{margin:0 5px 10px 25px;}
+#content dt{font-weight:bold; margin-bottom:5px;}
+#content dd{margin:0 0 10px 15px;}
+
+/**************** Sidebar styles ****************/
+
+#subcontent{
+float:right;
+width:170px;
+padding:20px 10px;
+line-height:1.4em;
+/*background:#f8fafc;*/
+}
+
+#subcontent h2{
+display:block;
+margin:0 0 15px 0;
+font-size:1.6em;
+font-weight:normal;
+text-align:left;
+/*letter-spacing:-1px;*/
+color:#505050;
+background-color:inherit;
+}
+
+#subcontent p{margin:0 0 16px 0; font-size:0.9em;}
+
+/**************** Menublock styles ****************/
+
+.links{
+  margin:0 0 20px 10px; 
+  font-size:0.9em;
+}
+.links li{list-style:none; display:block;}
+.links li a{font-weight:bold; text-decoration:none;}
+.links li a:hover{text-decoration:none;}
+.links li ul{margin:3px 0 3px 15px; font-size:1em; font-weight:normal;}
+.links li ul li{margin-bottom:0;}
+.links li ul a{font-weight:normal;}
+
+/**************** Searchbar styles ****************/
+
+#searchbar{margin:0 0 0 0;}
+#searchbar form fieldset{margin-left:10px; border:0 solid;}
+
+#searchbar #s{
+height:20px;
+width:110px;
+margin:0 5px 0 0;
+border:1px solid #a0a0a0;
+}
+
+#searchbar #searchbutton{
+width:auto;
+height:20px;
+padding:0 1px;
+border:1px solid #808080;
+text-align:center;
+}
+
+/**************** Footer styles ****************/
+
+#footer{
+clear:both;
+width:758px;
+padding:4px 0 4px 0;
+margin:0 1px 0 1px;
+font-size:0.9em;
+color:#808979;
+background:#9AB2DD;
+}
+
+#footer div{padding:0 10px; margin:0; }
+#footer a{color:#808979; background-color:inherit; font-weight:bold;}
+#footer a:hover{color:#ffffff; text-decoration: underline;}
+#footer td{vertical-align: bottom;}
+
+/**************** Misc classes and styles ****************/
+
+.jump {float:right;}
+.jump a{color:#808979; background-color:inherit; font-weight:normal;}
+.jump a:hover{color:#ffffff; background-color:inherit; text-decoration: none;}
+.splitcontentleft{float:left; width:48%;}
+.splitcontentright{float:right; width:48%;}
+.clear{clear:both;}
+.small{font-size:0.8em;}
+.large{font-size:1.4em;}
+.hide{display:none;}
+.textcenter{text-align:center;}
+.textright{text-align:right;}
+.important{color:#f02025; background-color:inherit; font-weight:bold;}
+.right{float: right;}
+.left{float: left;}
+.fade{color:#808979;}
+.row1{background-color:#fafbfc;}
+.row2{background-color:#ffffff;}
+table{
+  border-spacing: 5px;
+  border-collapse: collapse;
+  border: 0 solid;
+  width: 100%;
+  empty-cells: show;
+  margin:0;
+}
+th, td {
+  margin: 4px;
+  padding: 4px;
+}
+
+.box, .highlight {
+margin:0 0 20px 0;
+padding:10px;
+border:1px solid #c0c0c0;
+background-color:#fafbfc;
+color:#505050;
+line-height:1.5em;
+}
+
+.entry{
+margin:0 0 20px 0;
+padding:0 0 40px 0;
+}
+
+ .highslide {
+	cursor: url(highslide/graphics/zoomin.cur), pointer;
+    outline: none;
+}
+.highslide img {
+	border:1px solid #a0a0a0;
+	padding:1px;
+}
+.highslide:hover img {
+	border:1px solid #2a5a8a;
+	padding:1px;
+}
+
+.highslide-image {
+    border: 2px solid white;
+}
+.highslide-image-blur {
+}
+.highslide-caption {
+    display: none;
+    
+    border: 2px solid white;
+    border-top: none;
+    padding: 2px;
+    background-color: white;
+}
+.highslide-display-block {
+    display: block;
+}
+.highslide-display-none {
+    display: none;
+}
+.highslide-loading {
+    display: block;
+	color: white;
+	font-size: 9px;
+	font-weight: bold;
+	text-transform: uppercase;
+    text-decoration: none;
+	padding: 3px;
+	border-top: 1px solid white;
+	border-bottom: 1px solid white;
+    background-color: black;
+    /*
+    padding-left: 22px;
+    background-image: url(highslide/graphics/loader.gif);
+    background-repeat: no-repeat;
+    background-position: 3px 1px;
+    */
+}
+a.highslide-credits,
+a.highslide-credits i {
+    padding: 2px;
+    color: silver;
+    text-decoration: none;
+	font-size: 10px;
+}
+a.highslide-credits:hover,
+a.highslide-credits:hover i {
+    color: white;
+    background-color: gray;
+}
+
