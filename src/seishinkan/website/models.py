@@ -6,6 +6,7 @@ from django.db import models
 from django.db.models import Q
 from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
+#import photologue
 
 DEFAULT_MAX_LENGTH = 200
 
@@ -149,6 +150,7 @@ class Artikel( models.Model ):
     position = models.IntegerField( _( u'Position auf der Seite' ), default = 0, blank = True )
     bild = models.ForeignKey( Bild, verbose_name = u'Bild', blank = True, null = True )
     bild_ausrichtung = models.CharField( _( u'Bild Ausrichtung' ), max_length = DEFAULT_MAX_LENGTH, choices = AUSRICHTUNGEN, default = u'right', blank = True )
+    #photo = photologue.models.Photo(  )
     kategorie = models.ForeignKey( Kategorie, verbose_name = _( u'Kategorie' ) )
 
     public = models.BooleanField( _( u'Öffentlich' ), default = True )
@@ -229,9 +231,6 @@ class BeitragManager( models.Manager ):
             Q( beginn__lte = heute ) | Q( beginn__isnull = True ),
             Q( ende__gt = heute ) | Q( ende__isnull = True ),
             )
-
-    def current( self ):
-        return self.get_query_set()[:3]
 
 class Beitrag( models.Model ):
     title = models.CharField( _( u'Überschrift' ), max_length = DEFAULT_MAX_LENGTH )

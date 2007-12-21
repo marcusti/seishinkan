@@ -1,7 +1,7 @@
-/*  
+/*
 Theme Name: Almost Spring
 Theme URI: http://beccary.com/goodies/wordpress-themes/
-Description: A two column theme. Light and simple with greens and oranges. 
+Description: A two column theme. Light and simple with greens and oranges.
 Version: 1.41
 Author: Becca Wei
 Author URI: http://beccary.com
@@ -32,7 +32,7 @@ ol, ul {
 h1, h2, h3, h4, h5, h6 {
 	margin: 1.2em 0 0 0;
 	font-family: "Lucida Grande", Tahoma, Arial, sans-serif;
-	color: #9BBB38; 
+	color: #9BBB38;
 }
 h1, h2 {
 	font-size: 1.4em;
@@ -102,11 +102,10 @@ a img {
 	text-align: left;
 }
 #header {
-	padding: 85px 20px 0px 20px;
 	background-color: #F5F5E7;
 	background-color: #FFF;
-	background: url(/images/logo.gif) no-repeat;
-        background-position: center;
+/*	background: url(/images/logo.gif) no-repeat;
+    background-position: center;*/
 	border-bottom: 10px solid #9BBB38;
 }
 	/* Header Styles */
@@ -117,7 +116,42 @@ a img {
 	#header h1 a {
 		text-decoration: none;
 		color: #80904F;
-	}		
+	}
+
+#navigation{
+height:1.5em;
+/*background:#578bb8;*/
+background:#9BBB38;
+color:#ffffff;
+}
+
+#navigation li{
+float:left;
+list-style-type:none;
+border-right:1px solid #ffffff;
+white-space:nowrap;
+}
+
+#navigation li a{
+display:block;
+padding:0 10px;
+text-transform:uppercase;
+text-decoration:none;
+background-color:inherit;
+color: #ffffff;
+}
+
+* html #navigation a {width:1%;}
+
+#navigation .selected,#navigation a:hover{
+background:#80b0da;
+background:#2a5a8a;
+background:#FFF;
+color:#9BBB38;
+text-decoration:none;
+}
+
+
 #content {
 	float: left;
 	margin: 0 0 0 20px;
@@ -148,7 +182,7 @@ a img {
 		font-size: 0.9em;
 		text-align: right;
 	}
-	
+
 /* Sidebar Styles */
 
 #sidebar h2 {
@@ -185,10 +219,10 @@ a img {
 	margin: 0 0 0 -10px;
 	padding: 0.1em 10px;
 	width: 190px;
-	voice-family: "\"}\""; 
+	voice-family: "\"}\"";
 	voice-family: inherit;
 	width: 170px;
-} 
+}
 html>body #sidebar ul ul li a {
 	width: 170px;
 }
@@ -210,10 +244,10 @@ html>body #sidebar ul ul li a {
 	margin: 0 0 0 -25px;
 	padding: 0.1em 10px 0.1em 25px;
 	width: 190px;
-	voice-family: "\"}\""; 
+	voice-family: "\"}\"";
 	voice-family: inherit;
 	width: 155px;
-} 
+}
 html>body #sidebar ul ul ul li a {
 	width: 155px;
 }
@@ -225,17 +259,17 @@ html>body #sidebar ul ul ul li a {
 	background: #FAFAF0;
 	line-height: 1.2em;
 	text-align: center;
-	voice-family: "\"}\""; 
+	voice-family: "\"}\"";
 	voice-family: inherit;
 	width: 188px;
-} 
+}
 html>body #wp-calendar {
 	width: 188px;
 }
 #wp-calendar caption {
 	margin: 1.2em 0 0 0;
 	padding: 0.4em 0;
-	background: #9BBB38;  
+	background: #9BBB38;
 	color: #FFF;
 	font-weight: bold;
 }
@@ -282,7 +316,7 @@ html>body #wp-calendar {
 	background: #9BBB38 url(images/posttitle.gif) no-repeat top right;
 }
 .posttitle a:link, .posttitle a:visited {
-	color: #FFF;	
+	color: #FFF;
 }
 .posttitle a:hover, .posttitle a:active {
 	background: #E8E7D0 url(images/posttitle.gif) no-repeat 100% -91px;
@@ -381,7 +415,7 @@ div.imageleft, img.imageleft {
 	margin: 0 15px 0.2em 0;
 	padding: 0;
 }
- 
+
 div.imageright, img.imageright {
 	float: right;
 	margin: 0 0 0.2em 15px;
@@ -406,19 +440,19 @@ div.imageright img, img.imageright {
   background-color: #eeeeec;
   background-color: #f5f5e7;
 }
-  
+
 #trainingszeiten th{
   text-align: center;
   margin: 0; padding: 0.5em;
   color: white;
   background-color: #9bbb38;
 }
-  
+
 /* Anfängerkurs */
 #trainingszeiten .training4 {
   background-color: #8ae234;
 }
-  
+
 /* Freies Training */
 #trainingszeiten .training5 {
   background-color: #d3d7cf;
