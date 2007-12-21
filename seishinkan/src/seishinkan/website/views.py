@@ -14,7 +14,7 @@ def __get_sidebar( request ):
     c['kategorien'] = Kategorie.public_objects.filter( parent__isnull = True )
     c['language'] = request.session.get( 'django_language', 'de' )
     c['termine'] = Termin.public_objects.current()
-    c['beitraege'] = Beitrag.public_objects.current()
+    c['beitraege'] = Beitrag.public_objects.all()
     return c
 
 def index( request, kid = 1 ):
