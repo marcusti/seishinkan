@@ -76,13 +76,13 @@
               {{ termin.title }}</a>
             </li>
           {% endfor %}
+          <li><small><a href="">alle Termine <span class="postmeta">({{ termine|length }})</span></a></small></li>
         </ul>
       </li>
     </ul>
-    <p><small><a href="">alle Termine</a> <span class="postmeta">({{ termine|length }})</span></small></p>
     {% endif %}
 
-    <h2><a href="">Beiträge</a></h2>
+    <h2>Beiträge</h2>
     {% if not beitraege %}
       <p>Zur Zeit gibt es keine Beiträge.</p>
     {% else %}
@@ -97,10 +97,10 @@
               {{ beitrag.title }}</a>
             </li>
           {% endfor %}
+          <li><small><a href="">alle Beiträge <span class="postmeta">({{ beitraege|length }})</span></a></small></li>
         </ul>
       </li>
     </ul>
-    <p><small><a href="">alle Beiträge</a> <span class="postmeta">({{ beitraege|length }})</span></small></p>
     {% endif %}
 
   </div>
