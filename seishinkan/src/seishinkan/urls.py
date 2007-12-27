@@ -18,8 +18,8 @@ urlpatterns += patterns( 'django.views.generic.simple',
 urlpatterns += patterns( 'seishinkan.website.views',
     ( r'^$', 'index' ),
     ( r'^seite/(\d+)/$', 'index' ),
-    ( r'^beitrag/$', 'news' ),
-    ( r'^beitrag/(\d+)/$', 'news' ),
+    ( r'^news/$', 'news' ),
+    ( r'^news/(\d+)/$', 'news' ),
 )
 
 
