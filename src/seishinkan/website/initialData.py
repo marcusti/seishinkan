@@ -1,7 +1,7 @@
 #-*- coding: utf-8 -*-
 
 from datetime import date, time
-from models import Artikel, Bild, Kategorie, Konfiguration, Termin, Training, Trainingsart, Wochentag
+from models import Artikel, Bild, Seite, Konfiguration, Termin, Training, Trainingsart, Wochentag
 from seishinkan import settings
 from seishinkan.news.models import News
 import os
@@ -45,45 +45,45 @@ class Import():
         so.name_ja = '日'
         so.save()
 
-        kat1 = Kategorie()
+        kat1 = Seite()
         kat1.position = 0
         kat1.name = u'Startseite'
         kat1.name_en = u'Home'
         kat1.name_ja = u'ホーム'
         kat1.save()
 
-        kat2 = Kategorie()
+        kat2 = Seite()
         kat2.position = 1
         kat2.name = u'Aikido'
         kat2.name_ja = u'合気道'
         kat2.save()
 
-        kat3 = Kategorie()
+        kat3 = Seite()
         kat3.position = 2
         kat3.name = u'Tendo'
         kat3.name_en = u'Tendo'
         kat3.name_ja = u'天道'
         kat3.save()
 
-        kat4 = Kategorie()
+        kat4 = Seite()
         kat4.position = 3
         kat4.name = u'Seishinkan'
         kat4.name_ja = u'清心館'
         kat4.save()
 
-        kat5 = Kategorie()
+        kat5 = Seite()
         kat5.position = 4
         kat5.name = u'Training'
         kat5.name_ja = u'けいこ'
         kat5.save()
 
-        kat6 = Kategorie()
+        kat6 = Seite()
         kat6.position = 5
         kat6.name = u'Links'
         kat6.name_ja = u'リンク'
         kat6.save()
 
-        kat7 = Kategorie()
+        kat7 = Seite()
         kat7.position = 6
         kat7.name = u'Kontakt'
         kat7.name_en = u'Contact'
@@ -91,14 +91,14 @@ class Import():
         kat7.public = True
         kat7.save()
 
-        kat8 = Kategorie()
+        kat8 = Seite()
         kat8.position = 0
         kat8.name = u'Anfahrt'
         kat8.public = True
         kat8.parent = kat7
         kat8.save()
 
-        kat9 = Kategorie()
+        kat9 = Seite()
         kat9.position = 0
         kat9.name = u'Anfänger'
         kat9.name_en = u'Beginners'
@@ -107,7 +107,7 @@ class Import():
         kat9.parent = kat5
         kat9.save()
 
-        kat10 = Kategorie()
+        kat10 = Seite()
         kat10.position = 1
         kat10.name = u'Kinder'
         kat10.name_en = u'Children'
@@ -116,10 +116,10 @@ class Import():
         kat10.parent = kat5
         kat10.save()
 
-        konf = Konfiguration( name = u'Standard', trainingskategorie = kat5 )
+        konf = Konfiguration( name = u'Standard', trainingsseite = kat5 )
         konf.save()
 
-        artikel = Artikel( kategorie = kat1 )
+        artikel = Artikel( seite = kat1 )
         artikel.title = u'Tendoryu Aikido – Energie in Bewegung'
         artikel.title_en = u'Tendoryu Aikido – Energy in Motion'
         artikel.title_ja = u'天道流合気道 – 動きの中のエネルギー'
@@ -128,7 +128,7 @@ class Import():
         artikel.text_ja = u'''合気道は調和と動作の美しさからなる武道芸術で、力任せなものではありません。ハンブルクの合気道道場清心館では天道流を実践しています。この流派は合気道創始者である植芝盛平先生の死後、清水健二先生により創始されたものです。ハンブルクEilbekの道場に「清心館（清い心の館）」という名を授けて下さったのは清水先生であります。道場で指導を担当するEckhardt　Hemkemeier（エックハート・ヘムケマイヤー）は清水先生の直弟子で現在 4段です。\n\n皆さんも是非お試しに道場に来て武道芸術である合気道と触れてみて下さい。又は定期的に行っている初心者コースに来てみて下さい。当初心者コースは毎水曜・毎金曜（全5回）の18時半から行われております。興味のある方は是非Eckhardt　Hemkemeierのところまでお問い合わせ頂くか、道場に直接来て下さい。コースの参加費用は１５ユーロです。（プレゼントとしてのクーポン券としてもお求め頂けます。）'''
         artikel.save()
 
-        artikel = Artikel( kategorie = kat2 )
+        artikel = Artikel( seite = kat2 )
         artikel.title = u'Aikido ist Harmonie'
         artikel.title_en = u'Aikido is Harmony'
         artikel.title_ja = u'合気道とはハーモニーです'
@@ -137,7 +137,7 @@ class Import():
         artikel.text_ja = u'''「合気道は相手が敵意ある態度を自発的に放棄するよう相手を導いていくことです。」と日本の現代武道芸術、つまり合気道創始者である植芝盛平先生は語っていました。これは正しく「合気道」という言葉を反映しています：自分のエネルギー「気」と自分を取り巻く環境、延いては宇宙のエネルギー「気」の調和・ハーモニー「合」を目指す「道」。合気道はまだ歴史の浅い武道芸術ではありますが、基となる根は古いものです。9世紀にインド・中国から日本に仏教が伝わって来たとき、武器を使わない武道芸術がいっしょにやって来ました。植芝盛平先生（1883～1969）はこの伝統的なテクニックを学び、それを新しい合気道に発展させたのです。他の武道分野と違って合気道には試合がありません。というのは合気道では個人的な発展が目標なのであって、人よりも速く・高く・遠くと競うものではないからです。合気道はまた護身術でもあり、勝敗にこだわらない武道芸術です。合気道で大事なのは相手の攻撃エネルギーを動的に迂回することです。これは力ずくでなされるのではないので、力持ちである必要はないのです。'''
         artikel.save()
 
-        artikel = Artikel( kategorie = kat3 )
+        artikel = Artikel( seite = kat3 )
         artikel.title = u'Tendo – Der Himmelsweg'
         artikel.title_en = u'Tendo – The Heavenly Way'
         artikel.title_ja = u'天道 – 天への道'
@@ -146,7 +146,7 @@ class Import():
         artikel.text_ja = u'''植芝盛平先生の弟子の中でも最も偉大な一人が清水健二先生です。1940年に生まれ1962年から1967年までの間、植芝先生の内弟子でした。植芝先生の死後、清水先生は70年代前半に天道流合気道を創始し、東京の合気道道場「天道館」で以後指導されています。1978年以来、清水先生は年に数回この流派伝授のためにドイツを始めヨーロッパ各地へ来られています。また一方ドイツからの訪問も東京で頻繁に受け入れられています。'''
         artikel.save()
 
-        artikel = Artikel( kategorie = kat4 )
+        artikel = Artikel( seite = kat4 )
         artikel.title = u'Das Aikido Dojo Seishinkan'
         artikel.title_en = u'The Aikido Dojo Seishinkan'
         artikel.title_ja = u'合気道道場　清心館'
@@ -155,12 +155,12 @@ class Import():
         artikel.text_ja = u'''合気道道場清心館の設立者、Eckhardt　Hemkemeier（エックハート・ヘムケマイヤー）はいろいろな武道を経験した後、1986年に合気道と出会い1989年に清水先生の天道流派を知るようになりました。そのときから清水先生の直弟子となり、ヨーロッパでの清水先生の稽古にはほとんど付き添っています。Eckhardt　Hemkemeierは定期的にドイツ、ベネルクス、フランス、ユーゴスラヴィア、メキシコでの稽古で指導しています。現在4段で、2000年に合気道道場清心館を設立し、2003年にハンブルクEilbekに道場を移動しました。合気道指導として力を注ぐ一方、北ドイツ放送（NDR）交響楽団員としても活躍しています。 '''
         artikel.save()
 
-        artikel = Artikel( kategorie = kat8 )
+        artikel = Artikel( seite = kat8 )
         artikel.title = u'Anfahrt'
         artikel.text = u'''<iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.de/maps?f=q&amp;hl=de&amp;geocode=&amp;time=&amp;date=&amp;ttype=&amp;q=Aikido+Dojo+Seishinkan,+Wandsbeker+Chaussee+62,+22089+Eilbek,+Hamburg&amp;ie=UTF8&amp;ll=53.57355,10.043306&amp;spn=0.007964,0.017917&amp;z=14&amp;iwloc=A&amp;om=1&amp;cid=53566274,10039140,1568376711813045872&amp;output=embed&amp;s=AARTsJpRoGh87HLU9lz6ZQ2vGX-009v7Nw"></iframe><br /><small><a href="http://maps.google.de/maps?f=q&amp;hl=de&amp;geocode=&amp;time=&amp;date=&amp;ttype=&amp;q=Aikido+Dojo+Seishinkan,+Wandsbeker+Chaussee+62,+22089+Eilbek,+Hamburg&amp;ie=UTF8&amp;ll=53.57355,10.043306&amp;spn=0.007964,0.017917&amp;z=14&amp;iwloc=A&amp;om=1&amp;cid=53566274,10039140,1568376711813045872&amp;source=embed" style="color:#0000FF;text-align:left">Größere Kartenansicht</a></small>'''
         artikel.save()
 
-        artikel = Artikel( kategorie = kat9 )
+        artikel = Artikel( seite = kat9 )
         artikel.title = u'Aikido für Anfänger'
         artikel.title_en = u'Aikido for Beginners'
         artikel.title_ja = u'初心者のための合気道'
@@ -169,7 +169,7 @@ class Import():
         artikel.text_ja = u'''合気道道場清心館での練習は毎水曜日・毎金曜日（18時半～20時）は初心者のために特別に設定されています。上級者がいつでも喜んでお助けします。上級者自身も昔は初心者だったのですから。初心者として入ったあなたが、いつかは初心者に自分の学んだことを教えてあげることができるようになるでしょう。合気道を学ぶにあたって若いかどうかなどは関係ありません。老若男女、初心者、上級者、みないっしょに練習します。合気道を学ぶことによって、体・精神に新しい意識をもたらします。調和の取れた動きはバランスの取れた精神状態をつくります。筋肉と循環器系が強化され、集中力もついてきます。合気道家は自意識と自信を得ることが出来ます。難しいことにも忍耐強く取り組んでいく姿勢と、問題解決のための新しい可能性を見出だす力もついてきます。清心館道場での初心者コースは全5回の練習から成っています。5回連続でなくても1週おいて練習に来るのでも構いません。コース参加費は15ユーロです。これはクーポン券としてプレゼントにもなります！例えば、体のために何かやりたいとずっと思っているお友達のためにどうですか。'''
         artikel.save()
 
-        artikel = Artikel( kategorie = kat10 )
+        artikel = Artikel( seite = kat10 )
         artikel.title = u'Aikido für Kinder'
         artikel.title_en = u'Aikido for Children'
         artikel.title_ja = u'子供のための合気道'

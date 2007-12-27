@@ -94,11 +94,11 @@ class Bild( models.Model ):
         list_display = ( 'name', 'bild', 'creation', 'modified', 'admin_thumb' )
         list_display_links = ( 'name', 'admin_thumb' )
 
-class KategorieManager( models.Manager ):
+class SeitenManager( models.Manager ):
     def get_query_set( self ):
-        return super( KategorieManager, self ).get_query_set().filter( public = True )
+        return super( SeitenManager, self ).get_query_set().filter( public = True )
 
-class Kategorie( models.Model ):
+class Seite( models.Model ):
     name = models.CharField( _( u'Name' ), max_length = DEFAULT_MAX_LENGTH )
     name_en = models.CharField( _( u'Name (Englisch)' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     name_ja = models.CharField( _( u'Name (Japanisch)' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
@@ -111,7 +111,7 @@ class Kategorie( models.Model ):
     modified = models.DateTimeField( _( u'Geändert am' ), auto_now = True )
 
     objects = models.Manager()
-    public_objects = KategorieManager()
+    public_objects = SeitenManager()
 
     def get_name( self, language = None ):
         return getattr( self, "name_%s" % ( language or translation.get_language()[:2] ), "" ) or self.name
@@ -124,8 +124,8 @@ class Kategorie( models.Model ):
 
     class Meta:
         ordering = ['parent', 'position', 'name']
-        verbose_name = _( u'Kategorie' )
-        verbose_name_plural = _( u'Kategorien' )
+        verbose_name = _( u'Seite' )
+        verbose_name_plural = _( u'Seiten' )
 
     class Admin:
         ordering = ['parent', 'position', 'name']
@@ -137,7 +137,7 @@ class ArtikelManager( models.Manager ):
         return super( ArtikelManager, self ).get_query_set().filter( public = True )
 
     def get_by_category( self, kid ):
-        return self.get_query_set().filter( kategorie = kid ).order_by( 'position' )
+        return self.get_query_set().filter( seite = kid ).order_by( 'position' )
 
 class Artikel( models.Model ):
     title = models.CharField( _( u'Überschrift' ), max_length = DEFAULT_MAX_LENGTH )
@@ -150,7 +150,7 @@ class Artikel( models.Model ):
     bild = models.ForeignKey( Bild, verbose_name = u'Bild', blank = True, null = True )
     bild_ausrichtung = models.CharField( _( u'Bild Ausrichtung' ), max_length = DEFAULT_MAX_LENGTH, choices = AUSRICHTUNGEN, default = u'right', blank = True )
     #photo = photologue.models.Photo(  )
-    kategorie = models.ForeignKey( Kategorie, verbose_name = _( u'Kategorie' ) )
+    seite = models.ForeignKey( Seite, verbose_name = _( u'Seite' ) )
 
     public = models.BooleanField( _( u'Öffentlich' ), default = True )
     creation = models.DateTimeField( _( u'Erfasst am' ), auto_now_add = True )
@@ -174,11 +174,11 @@ class Artikel( models.Model ):
         verbose_name_plural = _( u'Artikel' )
 
     class Admin:
-        ordering = ['kategorie_id', 'title']
-        list_display = ( 'title', 'position', 'kategorie', 'creation', 'modified', 'public', 'id' )
-        list_filter = ( 'kategorie', )
+        ordering = ['seite_id', 'title']
+        list_display = ( 'title', 'position', 'seite', 'creation', 'modified', 'public', 'id' )
+        list_filter = ( 'seite', )
         fields = (
-            ( None, { 'fields': ( 'kategorie', 'position', 'public' ) } ),
+            ( None, { 'fields': ( 'seite', 'position', 'public' ) } ),
             ( 'Bild', { 'fields': ( 'bild', 'bild_ausrichtung' ) } ),
             ( 'Deutsch', { 'fields': ( 'title', 'text' ) } ),
             ( 'Englisch', { 'fields': ( 'title_en', 'text_en' ), 'classes': 'collapse' } ),
@@ -299,15 +299,15 @@ class Konfiguration( models.Model ):
 
     name = models.CharField( _( u'Name' ), max_length = DEFAULT_MAX_LENGTH )
 
-    # gibt an, in welcher Kategorie auf der Website die Trainingszeiten erscheinen sollen
-    trainingskategorie = models.ForeignKey( Kategorie, verbose_name = _( u'Kategorie für Trainingsplan' ) )
+    # gibt an, in welcher Seite auf der Website die Trainingszeiten erscheinen sollen
+    trainingsseite = models.ForeignKey( Seite, verbose_name = _( u'Seite für Trainingsplan' ) )
 
     public = models.BooleanField( _( u'Öffentlich' ), default = True )
     creation = models.DateTimeField( _( u'Erfasst am' ), auto_now_add = True )
     modified = models.DateTimeField( _( u'Geändert am' ), auto_now = True )
 
     def __unicode__( self ):
-        return u'%s'.strip() % ( self.trainingskategorie )
+        return u'%s'.strip() % ( self.trainingsseite )
 
     class Meta:
         verbose_name = _( u'Konfiguration' )
