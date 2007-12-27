@@ -1,9 +1,10 @@
 #-*- coding: utf-8 -*-
 
-import os
 from datetime import date, time
-from models import Artikel, Beitrag, Bild, Kategorie, Konfiguration, Termin, Training, Trainingsart, Wochentag
+from models import Artikel, Bild, Kategorie, Konfiguration, Termin, Training, Trainingsart, Wochentag
 from seishinkan import settings
+from seishinkan.news.models import News
+import os
 
 class Import():
     def __init__( self ):
@@ -13,44 +14,44 @@ class Import():
         mo.name_en = 'Monday'
         mo.name_ja = '月'
         mo.save()
-        
+
         di = Wochentag( name = 'Dienstag', index = 1 )
         di.name_en = 'Tuesday'
         di.name_ja = '火'
         di.save()
-        
+
         mi = Wochentag( name = 'Mittwoch', index = 2 )
         mi.name_en = 'Wednesday'
         mi.name_ja = '水'
         mi.save()
-        
+
         do = Wochentag( name = 'Donnerstag', index = 3 )
         do.name_en = 'Thursday'
         do.name_ja = '木'
         do.save()
-        
+
         fr = Wochentag( name = 'Freitag', index = 4 )
         fr.name_en = 'Friday'
         fr.name_ja = '金'
         fr.save()
-        
+
         sa = Wochentag( name = 'Samstag', index = 5 )
         sa.name_en = 'Saturday'
         sa.name_ja = '土'
         sa.save()
-        
+
         so = Wochentag( name = 'Sonntag', index = 6 )
         so.name_en = 'Sunday'
         so.name_ja = '日'
         so.save()
-        
+
         kat1 = Kategorie()
         kat1.position = 0
         kat1.name = u'Startseite'
         kat1.name_en = u'Home'
         kat1.name_ja = u'ホーム'
         kat1.save()
-        
+
         kat2 = Kategorie()
         kat2.position = 1
         kat2.name = u'Aikido'
@@ -89,14 +90,14 @@ class Import():
         kat7.name_ja = u'コンタクト'
         kat7.public = True
         kat7.save()
-        
+
         kat8 = Kategorie()
         kat8.position = 0
         kat8.name = u'Anfahrt'
         kat8.public = True
         kat8.parent = kat7
         kat8.save()
-        
+
         kat9 = Kategorie()
         kat9.position = 0
         kat9.name = u'Anfänger'
@@ -105,7 +106,7 @@ class Import():
         kat9.public = True
         kat9.parent = kat5
         kat9.save()
-        
+
         kat10 = Kategorie()
         kat10.position = 1
         kat10.name = u'Kinder'
@@ -114,10 +115,10 @@ class Import():
         kat10.public = True
         kat10.parent = kat5
         kat10.save()
-        
+
         konf = Konfiguration( name = u'Standard', trainingskategorie = kat5 )
         konf.save()
-        
+
         artikel = Artikel( kategorie = kat1 )
         artikel.title = u'Tendoryu Aikido – Energie in Bewegung'
         artikel.title_en = u'Tendoryu Aikido – Energy in Motion'
@@ -153,12 +154,12 @@ class Import():
         artikel.text_en = u'''After studying other martial arts, Eckhardt Hemkemeier, founder of the Aikido Dojo Seishinkan, had his first encounter with Aikido in 1986. In 1989 he met Shimizu Sensei and thus got to know the Tendo style. Since then Eckhard Hemkemeier is directly taught by Shimizu Sensei whom he is accompanying to most of his European training courses. As well as attending, Hemkemeier is teaching Aikido at courses in Germany, Benelux, France, former Jugoslavia, and Mexico on a regular basis. Since 1997 he is a regular guest in the Tendokan Dojo in Tokyo. In the year 2000 Eckhardt Hemkemeier founded the Aikido Dojo Seishinkan. In January 2003 he and his students moved to the new and now traditional location in Hamburg-Eilbek. Beside his dedication as an Aikido teacher Eckhard Hemkemeier who now holds the 4th Dan grade works as a musician with the NDR (Norddeutscher Rundfunk) Symphonic Orchestra. '''
         artikel.text_ja = u'''合気道道場清心館の設立者、Eckhardt　Hemkemeier（エックハート・ヘムケマイヤー）はいろいろな武道を経験した後、1986年に合気道と出会い1989年に清水先生の天道流派を知るようになりました。そのときから清水先生の直弟子となり、ヨーロッパでの清水先生の稽古にはほとんど付き添っています。Eckhardt　Hemkemeierは定期的にドイツ、ベネルクス、フランス、ユーゴスラヴィア、メキシコでの稽古で指導しています。現在4段で、2000年に合気道道場清心館を設立し、2003年にハンブルクEilbekに道場を移動しました。合気道指導として力を注ぐ一方、北ドイツ放送（NDR）交響楽団員としても活躍しています。 '''
         artikel.save()
-        
+
         artikel = Artikel( kategorie = kat8 )
         artikel.title = u'Anfahrt'
         artikel.text = u'''<iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.de/maps?f=q&amp;hl=de&amp;geocode=&amp;time=&amp;date=&amp;ttype=&amp;q=Aikido+Dojo+Seishinkan,+Wandsbeker+Chaussee+62,+22089+Eilbek,+Hamburg&amp;ie=UTF8&amp;ll=53.57355,10.043306&amp;spn=0.007964,0.017917&amp;z=14&amp;iwloc=A&amp;om=1&amp;cid=53566274,10039140,1568376711813045872&amp;output=embed&amp;s=AARTsJpRoGh87HLU9lz6ZQ2vGX-009v7Nw"></iframe><br /><small><a href="http://maps.google.de/maps?f=q&amp;hl=de&amp;geocode=&amp;time=&amp;date=&amp;ttype=&amp;q=Aikido+Dojo+Seishinkan,+Wandsbeker+Chaussee+62,+22089+Eilbek,+Hamburg&amp;ie=UTF8&amp;ll=53.57355,10.043306&amp;spn=0.007964,0.017917&amp;z=14&amp;iwloc=A&amp;om=1&amp;cid=53566274,10039140,1568376711813045872&amp;source=embed" style="color:#0000FF;text-align:left">Größere Kartenansicht</a></small>'''
         artikel.save()
-        
+
         artikel = Artikel( kategorie = kat9 )
         artikel.title = u'Aikido für Anfänger'
         artikel.title_en = u'Aikido for Beginners'
@@ -167,7 +168,7 @@ class Import():
         artikel.text_en = u'''Beginners have a special status in the Aikido Dojo Seishinkan. On Wednesday and Friday evenings (between 18:30 and 20:00 h) we hold a special training for beginners. During this the advanced students are always willing to take special care of beginners, stand by their side and assist them in their first steps. After all, we all were beginners once. Later the beginners of today will be the advanced students who help the new beginners and tell of their experiences. You do not have to be young or physically strong to train Aikido. In Aikido young and old, male and female, beginner and advanced student train together and learn from each other. By way of practicing Aikido, body and mind gain a new level of consciousness. Especially beginners are surprised about what kind of movements they are able to perform after a while. The harmonic movements balance the mind. Aikido stabilizes muscles and the cardiovascular system, and strengthens the ability to concentrate. Aikidoka (people who practice Aikido) gain in self-confidence and trust in themselves, others, and the situation. They learn to deal patiently with difficulties and find new ways to solve conflicts. A beginners course In the Seishinkan Dojo consists of five lessons. The good thing about it: You do not have to attend on five consecutive dates. You can skip a week and continue the next. The fee for the beginner's course is 15 € per person. The beginners course is also a great present – e.g. for friends who always wanted to do something for their health. Just ask for our gift voucher!'''
         artikel.text_ja = u'''合気道道場清心館での練習は毎水曜日・毎金曜日（18時半～20時）は初心者のために特別に設定されています。上級者がいつでも喜んでお助けします。上級者自身も昔は初心者だったのですから。初心者として入ったあなたが、いつかは初心者に自分の学んだことを教えてあげることができるようになるでしょう。合気道を学ぶにあたって若いかどうかなどは関係ありません。老若男女、初心者、上級者、みないっしょに練習します。合気道を学ぶことによって、体・精神に新しい意識をもたらします。調和の取れた動きはバランスの取れた精神状態をつくります。筋肉と循環器系が強化され、集中力もついてきます。合気道家は自意識と自信を得ることが出来ます。難しいことにも忍耐強く取り組んでいく姿勢と、問題解決のための新しい可能性を見出だす力もついてきます。清心館道場での初心者コースは全5回の練習から成っています。5回連続でなくても1週おいて練習に来るのでも構いません。コース参加費は15ユーロです。これはクーポン券としてプレゼントにもなります！例えば、体のために何かやりたいとずっと思っているお友達のためにどうですか。'''
         artikel.save()
-        
+
         artikel = Artikel( kategorie = kat10 )
         artikel.title = u'Aikido für Kinder'
         artikel.title_en = u'Aikido for Children'
@@ -176,13 +177,13 @@ class Import():
         artikel.text_en = u'''Two days a week (Tuesday and Thursday from 16:30h to 18:00 h) we offer a special training for children. This training is not focussed on technique but rather on learning in a playful way to gain consciousness in the body. By training Aikido children discover and train new abilities that also affect their mental posture. Outer and inner order strengthen the character, lower aggressiveness, and lead to more tolerance. The ability to concentrate as well as the physical fitness are improved; behaviour within a group is positively enhanced.'''
         artikel.text_ja = u'''週2回火曜・木曜（16時半～18時）は子供向け練習です。重点はここではテクニックを学ぶというより、合気道を遊び感覚で学ぶことです。子供たちも自分の精神状態に作用する新しい能力を見出すでしょう。自分の外と内の「気」が精神を強化し、また攻撃的な気持ちが和らぎ寛容になっていきます。健康にいいだけでなく集中力もつき、また集団の中での振舞いもポジティヴになっていきます。'''
         artikel.save()
-        
-        
+
+
         t_alle = Trainingsart( name = u'Training für alle' )
         t_alle.name_en = u'General training'
         t_alle.name_ja = u'全体練習'
         t_alle.save()
-        
+
         t_frueh = Trainingsart( name = u'Frühtraining' )
         t_frueh.name_en = u'Morning training'
         t_frueh.name_ja = u'早朝練習'
@@ -202,84 +203,84 @@ class Import():
         t_frei.name_en = u'Free exercise '
         t_frei.name_ja = u'自由練習'
         t_frei.save()
-        
+
         t = Training()
         t.wochentag = mo
         t.art = t_alle
         t.von = time( 20, 15 )
         t.bis = time( 21, 30 )
         t.save()
-        
+
         t = Training()
         t.wochentag = di
         t.art = t_frueh
         t.von = time( 8, 0 )
         t.bis = time( 9, 0 )
         t.save()
-        
+
         t = Training()
         t.wochentag = di
         t.art = t_kinder
         t.von = time( 16, 30 )
         t.bis = time( 18, 0 )
         t.save()
-        
+
         t = Training()
         t.wochentag = di
         t.art = t_alle
         t.von = time( 18, 15 )
         t.bis = time( 19, 45 )
         t.save()
-        
+
         t = Training()
         t.wochentag = mi
         t.art = t_basis
         t.von = time( 18, 30 )
         t.bis = time( 20, 00 )
         t.save()
-        
+
         t = Training()
         t.wochentag = mi
         t.art = t_alle
         t.von = time( 20, 00 )
         t.bis = time( 21, 30 )
         t.save()
-        
+
         t = Training()
         t.wochentag = do
         t.art = t_frueh
         t.von = time( 8, 0 )
         t.bis = time( 9, 0 )
         t.save()
-        
+
         t = Training()
         t.wochentag = do
         t.art = t_kinder
         t.von = time( 16, 30 )
         t.bis = time( 18, 0 )
         t.save()
-        
+
         t = Training()
         t.wochentag = do
         t.art = t_alle
         t.von = time( 20, 30 )
         t.bis = time( 21, 45 )
         t.save()
-        
+
         t = Training()
         t.wochentag = fr
         t.art = t_frei
         t.von = time( 18, 00 )
         t.bis = time( 18, 30 )
         t.save()
-        
+
         t = Training()
         t.wochentag = fr
         t.art = t_basis
         t.von = time( 18, 30 )
         t.bis = time( 20, 00 )
         t.save()
-        
+
         t = Termin()
         t.title = 'kurzer Termin'
         t.ort = 'Hamburg'
@@ -307,13 +308,13 @@ class Import():
         t.beginn = date( heute.year + 1, heute.month, heute.day )
         t.ende = date( heute.year + 2, heute.month, heute.day )
         t.save()
-        
-        b = Beitrag()
-        b.title = 'Tendoryu-Aikido im Umbruch'
-        b.einleitung = 'oder \n\nLehrer und Schüler – ein immer währender Widerspruch?\n\nErfahrungen aus beiden Positionen'
-        b.beginn = date( 2007, 12, 10 )
-        b.autor = 'Eckhardt Hemkemeier'
-        b.text = '''In der letzten Zeit wird viel übers Tendoryu gesprochen. Es wird von Geldgier, Despotismus, kritikloser Gefolgschaft, Bloßstellung in der Öffentlichkeit und von vielem mehr gesprochen. Es findet eine Stimmungskampagne statt, die vielleicht einer Beleuchtung bedarf.
+
+        news = News()
+        news.title = 'Tendoryu-Aikido im Umbruch'
+        news.einleitung = 'oder \n\nLehrer und Schüler – ein immer währender Widerspruch?\n\nErfahrungen aus beiden Positionen'
+        news.beginn = date( 2007, 12, 10 )
+        news.autor = 'Eckhardt Hemkemeier'
+        news.text = '''In der letzten Zeit wird viel übers Tendoryu gesprochen. Es wird von Geldgier, Despotismus, kritikloser Gefolgschaft, Bloßstellung in der Öffentlichkeit und von vielem mehr gesprochen. Es findet eine Stimmungskampagne statt, die vielleicht einer Beleuchtung bedarf.
 
 Einige Lehrer trennen sich von einem Schüler, der nach seinen Vorstellungen nicht das wirkliche Ziel verfolgt. Manch Schüler trennt sich vom Lehrer, weil dieser nicht mehr seinen Vorstellungen entspricht. Das sollte so sein, wenn da nicht manchmal ein Egoismus im Spiel ist. Ist ein Lehrer „idealtypisch“, wird dieser, sobald er nicht mehr dem Ideal entspricht, enttäuschend sein. Er erfüllt also nicht mehr das Maß, welches man an ihn anlegt. Ist es nun am Schüler, den Lehrer zu messen, oder sollte er sich nicht besser bemühen zu verstehen, was der Lehrer ihm vermitteln will? Soll der Lehrer sich den Bedürfnissen der Schüler anpassen, oder soll er seine Sache vermitteln. Und wie er es vermitteln will? Wie vielen Schülern oder welchen Schülern soll er sich anpassen? Wie viele Ideale erfüllen? Ist das nicht absurd?
 
@@ -363,14 +364,14 @@ Auf ewige Veränderung, unermüdliches Lernen und Verstehen.
 
 Mit lieben Grüßen,
 Euer Eckhardt '''
-        b.save()
-        
-        b = Beitrag()
-        b.title = 'Bundeslehrgang Herzogenhorn'
-        b.einleitung = '24.06. - 30.06.2007'
-        b.beginn = date( 2007, 11, 26 )
-        b.autor = 'Thomas Koslowski'
-        b.text = '''Am Sonntag den 24.06.2007 kam ich zusammen mit Eckhardt und Christian in Herzhogenhorn an. Zur allgemeinen Information, der genannte Ort liegt im tiefsten Schwarzwald, etwa 25 km südlich von Freiburg und 30 km nördlich der Schweiz. Seit über 20 Jahren wird dort vom Tendoryo-Aikiko-Deutschland alljährlich ein Lehrgang mit Shimizu Sensei veranstaltet, zu dem aktive Aikidokas aus ganz Europa kommen. Der gleichnamige Ort liegt etwa 150 Meter tiefer, und ist ein Bundesleistungszentrum der Biatlethen. Die Unterkunft liegt in etwa 1330 m Höhe, entsprechend häufig wechselte es die Woche über zwischen Hochnebel und Dauerregen.
+        news.save()
+
+        news = News()
+        news.title = 'Bundeslehrgang Herzogenhorn'
+        news.einleitung = '24.06. - 30.06.2007'
+        news.beginn = date( 2007, 11, 26 )
+        news.autor = 'Thomas Koslowski'
+        news.text = '''Am Sonntag den 24.06.2007 kam ich zusammen mit Eckhardt und Christian in Herzhogenhorn an. Zur allgemeinen Information, der genannte Ort liegt im tiefsten Schwarzwald, etwa 25 km südlich von Freiburg und 30 km nördlich der Schweiz. Seit über 20 Jahren wird dort vom Tendoryo-Aikiko-Deutschland alljährlich ein Lehrgang mit Shimizu Sensei veranstaltet, zu dem aktive Aikidokas aus ganz Europa kommen. Der gleichnamige Ort liegt etwa 150 Meter tiefer, und ist ein Bundesleistungszentrum der Biatlethen. Die Unterkunft liegt in etwa 1330 m Höhe, entsprechend häufig wechselte es die Woche über zwischen Hochnebel und Dauerregen.
 
 Wir erreichten unser Ziel gegen halb fünf. Das Wetter hatte mitgespielt und so gingen wir mit mehreren Personen auf den Herzogenhorn, den zweithöchsten Berg des Schwarzwaldes. Von dort hatten wir einen Panoramaausblick auf die französischen und schweizerischen Alpen.
 
@@ -383,13 +384,13 @@ Da das Wetter nicht mitspielte, konnten wir in der unmittelbaren Umgebung nicht 
 Im Gegensatz zu vorangegangenen Veranstaltungen konnte man diesmal bei einer durchschnittlichen Tagestemperatur von 16 °C konditionell ganz gut überstehen. Zum Abschluss des Lehrgangs wurden durch Shimizu Sensei zahlreiche Graduierungen ausgesprochen, unter anderem für Hamburger Aikidokas, wie: Peter Prehm zum 3. Dan, Klaus Marten 2. Dan, Volker Mros 2. Dan, Martin Rosik, 2. Dan.
 
 Am Samstag nach dem Frühstück haben wir uns verabschiedet, und sind abgereist.'''
-        b.save()
+        news.save()
 
-        b = Beitrag()
-        b.title = 'Das Dojo – Ort der zeitlosen Begegnung'
-        b.beginn = date( 2006, 4, 14 )
-        b.autor = 'Eckhardt Hemkemeier'
-        b.text = '''Das Dojo (jap. 道場, dōjō; dt. Ort des Weges), gesprochen Doodschoo, vielmehr die Bedeutung des Dojo, muß man vor dem Hintergrund der asiatischen, shintoistischen und buddhistischen Geschichte Asiens betrachten.
+        news = News()
+        news.title = 'Das Dojo – Ort der zeitlosen Begegnung'
+        news.beginn = date( 2006, 4, 14 )
+        news.autor = 'Eckhardt Hemkemeier'
+        news.text = '''Das Dojo (jap. 道場, dōjō; dt. Ort des Weges), gesprochen Doodschoo, vielmehr die Bedeutung des Dojo, muß man vor dem Hintergrund der asiatischen, shintoistischen und buddhistischen Geschichte Asiens betrachten.
 
 In der Entwicklung des Shintoismus und des Buddhismus suchten die Gläubigen nach Orten, die für ihre Gebete und Übungen geeignet erschienen. Sie schufen in ihren Kultstätten Räume, in denen sie ihre Riten ungestört ausüben konnten. In Europa kennen wir so etwas als Kirchen und Klöster. Auch hier ist der Grund für die Bildung eines solchen Ortes die Suche nach einer Zeit der Ruhe und Unantastbarkeit von der Außenwelt. Eine Zeitlang waren solche Gebäude sogar unantastbar für die weltlichen Herren. Die Autorität des Glaubens an unberührbare Orte war sehr stark. Natürlich stand im Hintergrund die Kirche, eine Sekte oder Ähnliches, aber auch in den Menschen war die Kraft dieses Respekts. Die Aussage: „Vor Gott ist jeder gleich“ war ein Grundsatz in vielen religiösen Vereinigungen. Es sollte vermitteln, dass sich niemand sich auf Geld, Herkunft oder Beziehungen verlassen kann, sondern dass nur seine Taten und sein reiner Geist zählen. Das trifft auch auf das Dojo zu. Im Dojo sind alle gleich, es existieren keine Standesdünkel, weder reich noch arm werden bevorzugt.
 
@@ -420,14 +421,14 @@ Stärke, Toleranz, Flexibilität, Vertrauen, Kraft, Ausdauer, Selbstsicherheit, 
 Letztlich kann man das alles in die esoterische Ecke schieben, realistisch betrachtet sind solche Dinge nicht beweisbar, wissenschaftlich gesehen alles Placebo, spiritistischer Unfug... Aber Aikido lehrt einen, sich selbst besser kennenzulernen. Der Eine in mir weiß mittlerweise sehr genau was gut für ihn ist.
 
 Zum Beispiel ins Dojo zu gehen und zu trainieren.'''
-        b.save()
+        news.save()
 
-        b = Beitrag()
-        b.title = 'Schnee, Eis und Schweiß – Shimizu Sensei in Oberhaching und Deggendorf'
-        b.einleitung = 'Aikido im Jahrhundertwinter, 6. – 12.03.2006'
-        b.beginn = date( 2006, 3, 15 )
-        b.autor = 'Gaëlle und Eckhardt Hemkemeier'
-        b.text = '''Gaëlle und ich wollten eigentlich mit dem Auto am Montag nach Oberhaching, Nähe München fahren. Aber am Sonntag, Senseis Abreise von Berlin nach München, wurde vor Eis und Schnee, Staus und großen Problemen gewarnt. Also buchten wir in letzer Sekunde einen Flug für Dienstag in der Früh, um pünktlich zum Training in der Sportschule Oberhaching zu sein.
+        news = News()
+        news.title = 'Schnee, Eis und Schweiß – Shimizu Sensei in Oberhaching und Deggendorf'
+        news.einleitung = 'Aikido im Jahrhundertwinter, 6. – 12.03.2006'
+        news.beginn = date( 2006, 3, 15 )
+        news.autor = 'Gaëlle und Eckhardt Hemkemeier'
+        news.text = '''Gaëlle und ich wollten eigentlich mit dem Auto am Montag nach Oberhaching, Nähe München fahren. Aber am Sonntag, Senseis Abreise von Berlin nach München, wurde vor Eis und Schnee, Staus und großen Problemen gewarnt. Also buchten wir in letzer Sekunde einen Flug für Dienstag in der Früh, um pünktlich zum Training in der Sportschule Oberhaching zu sein.
 
 Um 5.30 Uhr waren wir am Flughafen und warteten dann doch eine halbe Stunde länger als geplant. Auch die S-Bahn in München fuhr ein wenig langsamer als gewohnt. Überall waren Schnee- und Eisberge zu sehen, festgefahrene Schneedecken, meterhoch eingeschneite Autos. Eine weiße Traumlandschaft zog an uns vorbei, für die Bayern nun wohl eher eine Alptraumlandschaft.
 
@@ -454,12 +455,12 @@ Zum Schluß gab es auch großen Ablaus für Sensei und Birgit, die wieder einmal
 Gaëlle und ich bedanken uns auf diesem Wege auch noch einmal bei Stefan, der uns so komfortabel aufnahm, bei den fleißigen Organisatoren und den Teilnehmern der beiden Lehrgänge, für die schönen Techniken und Ukemi, die schönen Gespäche und die lustigen Abende.
 
 Auf ein baldiges Wiedersehen'''
-        b.save()
-        
+        news.save()
+
         for filename in os.listdir( os.path.join( settings.MEDIA_ROOT, 'bilder' ) ):
             if filename.lower().endswith( 'jpg' ):
-                b = Bild()
-                b.name, ext = os.path.splitext( filename )
-                b.bild = os.path.join( 'bilder', filename )
-                b.save()
+                bild = Bild()
+                bild.name, ext = os.path.splitext( filename )
+                bild.bild = os.path.join( 'bilder', filename )
+                bild.save()
 
