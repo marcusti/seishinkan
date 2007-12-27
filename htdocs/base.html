@@ -51,9 +51,9 @@
     <ul>
       <li>
         <ul>
-          {% for kat in kategorien %}
-            <li class="page_item"><a href="{{ kat.get_absolute_url }}">{{ kat.get_name }}</a>
-              {% for sub in kat.child_set.all %}
+          {% for seite in seiten %}
+            <li class="page_item"><a href="{{ seite.get_absolute_url }}">{{ seite.get_name }}</a>
+              {% for sub in seite.child_set.all %}
                 {% if sub.public %}<ul><li class="page_item"><a href="{{ sub.get_absolute_url }}">{{ sub.get_name }}</a></li></ul>{% endif %}
               {% endfor %}
             </li>
