@@ -1,3 +1,5 @@
+DEFAULT_MAX_LENGTH = 200
+
 class XFieldList(list):
     """ List for field names.
     Changes "*_" to specific field names for the current language,
