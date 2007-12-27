@@ -91,7 +91,7 @@
         <ul>
           {% for beitrag in beitraege|slice:":3" %}
             <li>
-              <a href="/beitrag/{{ beitrag.id }}/">
+              <a href="/news/{{ beitrag.id }}/">
               {% if beitrag.neu %}<span style="color:red;">NEU</span>{% endif %}
               <small class="postmeta">{{ beitrag.datum|date:"j.n.Y" }}</small><br/>
               {{ beitrag.title }}</a>
