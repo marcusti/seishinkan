@@ -3,7 +3,8 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.views.generic.list_detail import object_list, object_detail
 from seishinkan import settings
-from seishinkan.website.models import Artikel, Beitrag, Kategorie, Konfiguration, Termin, TrainingManager, Wochentag
+from seishinkan.website.models import Artikel, Kategorie, Konfiguration, Termin, TrainingManager, Wochentag
+from seishinkan.news.models import News
 
 def __get_sidebar( request ):
     if Artikel.objects.all().count() == 0:
@@ -14,7 +15,7 @@ def __get_sidebar( request ):
     c['kategorien'] = Kategorie.public_objects.filter( parent__isnull = True )
     c['language'] = request.session.get( 'django_language', 'de' )
     c['termine'] = Termin.public_objects.current()
-    c['beitraege'] = Beitrag.public_objects.all()
+    c['beitraege'] = News.public_objects.all()
     return c
 
 def index( request, kid = 1 ):
@@ -35,9 +36,9 @@ def index( request, kid = 1 ):
 
 def news( request, bid = None ):
     c = __get_sidebar( request )
-    c['beitraege'] = Beitrag.public_objects.all()
+    c['beitraege'] = News.public_objects.all()
     if bid:
-        c['beitrag'] = get_object_or_404( Beitrag.public_objects, id = bid )
+        c['beitrag'] = get_object_or_404( News.public_objects, id = bid )
 
     return render_to_response(
         'news.html',
