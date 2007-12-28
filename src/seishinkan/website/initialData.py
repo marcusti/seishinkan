@@ -458,7 +458,7 @@ Auf ein baldiges Wiedersehen'''
         news.save()
 
         for filename in os.listdir( os.path.join( settings.MEDIA_ROOT, 'bilder' ) ):
-            if filename.lower().endswith( 'jpg' ):
+            if filename.lower().endswith( 'jpg' ) or filename.lower().endswith('png'):
                 bild = Bild()
                 bild.name, ext = os.path.splitext( filename )
                 bild.bild = os.path.join( 'bilder', filename )

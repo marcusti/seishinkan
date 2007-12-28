@@ -118,7 +118,7 @@ class Seite( models.Model ):
 
     def __unicode__( self ):
         return u'%s'.strip() % ( self.name )
-
+    
     def get_absolute_url( self ):
         return '/seite/%i/' % self.id
 
@@ -129,7 +129,7 @@ class Seite( models.Model ):
 
     class Admin:
         ordering = ['parent', 'position', 'name']
-        list_display = ( 'name', 'parent', 'position', 'creation', 'modified', 'public', 'id' )
+        list_display = ( 'name', 'parent', 'position', 'public', 'id' )
         list_filter = ( 'parent', )
 
 class ArtikelManager( models.Manager ):
@@ -140,7 +140,7 @@ class ArtikelManager( models.Manager ):
         return self.get_query_set().filter( seite = kid ).order_by( 'position' )
 
 class Artikel( models.Model ):
-    title = models.CharField( _( u'Überschrift' ), max_length = DEFAULT_MAX_LENGTH )
+    title = models.CharField( _( u'Überschrift' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     title_en = models.CharField( _( u'Überschrift' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     title_ja = models.CharField( _( u'Überschrift' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     text = models.TextField( _( u'Text' ) )
@@ -161,21 +161,38 @@ class Artikel( models.Model ):
 
     def get_title( self, language = None ):
         return getattr( self, "title_%s" % ( language or translation.get_language()[:2] ), "" ) or self.title
+    get_title.short_description = _( u'Überschrift' )
+    get_title.allow_tags = False
 
     def get_text( self, language = None ):
         return getattr( self, "text_%s" % ( language or translation.get_language()[:2] ), "" ) or self.text
+    get_text.short_description = _( u'Text' )
+    get_text.allow_tags = False
 
     def __unicode__( self ):
+        if self.get_title().strip() == '':
+            return self.preview()
         return u'%s'.strip() % ( self.title )
 
+    def preview( self ):
+        idx = 100
+        text = self.get_text().strip()
+        if len( text ) <= idx:
+            return text
+        else:
+            return u'%s [...]' % ( text[:idx] )
+    preview.short_description = _( u'Vorschau' )
+    preview.allow_tags = False
+
     class Meta:
-        ordering = ['title']
+        ordering = ['title', 'text']
         verbose_name = _( u'Artikel' )
         verbose_name_plural = _( u'Artikel' )
 
     class Admin:
-        ordering = ['seite_id', 'title']
-        list_display = ( 'title', 'position', 'seite', 'creation', 'modified', 'public', 'id' )
+        ordering = ['seite_id', 'title', 'text']
+        list_display = ( 'get_title', 'preview', 'seite', 'position', 'public', 'id' )
+        list_display_links = ( 'get_title', 'preview' )
         list_filter = ( 'seite', )
         fields = (
             ( None, { 'fields': ( 'seite', 'position', 'public' ) } ),

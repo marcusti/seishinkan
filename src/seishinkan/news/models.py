@@ -22,8 +22,8 @@ class News( models.Model ):
     bild = models.ForeignKey( Bild, verbose_name = u'Bild', blank = True, null = True )
     bild_ausrichtung = models.CharField( _( u'Bild Ausrichtung' ), max_length = DEFAULT_MAX_LENGTH, choices = AUSRICHTUNGEN, default = u'right', blank = True )
     autor = models.CharField( _( u'Autor' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
-    beginn = models.DateField( _( u'Veröffentlichung Beginn' ), default = date.today() )
-    ende = models.DateField( _( u'Veröffentlichung Ende' ), blank = True, null = True )
+    beginn = models.DateField( _( u'veröffentlicht' ), default = date.today() )
+    ende = models.DateField( _( u'endet' ), blank = True, null = True )
 
     public = models.BooleanField( _( u'Öffentlich' ), default = True )
     creation = models.DateTimeField( _( u'Erfasst am' ), auto_now_add = True )
@@ -47,10 +47,20 @@ class News( models.Model ):
         else:
             return False
     neu.short_description = _( u'Neu' )
-    neu.allow_tags = True
+    neu.allow_tags = False
 
     def __unicode__( self ):
         return u'%s'.strip() % ( self.title )
+
+    def preview( self ):
+        idx = 100
+        text = self.text.strip()
+        if len( text ) <= idx:
+            return text
+        else:
+            return u'%s [...]' % ( text[:idx] )
+    preview.short_description = _( u'Vorschau' )
+    preview.allow_tags = False
 
     class Meta:
         ordering = ['-beginn', '-creation', 'title']
@@ -59,5 +69,6 @@ class News( models.Model ):
 
     class Admin:
         ordering = ['-beginn', '-creation', 'title']
-        list_display = ( 'title', 'beginn', 'ende', 'bild', 'creation', 'modified', 'public', 'id' )
+        list_display = ( 'title', 'preview', 'autor', 'beginn', 'ende', 'bild', 'public', 'id' )
+        list_display_links = ( 'title', 'preview' )
         list_filter = ( 'beginn', )
