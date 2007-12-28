@@ -3,13 +3,13 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.views.generic.list_detail import object_list, object_detail
 from seishinkan import settings
-from seishinkan.website.models import Artikel, Seite, Konfiguration, Termin, TrainingManager, Wochentag
+from seishinkan.website.models import Artikel, Seite, Termin, TrainingManager, Wochentag
 from seishinkan.news.models import News
 
 def __get_sidebar( request ):
     if Artikel.objects.all().count() == 0:
         import initialData
-        initialData.Import()
+        #initialData.Import()
 
     c = { }
     c['seiten'] = Seite.public_objects.filter( parent__isnull = True )
@@ -20,11 +20,10 @@ def __get_sidebar( request ):
 
 def index( request, sid = 1 ):
     c = __get_sidebar( request )
-    konf = Konfiguration.objects.get( id = 1 )
     seite = get_object_or_404( Seite.public_objects, id = sid )
     c['seite'] = seite
     c['artikel'] = Artikel.public_objects.get_by_category( sid )
-    if konf.trainingsseite == seite:
+    if seite.show_training:
         c['wochenplan'] = TrainingManager().get_wochenplan()
         c['wochentage'] = TrainingManager().get_wochentage()
 
