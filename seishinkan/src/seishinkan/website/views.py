@@ -15,6 +15,7 @@ def __get_sidebar( request ):
     c['seiten'] = Seite.public_objects.filter( parent__isnull = True )
     c['language'] = request.session.get( 'django_language', 'de' )
     c['termine'] = Termin.public_objects.current()
+    c['alle_termine'] = Termin.public_objects.all()
     c['beitraege'] = News.public_objects.all()
     return c
 
@@ -45,9 +46,27 @@ def news( request, bid = None ):
         context_instance = RequestContext( request ),
     )
 
+def news_archiv( request ):
+    c = __get_sidebar( request )
+
+    return render_to_response(
+        'news_list.html',
+        c,
+        context_instance = RequestContext( request ),
+    )
+
+def termine_archiv( request ):
+    c = __get_sidebar( request )
+
+    return render_to_response(
+        'termine_list.html',
+        c,
+        context_instance = RequestContext( request ),
+    )
+
 def termin( request, tid = None ):
     c = __get_sidebar( request )
-    #c['termine'] = Termin.public_objects.all()
+
     if tid:
         c['termin'] = get_object_or_404( Termin.public_objects, id = tid )
 
@@ -56,7 +75,7 @@ def termin( request, tid = None ):
         c,
         context_instance = RequestContext( request ),
     )
-        
+
 #    return object_list(
 #        request,
 #        queryset = Seite.objects.filter( public = True ),

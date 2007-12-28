@@ -119,7 +119,7 @@ class Seite( models.Model ):
 
     def __unicode__( self ):
         return u'%s'.strip() % ( self.name )
-    
+
     def get_absolute_url( self ):
         return '/seite/%i/' % self.id
 
@@ -237,12 +237,12 @@ class Termin( models.Model ):
         return u'%s'.strip() % ( self.title )
 
     class Meta:
-        ordering = ['beginn', 'title']
+        ordering = ['-ende', '-beginn', 'title']
         verbose_name = _( u'Termin' )
         verbose_name_plural = _( u'Termine' )
 
     class Admin:
-        ordering = ['beginn', 'title']
+        ordering = ['-ende', '-beginn', 'title']
         list_display = ( 'title', 'beginn', 'ende', 'bild', 'creation', 'modified', 'public', 'id' )
         list_filter = ( 'beginn', )
 
