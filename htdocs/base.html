@@ -62,6 +62,7 @@
       </li>
     </ul>
 
+    <br/>
     <h2>{% trans "Termine" %}</h2>
     {% if not termine %}
       <ul><li><ul><li class="postmeta">{% trans "Zur Zeit gibt es keine aktuellen Termine." %}</li></ul></li></ul>
@@ -80,7 +81,11 @@
       </li>
     </ul>
     {% endif %}
+    <ul>
+      <li><ul><li><small><a href="/termin/archiv/">{% trans "Archiv" %} <span class="postmeta">({{ alle_termine|length }})</span></a></small></li></ul></li>
+    </ul>
 
+    <br/>
     <h2>{% trans "Beiträge" %}</h2>
     {% if not beitraege %}
       <p>{% trans "Zur Zeit gibt es keine Beiträge." %}</p>
@@ -90,18 +95,18 @@
         <ul>
           {% for beitrag in beitraege|slice:":3" %}
             <li>
-              <a href="/news/{{ beitrag.id }}/">
-              {% if beitrag.neu %}<span style="color:red;">{% trans
-              "NEU" %}</span>{% endif %}
-              <small class="postmeta">{{ beitrag.datum|date:"j.n.Y" }}</small><br/>
-              {{ beitrag.title }}</a>
+              <a href="{{ beitrag.get_absolute_url }}">
+              {% if beitrag.neu %}<span style="color:red;">{% trans "NEU" %}</span>{% endif %}
+              <small class="postmeta">{{ beitrag.datum|date:"j.n.Y" }}<br/></small>{{ beitrag.title }}</a>
             </li>
           {% endfor %}
-          <li><small><a href="">{% trans "alle Beiträge" %} <span class="postmeta">({{ beitraege|length }})</span></a></small></li>
         </ul>
       </li>
     </ul>
     {% endif %}
+    <ul>
+      <li><ul><li><small><a href="/news/archiv/">{% trans "Archiv" %} <span class="postmeta">({{ beitraege|length }})</span></a></small></li></ul></li>
+    </ul>
 
   </div>
 
