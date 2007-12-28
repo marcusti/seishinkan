@@ -49,6 +49,9 @@ class News( models.Model ):
     neu.short_description = _( u'Neu' )
     neu.allow_tags = False
 
+    def get_absolute_url( self ):
+        return '/news/%s/' % ( self.id )
+
     def __unicode__( self ):
         return u'%s'.strip() % ( self.title )
 
