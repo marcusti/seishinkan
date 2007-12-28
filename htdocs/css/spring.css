@@ -189,7 +189,6 @@ text-decoration:none;
 	display: inline;
 	margin: 1.2em 0 0.6em 0;
 	padding: 0 10px 0 0;
-	background: url(/images/arrow.gif) no-repeat center right;
 	font-size: 1.1em;
 }
 #sidebar h2 a {
@@ -446,6 +445,29 @@ div.imageright img, img.imageright {
   margin: 0; padding: 0.5em;
   color: white;
   background-color: #9bbb38;
+}
+
+.archiv table {
+  width: 100%;
+}
+
+.archiv td {
+  text-align: left;
+  vertical-align: top;
+  margin: 0; padding: 0.5em;
+  background-color: #f5f5e7;
+}
+
+.archiv th{
+  text-align: left;
+  vertical-align: top;
+  margin: 0; padding: 0.5em;
+  color: white;
+  background-color: #9bbb38;
+}
+
+.archiv td a {
+	display: block;
 }
 
 /* Anfängerkurs */
