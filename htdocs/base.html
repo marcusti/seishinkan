@@ -47,7 +47,7 @@
     </form>
 
     <br/>
-    <h2>Menu</h2>
+    <h2>{% trans "Menu" %}</h2>
     <ul>
       <li>
         <ul>
@@ -62,7 +62,7 @@
       </li>
     </ul>
 
-    <h2>Termine</h2>
+    <h2>{% trans "Termine" %}</h2>
     {% if not termine %}
       <p>Keine neuen Termine.</p>
     {% else %}
@@ -76,15 +76,14 @@
               {{ termin.title }}</a>
             </li>
           {% endfor %}
-          <li><small><a href="">alle Termine <span class="postmeta">({{ termine|length }})</span></a></small></li>
         </ul>
       </li>
     </ul>
     {% endif %}
 
-    <h2>Beiträge</h2>
+    <h2>{% trans "Beiträge" %}</h2>
     {% if not beitraege %}
-      <p>Zur Zeit gibt es keine Beiträge.</p>
+      <p>{% trans "Zur Zeit gibt es keine Beiträge." %}</p>
     {% else %}
     <ul>
       <li>
@@ -92,12 +91,13 @@
           {% for beitrag in beitraege|slice:":3" %}
             <li>
               <a href="/news/{{ beitrag.id }}/">
-              {% if beitrag.neu %}<span style="color:red;">NEU</span>{% endif %}
+              {% if beitrag.neu %}<span style="color:red;">{% trans
+              "NEU" %}</span>{% endif %}
               <small class="postmeta">{{ beitrag.datum|date:"j.n.Y" }}</small><br/>
               {{ beitrag.title }}</a>
             </li>
           {% endfor %}
-          <li><small><a href="">alle Beiträge <span class="postmeta">({{ beitraege|length }})</span></a></small></li>
+          <li><small><a href="">{% trans "alle Beiträge" %} <span class="postmeta">({{ beitraege|length }})</span></a></small></li>
         </ul>
       </li>
     </ul>
@@ -164,7 +164,8 @@
         <col width="33%" />
       </colgroup>
       <tr>
-        <td align="left" valign="bottom" class="postmeta"><a href="/verwaltung/">Verwaltung</a></td>
+        <td align="left" valign="bottom"
+        class="postmeta"><a href="/verwaltung/">{% trans "Verwaltung" %}</a></td>
         <td align="center" valign="bottom" class="postmeta"><a href="http://www.djangoproject.com/"><img src="http://media.djangoproject.com/img/badges/djangosite80x15_grey.gif" border="0" alt="A Django site." title="A Django site." /></a></td>
         <td align="right" valign="bottom">&copy; Aikido Dojo Seishinkan</td>
       </tr>
