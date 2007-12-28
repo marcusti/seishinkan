@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<div class="post">
+{% autoescape on%}
+<p>
+<table class="archiv">
+  <tr>
+    <th>{% trans "Datum" %}</th>
+    <th>{% trans "Ort" %}</th>
+    <th>{% trans "Termin" %}</th>
+  </tr>
+{% for termin in alle_termine %}
+  <tr>
+    <td>{{ termin.beginn|date:"d.m.Y" }}{% ifnotequal termin.beginn termin.ende %} - {{ termin.ende|date:"d.m.Y" }}{% endifnotequal %}</td>
+    <td>{{ termin.ort }}</td>
+    <td><a href="{{ termin.get_absolute_url }}" title="{{ termin.text|slice:":200" }} [...]">{{ termin.title }}</a>	</td>
+  </tr>
+{% endfor %}
+</table>
+</p>
+{% endautoescape %}
+</div>
+
+{% endblock %}
+
