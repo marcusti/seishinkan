@@ -105,6 +105,7 @@ class Seite( models.Model ):
     slug = models.SlugField( _( u'Slug' ), prepopulate_from = ( 'name', ), blank = True, null = True )
     position = models.IntegerField( _( u'Position im Menü' ), default = 0 )
     parent = models.ForeignKey( 'self', verbose_name = _( u'Über' ), null = True, blank = True, related_name = 'child_set' )
+    show_training = models.BooleanField( _( u'Enthält Trainingszeiten' ), default = False )
 
     public = models.BooleanField( _( u'Öffentlich' ), default = True )
     creation = models.DateTimeField( _( u'Erfasst am' ), auto_now_add = True )
@@ -310,26 +311,3 @@ class Training( models.Model ):
     class Admin:
         ordering = ['wochentag', 'von']
         list_display = ( 'wochentag', 'von', 'bis', 'art', 'creation', 'modified', 'public' )
-
-class Konfiguration( models.Model ):
-    '''Verschiedene Konfigurationsmöglichkeiten der Website.'''
-
-    name = models.CharField( _( u'Name' ), max_length = DEFAULT_MAX_LENGTH )
-
-    # gibt an, in welcher Seite auf der Website die Trainingszeiten erscheinen sollen
-    trainingsseite = models.ForeignKey( Seite, verbose_name = _( u'Seite für Trainingsplan' ) )
-
-    public = models.BooleanField( _( u'Öffentlich' ), default = True )
-    creation = models.DateTimeField( _( u'Erfasst am' ), auto_now_add = True )
-    modified = models.DateTimeField( _( u'Geändert am' ), auto_now = True )
-
-    def __unicode__( self ):
-        return u'%s'.strip() % ( self.trainingsseite )
-
-    class Meta:
-        verbose_name = _( u'Konfiguration' )
-        verbose_name_plural = _( u'Konfigurationen' )
-
-    class Admin:
-        list_display = ( 'name', 'creation', 'modified', 'public' )
-
