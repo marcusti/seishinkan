@@ -64,14 +64,14 @@
 
     <h2>{% trans "Termine" %}</h2>
     {% if not termine %}
-      <p>Keine neuen Termine.</p>
+      <ul><li><ul><li class="postmeta">{% trans "Zur Zeit gibt es keine aktuellen Termine." %}</li></ul></li></ul>
     {% else %}
     <ul>
       <li>
         <ul>
-          {% for termin in termine|slice:":3" %}
+          {% for termin in termine %}
             <li>
-              <a href=""><small class="postmeta">{{ termin.beginn|date:"j.n.Y" }}
+              <a href="{{ termin.get_absolute_url }}"><small class="postmeta">{{ termin.beginn|date:"j.n.Y" }}
                 {% ifnotequal termin.beginn termin.ende %} - {{ termin.ende|date:"j.n.Y" }}{% endifnotequal %}</small><br/>
               {{ termin.title }}</a>
             </li>
