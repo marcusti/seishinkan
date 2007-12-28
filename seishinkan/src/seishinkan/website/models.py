@@ -170,6 +170,9 @@ class Artikel( models.Model ):
     get_text.short_description = _( u'Text' )
     get_text.allow_tags = False
 
+    def get_absolute_url( self ):
+        return '/seite/%i/' % self.seite.id
+
     def __unicode__( self ):
         if self.get_title().strip() == '':
             return self.preview()
@@ -226,6 +229,9 @@ class Termin( models.Model ):
 
     objects = models.Manager()
     public_objects = TerminManager()
+
+    def get_absolute_url( self ):
+        return '/termin/%i/' % self.id
 
     def __unicode__( self ):
         return u'%s'.strip() % ( self.title )
