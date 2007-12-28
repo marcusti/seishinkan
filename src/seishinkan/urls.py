@@ -20,6 +20,7 @@ urlpatterns += patterns( 'seishinkan.website.views',
     ( r'^seite/(\d+)/$', 'index' ),
     ( r'^news/$', 'news' ),
     ( r'^news/(\d+)/$', 'news' ),
+    ( r'^termin/(\d+)/$', 'termin' ),
 )
 
 
