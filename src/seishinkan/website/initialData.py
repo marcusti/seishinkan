@@ -1,7 +1,7 @@
 #-*- coding: utf-8 -*-
 
 from datetime import date, time
-from models import Artikel, Bild, Seite, Konfiguration, Termin, Training, Trainingsart, Wochentag
+from models import Artikel, Bild, Seite, Termin, Training, Trainingsart, Wochentag
 from seishinkan import settings
 from seishinkan.news.models import News
 import os
