@@ -5,6 +5,7 @@ from django.views.generic.list_detail import object_list, object_detail
 from seishinkan import settings
 from seishinkan.website.models import Artikel, Seite, Termin, TrainingManager, Wochentag
 from seishinkan.news.models import News
+from seishinkan.links.models import Link, LinkKategorie
 
 def __get_sidebar( request ):
     if Artikel.objects.all().count() == 0:
@@ -30,6 +31,17 @@ def index( request, sid = 1 ):
 
     return render_to_response(
         'base.html',
+        c,
+        context_instance = RequestContext( request ),
+    )
+
+def links( request ):
+    c = __get_sidebar( request )
+    c['links'] = Link.public_objects.all()
+    c['kategorien'] = LinkKategorie.objects.all()
+
+    return render_to_response(
+        'links.html',
         c,
         context_instance = RequestContext( request ),
     )

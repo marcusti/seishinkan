@@ -32,7 +32,7 @@ ol, ul {
 h1, h2, h3, h4, h5, h6 {
 	margin: 1.2em 0 0 0;
 	font-family: "Lucida Grande", Tahoma, Arial, sans-serif;
-	color: #9BBB38;
+	color: #9bbb38;
 }
 h1, h2 {
 	font-size: 1.4em;
@@ -59,7 +59,7 @@ a:visited, a:active {
 	color: #B96F17;
 }
 a:hover {
-	color: #9BBB38;
+	color: #9bbb38;
 }
 input, textarea, select {
 	border: 1px solid #C1C0B5;
@@ -106,7 +106,7 @@ a img {
 	background-color: #FFF;
 /*	background: url(/images/logo.gif) no-repeat;
     background-position: center;*/
-	border-bottom: 10px solid #9BBB38;
+	border-bottom: 10px solid #9bbb38;
 }
 	/* Header Styles */
 	#header h1 {
@@ -121,7 +121,7 @@ a img {
 #navigation{
 height:1.5em;
 /*background:#578bb8;*/
-background:#9BBB38;
+background:#9bbb38;
 color:#ffffff;
 }
 
@@ -147,7 +147,7 @@ color: #ffffff;
 background:#80b0da;
 background:#2a5a8a;
 background:#FFF;
-color:#9BBB38;
+color:#9bbb38;
 text-decoration:none;
 }
 
@@ -178,7 +178,7 @@ text-decoration:none;
 		margin: 0;
 		padding: 10px 0 20px 0;
 		background-color: #E8E8CE;
-		border-top: 10px solid #9BBB38;
+		border-top: 10px solid #9bbb38;
 		font-size: 0.9em;
 		text-align: right;
 	}
@@ -192,7 +192,7 @@ text-decoration:none;
 	font-size: 1.1em;
 }
 #sidebar h2 a {
-	color: #9BBB38;
+	color: #9bbb38;
 }
 #sidebar h2 a:hover {
 	color: #E58712;
@@ -268,7 +268,7 @@ html>body #wp-calendar {
 #wp-calendar caption {
 	margin: 1.2em 0 0 0;
 	padding: 0.4em 0;
-	background: #9BBB38;
+	background: #9bbb38;
 	color: #FFF;
 	font-weight: bold;
 }
@@ -312,7 +312,7 @@ html>body #wp-calendar {
 .posttitle a {
 	float: left;
 	padding: 0 10px;
-	background: #9BBB38 url(images/posttitle.gif) no-repeat top right;
+	background: #9bbb38 url(images/posttitle.gif) no-repeat top right;
 }
 .posttitle a:link, .posttitle a:visited {
 	color: #FFF;
@@ -468,6 +468,10 @@ div.imageright img, img.imageright {
 
 .archiv td a {
 	display: block;
+}
+
+.white {
+  background-color: white;
 }
 
 /* Anfängerkurs */

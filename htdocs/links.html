@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+{% autoescape on%}
+<p>
+<table class="archiv">
+{% for kat in kategorien %}
+  <tr>
+    <th colspan="2">{{ kat.name }}</th>
+  </tr>
+ {% for link in links %}
+  {% ifequal link.kategorie.id kat.id %}
+  <tr>
+    <td><a href="{{ link.url }}" target="_blank">{{ link.title }}</a>	</td>
+    <td>{{ link.text }}</td>
+  </tr>
+  {% endifequal %}
+ {% endfor %}
+  <tr>
+    <td class="white"></td>
+    <td class="white"></td>
+  </tr>
+{% endfor %}
+</table>
+</p>
+{% endautoescape %}
+
+{% endblock %}
+
