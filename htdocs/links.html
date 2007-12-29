@@ -4,8 +4,10 @@
 {% block content %}
 
 {% autoescape on%}
+<div class="post">
+<div class="postentry">
 <p>
-<table class="archiv">
+<table class="archiv small">
 {% for kat in kategorien %}
   <tr>
     <th colspan="2">{{ kat.name }}</th>
@@ -25,6 +27,8 @@
 {% endfor %}
 </table>
 </p>
+</div>
+</div>
 {% endautoescape %}
 
 {% endblock %}
