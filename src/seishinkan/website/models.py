@@ -208,11 +208,11 @@ class Artikel( models.Model ):
 
 class TerminManager( models.Manager ):
     def get_query_set( self ):
-        return super( TerminManager, self ).get_query_set().filter( public = True )
+        return super( TerminManager, self ).get_query_set().filter( public = True ).order_by( '-ende', '-beginn', 'title' )
 
     def current( self ):
         heute = date.today()
-        return self.get_query_set().filter( Q( beginn__gte = heute ) | Q( ende__gte = heute ) )
+        return self.get_query_set().filter( Q( beginn__gte = heute ) | Q( ende__gte = heute ) ).order_by( 'ende', 'beginn', 'title' )
 
 class Termin( models.Model ):
     title = models.CharField( _( u'Überschrift' ), max_length = DEFAULT_MAX_LENGTH )
@@ -237,12 +237,12 @@ class Termin( models.Model ):
         return u'%s'.strip() % ( self.title )
 
     class Meta:
-        ordering = ['-ende', '-beginn', 'title']
+        ordering = ['ende', 'beginn', 'title']
         verbose_name = _( u'Termin' )
         verbose_name_plural = _( u'Termine' )
 
     class Admin:
-        ordering = ['-ende', '-beginn', 'title']
+        ordering = ['ende', 'beginn', 'title']
         list_display = ( 'title', 'beginn', 'ende', 'bild', 'creation', 'modified', 'public', 'id' )
         list_filter = ( 'beginn', )
 
