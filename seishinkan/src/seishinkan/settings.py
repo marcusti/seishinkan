@@ -10,7 +10,7 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-from mysettings import DATABASE_ENGINE, DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD, DATABASE_HOST, DATABASE_PORT, SECRET_KEY
+from mysettings import *
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -37,15 +37,6 @@ LANGUAGES = (
     ('ja', ugettext(u'日本語')),
 )
 
-# Absolute path to the directory that holds media.
-# Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = '/home/max/eclipse/workspace/seishinkan/htdocs/images/'
-
-# URL that handles the media served from MEDIA_ROOT. Make sure to use a
-# trailing slash if there is a path component (optional in other cases).
-# Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = 'http://localhost/images/'
-
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
@@ -68,13 +59,6 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'seishinkan.urls'
 
-TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-    '/home/max/eclipse/workspace/seishinkan/htdocs',
-)
-
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -83,5 +67,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'seishinkan.website',
     'seishinkan.news',
+    'seishinkan.links',
 #    'photologue',
 )
