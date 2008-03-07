@@ -4,7 +4,7 @@
 {% block content %}
 
 <div class="post">
-{% autoescape on%}
+{% autoescape off %}
 <p>
 <table class="archiv">
   <tr>
@@ -16,7 +16,7 @@
   <tr>
     <td>{{ beitrag.datum|date:"d.m.Y" }}</td>
     <td>{{ beitrag.autor }}</td>
-    <td><a href="{{ beitrag.get_absolute_url }}" title="{{ beitrag.text|slice:":200" }} [...]">{{ beitrag.title }}</a></td>
+    <td><a href="{{ beitrag.get_absolute_url }}" >{{ beitrag.title }}</a></td>
   </tr>
 {% endfor %}
 </table>
