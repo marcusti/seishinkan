@@ -40,6 +40,8 @@ class News( models.Model ):
     datum.short_description = _( u'Datum' )
     datum.allow_tags = True
 
+    text.allow_tags = True
+
     def neu( self ):
         delta = date.today() - self.beginn
         if delta.days < 14 :
@@ -61,7 +63,7 @@ class News( models.Model ):
         if len( text ) <= idx:
             return text
         else:
-            return u'%s [...]' % ( text[:idx] )
+            return '%s [...]' % ( text[:idx] )
     preview.short_description = _( u'Vorschau' )
     preview.allow_tags = False
 
@@ -75,3 +77,4 @@ class News( models.Model ):
         list_display = ( 'title', 'preview', 'autor', 'beginn', 'ende', 'bild', 'public', 'id' )
         list_display_links = ( 'title', 'preview' )
         list_filter = ( 'beginn', )
+        js = ['tiny_mce/tiny_mce.js', 'js/textareas.js']
