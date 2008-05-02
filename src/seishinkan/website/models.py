@@ -124,12 +124,12 @@ class Seite( models.Model ):
         return '/seite/%i/' % self.id
 
     class Meta:
-        ordering = ['parent', 'position', 'name']
+        ordering = ['position', 'name']
         verbose_name = _( u'Seite' )
         verbose_name_plural = _( u'Seiten' )
 
     class Admin:
-        ordering = ['parent', 'position', 'name']
+        ordering = ['position', 'name']
         list_display = ( 'name', 'parent', 'position', 'public', 'id' )
         list_filter = ( 'parent', )
 
@@ -194,10 +194,11 @@ class Artikel( models.Model ):
         verbose_name_plural = _( u'Artikel' )
 
     class Admin:
-        ordering = ['seite_id', 'title', 'text']
+        ordering = ['title', 'text']
         list_display = ( 'get_title', 'preview', 'seite', 'position', 'public', 'id' )
         list_display_links = ( 'get_title', 'preview' )
         list_filter = ( 'seite', )
+        js = ['tiny_mce/tiny_mce.js', 'js/textareas.js']
         fields = (
             ( None, { 'fields': ( 'seite', 'position', 'public' ) } ),
             ( 'Bild', { 'fields': ( 'bild', 'bild_ausrichtung' ) } ),
