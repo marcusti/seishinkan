@@ -3,7 +3,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.views.generic.list_detail import object_list, object_detail
 from seishinkan import settings
-from seishinkan.website.models import Artikel, Seite, Termin, TrainingManager, Wochentag
+from seishinkan.website.models import Artikel, Seite, Termin, TrainingManager, Trainingsart, Wochentag
 from seishinkan.news.models import News
 from seishinkan.links.models import Link, LinkKategorie
 
@@ -28,6 +28,7 @@ def index( request, sid = 1 ):
     if seite.show_training:
         c['wochenplan'] = TrainingManager().get_wochenplan()
         c['wochentage'] = TrainingManager().get_wochentage()
+        c['trainingsarten'] = Trainingsart.objects.filter( public = True )
 
     return render_to_response(
         'base.html',
@@ -62,11 +63,14 @@ def video( request, vid = None ):
     ctx = __get_sidebar( request )
 
     import youtube
-    c = youtube.YouTubeClient( 'gmsnG0W2bTA')
-    ctx['videos'] = c.list_by_user( 'eckido', page=1, per_page=10)
+    client = youtube.YouTubeClient( 'gmsnG0W2bTA' )
+    ctx['videos'] = client.list_by_user( 'eckido', page = 1, per_page = 10 )
+
     if vid:
-        ctx['vid'] = vid
-        ctx['watch'] = c.get_details(vid)
+        video = client.get_details( vid )
+        if video:
+            ctx['vid'] = vid
+            ctx['watch'] = video
 
     return render_to_response(
         'videos.html',
