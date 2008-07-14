@@ -130,13 +130,14 @@
           {% for training in tage %}
             <td class="training{{ training.art.id }}">
               {% if training %}
-                {{ training.von|time:"G:i" }} - {{ training.bis|time:"G:i" }}<br />
-                {{ training.art }}
+                {{ training.von|time:"G:i" }} - {{ training.bis|time:"G:i" }}
+                <br />{{ training.art }}
               {% endif %}
             </td>
           {% endfor %}
           </tr>
         {% endfor %}
+
       </table>
       </p>
     </div>

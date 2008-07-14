@@ -435,14 +435,14 @@ div.imageright img, img.imageright {
 
 #trainingszeiten td {
   text-align: center;
-  margin: 0; padding: 0.5em;
+  margin: 0; padding: 0.3em;
   background-color: #eeeeec;
   background-color: #f5f5e7;
 }
 
 #trainingszeiten th{
   text-align: center;
-  margin: 0; padding: 0.5em;
+  margin: 0; padding: 0.3em;
   color: white;
   background-color: #9bbb38;
 }
@@ -454,14 +454,14 @@ div.imageright img, img.imageright {
 .archiv td {
   text-align: left;
   vertical-align: top;
-  margin: 0; padding: 0.5em;
+  margin: 0; padding: 0.3em;
   background-color: #f5f5e7;
 }
 
 .archiv th{
   text-align: left;
   vertical-align: top;
-  margin: 0; padding: 0.5em;
+  margin: 0; padding: 0.3em;
   color: white;
   background-color: #9bbb38;
 }
