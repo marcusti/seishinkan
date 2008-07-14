@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+{% if watch %}
+<h5>{{ watch.title }}</h5>
+{{ watch.description }}
+<p>
+<object width="425" height="344"><param name="movie"
+					value="http://www.youtube.com/v/{{vid }}&hl=en&fs=1"></param><param name="allowFullScreen"
+					value="true"></param><embed src="http://www.youtube.com/v/{{vid}}&hl=en&fs=1"
+					type="application/x-shockwave-flash"
+					allowfullscreen="true"
+					width="425" height="344"></embed></object>
+</p>
+{% endif %}
+
+<table>
+{% for video in videos %}
+<tr>
+  <td><h5><a href="/video/{{ video.id }}/">{{ video.title }}</a></h5></td>
+</tr>
+<tr>
+  <td>
+    <a href="/video/{{video.id }}/"
+      <img src="{{ video.thumbnail_url }}" class="imageleft" /></a>
+    {{ video.description }}
+    <p class="small">
+      {% trans "Länge" %}: {{ video.length_seconds }} sec,
+      {% trans "Aufrufe" %}: {{ video.view_count }}
+    </p>
+  </td>
+</tr>
+<tr><td></td></tr>
+{% endfor %}
+</table>
+{% endblock %}
