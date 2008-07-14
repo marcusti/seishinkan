@@ -58,6 +58,22 @@ def news( request, bid = None ):
         context_instance = RequestContext( request ),
     )
 
+def video( request, vid = None ):
+    ctx = __get_sidebar( request )
+
+    import youtube
+    c = youtube.YouTubeClient( 'gmsnG0W2bTA')
+    ctx['videos'] = c.list_by_user( 'eckido', page=1, per_page=10)
+    if vid:
+        ctx['vid'] = vid
+        ctx['watch'] = c.get_details(vid)
+
+    return render_to_response(
+        'videos.html',
+        ctx,
+        context_instance = RequestContext( request ),
+    )
+
 def news_archiv( request ):
     c = __get_sidebar( request )
 
