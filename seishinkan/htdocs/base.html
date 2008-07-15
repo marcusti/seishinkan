@@ -37,6 +37,16 @@
 -->
 
   <div id="sidebar">
+
+  {% if user.is_authenticated %}
+    {% trans "Hallo" %} {{ user.first_name }}.<br/>
+    <span class="small">
+    <a class="edit" href="/verwaltung/">{% trans "Verwaltung" %}</a> |
+    <a class="edit" href="/logout/">{% trans "Logout" %}</a>
+    <br/><br/>
+    </span>
+  {% endif %}
+
     <form id="setlang" action="/i18n/setlang/" method="post">
      <input name="next" type="hidden" value="" />
      <select name="language" onchange="Absenden()">
@@ -66,6 +76,7 @@
 
     <br/>
     <h2>{% trans "Termine" %}</h2>
+    {% if user.is_authenticated %}<a class="edit small" href="http://seishinkan.dyndns.org/verwaltung/website/termin/add/">{% trans "neu" %}</a>{% endif %}
     {% if not termine %}
       <ul><li><ul><li class="postmeta">{% trans "Zur Zeit gibt es keine aktuellen Termine." %}</li></ul></li></ul>
     {% else %}
@@ -84,11 +95,12 @@
     </ul>
     {% endif %}
     <ul>
-      <li><ul><li><small><a href="/termin/archiv/">{% trans "Archiv" %} <span class="postmeta">({{ alle_termine|length }})</span></a></small></li></ul></li>
+      <li><ul><li class="small"><a href="/termin/archiv/">{% trans "Archiv" %} <span class="postmeta">({{ alle_termine|length }})</span></a></li></ul></li>
     </ul>
 
     <br/>
     <h2>{% trans "Beiträge" %}</h2>
+    {% if user.is_authenticated %}<a class="edit small" href="http://seishinkan.dyndns.org/verwaltung/news/news/add/">{% trans "neu" %}</a>{% endif %}
     {% if not beitraege %}
       <p>{% trans "Zur Zeit gibt es keine Beiträge." %}</p>
     {% else %}
@@ -107,7 +119,7 @@
     </ul>
     {% endif %}
     <ul>
-      <li><ul><li><small><a href="/news/archiv/">{% trans "Archiv" %} <span class="postmeta">({{ beitraege|length }})</span></a></small></li></ul></li>
+      <li><ul><li class="small"><a href="/news/archiv/">{% trans "Archiv" %} <span class="postmeta">({{ beitraege|length }})</span></a></li></ul></li>
     </ul>
 
   </div>
@@ -147,7 +159,7 @@
     {% for art in artikel %}
     <div class="post">
     {% autoescape off%}
-      <h2>{{ art.get_title }}</h2>
+      <h2>{{ art.get_title }}</h2>{% if user.is_authenticated %}<a class="edit small" href="http://seishinkan.dyndns.org/verwaltung/website/artikel/{{ art.id }}/">{% trans "bearbeiten" %}</a>{% endif %}
       <div class="postentry">
         {% if art.bild %}
           <p><img class="image{% if art.bild_ausrichtung %}{{ art.bild_ausrichtung }}{% endif %}"
@@ -155,7 +167,9 @@
                title="{{ art.bild.name }}"
                alt="[{{ art.bild.name }}]" /></p>
         {% endif %}
-        <p>{{ art.get_text|linebreaksbr }}</p>
+        <p>
+          {{ art.get_text|linebreaksbr }}
+        </p>
       </div>
     </div>
     {% endautoescape %}
@@ -172,8 +186,7 @@
         <col width="33%" />
       </colgroup>
       <tr>
-        <td align="left" valign="bottom"
-        class="postmeta"><a href="/verwaltung/">{% trans "Verwaltung" %}</a></td>
+        <td align="left" valign="bottom" class="postmeta"><a href="/verwaltung/">{% trans "Verwaltung" %}</a></td>
         <td align="center" valign="bottom" class="postmeta"><a href="http://www.djangoproject.com/"><img src="http://media.djangoproject.com/img/badges/djangosite80x15_grey.gif" border="0" alt="A Django site." title="A Django site." /></a></td>
         <td align="right" valign="bottom">&copy; Aikido Dojo Seishinkan</td>
       </tr>

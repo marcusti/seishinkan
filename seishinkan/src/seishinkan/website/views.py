@@ -1,3 +1,4 @@
+from django.contrib.auth import logout
 from django.http import Http404
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
@@ -35,6 +36,10 @@ def index( request, sid = 1 ):
         c,
         context_instance = RequestContext( request ),
     )
+
+def seishinkan_logout( request ):
+    logout( request )
+    return index( request )
 
 def links( request ):
     c = __get_sidebar( request )
