@@ -175,7 +175,7 @@ text-decoration:none;
 }
 /* Footer Styles */
 #footer table {
-		margin: 0;
+		margin: 10px 0 0 0;
 		padding: 10px 0 20px 0;
 		background-color: #E8E8CE;
 		border-top: 10px solid #9bbb38;
@@ -500,4 +500,10 @@ div.imageright img, img.imageright {
 #trainingszeiten .training1 {
   background-color: #d3d7cf;
   background-color: #e8e8ce;
+}
+a.edit {
+  background-color: #fce94f;
+}
+a.edit:hover {
+  color: red;
 }

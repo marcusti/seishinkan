@@ -7,7 +7,7 @@
 
 <h5>{{ watch.title }}</h5>
 
-{{ watch.description|linebreaks }}
+{{ watch.description|linebreaksbr }}
 
 <p>
   <object width="425" height="344"><param name="movie"
@@ -36,10 +36,10 @@
 </tr>
 <tr>
   <td>
-    <a href="/video/{{video.id }}/"
-      <img src="{{ video.thumbnail_url }}" class="imageleft" /></a>
+    <a href="/video/{{video.id }}/" >
+      <img src="{{ video.thumbnail_url }}" class="imageleft" alt="[{{video.thumbnail_url}}]" title="{{video.title}}"/></a>
 
-    {{ video.description|linebreaks }}
+    {{ video.description|linebreaksbr }}
 
     <p class="small">
       {% trans "Länge" %}: {{ video.length_seconds }} sec,

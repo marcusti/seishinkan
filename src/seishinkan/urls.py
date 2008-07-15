@@ -7,6 +7,7 @@ urlpatterns = patterns( '',
     # Uncomment this for admin:
     ( r'^i18n/', include( 'django.conf.urls.i18n' ) ),
     ( r'^verwaltung/', include( 'django.contrib.admin.urls' ) ),
+    #( r'^logout/$', 'django.contrib.auth.views.logout' ),
 )
 
 # Simple Generic Views
@@ -17,6 +18,7 @@ urlpatterns += patterns( 'django.views.generic.simple',
 
 urlpatterns += patterns( 'seishinkan.website.views',
     ( r'^$', 'index' ),
+    ( r'^logout/$', 'seishinkan_logout' ),
     ( r'^seite/(\d+)/$', 'index' ),
     ( r'^links/$', 'links' ),
     ( r'^news/$', 'news' ),

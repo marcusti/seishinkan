@@ -1,9 +1,11 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block content %}
 
 {% if termin %}
 <div class="post">
+{% if user.is_authenticated %}<p><a class="edit small" href="http://seishinkan.dyndns.org/verwaltung/website/termin/{{termin.id}}/">{% trans "bearbeiten" %}</a></p>{% endif %}
 {% autoescape off%}
   <h2>{{ termin.title }}</h2>
   <div class="postentry">
