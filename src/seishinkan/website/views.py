@@ -1,3 +1,4 @@
+from datetime import date, datetime
 from django.contrib.auth import logout
 from django.http import Http404
 from django.shortcuts import render_to_response, get_object_or_404
@@ -13,12 +14,16 @@ def __get_sidebar( request ):
         import initialData
         #initialData.Import()
 
+    heute = datetime.today()
+    
     c = { }
     c['seiten'] = Seite.public_objects.filter( parent__isnull = True )
     c['language'] = request.session.get( 'django_language', 'de' )
     c['termine'] = Termin.public_objects.current()
     c['alle_termine'] = Termin.public_objects.all()
     c['beitraege'] = News.public_objects.all()
+    c['training_heute'] = TrainingManager().get_einheiten_pro_tag( heute.strftime('%w') )
+    c['wochentag'] = get_object_or_404( Wochentag.objects, id = int( heute.strftime( '%w' ) ) )
     return c
 
 def index( request, sid = 1 ):
