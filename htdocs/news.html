@@ -1,15 +1,17 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block content %}
 
 {% if beitrag %}
 <div class="post">
+{% if user.is_authenticated %}<p><a class="edit small" href="http://seishinkan.dyndns.org/verwaltung/news/news/{{beitrag.id}}/">{% trans "bearbeiten" %}</a></p>{% endif %}
+<p class="">{{ beitrag.autor }}, {{ beitrag.datum|date:"j.n.Y" }}</p>
 {% autoescape off%}
   <h2>{{ beitrag.title }}</h2>
   <div class="postentry">
     <h4>{{ beitrag.einleitung|linebreaksbr }}</h4>
     <p>{{ beitrag.text|linebreaksbr }}</p>
-    <p class="postmeta">{{ beitrag.autor }}, {{ beitrag.datum|date:"j.n.Y" }}</p>
   </div>
 </div>
 
