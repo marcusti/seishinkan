@@ -5,69 +5,55 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.views.generic.list_detail import object_list, object_detail
 from seishinkan import settings
-from seishinkan.website.models import Artikel, Seite, Termin, TrainingManager, Trainingsart, Wochentag
-from seishinkan.news.models import News
 from seishinkan.links.models import Link, LinkKategorie
+from seishinkan.news.models import News
+from seishinkan.website.models import Artikel, Seite, Termin, TrainingManager, Trainingsart, Wochentag
 
 def __get_sidebar( request ):
-    if Artikel.objects.all().count() == 0:
-        import initialData
-        #initialData.Import()
+    heute = int( datetime.today().strftime( '%w' ) )
 
-    heute = datetime.today()
-    
-    c = { }
-    c['seiten'] = Seite.public_objects.filter( parent__isnull = True )
-    c['language'] = request.session.get( 'django_language', 'de' )
-    c['termine'] = Termin.public_objects.current()
-    c['alle_termine'] = Termin.public_objects.all()
-    c['beitraege'] = News.public_objects.all()
-    c['training_heute'] = TrainingManager().get_einheiten_pro_tag( heute.strftime('%w') )
-    c['wochentag'] = get_object_or_404( Wochentag.objects, id = int( heute.strftime( '%w' ) ) )
-    return c
+    ctx = { }
+    ctx['seiten'] = Seite.public_objects.filter( parent__isnull = True )
+    ctx['language'] = request.session.get( 'django_language', 'de' )
+    ctx['termine'] = Termin.public_objects.current()
+    ctx['alle_termine'] = Termin.public_objects.all()
+    ctx['beitraege'] = News.public_objects.all()
+    ctx['training_heute'] = TrainingManager().get_einheiten_pro_tag( heute )
+    ctx['wochentag'] = get_object_or_404( Wochentag.objects, id = heute )
+    return ctx
 
 def index( request, sid = 1 ):
-    c = __get_sidebar( request )
-    seite = get_object_or_404( Seite.public_objects, id = sid )
-    c['seite'] = seite
-    c['artikel'] = Artikel.public_objects.get_by_category( sid )
-    if seite.show_training:
-        c['wochenplan'] = TrainingManager().get_wochenplan()
-        c['wochentage'] = TrainingManager().get_wochentage()
-        c['trainingsarten'] = Trainingsart.objects.filter( public = True )
+    ctx = __get_sidebar( request )
 
-    return render_to_response(
-        'base.html',
-        c,
-        context_instance = RequestContext( request ),
-    )
+    seite = get_object_or_404( Seite.public_objects, id = sid )
+    ctx['seite'] = seite
+    ctx['artikel'] = Artikel.public_objects.get_by_category( sid )
+
+    if seite.show_training:
+        ctx['wochenplan'] = TrainingManager().get_wochenplan()
+        ctx['wochentage'] = TrainingManager().get_wochentage()
+        ctx['trainingsarten'] = Trainingsart.objects.filter( public = True )
+
+    return __create_response( request, ctx )
 
 def seishinkan_logout( request ):
     logout( request )
     return index( request )
 
 def links( request ):
-    c = __get_sidebar( request )
-    c['links'] = Link.public_objects.all()
-    c['kategorien'] = LinkKategorie.objects.all()
+    ctx = __get_sidebar( request )
+    ctx['links'] = Link.public_objects.all()
+    ctx['kategorien'] = LinkKategorie.objects.all()
 
-    return render_to_response(
-        'links.html',
-        c,
-        context_instance = RequestContext( request ),
-    )
+    return __create_response( request, ctx, 'links.html' )
 
 def news( request, bid = None ):
-    c = __get_sidebar( request )
-    c['beitraege'] = News.public_objects.all()
+    ctx = __get_sidebar( request )
+    ctx['beitraege'] = News.public_objects.all()
     if bid:
-        c['beitrag'] = get_object_or_404( News.public_objects, id = bid )
+        ctx['beitrag'] = get_object_or_404( News.public_objects, id = bid )
 
-    return render_to_response(
-        'news.html',
-        c,
-        context_instance = RequestContext( request ),
-    )
+    return __create_response( request, ctx, 'news.html' )
 
 def video( request, vid = None ):
     ctx = __get_sidebar( request )
@@ -82,45 +68,27 @@ def video( request, vid = None ):
             ctx['vid'] = vid
             ctx['watch'] = video
 
-    return render_to_response(
-        'videos.html',
-        ctx,
-        context_instance = RequestContext( request ),
-    )
+    return __create_response( request, ctx, 'videos.html' )
 
 def news_archiv( request ):
-    c = __get_sidebar( request )
-
-    return render_to_response(
-        'news_list.html',
-        c,
-        context_instance = RequestContext( request ),
-    )
+    ctx = __get_sidebar( request )
+    return __create_response( request, ctx, 'news_list.html' )
 
 def termine_archiv( request ):
-    c = __get_sidebar( request )
-
-    return render_to_response(
-        'termine_list.html',
-        c,
-        context_instance = RequestContext( request ),
-    )
+    ctx = __get_sidebar( request )
+    return __create_response( request, ctx, 'termine_list.html' )
 
 def termin( request, tid = None ):
-    c = __get_sidebar( request )
+    ctx = __get_sidebar( request )
 
     if tid:
-        c['termin'] = get_object_or_404( Termin.public_objects, id = tid )
+        ctx['termin'] = get_object_or_404( Termin.public_objects, id = tid )
 
+    return __create_response( request, ctx, 'termin.html' )
+
+def __create_response( request, context = {}, template_name = 'base.html' ):
     return render_to_response(
-        'termin.html',
-        c,
+        template_name,
+        context,
         context_instance = RequestContext( request ),
     )
-
-#    return object_list(
-#        request,
-#        queryset = Seite.objects.filter( public = True ),
-#        template_name = 'base.html',
-#    )
-
