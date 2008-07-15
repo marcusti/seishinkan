@@ -1,9 +1,6 @@
 #-*- coding: utf-8 -*-
 # Django settings for seishinkan project.
 
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
-
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
 )
