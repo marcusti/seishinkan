@@ -15,14 +15,13 @@
  {% for link in links %}
   {% ifequal link.kategorie.id kat.id %}
   <tr>
-    <td><a href="{{ link.url }}" target="_blank">{{ link.title }}</a>	</td>
-    <td>{{ link.text }}</td>
+    <td><a href="{{ link.url }}" target="_blank">{{ link.title }}</a></td>
+    <td>{{ link.text }} {% if user.is_authenticated %}<a class="edit small" href="/verwaltung/links/link/{{ link.id }}/">{% trans "bearbeiten" %}</a>{% endif %}</td>
   </tr>
   {% endifequal %}
  {% endfor %}
   <tr>
-    <td class="white"></td>
-    <td class="white"></td>
+    <td class="white" colspan="2">&nbsp;</td>
   </tr>
 {% endfor %}
 </table>
