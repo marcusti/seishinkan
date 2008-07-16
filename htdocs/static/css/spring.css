@@ -301,6 +301,7 @@ html>body #wp-calendar {
 /* Blog */
 
 .post {
+  clear: both;
 }
 .posttitle {
 	margin-bottom: 0;
@@ -435,14 +436,14 @@ div.imageright img, img.imageright {
 
 #trainingszeiten td {
   text-align: center;
-  margin: 0; padding: 0.3em;
+  margin: 0; padding: 0.2em;
   background-color: #eeeeec;
   background-color: #f5f5e7;
 }
 
 #trainingszeiten th{
   text-align: center;
-  margin: 0; padding: 0.3em;
+  margin: 0; padding: 0.2em;
   color: white;
   background-color: #9bbb38;
 }
@@ -454,23 +455,24 @@ div.imageright img, img.imageright {
 .archiv td {
   text-align: left;
   vertical-align: top;
-  margin: 0; padding: 0.3em;
+  margin: 0; padding: 0.2em;
   background-color: #f5f5e7;
 }
 
-.archiv th{
+.archiv th {
+  font-size: 1em;
   text-align: left;
   vertical-align: top;
-  margin: 0; padding: 0.3em;
+  margin: 0; padding: 0.2em;
   color: white;
   background-color: #9bbb38;
 }
 
-.archiv td a {
-	display: block;
-}
+/* .archiv td a {
+  display: block;
+} */
 
-.white {
+.white, .archiv .white {
   background-color: white;
 }
 
