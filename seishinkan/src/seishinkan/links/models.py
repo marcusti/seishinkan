@@ -20,8 +20,8 @@ class LinkKategorie( models.Model ):
 
     class Meta:
         ordering =[ 'name' ]
-        verbose_name = _( u'Kategorie' )
-        verbose_name_plural = _( u'Kategorien' )
+        verbose_name = _( u'Link-Kategorie' )
+        verbose_name_plural = _( u'Link-Kategorien' )
 
     class Admin:
         ordering =[ 'name' ]
@@ -44,6 +44,9 @@ class Link( models.Model ):
 
     def __unicode__( self ):
         return u'%s' % ( self.title )
+
+    def get_absolute_url( self ):
+        return '/links/'
 
     class Meta:
         ordering = [ 'title' ]

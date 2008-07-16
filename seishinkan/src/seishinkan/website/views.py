@@ -13,6 +13,7 @@ def __get_sidebar( request ):
     heute = int( datetime.today().strftime( '%w' ) )
 
     ctx = { }
+    ctx['sidebar'] = True
     ctx['seiten'] = Seite.public_objects.filter( parent__isnull = True )
     ctx['language'] = request.session.get( 'django_language', 'de' )
     ctx['termine'] = Termin.public_objects.current()
