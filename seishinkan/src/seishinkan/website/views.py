@@ -1,5 +1,6 @@
 from datetime import date, datetime
 from django.contrib.auth import logout
+from django.contrib.auth.models import User
 from django.http import Http404
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
@@ -21,6 +22,10 @@ def __get_sidebar( request ):
     ctx['beitraege'] = News.public_objects.all()
     ctx['training_heute'] = TrainingManager().get_einheiten_pro_tag( heute )
     ctx['wochentag'] = get_object_or_404( Wochentag.objects, id = heute )
+
+    if request.user.is_authenticated():
+        ctx['users'] = User.objects.all().order_by( '-last_login' )
+        
     return ctx
 
 def index( request, sid = 1 ):
