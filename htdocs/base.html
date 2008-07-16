@@ -44,7 +44,16 @@
     <span class="small">
     <a class="edit" href="/verwaltung/">{% trans "Verwaltung" %}</a> |
     <a class="edit" href="/logout/">{% trans "Logout" %}</a>
-    <br/><br/>
+    <br/>
+    {% if users %}
+    <table>
+      <tr class="postmeta"><td colspan="2">{% trans "Zuletzt angemeldet" %}:</td></tr>
+    {% for user in users %}
+      <tr class="postmeta"><td>{{ user.first_name }}</td><td>{{ user.last_login|date:"d.m.y G:i" }}</td></tr>
+    {% endfor %}
+    </table>
+    {% endif %}
+    <br/>
     </span>
   {% endif %}
 
