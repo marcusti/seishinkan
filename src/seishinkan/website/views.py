@@ -1,14 +1,15 @@
+import os
 from datetime import date, datetime
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.views.generic.list_detail import object_list, object_detail
 from seishinkan import settings
 from seishinkan.links.models import Link, LinkKategorie
 from seishinkan.news.models import News
-from seishinkan.website.models import Artikel, Seite, Termin, TrainingManager, Trainingsart, Wochentag
+from seishinkan.website.models import Artikel, Bild, Seite, Termin, TrainingManager, Trainingsart, Wochentag
 
 def __get_sidebar( request ):
     heute = int( datetime.today().strftime( '%w' ) )
@@ -42,8 +43,43 @@ def index( request, sid = 1 ):
 
     return __create_response( request, ctx )
 
+def info( request, sid = 1 ):
+    ctx = __get_sidebar( request )
+
+    bilder = Bild.objects.all()
+    in_use = []
+    for bild in bilder:
+        in_use.append( bild.bild )
+        in_use.append( bild.vorschau )
+    ctx['bilder'] = bilder
+
+    files = []
+    path = 'bilder'
+    for name in os.listdir( os.path.join( settings.MEDIA_ROOT, path ) ):
+        files.append( os.path.join( path, name ) )
+    path = os.path.join( 'bilder', 'thumbs' )
+    for name in os.listdir( os.path.join( settings.MEDIA_ROOT, path ) ):
+        files.append( os.path.join( path, name ) )
+        
+    files.sort()
+    ctx['files'] = files
+
+    no_use = []
+    for file in files:
+        abs_file = os.path.join( settings.MEDIA_ROOT, file )
+        if not file in in_use and not os.path.isdir( abs_file ):
+            no_use.append( file )
+            #os.remove( abs_file )
+    ctx['not_used'] = no_use
+
+    return __create_response( request, ctx, 'info.html' )
+
 def seishinkan_logout( request ):
     logout( request )
+    
+    if request.META['HTTP_REFERER']:
+        return HttpResponseRedirect( request.META['HTTP_REFERER'] )
+    
     return index( request )
 
 def links( request ):
