@@ -509,3 +509,7 @@ a.edit {
 a.edit:hover {
   color: red;
 }
+.neu {
+  background-color: red;
+  color: white;
+}

@@ -27,6 +27,7 @@ urlpatterns += patterns( 'seishinkan.website.views',
     ( r'^news/archiv/$', 'news_archiv' ),
     ( r'^termin/(\d+)/$', 'termin' ),
     ( r'^termin/archiv/$', 'termine_archiv' ),
+    ( r'^info/$', 'info' ),
     ( r'^video/$', 'video' ),
     ( r'^video/(.+)/$', 'video' ),
 )
