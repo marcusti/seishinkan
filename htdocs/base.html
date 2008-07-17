@@ -139,7 +139,7 @@
           {% for beitrag in beitraege|slice:":3" %}
             <li>
               <a href="{{ beitrag.get_absolute_url }}">
-              {% if beitrag.neu %}<span style="color:red;">{% trans "NEU" %}</span>{% endif %}
+              {% if beitrag.neu %}<span class="neu">{% trans "NEU" %}</span>{% endif %}
               <small class="postmeta">{{ beitrag.datum|date:"j.n.Y" }}<br/></small>{{ beitrag.title }}</a>
             </li>
           {% endfor %}
