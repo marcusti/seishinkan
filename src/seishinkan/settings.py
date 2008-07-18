@@ -27,6 +27,7 @@ SITE_ID = 1
 # to load the internationalization machinery.
 USE_I18N = True
 
+LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/'
 LOGOUT_URL = '/'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
