@@ -1,12 +1,14 @@
 import os
 from datetime import date, datetime
-from django.contrib.auth import logout
+from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.views.generic.list_detail import object_list, object_detail
+from django.views.generic.simple import direct_to_template, redirect_to
 from seishinkan import settings
+from seishinkan.website.forms import LoginForm
 from seishinkan.links.models import Link, LinkKategorie
 from seishinkan.news.models import News
 from seishinkan.website.models import Artikel, Bild, Seite, Termin, TrainingManager, Trainingsart, Wochentag
@@ -73,6 +75,30 @@ def info( request, sid = 1 ):
     ctx['not_used'] = no_use
 
     return __create_response( request, ctx, 'info.html' )
+
+def seishinkan_login( request ):
+    ctx = __get_sidebar( request )
+    ctx['next'] = request.GET.get( 'next', settings.LOGIN_REDIRECT_URL )
+
+    if request.method == 'POST':
+        form = LoginForm( request.POST )
+        if form.is_valid():
+            # user authentication is done in LoginForm validation
+            user = form.get_user()
+            login( request, user )
+
+            if request.has_key( 'next' ):
+                next = request['next']
+            else:
+                next = settings.LOGIN_REDIRECT_URL
+
+            return redirect_to( request, next )
+    else:
+        form = LoginForm()
+
+    ctx['form'] = form
+
+    return __create_response( request, ctx, 'login.html' )
 
 def seishinkan_logout( request ):
     logout( request )

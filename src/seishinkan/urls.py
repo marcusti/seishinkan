@@ -19,6 +19,7 @@ urlpatterns += patterns( 'django.views.generic.simple',
 
 urlpatterns += patterns( 'seishinkan.website.views',
     ( r'^$', 'index' ),
+    ( r'^login/$', 'seishinkan_login' ),
     ( r'^logout/$', 'seishinkan_logout' ),
     ( r'^seite/(\d+)/$', 'index' ),
     ( r'^links/$', 'links' ),
