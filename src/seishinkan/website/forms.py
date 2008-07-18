@@ -23,10 +23,6 @@ class LoginForm( forms.Form ):
                                                   'min_length': _( 'Passort ist zu kurz.' ),
                                                   },
                                 )
-#    next = forms.CharField( max_length = DEFAULT_MAX_LENGTH,
-#                            required = False,
-#                            widget = forms.HiddenInput,
-#                            )
 
     def clean( self ):
         username = self.data['username']

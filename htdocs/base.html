@@ -216,7 +216,11 @@
         <col width="33%" />
       </colgroup>
       <tr>
-        <td align="left" valign="bottom" class="postmeta"><a href="/login/">{% trans "Login" %}</a></td>
+      {% if user.is_authenticated %}     
+        <td align="left" valign="bottom" class="postmeta"><a href="/logout/">{% trans "Logout" %}</a></td>
+      {% else %}
+        <td align="left" valign="bottom" class="postmeta"><a href="/login/{% if path %}?next={{ path }}{% endif %}">{% trans "Login" %}</a></td>
+      {% endif %}
         <td align="center" valign="bottom" class="postmeta"><a href="http://www.djangoproject.com/"><img src="http://media.djangoproject.com/img/badges/djangosite80x15_grey.gif" border="0" alt="A Django site." title="A Django site." /></a></td>
         <td align="right" valign="bottom">&copy; Aikido Dojo Seishinkan</td>
       </tr>

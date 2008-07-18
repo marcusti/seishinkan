@@ -3,17 +3,17 @@
 
 {% block content %}
 
+<h2></h2>
+
 <form id="login-form" method="post" action=".">
- <table>
+ <table class="archiv">
 
   <colgroup>
     <col width="25%">
     <col width="*">
   </colgroup>
 
-  <tr>
-    <th colspan="2">{% trans "Login" %}</th>
-  </tr>
+<tr><th colspan="2">{% trans "Login" %}</th></tr>
 
  {% for field in form %}
  {% if field.is_hidden %}
