@@ -513,3 +513,10 @@ a.edit:hover {
   background-color: red;
   color: white;
 }
+.error {
+  color: red;
+}
+.errorlist {
+  list-style-type: circle;
+  list-style-position: inside;
+}
