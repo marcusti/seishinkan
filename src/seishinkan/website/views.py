@@ -25,6 +25,7 @@ def __get_sidebar( request ):
     ctx['beitraege'] = News.public_objects.all()
     ctx['training_heute'] = TrainingManager().get_einheiten_pro_tag( heute )
     ctx['wochentag'] = get_object_or_404( Wochentag.objects, id = heute )
+    ctx['path'] = request.path
 
     if request.user.is_authenticated():
         ctx['users'] = User.objects.all().order_by( '-last_login' )
