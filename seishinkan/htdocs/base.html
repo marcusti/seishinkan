@@ -85,7 +85,7 @@
     </ul>
 
     <br/>
-    <h2>{% trans "Training heute" %},<br/>{{ wochentag }}</h2>
+    <h2>{% trans "Training heute" %}{% if wochentag %},<br/>{{ wochentag }}{% endif %}</h2>
     <ul>
       <li>
         <ul>
@@ -216,7 +216,7 @@
         <col width="33%" />
       </colgroup>
       <tr>
-      {% if user.is_authenticated %}     
+      {% if user.is_authenticated %}
         <td align="left" valign="bottom" class="postmeta"><a href="/logout/">{% trans "Logout" %}</a></td>
       {% else %}
         <td align="left" valign="bottom" class="postmeta"><a href="/login/{% if path %}?next={{ path }}{% endif %}">{% trans "Login" %}</a></td>
