@@ -105,7 +105,7 @@
 
     <br/>
     <h2>{% trans "Termine" %}</h2>
-    {% if user.is_authenticated %}<a class="edit small" href="http://seishinkan.dyndns.org/verwaltung/website/termin/add/">{% trans "neu" %}</a>{% endif %}
+    {% if user.is_authenticated %}<a class="edit small" href="/verwaltung/website/termin/add/">{% trans "neu" %}</a>{% endif %}
     {% if not termine %}
       <ul><li><ul><li class="postmeta">{% trans "Zur Zeit gibt es keine aktuellen Termine." %}</li></ul></li></ul>
     {% else %}
@@ -129,7 +129,7 @@
 
     <br/>
     <h2>{% trans "Beiträge" %}</h2>
-    {% if user.is_authenticated %}<a class="edit small" href="http://seishinkan.dyndns.org/verwaltung/news/news/add/">{% trans "neu" %}</a>{% endif %}
+    {% if user.is_authenticated %}<a class="edit small" href="/verwaltung/news/news/add/">{% trans "neu" %}</a>{% endif %}
     {% if not beitraege %}
       <p>{% trans "Zur Zeit gibt es keine Beiträge." %}</p>
     {% else %}
@@ -189,7 +189,7 @@
     {% for art in artikel %}
     <div class="post">
     {% autoescape off%}
-      <h2>{{ art.get_title }}</h2>{% if user.is_authenticated %}<a class="edit small" href="http://seishinkan.dyndns.org/verwaltung/website/artikel/{{ art.id }}/">{% trans "bearbeiten" %}</a>{% endif %}
+      <h2>{{ art.get_title }}</h2>{% if user.is_authenticated %}<a class="edit small" href="/verwaltung/website/artikel/{{ art.id }}/">{% trans "bearbeiten" %}</a>{% endif %}
       <div class="postentry">
         {% if art.bild %}
           <p><img class="image{% if art.bild_ausrichtung %}{{ art.bild_ausrichtung }}{% endif %}"

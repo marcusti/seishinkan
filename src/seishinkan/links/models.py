@@ -1,5 +1,6 @@
 #-*- coding: utf-8 -*-
 
+from django.contrib import admin
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from seishinkan.utils import DEFAULT_MAX_LENGTH
@@ -23,15 +24,17 @@ class LinkKategorie( models.Model ):
         verbose_name = _( u'Link-Kategorie' )
         verbose_name_plural = _( u'Link-Kategorien' )
 
-    class Admin:
-        ordering =[ 'name' ]
-        list_display = ( 'name', )
-        list_display_links = ( 'name', )
+class LinkKategorieAdmin( admin.ModelAdmin ):
+    ordering =[ 'name' ]
+    list_display = ( 'name', )
+    list_display_links = ( 'name', )
+
+admin.site.register( LinkKategorie, LinkKategorieAdmin )
 
 class Link( models.Model ):
     url = models.URLField( verify_exists = False, unique = True )
     title = models.CharField( max_length = DEFAULT_MAX_LENGTH )
-    text = models.TextField( _( u'Text'), blank = True )
+    text = models.TextField( _( u'Text' ), blank = True )
     position = models.IntegerField( _( u'Position auf der Seite' ), default = 0, blank = True )
     kategorie = models.ForeignKey( LinkKategorie, verbose_name = _( 'Kategorie' ) )
 
@@ -53,8 +56,10 @@ class Link( models.Model ):
         verbose_name = _( u'Link' )
         verbose_name_plural = _( u'Links' )
 
-    class Admin:
-        ordering = [ 'title' ]
-        list_display = ( 'title', 'url', 'position' )
-        list_display_links = ( 'title', 'url' )
-        list_filter = ( 'kategorie', )
+class LinkAdmin(admin.ModelAdmin):
+    ordering = [ 'title' ]
+    list_display = ( 'title', 'url', 'position' )
+    list_display_links = ( 'title', 'url' )
+    list_filter = ( 'kategorie', )
+
+admin.site.register( Link, LinkAdmin )
