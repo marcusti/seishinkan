@@ -1,4 +1,3 @@
-import os
 from datetime import date, datetime
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
@@ -8,10 +7,11 @@ from django.template import RequestContext
 from django.views.generic.list_detail import object_list, object_detail
 from django.views.generic.simple import direct_to_template, redirect_to
 from seishinkan import settings
-from seishinkan.website.forms import LoginForm
 from seishinkan.links.models import Link, LinkKategorie
 from seishinkan.news.models import News
+from seishinkan.website.forms import LoginForm
 from seishinkan.website.models import Artikel, Bild, Seite, Termin, TrainingManager, Trainingsart, Wochentag
+import os
 
 def __get_sidebar( request ):
     heute = int( datetime.today().strftime( '%w' ) )
@@ -24,12 +24,15 @@ def __get_sidebar( request ):
     ctx['alle_termine'] = Termin.public_objects.all()
     ctx['beitraege'] = News.public_objects.all()
     ctx['training_heute'] = TrainingManager().get_einheiten_pro_tag( heute )
-    ctx['wochentag'] = get_object_or_404( Wochentag.objects, id = heute )
     ctx['path'] = request.path
+    try:
+        ctx['wochentag'] = Wochentag.objects.get( id = heute )
+    except:
+        pass
 
     if request.user.is_authenticated():
         ctx['users'] = User.objects.all().order_by( '-last_login' )
-        
+
     return ctx
 
 def index( request, sid = 1 ):
@@ -63,7 +66,7 @@ def info( request, sid = 1 ):
     path = os.path.join( 'bilder', 'thumbs' )
     for name in os.listdir( os.path.join( settings.MEDIA_ROOT, path ) ):
         files.append( os.path.join( path, name ) )
-        
+
     files.sort()
     ctx['files'] = files
 
@@ -103,10 +106,10 @@ def seishinkan_login( request ):
 
 def seishinkan_logout( request ):
     logout( request )
-    
+
     if request.META['HTTP_REFERER']:
         return HttpResponseRedirect( request.META['HTTP_REFERER'] )
-    
+
     return index( request )
 
 def links( request ):
