@@ -1,5 +1,7 @@
 #-*- coding: utf-8 -*-
+
 from datetime import date, datetime
+from django.contrib import admin
 from django.db import models
 from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
@@ -72,9 +74,11 @@ class News( models.Model ):
         verbose_name = _( u'Beitrag' )
         verbose_name_plural = _( u'Beiträge' )
 
-    class Admin:
-        ordering = ['-beginn', '-creation', 'title']
-        list_display = ( 'title', 'preview', 'autor', 'beginn', 'ende', 'bild', 'public', 'id' )
-        list_display_links = ( 'title', 'preview' )
-        list_filter = ( 'beginn', )
-        js = ['tiny_mce/tiny_mce.js', 'js/textareas.js']
+class NewsAdmin( admin.ModelAdmin ):
+    ordering = ['-beginn', '-creation', 'title']
+    list_display = ( 'title', 'preview', 'autor', 'beginn', 'ende', 'bild', 'public', 'id' )
+    list_display_links = ( 'title', 'preview' )
+    list_filter = ( 'beginn', )
+    js = ['tiny_mce/tiny_mce.js', 'js/textareas.js']
+
+admin.site.register( News, NewsAdmin )

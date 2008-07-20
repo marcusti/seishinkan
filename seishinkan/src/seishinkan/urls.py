@@ -1,5 +1,8 @@
 from django.conf.urls.defaults import *
 from django.conf import settings
+from django.contrib import admin
+
+admin.autodiscover()
 
 urlpatterns = patterns( '',
     # Example:
@@ -7,15 +10,15 @@ urlpatterns = patterns( '',
 
     # Uncomment this for admin:
     ( r'^i18n/', include( 'django.conf.urls.i18n' ) ),
-    ( r'^verwaltung/', include( 'django.contrib.admin.urls' ) ),
+    ( r'^verwaltung/(.*)', admin.site.root ),
     #( r'^logout/$', 'django.contrib.auth.views.logout' ),
-)
+ )
 
 # Simple Generic Views
 urlpatterns += patterns( 'django.views.generic.simple',
 #    ( r'^seishinkan/$', 'direct_to_template', {'template': 'base.html'} ),
-    ( r'^accounts/$',  'redirect_to', {'url': '/'} ),
-)
+    ( r'^accounts/$', 'redirect_to', {'url': '/'} ),
+ )
 
 urlpatterns += patterns( 'seishinkan.website.views',
     ( r'^$', 'index' ),
@@ -31,7 +34,7 @@ urlpatterns += patterns( 'seishinkan.website.views',
     ( r'^info/$', 'info' ),
     ( r'^video/$', 'video' ),
     ( r'^video/(.+)/$', 'video' ),
-)
+ )
 
 if settings.DEBUG:
     urlpatterns += patterns( '',

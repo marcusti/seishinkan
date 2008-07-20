@@ -5,7 +5,7 @@
 
 {% if beitrag %}
 <div class="post">
-{% if user.is_authenticated %}<p><a class="edit small" href="http://seishinkan.dyndns.org/verwaltung/news/news/{{beitrag.id}}/">{% trans "bearbeiten" %}</a></p>{% endif %}
+{% if user.is_authenticated %}<p><a class="edit small" href="/verwaltung/news/news/{{beitrag.id}}/">{% trans "bearbeiten" %}</a></p>{% endif %}
 <p class="">{{ beitrag.autor }}, {{ beitrag.datum|date:"j.n.Y" }}</p>
 {% autoescape off%}
   <h2>{{ beitrag.title }}</h2>

@@ -1,13 +1,13 @@
 #-*- coding: utf-8 -*-
 
 from datetime import date, datetime
+from django.contrib import admin
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.db.models import Q
 from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
 from seishinkan.utils import DEFAULT_MAX_LENGTH
-#import photologue
 
 AUSRICHTUNGEN = [
     ( u'left', u'links' ),
@@ -35,9 +35,11 @@ class Wochentag( models.Model ):
         verbose_name = _( u'Wochentag' )
         verbose_name_plural = _( u'Wochentage' )
 
-    class Admin:
-        ordering = ['index', 'name']
-        list_display = ( 'name', 'public', 'creation', 'modified', 'index' )
+class WochentagAdmin( admin.ModelAdmin ):
+    ordering = ['index', 'name']
+    list_display = ( 'name', 'public', 'creation', 'modified', 'index' )
+
+admin.site.register( Wochentag, WochentagAdmin )
 
 class BildManager( models.Manager ):
     def get_query_set( self ):
@@ -90,9 +92,11 @@ class Bild( models.Model ):
         verbose_name = _( u'Bild' )
         verbose_name_plural = _( u'Bilder' )
 
-    class Admin:
-        list_display = ( 'name', 'bild', 'creation', 'modified', 'admin_thumb' )
-        list_display_links = ( 'name', 'admin_thumb' )
+class BildAdmin( admin.ModelAdmin ):
+    list_display = ( 'name', 'bild', 'creation', 'modified', 'admin_thumb' )
+    list_display_links = ( 'name', 'admin_thumb' )
+
+admin.site.register( Bild, BildAdmin )
 
 class SeitenManager( models.Manager ):
     def get_query_set( self ):
@@ -102,7 +106,7 @@ class Seite( models.Model ):
     name = models.CharField( _( u'Name' ), max_length = DEFAULT_MAX_LENGTH )
     name_en = models.CharField( _( u'Name (Englisch)' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     name_ja = models.CharField( _( u'Name (Japanisch)' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
-    slug = models.SlugField( _( u'Slug' ), prepopulate_from = ( 'name', ), blank = True, null = True )
+    slug = models.SlugField( _( u'Slug' ), blank = True, null = True )
     position = models.IntegerField( _( u'Position im Menü' ), default = 0 )
     parent = models.ForeignKey( 'self', verbose_name = _( u'Über' ), null = True, blank = True, related_name = 'child_set' )
     show_training = models.BooleanField( _( u'Enthält Trainingszeiten' ), default = False )
@@ -128,10 +132,13 @@ class Seite( models.Model ):
         verbose_name = _( u'Seite' )
         verbose_name_plural = _( u'Seiten' )
 
-    class Admin:
-        ordering = ['position', 'name']
-        list_display = ( 'name', 'parent', 'position', 'public', 'id' )
-        list_filter = ( 'parent', )
+class SeiteAdmin( admin.ModelAdmin ):
+    prepopulated_fields = {'slug': ( 'name', )}
+    ordering = ['position', 'name']
+    list_display = ( 'name', 'parent', 'position', 'public', 'id' )
+    list_filter = ( 'parent', )
+
+admin.site.register( Seite, SeiteAdmin )
 
 class ArtikelManager( models.Manager ):
     def get_query_set( self ):
@@ -150,7 +157,6 @@ class Artikel( models.Model ):
     position = models.IntegerField( _( u'Position auf der Seite' ), default = 0, blank = True )
     bild = models.ForeignKey( Bild, verbose_name = u'Bild', blank = True, null = True )
     bild_ausrichtung = models.CharField( _( u'Bild Ausrichtung' ), max_length = DEFAULT_MAX_LENGTH, choices = AUSRICHTUNGEN, default = u'right', blank = True )
-    #photo = photologue.models.Photo(  )
     seite = models.ForeignKey( Seite, verbose_name = _( u'Seite' ) )
 
     public = models.BooleanField( _( u'Öffentlich' ), default = True )
@@ -193,19 +199,24 @@ class Artikel( models.Model ):
         verbose_name = _( u'Artikel' )
         verbose_name_plural = _( u'Artikel' )
 
-    class Admin:
-        ordering = ['title', 'text']
-        list_display = ( 'get_title', 'preview', 'seite', 'position', 'public', 'id' )
-        list_display_links = ( 'get_title', 'preview' )
-        list_filter = ( 'seite', )
-        js = ['tiny_mce/tiny_mce.js', 'js/textareas.js']
-        fields = (
-            ( None, { 'fields': ( 'seite', 'position', 'public' ) } ),
-            ( 'Bild', { 'fields': ( 'bild', 'bild_ausrichtung' ) } ),
-            ( 'Deutsch', { 'fields': ( 'title', 'text' ) } ),
-            ( 'Englisch', { 'fields': ( 'title_en', 'text_en' ), 'classes': 'collapse' } ),
-            ( 'Japanisch', { 'fields': ( 'title_ja', 'text_ja' ), 'classes': 'collapse' } ),
-        )
+class ArtikelAdmin( admin.ModelAdmin ):
+    ordering = ['title', 'text']
+    list_display = ( 'get_title', 'preview', 'seite', 'position', 'public', 'id' )
+    list_display_links = ( 'get_title', 'preview' )
+    list_filter = ( 'seite', )
+    fieldsets = (
+        ( None, { 'fields': ( 'seite', 'position', 'public' ) } ),
+        ( 'Bild', { 'fields': ( 'bild', 'bild_ausrichtung' ) } ),
+        ( 'Deutsch', { 'fields': ( 'title', 'text' ) } ),
+        ( 'Englisch', { 'fields': ( 'title_en', 'text_en' ), 'classes': ( 'collapse', ) } ),
+        ( 'Japanisch', { 'fields': ( 'title_ja', 'text_ja' ), 'classes': ( 'collapse', ) } ),
+    )
+
+    class Media:
+        js = ( 'tiny_mce/tiny_mce.js',
+              'js/textarea.js', )
+
+admin.site.register( Artikel, ArtikelAdmin )
 
 class TerminManager( models.Manager ):
     def get_query_set( self ):
@@ -242,10 +253,12 @@ class Termin( models.Model ):
         verbose_name = _( u'Termin' )
         verbose_name_plural = _( u'Termine' )
 
-    class Admin:
-        ordering = ['ende', 'beginn', 'title']
-        list_display = ( 'title', 'beginn', 'ende', 'bild', 'creation', 'modified', 'public', 'id' )
-        list_filter = ( 'beginn', )
+class TerminAdmin( admin.ModelAdmin ):
+    ordering = ['ende', 'beginn', 'title']
+    list_display = ( 'title', 'beginn', 'ende', 'bild', 'creation', 'modified', 'public', 'id' )
+    list_filter = ( 'beginn', )
+
+admin.site.register( Termin, TerminAdmin )
 
 class TrainingManager( models.Manager ):
     def get_einheit( self, tag, anfang ):
@@ -292,9 +305,11 @@ class Trainingsart( models.Model ):
         verbose_name = _( u'Trainingsart' )
         verbose_name_plural = _( u'Trainingsarten' )
 
-    class Admin:
-        ordering = ['name']
-        list_display = ( 'name', 'creation', 'modified', 'public', 'id' )
+class TrainingsartAdmin( admin.ModelAdmin ):
+    ordering = ['name']
+    list_display = ( 'name', 'creation', 'modified', 'public', 'id' )
+
+admin.site.register( Trainingsart, TrainingsartAdmin )
 
 class Training( models.Model ):
     '''Modell einer Trainingseinheit'''
@@ -315,6 +330,8 @@ class Training( models.Model ):
         verbose_name = _( u'Training' )
         verbose_name_plural = _( u'Training' )
 
-    class Admin:
-        ordering = ['wochentag', 'von']
-        list_display = ( 'wochentag', 'von', 'bis', 'art', 'creation', 'modified', 'public' )
+class TrainingAdmin( admin.ModelAdmin ):
+    ordering = ['wochentag', 'von']
+    list_display = ( 'wochentag', 'von', 'bis', 'art', 'creation', 'modified', 'public' )
+
+admin.site.register( Training, TrainingAdmin )
