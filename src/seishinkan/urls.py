@@ -10,6 +10,7 @@ urlpatterns = patterns( '',
 
     # Uncomment this for admin:
     ( r'^i18n/', include( 'django.conf.urls.i18n' ) ),
+    ( r'^verwaltung/doc/', include( 'django.contrib.admindocs.urls' ) ),
     ( r'^verwaltung/(.*)', admin.site.root ),
     #( r'^logout/$', 'django.contrib.auth.views.logout' ),
  )

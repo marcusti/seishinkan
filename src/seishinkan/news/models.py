@@ -81,4 +81,8 @@ class NewsAdmin( admin.ModelAdmin ):
     list_filter = ( 'beginn', )
     js = ['tiny_mce/tiny_mce.js', 'js/textareas.js']
 
+    class Media:
+        js = ( '/static/js/tiny_mce/tiny_mce.js',
+              '/static/js/textareas.js', )
+
 admin.site.register( News, NewsAdmin )
