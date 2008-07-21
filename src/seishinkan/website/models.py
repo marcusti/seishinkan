@@ -213,8 +213,8 @@ class ArtikelAdmin( admin.ModelAdmin ):
     )
 
     class Media:
-        js = ( 'tiny_mce/tiny_mce.js',
-              'js/textarea.js', )
+        js = ( '/static/js/tiny_mce/tiny_mce.js',
+              '/static/js/textareas.js', )
 
 admin.site.register( Artikel, ArtikelAdmin )
 
@@ -257,6 +257,10 @@ class TerminAdmin( admin.ModelAdmin ):
     ordering = ['ende', 'beginn', 'title']
     list_display = ( 'title', 'beginn', 'ende', 'bild', 'creation', 'modified', 'public', 'id' )
     list_filter = ( 'beginn', )
+
+    class Media:
+        js = ( '/static/js/tiny_mce/tiny_mce.js',
+              '/static/js/textareas.js', )
 
 admin.site.register( Termin, TerminAdmin )
 
