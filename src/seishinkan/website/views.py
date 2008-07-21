@@ -18,7 +18,7 @@ def __get_sidebar( request ):
 
     ctx = { }
     ctx['sidebar'] = True
-    ctx['seiten'] = Seite.public_objects.filter( parent__isnull = True )
+    ctx['seiten'] = Seite.public_objects.filter( parent__isnull = True ).order_by( 'position' )
     ctx['language'] = request.session.get( 'django_language', 'de' )
     ctx['termine'] = Termin.public_objects.current()
     ctx['alle_termine'] = Termin.public_objects.all()
