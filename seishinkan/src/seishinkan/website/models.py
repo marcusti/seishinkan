@@ -93,7 +93,7 @@ class Bild( models.Model ):
         verbose_name_plural = _( u'Bilder' )
 
 class BildAdmin( admin.ModelAdmin ):
-    list_display = ( 'name', 'bild', 'creation', 'modified', 'admin_thumb' )
+    list_display = ( 'name', 'bild', 'modified', 'admin_thumb' )
     list_display_links = ( 'name', 'admin_thumb' )
 
 admin.site.register( Bild, BildAdmin )
@@ -106,7 +106,7 @@ class Seite( models.Model ):
     name = models.CharField( _( u'Name' ), max_length = DEFAULT_MAX_LENGTH )
     name_en = models.CharField( _( u'Name (Englisch)' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     name_ja = models.CharField( _( u'Name (Japanisch)' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
-    slug = models.SlugField( _( u'Slug' ), blank = True, null = True )
+    slug = models.SlugField( _( u'Slug' ), unique = True, max_length = DEFAULT_MAX_LENGTH )
     position = models.IntegerField( _( u'Position im Menü' ), default = 0 )
     parent = models.ForeignKey( 'self', verbose_name = _( u'Über' ), null = True, blank = True, related_name = 'child_set' )
     show_training = models.BooleanField( _( u'Enthält Trainingszeiten' ), default = False )
@@ -128,14 +128,14 @@ class Seite( models.Model ):
         return '/seite/%i/' % self.id
 
     class Meta:
-        ordering = ['position', 'name']
+        ordering = ['name']
         verbose_name = _( u'Seite' )
         verbose_name_plural = _( u'Seiten' )
 
 class SeiteAdmin( admin.ModelAdmin ):
     prepopulated_fields = {'slug': ( 'name', )}
-    ordering = ['position', 'name']
-    list_display = ( 'name', 'parent', 'position', 'public', 'id' )
+    ordering = ['name']
+    list_display = ( 'name', 'slug', 'parent', 'position', 'public', 'id' )
     list_filter = ( 'parent', )
 
 admin.site.register( Seite, SeiteAdmin )

@@ -6,7 +6,7 @@
 {% if beitrag %}
 <div class="post">
 {% if user.is_authenticated %}<p><a class="edit small" href="/verwaltung/news/news/{{beitrag.id}}/">{% trans "bearbeiten" %}</a></p>{% endif %}
-<p class="">{{ beitrag.autor }}, {{ beitrag.datum|date:"j.n.Y" }}</p>
+<p class="">{% if beitrag.autor %}{{ beitrag.autor }}, {% endif %}{{ beitrag.datum|date:"j.n.Y" }}</p>
 {% autoescape off%}
   <h2>{{ beitrag.title }}</h2>
   <div class="postentry">
