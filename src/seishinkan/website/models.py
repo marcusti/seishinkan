@@ -111,6 +111,7 @@ class Seite( models.Model ):
     position = models.IntegerField( _( u'Position im Menü' ), default = 0 )
     parent = models.ForeignKey( 'self', verbose_name = _( u'Über' ), null = True, blank = True, related_name = 'child_set' )
     show_training = models.BooleanField( _( u'Enthält Trainingszeiten' ), default = False )
+    is_homepage = models.BooleanField( _( u'Ist Startseite' ), default = False )
 
     public = models.BooleanField( _( u'Öffentlich' ), default = True )
     creation = models.DateTimeField( _( u'Erfasst am' ), auto_now_add = True )
@@ -136,7 +137,7 @@ class Seite( models.Model ):
 class SeiteAdmin( admin.ModelAdmin ):
     prepopulated_fields = {'slug': ( 'name', )}
     ordering = ['name']
-    list_display = ( 'name', 'slug', 'parent', 'position', 'public', 'id' )
+    list_display = ( 'name', 'slug', 'parent', 'position', 'is_homepage', 'public', 'id' )
     list_filter = ( 'parent', )
 
 admin.site.register( Seite, SeiteAdmin )

@@ -1,4 +1,5 @@
 from datetime import date, datetime
+from django import get_version
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
 from django.http import Http404, HttpResponseRedirect
@@ -25,6 +26,8 @@ def __get_sidebar( request ):
     ctx['beitraege'] = News.public_objects.all()
     ctx['training_heute'] = TrainingManager().get_einheiten_pro_tag( heute )
     ctx['path'] = request.path
+    ctx['django_version'] = get_version()
+    
     try:
         ctx['wochentag'] = Wochentag.objects.get( id = heute )
     except:
