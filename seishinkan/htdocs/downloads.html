@@ -19,7 +19,8 @@
   <tr>
     <td><a href="{{ download.get_datei_url }}">{{ download.name }}</a></td>
     <td class="">{{ download.extension }}</td>
-    <td>{{ download.text|linebreaksbr }}</td>
+    <td>{{ download.text|linebreaksbr }}
+      {% if user.is_authenticated %}<a class="edit small" href="/verwaltung/website/download/{{ download.id }}/">{% trans "bearbeiten" %}</a>{% endif %}</td>
   </tr>
 {% endfor %}
 </table>
