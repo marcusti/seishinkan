@@ -102,11 +102,12 @@ a img {
 	text-align: left;
 }
 #header {
-	background-color: #F5F5E7;
-	background-color: #FFF;
-/*	background: url(/images/logo.gif) no-repeat;
-    background-position: center;*/
-	border-bottom: 10px solid #9bbb38;
+ background-color: #F5F5E7;
+ background-color: #FFF;
+ background: url(../images/header.jpg) no-repeat;
+ background-position: center;
+ border-bottom: 10px solid #9bbb38;
+ height: 189px;
 }
 	/* Header Styles */
 	#header h1 {

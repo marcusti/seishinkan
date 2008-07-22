@@ -52,7 +52,17 @@ def index( request, sid = 1 ):
 
     return __create_response( request, ctx )
 
-def info( request, sid = 1 ):
+def impressum( request ):
+    ctx = __get_sidebar( request )
+
+    return __create_response( request, ctx, 'impressum.html' )
+
+def info( request ):
+    ctx = __get_sidebar( request )
+
+    return __create_response( request, ctx, 'info.html' )
+
+def sysinfo( request ):
     ctx = __get_sidebar( request )
 
     bilder = Bild.objects.all()
@@ -81,7 +91,7 @@ def info( request, sid = 1 ):
             #os.remove( abs_file )
     ctx['not_used'] = no_use
 
-    return __create_response( request, ctx, 'info.html' )
+    return __create_response( request, ctx, 'sysinfo.html' )
 
 def seishinkan_login( request ):
     ctx = __get_sidebar( request )

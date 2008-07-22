@@ -3,28 +3,12 @@
 
 {% block content %}
 <h2>{% trans "Info" %}</h2>
-{% if user.is_authenticated %}
-<h4>Bilder in der Datenbank</h4>
-<dl>
-{% for bild in bilder %}
-  <dt>{{ bild.bild }}</dt>
-  <dt>{{ bild.vorschau }}</dt>
-{% endfor %}
-</dl>
 
-<h4>Bilder im Dateisystem</h4>
-<dl>
-{% for file in files %}
-  <dt>{{ forloop.counter }}. {{ file }}</dt>
-{% endfor %}
-</dl>
-
-<h4>Bilder, die nicht benutzt werden</h4>
-<dl>
-{% for file in not_used %}
-  <dt>{{ forloop.counter }}. {{ file }}</dt>
-{% endfor %}
-</dl>
-{% endif %}
+<p>
+  <a href="http://www.djangoproject.com/" target="_blank">
+    <img src="http://media.djangoproject.com/img/badges/djangopowered126x54.gif"
+     border="0" alt="Powered by Django."
+     title="Powered by Django." /></a>
+</p>
 {% endblock %}
 
