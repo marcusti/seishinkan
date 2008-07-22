@@ -354,6 +354,18 @@ html>body #wp-calendar {
 	float: right;
 }
 
+.event {
+  border-bottom: 1px solid #E8E7D0;
+  list-style-type: none;
+}
+.event li {
+  border-top: 1px solid #E8E7D0;
+  padding: 0.1em 20px;
+  background-color: #FFF;
+}
+.event li a {
+}
+
 /* Comments */
 
 #commentlist {
