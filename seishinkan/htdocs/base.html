@@ -21,17 +21,20 @@
   <div id="wrapper">
 
   <div id="header">
+{% comment %}
     <table width="100%" border="0">
-      <tr><td align="center"><a href="/"><img src="/static/bilder/Seishinkan_peter_300.png" title="Seishinkan" alt="[Seishinkan]"/></a></td></tr>
+      <tr><td align="left"><a href="/"><img src="/static/bilder/Seishinkan_peter_300.png" title="Seishinkan" alt="[Seishinkan]"/></a></td></tr>
     </table>
+{% endcomment %}
   </div>
 
 {% if sidebar %}
   <div id="sidebar">
+    <a href="/"><img src="/static/images/Seishinkan_peter_190.jpg" alt="[]" title="" /></a>
 
   {% if user.is_authenticated %}
+    <p class="small">
     {% trans "Hallo" %} {{ user.first_name }}.<br/>
-    <span class="small">
     <a class="edit" href="/verwaltung/">{% trans "Verwaltung" %}</a> |
     <a class="edit" href="/logout/">{% trans "Logout" %}</a>
     <br/>
@@ -45,20 +48,9 @@
     {% endif %}
     </table>
     <br/>
-    </span>
+    </p>
   {% endif %}
 
-    <form id="setlang" action="/i18n/setlang/" method="post">
-     <input name="next" type="hidden" value="" />
-     <select name="language" onchange="Absenden()">
-     {% for lang in LANGUAGES %}
-       <option value="{{ lang.0 }}" {% ifequal language lang.0 %}selected{% endifequal %}>{{ lang.1 }}</option>
-     {% endfor %}
-     </select>
-    </form>
-
-    <br/>
-    <h2>{% trans "Menu" %}</h2>
     <ul>
       <li>
         <ul>
@@ -73,6 +65,16 @@
             <li class="page_item"><a href="/video/">{% trans "Videos" %}</a></li>
             <li class="page_item"><a href="/downloads/">{% trans "Downloads" %}</a></li>
             <li class="page_item"><a href="/links/">{% trans "Links" %}</a></li>
+  <li>
+    <form id="setlang" action="/i18n/setlang/" method="post">
+     <input name="next" type="hidden" value="" />
+     <select name="language" onchange="Absenden()">
+     {% for lang in LANGUAGES %}
+       <option value="{{ lang.0 }}" {% ifequal language lang.0 %}selected{% endifequal %}>{{ lang.1 }}</option>
+     {% endfor %}
+     </select>
+    </form>
+  </li>
         </ul>
       </li>
     </ul>
@@ -255,17 +257,19 @@
   <div id="footer">
     <table width="100%" border="0">
       <colgroup>
-        <col width="33%" />
-        <col width="33%" />
-        <col width="33%" />
+        <col width="50%" />
+        <col width="50%" />
       </colgroup>
       <tr>
-      {% if user.is_authenticated %}
-        <td align="left" valign="bottom" class="postmeta"><a href="/logout/">{% trans "Logout" %}</a></td>
-      {% else %}
-        <td align="left" valign="bottom" class="postmeta"><a href="/login/{% if path %}?next={{ path }}{% endif %}">{% trans "Login" %}</a></td>
-      {% endif %}
-        <td align="center" valign="bottom" class="postmeta"><a href="http://www.djangoproject.com/"><img src="http://media.djangoproject.com/img/badges/djangosite80x15_grey.gif" border="0" alt="A Django site." title="A Django site." /></a></td>
+        <td align="left" valign="bottom" class="postmeta">
+        {% if user.is_authenticated %}
+          <a href="/logout/">{% trans "Logout" %}</a>
+        {% else %}
+          <a href="/login/{% if path %}?next={{ path }}{% endif %}">{% trans "Login" %}</a>
+        {% endif %}
+          | <a href="/info/">{% trans "Info" %}</a>
+          | <a href="/impressum/">{% trans "Impressum" %}</a>
+        </td>
         <td align="right" valign="bottom">&copy; Aikido Dojo Seishinkan</td>
       </tr>
     </table>
