@@ -8,6 +8,7 @@ from django.db.models import Q
 from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
 from seishinkan.utils import DEFAULT_MAX_LENGTH
+import os
 
 AUSRICHTUNGEN = [
     ( u'left', u'links' ),
@@ -339,3 +340,45 @@ class TrainingAdmin( admin.ModelAdmin ):
     list_display = ( 'wochentag', 'von', 'bis', 'art', 'creation', 'modified', 'public' )
 
 admin.site.register( Training, TrainingAdmin )
+
+class DownloadManager( models.Manager ):
+    def get_query_set( self ):
+        return super( DownloadManager, self ).get_query_set().filter( public = True )
+    
+class Download( models.Model ):
+    name = models.CharField( _( u'Name' ), max_length = DEFAULT_MAX_LENGTH )
+    text = models.TextField( _( u'Text' ) )
+    datei = models.FileField( _( u'Pfad' ), upload_to = 'downloads/' )
+
+    public = models.BooleanField( _( u'Öffentlich' ), default = True )
+    creation = models.DateTimeField( _( u'Erfasst am' ), auto_now_add = True )
+    modified = models.DateTimeField( _( u'Geändert am' ), auto_now = True )
+
+    objects = models.Manager()
+    public_objects = DownloadManager()
+
+    def extension( self ):
+        root, ext =  os.path.splitext( self.datei )
+        if ext and len( ext ) > 0:
+            if ext.startswith( '.' ):
+                return ext.lower()[1:]
+            else:
+                return ext.lower()
+        return ''
+        
+    def __unicode__( self ):
+        return u'%s %s'.strip() % ( self.name, self.datei )
+
+    def get_absolute_url( self ):
+        return '/downloads/'
+
+    class Meta:
+        ordering = ['-modified']
+        verbose_name = _( u'Download' )
+        verbose_name_plural = _( u'Downloads' )
+
+class DownloadAdmin( admin.ModelAdmin ):
+    ordering = [ '-modified' ]
+    list_display = ( 'name', 'datei', 'modified', 'public' )
+
+admin.site.register( Download, DownloadAdmin )
