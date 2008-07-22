@@ -10,7 +10,7 @@ from seishinkan import settings
 from seishinkan.links.models import Link, LinkKategorie
 from seishinkan.news.models import News
 from seishinkan.website.forms import LoginForm
-from seishinkan.website.models import Artikel, Bild, Seite, Termin, TrainingManager, Trainingsart, Wochentag
+from seishinkan.website.models import Artikel, Bild, Download, Seite, Termin, TrainingManager, Trainingsart, Wochentag
 import os
 
 def __get_sidebar( request ):
@@ -114,10 +114,22 @@ def seishinkan_logout( request ):
 
 def links( request ):
     ctx = __get_sidebar( request )
+
     ctx['links'] = Link.public_objects.all()
-    ctx['kategorien'] = LinkKategorie.objects.all()
+    ctx['kategorien'] = LinkKategorie.public_objects.all()
 
     return __create_response( request, ctx, 'links.html' )
+
+def bilder( request ):
+    ctx = __get_sidebar( request )
+
+    return __create_response( request, ctx, 'bilder.html' )
+
+def downloads( request ):
+    ctx = __get_sidebar( request )
+    ctx['downloads'] = Download.public_objects.all()
+
+    return __create_response( request, ctx, 'downloads.html' )
 
 def news( request, bid = None ):
     ctx = __get_sidebar( request )
