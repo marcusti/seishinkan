@@ -34,6 +34,8 @@ urlpatterns += patterns( 'seishinkan.website.views',
     ( r'^termin/archiv/$', 'termine_archiv' ),
     ( r'^info/$', 'info' ),
     ( r'^video/$', 'video' ),
+    ( r'^bilder/$', 'bilder' ),
+    ( r'^downloads/$', 'downloads' ),
     ( r'^video/(.+)/$', 'video' ),
  )
 

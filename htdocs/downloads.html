@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<h2>{% trans "Downloads" %}</h2>
+
+{% if downloads %}
+<div class="post">
+<div class="postentry">
+<p>
+<table class="archiv">
+  <tr>
+    <th>{% trans "Name" %}</th>
+    <th>{% trans "Typ" %}</th>
+    <th>{% trans "Text" %}</th>
+  </tr>
+{% for download in downloads %}
+  <tr>
+    <td><a href="{{ download.get_datei_url }}">{{ download.name }}</a></td>
+    <td class="">{{ download.extension }}</td>
+    <td>{{ download.text|linebreaksbr }}</td>
+  </tr>
+{% endfor %}
+</table>
+</p>
+</div>
+</div>
+{% endif %}
+
+{% endblock %}
