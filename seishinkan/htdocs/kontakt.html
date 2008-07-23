@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<h2>{%trans "Kontakt" %}</h2>
+
+<p>
+<form method="post" action="">
+  <table>
+    {{ form }}
+    <tr><td></td><td>{% autoescape off %}{{ html_captcha }}{% endautoescape %}</td></tr>
+    <tr><td></td><td><input type="submit" /></td></tr>
+  </table>
+</form>
+</p>
+
+{% endblock %}
