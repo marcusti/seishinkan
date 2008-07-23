@@ -8,12 +8,8 @@
  <link rel="stylesheet" href="/static/css/spring.css" type="text/css" media="screen" />
  <title>Aikido Dojo Seishinkan</title>
  <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/ico" >
-
- <script type="text/javascript">
-  function Absenden() {
-    document.getElementById("setlang").submit();
-  }
- </script>
+ <script src="/static/js/jquery.js" type="text/javascript"></script> {# IE7 Bugfix: <script src="..." type=".."></script> !!! #}
+ <script src="/static/js/seishinkan.js" type="text/javascript"></script>
 </head>
 
 <body>
@@ -68,7 +64,7 @@
   <li>
     <form id="setlang" action="/i18n/setlang/" method="post">
      <input name="next" type="hidden" value="" />
-     <select name="language" onchange="Absenden()">
+     <select name="language" id="language">
      {% for lang in LANGUAGES %}
        <option value="{{ lang.0 }}" {% ifequal language lang.0 %}selected{% endifequal %}>{{ lang.1 }}</option>
      {% endfor %}
