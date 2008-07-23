@@ -40,3 +40,23 @@ class LoginForm( forms.Form ):
 
     def get_user( self ):
         return self.user
+
+class KontaktForm( forms.Form ):
+    email = forms.EmailField(max_length = DEFAULT_MAX_LENGTH,
+                             min_length = 4,
+                             label = _( 'Email-Adresse' ),
+                             required = True,
+                             )
+    
+    subject = forms.CharField(max_length = DEFAULT_MAX_LENGTH,
+                              min_length = 4,
+                              label = _( 'Betreff' ),
+                              required = True,
+                              )
+    
+    message = forms.CharField(max_length = DEFAULT_MAX_LENGTH,
+                              min_length = 4,
+                              label = _( 'Nachricht' ),
+                              required = True,
+                              widget = forms.Textarea,
+                              )

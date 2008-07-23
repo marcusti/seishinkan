@@ -2,6 +2,7 @@ from datetime import date, datetime
 from django import get_version
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
+from django.core.mail import mail_admins, send_mail, send_mass_mail
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
@@ -10,9 +11,10 @@ from django.views.generic.simple import direct_to_template, redirect_to
 from seishinkan import settings
 from seishinkan.links.models import Link, LinkKategorie
 from seishinkan.news.models import News
-from seishinkan.website.forms import LoginForm
+from seishinkan.website.forms import LoginForm, KontaktForm
 from seishinkan.website.models import Artikel, Bild, Download, Seite, Termin, TrainingManager, Trainingsart, Wochentag
 import os
+import captcha
 
 def __get_sidebar( request ):
     heute = int( datetime.today().strftime( '%w' ) )
@@ -51,6 +53,31 @@ def index( request, sid = 1 ):
         ctx['trainingsarten'] = Trainingsart.objects.filter( public = True )
 
     return __create_response( request, ctx )
+
+def kontakt( request ):
+    ctx = __get_sidebar( request )
+
+    if request.method == 'POST':
+        # Check the captcha
+        check_captcha = captcha.submit(request.POST['recaptcha_challenge_field'], request.POST['recaptcha_response_field'], settings.RECAPTCHA_PRIVATE_KEY, request.META['REMOTE_ADDR'])
+        if check_captcha.is_valid is False:
+            # Captcha is wrong show a error ...
+            ctx['form'] = KontaktForm(request.POST)
+            ctx['html_captcha'] = captcha.displayhtml(settings.RECAPTCHA_PUB_KEY)
+            return __create_response( request, ctx, 'kontakt.html' )
+        form = KontaktForm(request.POST)
+        if form.is_valid():
+            # Do form processing here...
+            mail_admins(form.data['subject'], form.data['message'], fail_silently=False)
+            return __create_response( request, ctx, 'kontakt_ok.html' )
+    else:
+        form = KontaktForm()
+        html_captcha = captcha.displayhtml(settings.RECAPTCHA_PUB_KEY)
+
+    ctx['form'] = form
+    ctx['html_captcha'] = html_captcha
+
+    return __create_response( request, ctx, 'kontakt.html' )
 
 def impressum( request ):
     ctx = __get_sidebar( request )
