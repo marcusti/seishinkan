@@ -19,3 +19,8 @@ $(document).ready(function(){
   });
 
 });
+
+var RecaptchaOptions = {
+    theme : 'white',
+    lang : 'de'
+};
