@@ -64,6 +64,4 @@ INSTALLED_APPS = (
     'seishinkan.website',
     'seishinkan.news',
     'seishinkan.links',
-    'contact_form',
-#    'photologue',
 )
