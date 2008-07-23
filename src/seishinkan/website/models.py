@@ -197,7 +197,7 @@ class Artikel( models.Model ):
     preview.allow_tags = False
 
     class Meta:
-        ordering = ['title', 'text']
+        ordering = ['position', 'title', 'text']
         verbose_name = _( u'Artikel' )
         verbose_name_plural = _( u'Artikel' )
 

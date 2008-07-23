@@ -7,12 +7,18 @@
 
 <p>
 <form method="post" action="">
-  <table>
-    {{ form }}
-    <tr><td></td><td>{% autoescape off %}{{ html_captcha }}{% endautoescape %}</td></tr>
-    <tr><td></td><td><input type="submit" /></td></tr>
+  <table class="archiv white">
+  {% for field in form %}
+    <tr>
+      <td class="white">{{ field.label_tag }}{% if field.field.required %} *{% endif %}</td>
+      <td class="white">{{ field }}{% if field.errors %}<span class="error">{{ field.errors }}</span>{% endif %}</td>
+    </tr>
+  {% endfor %}
+    <tr><td class="white"></td><td class="white">{% autoescape off %}{{ html_captcha }}{% endautoescape %}</td></tr>
+    <tr><td class="white"></td><td class="white"><input type="submit" /></td></tr>
   </table>
 </form>
 </p>
 
+<p class="postmeta">* {% trans "erforderliche Angaben" %}</p>
 {% endblock %}
