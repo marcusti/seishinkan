@@ -65,15 +65,17 @@ def kontakt( request ):
             ctx['form'] = KontaktForm(request.POST)
             ctx['html_captcha'] = captcha.displayhtml(settings.RECAPTCHA_PUB_KEY)
             return __create_response( request, ctx, 'kontakt.html' )
+
         form = KontaktForm(request.POST)
         if form.is_valid():
             # Do form processing here...
             mail_admins(form.data['subject'], form.data['message'], fail_silently=False)
+            ctx['form'] = form
             return __create_response( request, ctx, 'kontakt_ok.html' )
     else:
         form = KontaktForm()
-        html_captcha = captcha.displayhtml(settings.RECAPTCHA_PUB_KEY)
-
+    
+    html_captcha = captcha.displayhtml(settings.RECAPTCHA_PUB_KEY)
     ctx['form'] = form
     ctx['html_captcha'] = html_captcha
 
