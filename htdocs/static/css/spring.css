@@ -68,6 +68,9 @@ input, textarea, select {
 	font-size: 1em;
 	font-family: "Lucida Sans Unicode", Tahoma, Arial, sans-serif;
 }
+input:disabled {
+ color: #E8E7D0;
+}
 blockquote {
 	margin: 1.2em 20px;
 	padding: 0.1em 20px;
