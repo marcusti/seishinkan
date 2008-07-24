@@ -61,14 +61,15 @@ def kontakt( request ):
         # Check the captcha
         check_captcha = captcha.submit(request.POST['recaptcha_challenge_field'], request.POST['recaptcha_response_field'], settings.RECAPTCHA_PRIVATE_KEY, request.META['REMOTE_ADDR'])
         if check_captcha.is_valid is False:
-            # Captcha is wrong show a error ...
+            # Captcha is wrong, show an error ...
             ctx['form'] = KontaktForm(request.POST)
+            ctx['captcha_error'] = True
             ctx['html_captcha'] = captcha.displayhtml(settings.RECAPTCHA_PUB_KEY)
             return __create_response( request, ctx, 'kontakt.html' )
 
         form = KontaktForm(request.POST)
         if form.is_valid():
-            # Do form processing here...
+            # Sending mail...
             mail_admins(form.data['subject'], form.data['message'], fail_silently=False)
             ctx['form'] = form
             return __create_response( request, ctx, 'kontakt_ok.html' )

@@ -540,3 +540,12 @@ a.edit:hover {
   list-style-type: none;
   list-style-position: inside;
 }
+.right {
+  float: right;
+}
+.left {
+  float: left;
+}
+.clear {
+  clear: both;
+}
