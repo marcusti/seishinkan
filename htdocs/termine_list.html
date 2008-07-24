@@ -3,24 +3,23 @@
 
 {% block content %}
 
+<h2>{%  trans "alle Termine"%}</h2>
+
 <div class="post">
 {% autoescape on%}
-<p>
-<table class="archiv">
-  <tr>
-    <th>{% trans "Datum" %}</th>
-    <th>{% trans "Ort" %}</th>
-    <th>{% trans "Termin" %}</th>
-  </tr>
+<ul class="event">
 {% for termin in alle_termine %}
-  <tr>
-    <td>{{ termin.beginn|date:"d.m.Y" }}{% ifnotequal termin.beginn termin.ende %} - {{ termin.ende|date:"d.m.Y" }}{% endifnotequal %}</td>
-    <td>{{ termin.ort }}</td>
-    <td><a href="{{ termin.get_absolute_url }}" title="{{ termin.text|slice:":200" }} [...]">{{ termin.title }}</a>	</td>
-  </tr>
+  <li>
+    <div class="right postmeta">
+      {{ termin.beginn|date:"d.m.Y" }}{% ifnotequal termin.beginn termin.ende %} - {{ termin.ende|date:"d.m.Y" }}{% endifnotequal %}
+    </div>
+    <div>
+      <a href="{{ termin.get_absolute_url }}" title="{{ termin.text|slice:":200" }} [...]">{{ termin.title }}</a><br/>
+      <span class="postmeta">Ort: {{ termin.ort }}</span>
+    </div>
+  </li>
 {% endfor %}
-</table>
-</p>
+</ul>
 {% endautoescape %}
 </div>
 

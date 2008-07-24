@@ -120,6 +120,9 @@ class Seite( models.Model ):
     objects = models.Manager()
     public_objects = SeitenManager()
 
+    def get_sub_sites( self ):
+        return self.child_set.filter( public = True ).order_by( 'position', 'name' )
+    
     def get_name( self, language = None ):
         return getattr( self, "name_%s" % ( language or translation.get_language()[:2] ), "" ) or self.name
 
@@ -153,9 +156,10 @@ class Artikel( models.Model ):
     title = models.CharField( _( u'Überschrift' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     title_en = models.CharField( _( u'Überschrift' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     title_ja = models.CharField( _( u'Überschrift' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
-    text = models.TextField( _( u'Text' ) )
+    text = models.TextField( _( u'Text' ), blank = True )
     text_en = models.TextField( _( u'Text' ), blank = True )
     text_ja = models.TextField( _( u'Text' ), blank = True )
+    text_src = models.CharField( _( u'Code' ), max_length = 5000, blank = True )
     position = models.IntegerField( _( u'Position auf der Seite' ), default = 0, blank = True )
     bild = models.ForeignKey( Bild, verbose_name = u'Bild', blank = True, null = True )
     bild_ausrichtung = models.CharField( _( u'Bild Ausrichtung' ), max_length = DEFAULT_MAX_LENGTH, choices = AUSRICHTUNGEN, default = u'right', blank = True )
@@ -209,6 +213,7 @@ class ArtikelAdmin( admin.ModelAdmin ):
     fieldsets = (
         ( None, { 'fields': ( 'seite', 'position', 'public' ) } ),
         ( 'Bild', { 'fields': ( 'bild', 'bild_ausrichtung' ) } ),
+        ( 'HTML Code', { 'fields': ( 'text_src', ) } ),
         ( 'Deutsch', { 'fields': ( 'title', 'text' ) } ),
         ( 'Englisch', { 'fields': ( 'title_en', 'text_en' ), 'classes': ( 'collapse', ) } ),
         ( 'Japanisch', { 'fields': ( 'title_ja', 'text_ja' ), 'classes': ( 'collapse', ) } ),

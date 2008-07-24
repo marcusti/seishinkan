@@ -21,6 +21,6 @@ $(document).ready(function(){
 });
 
 var RecaptchaOptions = {
-    theme : 'white',
+    theme : 'clean',
     lang : 'de'
 };

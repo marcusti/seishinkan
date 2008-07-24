@@ -44,7 +44,7 @@ class LoginForm( forms.Form ):
 class KontaktForm( forms.Form ):
     email = forms.EmailField(max_length = DEFAULT_MAX_LENGTH,
                              min_length = 4,
-                             label = _( 'Email-Adresse' ),
+                             label = _( 'Ihre Email-Adresse' ),
                              required = True,
                              )
     
