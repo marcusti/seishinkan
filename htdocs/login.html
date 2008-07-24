@@ -5,15 +5,15 @@
 
 <h2></h2>
 
+<h2>{% trans "Login" %}</h2>
+
 <form id="login-form" method="post" action=".">
- <table class="archiv">
+ <table class="">
 
   <colgroup>
     <col width="25%">
     <col width="*">
   </colgroup>
-
-<tr><th colspan="2">{% trans "Login" %}</th></tr>
 
  {% for field in form %}
  {% if field.is_hidden %}
