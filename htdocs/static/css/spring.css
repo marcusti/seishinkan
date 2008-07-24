@@ -317,19 +317,19 @@ html>body #wp-calendar {
 .posttitle a {
 	float: left;
 	padding: 0 10px;
-	background: #9bbb38 url(/images/posttitle.gif) no-repeat top right;
+/*	background: #9bbb38 url(/images/posttitle.gif) no-repeat top right; */
 }
 .posttitle a:link, .posttitle a:visited {
 	color: #FFF;
 }
 .posttitle a:hover, .posttitle a:active {
-	background: #E8E7D0 url(/images/posttitle.gif) no-repeat 100% -91px;
+/*	background: #E8E7D0 url(/images/posttitle.gif) no-repeat 100% -91px; */
 	color: #80904F;
 }
 .postmeta {
 	margin-top: 0;
 	padding-top: 0.1em;
-	background: url(/images/postmeta.gif) no-repeat top left;
+/*	background: url(/images/postmeta.gif) no-repeat top left; */
 	font-size: 0.9em;
 	color: #999;
 }

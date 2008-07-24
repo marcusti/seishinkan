@@ -11,11 +11,12 @@
 {% for beitrag in beitraege %}
   <li>
    <div class="right postmeta">
+    {% if beitrag.neu %}<span class="neu">{% trans "NEU" %}</span>{% endif %}
     {{ beitrag.datum|date:"d.m.Y" }}
    </div>
    <div>
-    <a href="{{ beitrag.get_absolute_url }}" >{{ beitrag.title }}</a><br/>
-    <span class="postmeta">{{ beitrag.autor }}</span>
+    <a href="{{ beitrag.get_absolute_url }}" >{{ beitrag.title }}</a>
+    {% if beitrag.autor %}<br/><span class="postmeta">{{ beitrag.autor }}</span>{% endif %}
    </div>
   </li>
 {% endfor %}
