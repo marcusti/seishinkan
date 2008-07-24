@@ -52,17 +52,31 @@
         <ul>
           {% for seite in seiten %}
             <li class="page_item"><a href="{{ seite.get_absolute_url }}">{{ seite.get_name }}</a>
-              {% for sub in seite.child_set.all %}
-                {% if sub.public %}<ul><li class="page_item"><a href="{{ sub.get_absolute_url }}">{{ sub.get_name }}</a></li></ul>{% endif %}
+              <ul>
+              {% for sub in seite.get_sub_sites %}
+                <li class="page_item"><a href="{{ sub.get_absolute_url }}">{{ sub.get_name }}</a></li>
               {% endfor %}
+              </ul>
             </li>
           {% endfor %}
+        </ul>
+      </li>
+    </ul>
+
+    <ul>
+      <li>
+        <ul>
             <li class="page_item"><a href="/bilder/">{% trans "Bilder" %}</a></li>
             <li class="page_item"><a href="/video/">{% trans "Videos" %}</a></li>
             <li class="page_item"><a href="/downloads/">{% trans "Downloads" %}</a></li>
             <li class="page_item"><a href="/links/">{% trans "Links" %}</a></li>
             <li class="page_item"><a href="/kontakt/">{% trans "Kontakt" %}</a></li>
-  <li>
+        </ul>
+      </li>
+    </ul>
+
+{#    <h2>{% trans "Sprachauswahl" %}:</h2> #}
+    <p>
     <form id="setlang" action="/i18n/setlang/" method="post">
      <input name="next" type="hidden" value="" />
      <select name="language" id="language">
@@ -71,10 +85,7 @@
      {% endfor %}
      </select>
     </form>
-  </li>
-        </ul>
-      </li>
-    </ul>
+    </p>
 
     <br/>
     <h2>{% trans "Training heute" %},<br/>{% now "l" %}</h2>
@@ -84,7 +95,7 @@
         {% if training_heute %}
         {% for training in training_heute %}
             <li class="page_item">
-              <a href="/seite/5/">{{ training.von|time:"G:i" }} - {{ training.bis|time:"G:i" }}<br/>
+              <a href="/seite/14/">{{ training.von|time:"G:i" }} - {{ training.bis|time:"G:i" }}<br/>
                 {{ training.art }}</a>
             </li>
         {% endfor %}
@@ -197,6 +208,12 @@
         <p>
           {{ art.get_text|linebreaksbr }}
         </p>
+
+        {% if art.text_src %}
+        <p>
+          {{ art.text_src|default_if_none:"" }}
+        </p>
+        {% endif %}
       </div>
     </div>
     {% endautoescape %}
@@ -270,7 +287,7 @@
           | <a href="/info/">{% trans "Info" %}</a>
           | <a href="/impressum/">{% trans "Impressum" %}</a>
         </td>
-        <td align="right" valign="bottom">&copy; Aikido Dojo Seishinkan</td>
+        <td align="right" valign="bottom">&copy; {% now "Y" %} Aikido Dojo Seishinkan</td>
       </tr>
     </table>
   </div>

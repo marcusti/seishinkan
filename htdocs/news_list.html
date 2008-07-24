@@ -3,24 +3,23 @@
 
 {% block content %}
 
+<h2>{%  trans "alle Beiträge"%}</h2>
+
 <div class="post">
 {% autoescape off %}
-<p>
-<table class="archiv">
-  <tr>
-    <th>{% trans "Beitrag" %}</th>
-    <th>{% trans "Datum" %}</th>
-    <th>{% trans "Autor" %}</th>
-  </tr>
+<ul class="event">
 {% for beitrag in beitraege %}
-  <tr>
-    <td><a href="{{ beitrag.get_absolute_url }}" >{{ beitrag.title }}</a></td>
-    <td>{{ beitrag.datum|date:"d.m.Y" }}</td>
-    <td>{{ beitrag.autor }}</td>
-  </tr>
+  <li>
+   <div class="right postmeta">
+    {{ beitrag.datum|date:"d.m.Y" }}
+   </div>
+   <div>
+    <a href="{{ beitrag.get_absolute_url }}" >{{ beitrag.title }}</a><br/>
+    <span class="postmeta">{{ beitrag.autor }}</span>
+   </div>
+  </li>
 {% endfor %}
-</table>
-</p>
+</ul>
 {% endautoescape %}
 </div>
 
