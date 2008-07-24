@@ -107,7 +107,7 @@ class Seite( models.Model ):
     name = models.CharField( _( u'Name' ), max_length = DEFAULT_MAX_LENGTH )
     name_en = models.CharField( _( u'Name (Englisch)' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     name_ja = models.CharField( _( u'Name (Japanisch)' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
-    slug = models.SlugField( _( u'Slug' ), unique = True, max_length = DEFAULT_MAX_LENGTH )
+    url = models.SlugField( _( u'URL' ), unique = True, max_length = DEFAULT_MAX_LENGTH )
     position = models.IntegerField( _( u'Position im Menü' ), default = 0 )
     parent = models.ForeignKey( 'self', verbose_name = _( u'Über' ), null = True, blank = True, related_name = 'child_set' )
     show_training = models.BooleanField( _( u'Enthält Trainingszeiten' ), default = False )
@@ -130,7 +130,7 @@ class Seite( models.Model ):
         return u'%s'.strip() % ( self.name )
 
     def get_absolute_url( self ):
-        return '/seite/%i/' % self.id
+        return '/%s/' % self.url
 
     class Meta:
         ordering = ['name']
@@ -138,9 +138,9 @@ class Seite( models.Model ):
         verbose_name_plural = _( u'Seiten' )
 
 class SeiteAdmin( admin.ModelAdmin ):
-    prepopulated_fields = {'slug': ( 'name', )}
+    prepopulated_fields = {'url': ( 'name', )}
     ordering = ['name']
-    list_display = ( 'name', 'slug', 'parent', 'position', 'is_homepage', 'public', 'id' )
+    list_display = ( 'name', 'url', 'parent', 'position', 'is_homepage', 'public', 'id' )
     list_filter = ( 'parent', )
 
 admin.site.register( Seite, SeiteAdmin )

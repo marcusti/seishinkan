@@ -163,6 +163,9 @@
 
   <div id="content">
     {% block content %}
+
+    <p>{% if user.is_authenticated %}<a class="edit small" href="/verwaltung/website/seite/{{ seite.id }}/">{% trans "Seite bearbeiten" %}</a>{% endif %}</p>
+
     {% if wochenplan %}
     <div class="post">
     <h2>{% trans "Trainingszeiten" %}</h2>
@@ -197,7 +200,7 @@
     {% for art in artikel %}
     <div class="post">
     {% autoescape off%}
-      <h2>{{ art.get_title }}</h2>{% if user.is_authenticated %}<a class="edit small" href="/verwaltung/website/artikel/{{ art.id }}/">{% trans "bearbeiten" %}</a>{% endif %}
+      <h2>{{ art.get_title }}</h2>{% if user.is_authenticated %}<a class="edit small" href="/verwaltung/website/artikel/{{ art.id }}/">{% trans "Artikel bearbeiten" %}</a>{% endif %}
       <div class="postentry">
         {% if art.bild %}
           <p><img class="image{% if art.bild_ausrichtung %}{{ art.bild_ausrichtung }}{% endif %}"
@@ -244,7 +247,8 @@
      <li class="small">
         <a href="/termin/archiv/">{% trans "Archiv" %}</a>
         <span class="postmeta">({{ alle_termine|length }})</span>
-        {% if user.is_authenticated %}<a class="edit small" href="/verwaltung/website/termin/add/">{% trans "neu" %}</a>{% endif %}
+        {% if user.is_authenticated %}<a class="edit small"
+        href="/verwaltung/website/termin/add/">{% trans "neuer Termin" %}</a>{% endif %}
     </li>
    </ul>
 
@@ -272,7 +276,7 @@
           <a href="/news/archiv/">
           {% trans "Archiv" %}</a>
           <span class="postmeta">({{ beitraege|length }})</span>
-          {% if user.is_authenticated %}<a class="edit small" href="/verwaltung/news/news/add/">{% trans "neu" %}</a>{% endif %}
+          {% if user.is_authenticated %}<a class="edit small" href="/verwaltung/news/news/add/">{% trans "neuer Beitrag" %}</a>{% endif %}
       </li>
     {% endif %}
     </ul>
@@ -282,8 +286,9 @@
   <div id="footer">
     <table width="100%" border="0">
       <colgroup>
-        <col width="50%" />
-        <col width="50%" />
+        <col width="33%" />
+        <col width="33%" />
+        <col width="33%" />
       </colgroup>
       <tr>
         <td align="left" valign="bottom" class="postmeta">
@@ -295,6 +300,7 @@
           | <a href="/info/">{% trans "Info" %}</a>
           | <a href="/impressum/">{% trans "Impressum" %}</a>
         </td>
+        <td align="center" valign="bottom"><a href="/">{% trans "Startseite" %}</a></td>
         <td align="right" valign="bottom">&copy; {% now "Y" %} Aikido Dojo Seishinkan</td>
       </tr>
     </table>

@@ -15,6 +15,7 @@
     </div>
     <div>
       <a href="{{ termin.get_absolute_url }}" title="{{ termin.text|slice:":200" }} [...]">{{ termin.title }}</a>
+      {% if user.is_authenticated %}<a class="edit small" href="/verwaltung/website/termin/{{ termin.id }}/">{% trans "bearbeiten" %}</a>{% endif %}
       {% if termin.ort %}<br/><span class="postmeta">Ort: {{ termin.ort }}</span>{% endif %}
     </div>
   </li>
