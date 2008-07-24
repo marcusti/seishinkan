@@ -28,6 +28,7 @@ def __get_sidebar( request ):
     ctx['beitraege'] = News.public_objects.all()
     ctx['training_heute'] = TrainingManager().get_einheiten_pro_tag( heute )
     ctx['path'] = request.path
+    ctx['host'] = request.META['HTTP_HOST']
     ctx['django_version'] = get_version()
     
     try:
@@ -53,6 +54,13 @@ def index( request, sid = 1 ):
         ctx['trainingsarten'] = Trainingsart.objects.filter( public = True )
 
     return __create_response( request, ctx )
+
+def dynamic_url( request, sitename = '' ):
+    if not sitename or sitename.strip() == '':
+        return index( request )
+
+    seite = get_object_or_404( Seite.public_objects, url__iexact = sitename )
+    return index( request, seite.id )
 
 def kontakt( request ):
     ctx = __get_sidebar( request )

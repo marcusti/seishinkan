@@ -41,6 +41,7 @@ urlpatterns += patterns( 'seishinkan.website.views',
     ( r'^bilder/$', 'bilder' ),
     ( r'^downloads/$', 'downloads' ),
     ( r'^video/(.+)/$', 'video' ),
+    ( r'^(.+)/$', 'dynamic_url' ),
  )
 
 if settings.DEBUG:
