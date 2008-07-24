@@ -7,7 +7,7 @@
  <meta name="description" content="Website des Aikido Dojo Seishinkan, Hamburg" />
  <link rel="stylesheet" href="/static/css/spring.css" type="text/css" media="screen" />
  <title>Aikido Dojo Seishinkan</title>
- <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/ico" >
+ <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/ico" />
  <script src="/static/js/jquery.js" type="text/javascript"></script> {# IE7 Bugfix: <script src="..." type=".."></script> !!! #}
  <script src="/static/js/seishinkan.js" type="text/javascript"></script>
 </head>
@@ -52,11 +52,13 @@
         <ul>
           {% for seite in seiten %}
             <li class="page_item"><a href="{{ seite.get_absolute_url }}">{{ seite.get_name }}</a>
+              {% if seite.has_sub_sites %}
               <ul>
               {% for sub in seite.get_sub_sites %}
                 <li class="page_item"><a href="{{ sub.get_absolute_url }}">{{ sub.get_name }}</a></li>
               {% endfor %}
               </ul>
+              {% endif %}
             </li>
           {% endfor %}
         </ul>
@@ -76,16 +78,15 @@
     </ul>
 
 {#    <h2>{% trans "Sprachauswahl" %}:</h2> #}
-    <p>
+
     <form id="setlang" action="/i18n/setlang/" method="post">
      <input name="next" type="hidden" value="" />
      <select name="language" id="language">
      {% for lang in LANGUAGES %}
-       <option value="{{ lang.0 }}" {% ifequal language lang.0 %}selected{% endifequal %}>{{ lang.1 }}</option>
+       <option value="{{ lang.0 }}" {% ifequal language lang.0 %}selected="selected"{% endifequal %}>{{ lang.1 }}</option>
      {% endfor %}
      </select>
     </form>
-    </p>
 
     <br/>
     <h2>{% trans "Training heute" %},<br/>{% now "l" %}</h2>
@@ -95,7 +96,7 @@
         {% if training_heute %}
         {% for training in training_heute %}
             <li class="page_item">
-              <a href="/seite/14/">{{ training.von|time:"G:i" }} - {{ training.bis|time:"G:i" }}<br/>
+              <a href="/zeiten/">{{ training.von|time:"G:i" }} - {{ training.bis|time:"G:i" }}<br/>
                 {{ training.art }}</a>
             </li>
         {% endfor %}
@@ -170,7 +171,6 @@
     <div class="post">
     <h2>{% trans "Trainingszeiten" %}</h2>
     <div class="postentry">
-      <p>
       <table id="trainingszeiten" class="small">
         <tr>
           {% for tag in wochentage %}
@@ -192,7 +192,6 @@
         {% endfor %}
 
       </table>
-      </p>
     </div>
     </div>
     {% endif %}
@@ -208,9 +207,8 @@
                title="{{ art.bild.name }}"
                alt="[{{ art.bild.name }}]" /></p>
         {% endif %}
-        <p>
-          {{ art.get_text|linebreaksbr }}
-        </p>
+
+        {{ art.get_text|linebreaksbr }}
 
         {% if art.text_src %}
         <p>
