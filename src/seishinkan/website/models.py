@@ -122,6 +122,9 @@ class Seite( models.Model ):
 
     def get_sub_sites( self ):
         return self.child_set.filter( public = True ).order_by( 'position', 'name' )
+
+    def has_sub_sites( self ):
+        return self.child_set.filter( public = True ).count() > 0
     
     def get_name( self, language = None ):
         return getattr( self, "name_%s" % ( language or translation.get_language()[:2] ), "" ) or self.name
