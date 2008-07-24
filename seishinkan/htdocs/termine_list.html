@@ -14,8 +14,8 @@
       {{ termin.beginn|date:"d.m.Y" }}{% ifnotequal termin.beginn termin.ende %} - {{ termin.ende|date:"d.m.Y" }}{% endifnotequal %}
     </div>
     <div>
-      <a href="{{ termin.get_absolute_url }}" title="{{ termin.text|slice:":200" }} [...]">{{ termin.title }}</a><br/>
-      <span class="postmeta">Ort: {{ termin.ort }}</span>
+      <a href="{{ termin.get_absolute_url }}" title="{{ termin.text|slice:":200" }} [...]">{{ termin.title }}</a>
+      {% if termin.ort %}<br/><span class="postmeta">Ort: {{ termin.ort }}</span>{% endif %}
     </div>
   </li>
 {% endfor %}

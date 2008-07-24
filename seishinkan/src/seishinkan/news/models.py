@@ -46,7 +46,7 @@ class News( models.Model ):
 
     def neu( self ):
         delta = date.today() - self.beginn
-        if delta.days < 14 :
+        if delta.days < 7:
             return True
         else:
             return False

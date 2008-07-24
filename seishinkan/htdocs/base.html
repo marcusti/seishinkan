@@ -229,11 +229,15 @@
     {% else %}
       {% for termin in termine %}
         <li>
-          {{ termin.beginn|date:"j.n.Y" }}
-          {% ifnotequal termin.beginn termin.ende %} - {{ termin.ende|date:"j.n.Y" }}{% endifnotequal %}
-          <br/>
+         <div class="right postmeta">
+          {{ termin.beginn|date:"d.m.Y" }}
+          {% ifnotequal termin.beginn termin.ende %} - {{ termin.ende|date:"d.m.Y" }}{% endifnotequal %}
+         </div>
+         <div>
           <a href="{{ termin.get_absolute_url }}">{{ termin.title }}</a>
           {% if user.is_authenticated %}<a class="edit small" href="/verwaltung/website/termin/{{ termin.id }}/">{% trans "bearbeiten" %}</a>{% endif %}
+          {% if termin.ort %}<br/><span class="postmeta">Ort: {{ termin.ort }}</span>{% endif %}
+         </div>
         </li>
       {% endfor %}
     {% endif %}
@@ -252,12 +256,16 @@
     {% else %}
     {% for beitrag in beitraege|slice:":3" %}
       <li>
-        {% if beitrag.autor %}{{ beitrag.autor }}, {% endif %}{{ beitrag.datum|date:"j.n.Y" }}<br/>
-
+       <div class="right postmeta">
         {% if beitrag.neu %}<span class="neu">{% trans "NEU" %}</span>{% endif %}
+        {{ beitrag.datum|date:"j.n.Y" }}<br/>
+       </div>
+       <div>
         <a href="{{ beitrag.get_absolute_url }}">
         {{ beitrag.title }}</a>
         {% if user.is_authenticated %}<a class="edit small" href="/verwaltung/news/news/{{ beitrag.id }}/">{% trans "bearbeiten" %}</a>{% endif %}
+        {% if beitrag.autor %}<br/><span class="postmeta">{{ beitrag.autor }}</span>{% endif %}
+       </div>
       </li>
     {% endfor %}
       <li class="small">
