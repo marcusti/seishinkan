@@ -339,11 +339,11 @@ html>body #wp-calendar {
 .permalink {
 	margin: 0 1.8em 0 0;
 	padding: 0 0 0 14px;
-	background: url(/images/permalink.gif) no-repeat center left;
+/*	background: url(/images/permalink.gif) no-repeat center left; */
 }
 .commentslink {
 	padding: 0 0 0 17px;
-	background: url(/images/commentslink.gif) no-repeat center left;
+/*	background: url(/images/commentslink.gif) no-repeat center left; */
 }
 
 .postnav {
