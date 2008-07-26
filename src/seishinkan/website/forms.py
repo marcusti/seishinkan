@@ -54,7 +54,7 @@ class KontaktForm( forms.Form ):
                               required = True,
                               )
 
-    message = forms.CharField( max_length = DEFAULT_MAX_LENGTH,
+    message = forms.CharField( max_length = 5000,
                               min_length = 4,
                               label = _( 'Nachricht' ),
                               required = True,
