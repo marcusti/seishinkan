@@ -1,8 +1,10 @@
+#-*- coding: utf-8 -*-
+
 from datetime import date, datetime
 from django import get_version
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
-from django.core.mail import mail_admins, send_mail, send_mass_mail
+from django.core.mail import EmailMessage, mail_admins, send_mail, send_mass_mail
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
@@ -23,9 +25,6 @@ def __get_sidebar( request ):
     ctx['sidebar'] = True
     ctx['seiten'] = Seite.public_objects.filter( parent__isnull = True ).order_by( 'position' )
     ctx['language'] = request.session.get( 'django_language', 'de' )
-    ctx['termine'] = Termin.public_objects.current()
-    ctx['alle_termine'] = Termin.public_objects.all()
-    ctx['beitraege'] = News.public_objects.all()
     ctx['training_heute'] = TrainingManager().get_einheiten_pro_tag( heute )
     ctx['path'] = request.path
     ctx['host'] = request.META['HTTP_HOST']
@@ -47,6 +46,9 @@ def index( request, sid = 1 ):
     seite = get_object_or_404( Seite.public_objects, id = sid )
     ctx['seite'] = seite
     ctx['artikel'] = Artikel.public_objects.get_by_category( sid )
+    ctx['termine'] = Termin.public_objects.current()
+    ctx['alle_termine'] = Termin.public_objects.all()
+    ctx['beitraege'] = News.public_objects.all()
 
     if seite.show_training:
         ctx['wochenplan'] = TrainingManager().get_wochenplan()
@@ -78,7 +80,37 @@ def kontakt( request ):
         form = KontaktForm(request.POST)
         if form.is_valid():
             # Sending mail...
-            mail_admins(form.data['subject'], form.data['message'], fail_silently=False)
+
+            # An die Admins der Webanwendung:
+            # mail_admins(form.data['subject'], form.data['message'], fail_silently=False)
+
+            marcus = User.objects.get( username__iexact = 'marcus' )
+            ecki = User.objects.get( username__iexact = 'ecki' )
+            bert = User.objects.get( username__iexact = 'bert' )
+
+            to_users = [ ecki ]
+            bcc_users = [ marcus, bert ]
+
+            from_email = form.data['email']
+            subject = '%s%s' % ( settings.EMAIL_SUBJECT_PREFIX, form.data['subject'] )
+            message = '%s\n\n%s' % ( form.data['message'], settings.EMAIL_MESSAGE_POSTFIX )
+
+            to_list = bcc_list = []
+            
+            for user in to_users:
+                if user.email:
+                    to_list.append( user.email )
+            
+            for user in bcc_users:
+                if user.email:
+                    bcc_list.append( user.email )
+            
+            if to_list or bcc_list:
+                email = EmailMessage( subject, message, from_email, to_list, bcc_list )
+                email.send()
+            else:
+                raise Exception( _( 'Keine Email Empfänger angegeben!' ) )
+
             ctx['form'] = form
             return __create_response( request, ctx, 'kontakt_ok.html' )
     else:
@@ -184,11 +216,13 @@ def downloads( request ):
 
 def news( request, bid = None ):
     ctx = __get_sidebar( request )
-    ctx['beitraege'] = News.public_objects.all()
+
     if bid:
         ctx['beitrag'] = get_object_or_404( News.public_objects, id = bid )
-
-    return __create_response( request, ctx, 'news.html' )
+        return __create_response( request, ctx, 'news.html' )
+    else:
+        ctx['beitraege'] = News.public_objects.all()
+        return __create_response( request, ctx, 'news_list.html' )
 
 def video( request, vid = None ):
     ctx = __get_sidebar( request )
@@ -205,21 +239,15 @@ def video( request, vid = None ):
 
     return __create_response( request, ctx, 'videos.html' )
 
-def news_archiv( request ):
-    ctx = __get_sidebar( request )
-    return __create_response( request, ctx, 'news_list.html' )
-
-def termine_archiv( request ):
-    ctx = __get_sidebar( request )
-    return __create_response( request, ctx, 'termine_list.html' )
-
 def termin( request, tid = None ):
     ctx = __get_sidebar( request )
 
     if tid:
         ctx['termin'] = get_object_or_404( Termin.public_objects, id = tid )
-
-    return __create_response( request, ctx, 'termin.html' )
+        return __create_response( request, ctx, 'termin.html' )
+    else:
+        ctx['alle_termine'] = Termin.public_objects.all()
+        return __create_response( request, ctx, 'termine_list.html' )
 
 def __create_response( request, context = {}, template_name = 'base.html' ):
     return render_to_response(

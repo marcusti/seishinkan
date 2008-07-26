@@ -3,7 +3,11 @@
 
 from mysettings import *
 
-EMAIL_SUBJECT_PREFIX = '[Aikido Dojo Seishinkan] '
+EMAIL_SUBJECT_PREFIX = '[seishinkan.de] '
+EMAIL_MESSAGE_POSTFIX = '''---
+Diese Nachricht wurde aus dem Kontaktformular der Website des Aikido Dojo Seishinkan verschickt.
+http://www.aikido-dojo-seishinkan.de/
+'''
 SEND_BROKEN_LINK_EMAILS = True
 
 # Local time zone for this installation. Choices can be found here:
