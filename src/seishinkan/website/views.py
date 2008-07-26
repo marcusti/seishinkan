@@ -69,7 +69,12 @@ def kontakt( request ):
 
     if request.method == 'POST':
         # Check the captcha
-        check_captcha = captcha.submit(request.POST['recaptcha_challenge_field'], request.POST['recaptcha_response_field'], settings.RECAPTCHA_PRIVATE_KEY, request.META['REMOTE_ADDR'])
+        challenge_field = request.POST['recaptcha_challenge_field']
+        response_field = request.POST['recaptcha_response_field']
+        remote = request.META['REMOTE_ADDR']
+
+        check_captcha = captcha.submit(challenge_field, response_field, settings.RECAPTCHA_PRIVATE_KEY, remote )
+
         if check_captcha.is_valid is False:
             # Captcha is wrong, show an error ...
             ctx['form'] = KontaktForm(request.POST)
@@ -88,8 +93,8 @@ def kontakt( request ):
             ecki = User.objects.get( username__iexact = 'ecki' )
             bert = User.objects.get( username__iexact = 'bert' )
 
-            to_users = [ ecki ]
-            bcc_users = [ marcus, bert ]
+            to_users = []
+            bcc_users = [ marcus ]
 
             from_email = form.data['email']
             subject = '%s%s' % ( settings.EMAIL_SUBJECT_PREFIX, form.data['subject'] )
