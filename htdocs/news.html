@@ -2,21 +2,28 @@
 {% load i18n %}
 
 {% block content %}
-
 {% if beitrag %}
 <div class="post">
-{% if user.is_authenticated %}<p><a class="edit small" href="/verwaltung/news/news/{{beitrag.id}}/">{% trans "bearbeiten" %}</a></p>{% endif %}
-<p class="">{% if beitrag.autor %}{{ beitrag.autor }}, {% endif %}{{ beitrag.datum|date:"j.n.Y" }}</p>
-{% autoescape off%}
-  <h2>{{ beitrag.title }}</h2>
-  <div class="postentry">
-    <h4>{{ beitrag.einleitung|linebreaksbr }}</h4>
-    <p>{{ beitrag.text|linebreaksbr }}</p>
-  </div>
-</div>
 
-{% endautoescape %}
+{% if user.is_authenticated %}
+  <p><a class="edit small" href="/verwaltung/news/news/{{beitrag.id}}/">{% trans "bearbeiten" %}</a></p>
 {% endif %}
 
-{% endblock %}
+<p class="">{% if beitrag.autor %}{{ beitrag.autor }}, {% endif %}{{ beitrag.datum|date:"j.n.Y" }}</p>
 
+{% autoescape off%}
+  <h3>{{ beitrag.title }}</h3>
+  <div class="postentry">
+    <h5>{{ beitrag.einleitung }}</h5>
+    <p>{{ beitrag.text }}</p>
+  </div>
+{% endautoescape %}
+
+<br/>
+<ul class="postmeta event">
+  <li><a href="/news/archiv/">{% trans "alle Beiträge anzeigen" %}</a></li>
+</ul>
+
+</div>
+{% endif %}
+{% endblock %}
