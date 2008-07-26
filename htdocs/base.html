@@ -28,16 +28,11 @@
   <div id="wrapper">
 
   <div id="header">
-{% comment %}
-    <table width="100%" border="0">
-      <tr><td align="left"><a href="/"><img src="/static/bilder/Seishinkan_peter_300.png" title="Seishinkan" alt="[Seishinkan]"/></a></td></tr>
-    </table>
-{% endcomment %}
   </div>
 
 {% if sidebar %}
   <div id="sidebar">
-    <a href="/"><img src="/static/images/Seishinkan_peter_190.jpg" alt="[]" title="" /></a>
+    <a href="/"><img src="/static/images/Seishinkan_peter_190.jpg" alt="[Seishinkan Logo]" title="Seishinkan Logo" /></a>
 
   {% if user.is_authenticated %}
     <p class="small">
@@ -57,6 +52,16 @@
     <br/>
     </p>
   {% endif %}
+
+{#    <h2>{% trans "Sprachauswahl" %}:</h2> #}
+    <form id="setlang" action="/i18n/setlang/" method="post">
+     <input name="next" type="hidden" value="" />
+     <select name="language" id="language">
+     {% for lang in LANGUAGES %}
+       <option value="{{ lang.0 }}" {% ifequal language lang.0 %}selected="selected"{% endifequal %}>{{ lang.1 }}</option>
+     {% endfor %}
+     </select>
+    </form>
 
     <ul>
       <li>
@@ -87,16 +92,6 @@
         </ul>
       </li>
     </ul>
-
-{#    <h2>{% trans "Sprachauswahl" %}:</h2> #}
-    <form id="setlang" action="/i18n/setlang/" method="post">
-     <input name="next" type="hidden" value="" />
-     <select name="language" id="language">
-     {% for lang in LANGUAGES %}
-       <option value="{{ lang.0 }}" {% ifequal language lang.0 %}selected="selected"{% endifequal %}>{{ lang.1 }}</option>
-     {% endfor %}
-     </select>
-    </form>
 
     <br/>
     <h2>{% trans "Training heute" %},<br/>{% now "l" %}</h2>
@@ -179,7 +174,7 @@
 
     {% if wochenplan %}
     <div class="post">
-    <h2>{% trans "Trainingszeiten" %}</h2>
+    <h3>{% trans "Trainingszeiten" %}</h3>
     <div class="postentry">
       <table id="trainingszeiten" class="small">
         <tr>
@@ -209,7 +204,7 @@
     {% for art in artikel %}
     <div class="post">
     {% autoescape off%}
-      <h2>{{ art.get_title }}</h2>{% if user.is_authenticated %}<a class="edit small" href="/verwaltung/website/artikel/{{ art.id }}/">{% trans "Artikel bearbeiten" %}</a>{% endif %}
+      <h3>{{ art.get_title }}</h3>{% if user.is_authenticated %}<a class="edit small" href="/verwaltung/website/artikel/{{ art.id }}/">{% trans "Artikel bearbeiten" %}</a>{% endif %}
       <div class="postentry">
         {% if art.bild %}
           <p><img class="image{% if art.bild_ausrichtung %}{{ art.bild_ausrichtung }}{% endif %}"
@@ -233,7 +228,7 @@
 
   {% if seite.is_homepage %}
     <br/>
-    <h4>{% trans "aktuelle Termine" %}</h4>
+    <h5>{% trans "aktuelle Termine" %}</h5>
     <ul class="event">
     {% if not termine %}
       <li>{% trans "Zur Zeit gibt es keine aktuellen Termine." %}</li>
@@ -261,7 +256,7 @@
    </ul>
 
     <br/>
-    <h4>{% trans "aktuelle Beiträge" %}</h4>
+    <h5>{% trans "aktuelle Beiträge" %}</h5>
     <ul class="event">
     {% if not beitraege %}
       <li>{% trans "Zur Zeit gibt es keine Beiträge." %}</li>
