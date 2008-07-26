@@ -10,6 +10,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.views.generic.list_detail import object_list, object_detail
 from django.views.generic.simple import direct_to_template, redirect_to
+from django.views.i18n import set_language
 from seishinkan import settings
 from seishinkan.links.models import Link, LinkKategorie
 from seishinkan.news.models import News
@@ -261,6 +262,11 @@ def termin( request, tid = None ):
     else:
         ctx['alle_termine'] = Termin.public_objects.all()
         return __create_response( request, ctx, 'termine_list.html' )
+
+def set_lang( request, code = settings.LANGUAGE_CODE ):
+    if code in dict(settings.LANGUAGES).keys():
+        request.session['django_language'] = code
+    return set_language( request )
 
 def __create_response( request, context = {}, template_name = 'base.html' ):
     return render_to_response(
