@@ -76,9 +76,10 @@ class News( models.Model ):
 
 class NewsAdmin( admin.ModelAdmin ):
     ordering = ['-beginn', '-creation', 'title']
+    search_fields = [ 'title', 'einleitung', 'text' ]
     list_display = ( 'title', 'preview', 'autor', 'beginn', 'ende', 'bild', 'public', 'id' )
     list_display_links = ( 'title', 'preview' )
-    list_filter = ( 'beginn', )
+    list_filter = ( 'beginn', 'autor' )
     js = ['tiny_mce/tiny_mce.js', 'js/textareas.js']
 
     class Media:

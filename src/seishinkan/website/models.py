@@ -96,6 +96,7 @@ class Bild( models.Model ):
 class BildAdmin( admin.ModelAdmin ):
     list_display = ( 'name', 'bild', 'modified', 'admin_thumb' )
     list_display_links = ( 'name', 'admin_thumb' )
+    search_fields = [ 'name', 'bild' ]
 
 admin.site.register( Bild, BildAdmin )
 
@@ -143,6 +144,7 @@ class Seite( models.Model ):
 class SeiteAdmin( admin.ModelAdmin ):
     prepopulated_fields = {'url': ( 'name', )}
     ordering = ['name']
+    search_fields = [ 'name' ]
     list_display = ( 'name', 'url', 'parent', 'position', 'is_homepage', 'public', 'id' )
     list_filter = ( 'parent', )
 
@@ -210,6 +212,7 @@ class Artikel( models.Model ):
 
 class ArtikelAdmin( admin.ModelAdmin ):
     ordering = ['title', 'text']
+    search_fields = [ 'title', 'text' ]
     list_display = ( 'get_title', 'preview', 'seite', 'position', 'public', 'id' )
     list_display_links = ( 'get_title', 'preview' )
     list_filter = ( 'seite', )
@@ -265,8 +268,9 @@ class Termin( models.Model ):
 
 class TerminAdmin( admin.ModelAdmin ):
     ordering = ['ende', 'beginn', 'title']
-    list_display = ( 'title', 'beginn', 'ende', 'bild', 'creation', 'modified', 'public', 'id' )
-    list_filter = ( 'beginn', )
+    search_fields = [ 'title', 'text', 'ort' ]
+    list_display = ( 'title', 'ort', 'beginn', 'ende', 'bild', 'modified', 'public', 'id' )
+    list_filter = ( 'beginn', 'ende', 'ort' )
 
     class Media:
         js = ( '/static/js/tiny_mce/tiny_mce.js',
@@ -388,6 +392,36 @@ class Download( models.Model ):
 
 class DownloadAdmin( admin.ModelAdmin ):
     ordering = [ '-modified' ]
+    search_fields = [ 'name', 'text', 'datei' ]
     list_display = ( 'name', 'datei', 'modified', 'public' )
 
 admin.site.register( Download, DownloadAdmin )
+
+class Kontakt( models.Model ):
+    sender = models.EmailField( _( u'Absender' ) )
+    betreff = models.CharField( _( u'Betreff' ), max_length = DEFAULT_MAX_LENGTH )
+    captcha = models.CharField( _( u'Captcha' ), max_length = DEFAULT_MAX_LENGTH )
+    nachricht = models.TextField( _( u'Nachricht' ) )
+    to = models.TextField( _( u'Empfänger' ) )
+
+    public = models.BooleanField( _( u'Öffentlich' ), default = False )
+    creation = models.DateTimeField( _( u'Gesendet am' ), auto_now_add = True )
+    modified = models.DateTimeField( _( u'Geändert am' ), auto_now = True )
+
+    def kurzform( self ):
+        return self.nachricht[:50]
+    kurzform.short_description = _( u'Nachricht (kurz)' )
+    kurzform.allow_tags = False
+
+    class Meta:
+        ordering = ['-creation']
+        verbose_name = _( u'Kontakt' )
+        verbose_name_plural = _( u'Kontakte' )
+
+class KontaktAdmin( admin.ModelAdmin ):
+    ordering = [ '-creation' ]
+    search_fields = [ 'sender', 'betreff', 'nachricht' ]
+    list_display = ( 'sender', 'betreff', 'kurzform', 'creation' )
+    list_display_links = ( 'sender', 'betreff', 'kurzform' )
+
+admin.site.register( Kontakt, KontaktAdmin )
