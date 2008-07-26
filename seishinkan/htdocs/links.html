@@ -3,13 +3,13 @@
 
 {% block content %}
 
-<h2>{%trans "Links" %}</h2>
+<h3>{%trans "Links" %}</h3>
 
 {% autoescape on%}
 <div class="post">
 <div class="postentry">
 {% for kat in kategorien %}
-<h4>{{ kat.name }}</h4>
+<h5>{{ kat.name }}</h5>
 <ul class="event">
  {% for link in links %}
   {% ifequal link.kategorie.id kat.id %}

@@ -2,22 +2,28 @@
 {% load i18n %}
 
 {% block content %}
-
 {% if termin %}
 <div class="post">
-{% if user.is_authenticated %}<p><a class="edit small" href="/verwaltung/website/termin/{{termin.id}}/">{% trans "bearbeiten" %}</a></p>{% endif %}
 
-{% autoescape off%}
-  <h2>{{ termin.title }}</h2>
-  <div class="postentry">
-    <h4>{{ termin.beginn|date:"l, d.m.Y" }}{% ifnotequal termin.beginn termin.ende %} - {{ termin.ende|date:"l, d.m.Y" }}{% endifnotequal %}</h4>
-    {% if termin.ort %}<h4>Ort: {{ termin.ort }}</h4>{% endif %}
-    <p>{{ termin.text|linebreaksbr }}</p>
-    <p class="postmeta">{{ termin.datum|date:"j.n.Y" }}</p>
-  </div>
-</div>
-
-{% endautoescape %}
+{% if user.is_authenticated %}
+  <p><a class="edit small" href="/verwaltung/website/termin/{{termin.id}}/">{% trans "bearbeiten" %}</a></p>
 {% endif %}
 
+{% autoescape off%}
+  <h3>{{ termin.title }}</h3>
+  <div class="postentry">
+    <h5>{{ termin.beginn|date:"l, d.m.Y" }}{% ifnotequal termin.beginn termin.ende %} - {{ termin.ende|date:"l, d.m.Y" }}{% endifnotequal %}</h5>
+    {% if termin.ort %}<h4>Ort: {{ termin.ort }}</h4>{% endif %}
+    <p>{{ termin.text }}</p>
+    <p class="postmeta">{{ termin.datum|date:"j.n.Y" }}</p>
+  </div>
+{% endautoescape %}
+
+<br/>
+<ul class="postmeta event">
+  <li><a href="/termin/archiv/">{% trans "alle Termine anzeigen (Archiv)" %}</a></li>
+</ul>
+
+</div>
+{% endif %}
 {% endblock %}
