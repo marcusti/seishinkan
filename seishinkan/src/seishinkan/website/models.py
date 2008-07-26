@@ -125,7 +125,7 @@ class Seite( models.Model ):
 
     def has_sub_sites( self ):
         return self.child_set.filter( public = True ).count() > 0
-    
+
     def get_name( self, language = None ):
         return getattr( self, "name_%s" % ( language or translation.get_language()[:2] ), "" ) or self.name
 
@@ -353,7 +353,7 @@ admin.site.register( Training, TrainingAdmin )
 class DownloadManager( models.Manager ):
     def get_query_set( self ):
         return super( DownloadManager, self ).get_query_set().filter( public = True )
-    
+
 class Download( models.Model ):
     name = models.CharField( _( u'Name' ), max_length = DEFAULT_MAX_LENGTH )
     text = models.TextField( _( u'Text' ) )
@@ -374,7 +374,7 @@ class Download( models.Model ):
             else:
                 return ext.lower()
         return ''
-        
+
     def __unicode__( self ):
         return u'%s %s'.strip() % ( self.name, self.datei )
 

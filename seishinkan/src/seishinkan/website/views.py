@@ -15,8 +15,8 @@ from seishinkan.links.models import Link, LinkKategorie
 from seishinkan.news.models import News
 from seishinkan.website.forms import LoginForm, KontaktForm
 from seishinkan.website.models import Artikel, Bild, Download, Seite, Termin, TrainingManager, Trainingsart, Wochentag
-import os
 import captcha
+import os
 
 def __get_sidebar( request ):
     heute = int( datetime.today().strftime( '%w' ) )
@@ -29,7 +29,7 @@ def __get_sidebar( request ):
     ctx['path'] = request.path
     ctx['host'] = request.META['HTTP_HOST']
     ctx['django_version'] = get_version()
-    
+
     try:
         ctx['wochentag'] = Wochentag.objects.get( id = heute )
     except:
@@ -73,16 +73,16 @@ def kontakt( request ):
         response_field = request.POST['recaptcha_response_field']
         remote = request.META['REMOTE_ADDR']
 
-        check_captcha = captcha.submit(challenge_field, response_field, settings.RECAPTCHA_PRIVATE_KEY, remote )
+        check_captcha = captcha.submit( challenge_field, response_field, settings.RECAPTCHA_PRIVATE_KEY, remote )
 
         if check_captcha.is_valid is False:
             # Captcha is wrong, show an error ...
-            ctx['form'] = KontaktForm(request.POST)
+            ctx['form'] = KontaktForm( request.POST )
             ctx['captcha_error'] = True
-            ctx['html_captcha'] = captcha.displayhtml(settings.RECAPTCHA_PUB_KEY)
+            ctx['html_captcha'] = captcha.displayhtml( settings.RECAPTCHA_PUB_KEY )
             return __create_response( request, ctx, 'kontakt.html' )
 
-        form = KontaktForm(request.POST)
+        form = KontaktForm( request.POST )
         if form.is_valid():
             # Sending mail...
 
@@ -101,15 +101,15 @@ def kontakt( request ):
             message = '%s\n\n%s' % ( form.data['message'], settings.EMAIL_MESSAGE_POSTFIX )
 
             to_list = bcc_list = []
-            
+
             for user in to_users:
                 if user.email:
                     to_list.append( user.email )
-            
+
             for user in bcc_users:
                 if user.email:
                     bcc_list.append( user.email )
-            
+
             if to_list or bcc_list:
                 email = EmailMessage( subject, message, from_email, to_list, bcc_list )
                 email.send()
@@ -120,8 +120,8 @@ def kontakt( request ):
             return __create_response( request, ctx, 'kontakt_ok.html' )
     else:
         form = KontaktForm()
-    
-    html_captcha = captcha.displayhtml(settings.RECAPTCHA_PUB_KEY)
+
+    html_captcha = captcha.displayhtml( settings.RECAPTCHA_PUB_KEY )
     ctx['form'] = form
     ctx['html_captcha'] = html_captcha
 
