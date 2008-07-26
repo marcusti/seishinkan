@@ -53,19 +53,6 @@
     </p>
   {% endif %}
 
-{% comment %}
-    <h3>{% trans "Sprachauswahl" %}:</h3>
-{% endcomment %}
-
-    <form id="setlang" action="/i18n/setlang/" method="post">
-     <input name="next" type="hidden" value="" />
-     <select name="language" id="language">
-     {% for lang in LANGUAGES %}
-       <option value="{{ lang.0 }}" {% ifequal language lang.0 %}selected="selected"{% endifequal %}>{{ lang.1 }}</option>
-     {% endfor %}
-     </select>
-    </form>
-
     <ul>
       <li>
         <ul>
@@ -95,6 +82,19 @@
         </ul>
       </li>
     </ul>
+
+{% comment %}
+    <h3>{% trans "Sprachauswahl" %}:</h3>
+{% endcomment %}
+
+    <form id="setlang" action="/i18n/setlang/" method="post">
+     <input name="next" type="hidden" value="" />
+     <select name="language" id="language">
+     {% for lang in LANGUAGES %}
+       <option value="{{ lang.0 }}" {% ifequal language lang.0 %}selected="selected"{% endifequal %}>{{ lang.1 }}</option>
+     {% endfor %}
+     </select>
+    </form>
 
     <br/>
     <h2>{% trans "Training heute" %},<br/>{% now "l" %}</h2>
