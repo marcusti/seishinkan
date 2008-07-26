@@ -179,9 +179,13 @@ def seishinkan_login( request ):
             user = form.get_user()
             login( request, user )
 
-            subject = '%s hat sich eingeloggt' % user.first_name
-            message = '%s\nRequest: %s' % ( subject, request )
-            mail_admins( subject, message, fail_silently = True )
+            if settings.SEND_MAIL_ON_LOGIN:
+                try:
+                    subject = '%s hat sich eingeloggt' % user.first_name
+                    message = '%s\n\nClient: %s\nIP: %s' % ( subject, request.META['HTTP_USER_AGENT'], request.META['REMOTE_ADDR'] )
+                    mail_admins( subject, message, fail_silently = True )
+                except:
+                    pass
 
             if request.has_key( 'next' ):
                 next = request['next']

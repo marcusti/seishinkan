@@ -9,6 +9,7 @@ Diese Nachricht wurde aus dem Kontaktformular der Website des Aikido Dojo Seishi
 http://www.aikido-dojo-seishinkan.de/
 '''
 SEND_BROKEN_LINK_EMAILS = True
+SEND_MAIL_ON_LOGIN = True
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
