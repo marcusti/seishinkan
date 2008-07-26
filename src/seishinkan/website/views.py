@@ -179,6 +179,8 @@ def seishinkan_login( request ):
             user = form.get_user()
             login( request, user )
 
+            mail_admins( '%s logged in' % user.first_name, '', fail_silently = True )
+
             if request.has_key( 'next' ):
                 next = request['next']
             else:
