@@ -15,7 +15,7 @@ from seishinkan import settings
 from seishinkan.links.models import Link, LinkKategorie
 from seishinkan.news.models import News
 from seishinkan.website.forms import LoginForm, KontaktForm
-from seishinkan.website.models import Artikel, Bild, Download, Seite, Termin, TrainingManager, Trainingsart, Wochentag
+from seishinkan.website.models import Artikel, Bild, Download, Kontakt, Seite, Termin, TrainingManager, Trainingsart, Wochentag
 import captcha
 import os
 
@@ -101,7 +101,8 @@ def kontakt( request ):
             subject = '%s%s' % ( settings.EMAIL_SUBJECT_PREFIX, form.data['subject'] )
             message = '%s\n\n%s' % ( form.data['message'], settings.EMAIL_MESSAGE_POSTFIX )
 
-            to_list = bcc_list = []
+            to_list = []
+            bcc_list = []
 
             for user in to_users:
                 if user.email:
@@ -112,11 +113,28 @@ def kontakt( request ):
                     bcc_list.append( user.email )
 
             if to_list or bcc_list:
-                email = EmailMessage( subject, message, from_email, to_list, bcc_list )
+                email = EmailMessage( subject=subject, body=message, from_email=from_email, to=to_list, bcc=bcc_list )
                 email.send()
             else:
                 raise Exception( _( 'Keine Email Empfänger angegeben!' ) )
 
+            # In Datenbank speichern...
+            kontakt = Kontakt( sender = form.data['email'], betreff = form.data['subject'], nachricht = form.data['message'] )
+            kontakt.captcha = request.POST['recaptcha_response_field']
+            to_text = ''
+
+            for email in to_list:
+                to_text += '%s;' % email
+
+            for email in bcc_list:
+                to_text += '%s;' % email
+
+            if to_text.endswith( ';' ):
+                to_text = to_text[:-1]
+
+            kontakt.to = to_text
+            kontakt.save()
+            
             ctx['form'] = form
             return __create_response( request, ctx, 'kontakt_ok.html' )
     else:
