@@ -28,6 +28,11 @@
   <div id="wrapper">
 
   <div id="header">
+  {% if seite.get_titelbild %}
+    <img src="{{ seite.get_titelbild.get_bild_url }}" width="800" height="190" alt="[Titel Bild]" title="Titel Bild" />
+  {% else %}
+    <img src="/static/images/header.jpg" width="800" height="190" alt="[Titel Bild]" title="Titel Bild" />
+  {% endif %}
   </div>
 
 {% if sidebar %}
