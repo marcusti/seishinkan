@@ -198,7 +198,7 @@ def seishinkan_login( request ):
             user = form.get_user()
             login( request, user )
 
-            if settings.SEND_MAIL_ON_LOGIN:
+            if settings.SEND_MAIL_ON_LOGIN and not user.username == 'marcus':
                 try:
                     subject = '%s hat sich eingeloggt' % user.first_name
                     message = '%s\n\nClient: %s\nIP: %s' % ( subject, request.META['HTTP_USER_AGENT'], request.META['REMOTE_ADDR'] )
