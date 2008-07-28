@@ -94,12 +94,21 @@ class Bild( models.Model ):
         verbose_name_plural = _( u'Bilder' )
 
 class BildAdmin( admin.ModelAdmin ):
-    list_display = ( 'name', 'bild', 'modified', 'admin_thumb' )
+    list_display = ( 'name', 'bild', 'max_breit', 'max_hoch', 'modified', 'admin_thumb' )
     list_display_links = ( 'name', 'admin_thumb' )
     search_fields = [ 'name', 'bild' ]
 
 admin.site.register( Bild, BildAdmin )
 
+class TitelBild( Bild ):
+    
+    class Meta:
+        ordering = ['name']
+        verbose_name = _( u'Bild im Kopf' )
+        verbose_name_plural = _( u'Bilder im Kopf' )
+
+admin.site.register( TitelBild, BildAdmin )
+   
 class SeitenManager( models.Manager ):
     def get_query_set( self ):
         return super( SeitenManager, self ).get_query_set().filter( public = True )
@@ -111,6 +120,7 @@ class Seite( models.Model ):
     url = models.SlugField( _( u'URL' ), unique = True, max_length = DEFAULT_MAX_LENGTH )
     position = models.IntegerField( _( u'Position im Menü' ), default = 0 )
     parent = models.ForeignKey( 'self', verbose_name = _( u'Über' ), null = True, blank = True, related_name = 'child_set' )
+    titelbild = models.ForeignKey( TitelBild, verbose_name = u'Bild im Kopf', blank = True, null = True )
     show_training = models.BooleanField( _( u'Enthält Trainingszeiten' ), default = False )
     is_homepage = models.BooleanField( _( u'Ist Startseite' ), default = False )
 
@@ -121,6 +131,13 @@ class Seite( models.Model ):
     objects = models.Manager()
     public_objects = SeitenManager()
 
+    def get_titelbild( self ):
+        if self.titelbild:
+            return self.titelbild
+        if self.parent and self.parent.titelbild:
+            return self.parent.titelbild
+        return None
+    
     def get_sub_sites( self ):
         return self.child_set.filter( public = True ).order_by( 'position', 'name' )
 
