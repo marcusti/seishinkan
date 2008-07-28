@@ -30,7 +30,7 @@ ol, ul {
 	padding: 0;
 }
 h1, h2, h3, h4, h5, h6 {
-	margin: 1.2em 0 0 0;
+	margin: 1em 0 1em 0;
 	font-family: "Lucida Grande", Tahoma, Arial, sans-serif;
 	color: #9bbb38;
 }
@@ -335,6 +335,20 @@ html>body #wp-calendar {
 }
 .postentry {
         text-align: justify;
+}
+.postentry p {
+	font-size: 1em;
+	line-height: 1.5em;
+	margin: 0;
+}
+.postentry ul {
+	font-size: 1em;
+	line-height: 1em;
+	margin: 0;
+	padding: 0;
+}
+.postentry li {
+  padding: 0.1em 20px;
 }
 .permalink {
 	margin: 0 1.8em 0 0;
