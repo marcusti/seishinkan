@@ -107,10 +107,10 @@ a img {
 #header {
  background-color: #F5F5E7;
  background-color: #FFF;
- background: url(../images/header.jpg) no-repeat;
+/* background: url(../images/header.jpg) no-repeat;
  background-position: center;
+ height: 189px; */
  border-bottom: 10px solid #9bbb38;
- height: 189px;
 }
 	/* Header Styles */
 	#header h1 {
