@@ -30,6 +30,7 @@ def __get_sidebar( request ):
     ctx['path'] = request.path
     ctx['host'] = request.META['HTTP_HOST']
     ctx['django_version'] = get_version()
+    ctx['homepage'] = Seite.public_objects.get_homepage()
 
     try:
         ctx['wochentag'] = Wochentag.objects.get( id = heute )
