@@ -27,6 +27,7 @@
   {% load i18n %}
   <div id="wrapper">
 
+  {% spaceless %}
   <div id="header">
   {% if seite.get_titelbild %}
     <img src="{{ seite.get_titelbild.get_bild_url }}" width="800" height="190" alt="[Titel Bild]" title="Titel Bild" />
@@ -38,6 +39,7 @@
     {% endif %}
   {% endif %}
   </div>
+  {% endspaceless %}
 
 {% if sidebar %}
   <div id="sidebar">
