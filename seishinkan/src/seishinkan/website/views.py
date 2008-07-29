@@ -90,46 +90,37 @@ def kontakt( request ):
         if form.is_valid():
             # Sending mail...
 
-            # An die Admins der Webanwendung:
-            # mail_admins(form.data['subject'], form.data['message'], fail_silently=False)
-
             marcus = User.objects.get( username__iexact = 'marcus' )
             ecki = User.objects.get( username__iexact = 'ecki' )
             bert = User.objects.get( username__iexact = 'bert' )
 
-            to_users = []
-            bcc_users = [ marcus ]
+            to_users = [ ecki, marcus ]
 
-            from_email = form.data['email']
+            name = form.data['name']
+            if name:
+                from_email = '%s <%s>' % ( name, form.data['email'] )
+            else:
+                from_email = form.data['email']
             subject = '%s%s' % ( settings.EMAIL_SUBJECT_PREFIX, form.data['subject'] )
             message = '%s\n\n%s' % ( form.data['message'], settings.EMAIL_MESSAGE_POSTFIX )
 
             to_list = []
-            bcc_list = []
-
             for user in to_users:
                 if user.email:
                     to_list.append( user.email )
 
-            for user in bcc_users:
-                if user.email:
-                    bcc_list.append( user.email )
+            email = EmailMessage( subject=subject, body=message, from_email=from_email, to=to_list )
+            email.send()
 
-            if to_list or bcc_list:
-                email = EmailMessage( subject=subject, body=message, from_email=from_email, to=to_list, bcc=bcc_list )
-                email.send()
-            else:
-                raise Exception( _( 'Keine Email Empfänger angegeben!' ) )
+            # An die Admins der Webanwendung: 
+            # mail_admins( subject, message, fail_silently=False)
 
             # In Datenbank speichern...
-            kontakt = Kontakt( sender = form.data['email'], betreff = form.data['subject'], nachricht = form.data['message'] )
+            kontakt = Kontakt( sender = from_email, betreff = subject, nachricht = message )
             kontakt.captcha = request.POST['recaptcha_response_field']
             to_text = ''
 
             for email in to_list:
-                to_text += '%s;' % email
-
-            for email in bcc_list:
                 to_text += '%s;' % email
 
             if to_text.endswith( ';' ):

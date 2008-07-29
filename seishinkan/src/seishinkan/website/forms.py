@@ -42,6 +42,12 @@ class LoginForm( forms.Form ):
         return self.user
 
 class KontaktForm( forms.Form ):
+    name = forms.CharField( max_length = DEFAULT_MAX_LENGTH,
+                            min_length = 4,
+                            label = _( 'Ihr Name' ),
+                            required = False,
+                            )
+
     email = forms.EmailField( max_length = DEFAULT_MAX_LENGTH,
                              min_length = 4,
                              label = _( 'Ihre Email-Adresse' ),
