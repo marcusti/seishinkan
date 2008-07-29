@@ -580,3 +580,6 @@ img.flag {
   margin: 0;
   padding: 0;
 }
+.current {
+	background: #E8E8CE;
+}

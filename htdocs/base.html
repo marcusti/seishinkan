@@ -66,11 +66,11 @@
       <li>
         <ul>
           {% for seite in seiten %}
-            <li class="page_item"><a href="{{ seite.get_absolute_url }}">{{ seite.get_name }}</a>
+            <li class="page_item{% ifequal menu seite.url %} current{% endifequal %}"><a href="{{ seite.get_absolute_url }}">{{ seite.get_name }}</a>
               {% if seite.has_sub_sites %}
               <ul>
               {% for sub in seite.get_sub_sites %}
-                <li class="page_item"><a href="{{ sub.get_absolute_url }}">{{ sub.get_name }}</a></li>
+                <li class="page_item{% ifequal menu sub.url %} current{% endifequal %}"><a href="{{ sub.get_absolute_url }}">{{ sub.get_name }}</a></li>
               {% endfor %}
               </ul>
               {% endif %}
@@ -83,11 +83,11 @@
     <ul>
       <li>
         <ul>
-            <li class="page_item"><a href="/bilder/">{% trans "Bilder" %}</a></li>
-            <li class="page_item"><a href="/video/">{% trans "Videos" %}</a></li>
-            <li class="page_item"><a href="/downloads/">{% trans "Downloads" %}</a></li>
-            <li class="page_item"><a href="/links/">{% trans "Links" %}</a></li>
-            <li class="page_item"><a href="/kontakt/">{% trans "Kontakt" %}</a></li>
+            <li class="page_item{% ifequal menu "bilder" %} current{% endifequal %}"><a href="/bilder/">{% trans "Bilder" %}</a></li>
+            <li class="page_item{% ifequal menu "videos" %} current{% endifequal %}"><a href="/video/">{% trans "Videos" %}</a></li>
+            <li class="page_item{% ifequal menu "downloads" %} current{% endifequal %}"><a href="/downloads/">{% trans "Downloads" %}</a></li>
+            <li class="page_item{% ifequal menu "links" %} current{% endifequal %}"><a href="/links/">{% trans "Links" %}</a></li>
+            <li class="page_item{% ifequal menu "kontakt" %} current{% endifequal %}"><a href="/kontakt/">{% trans "Kontakt" %}</a></li>
         </ul>
       </li>
     </ul>
