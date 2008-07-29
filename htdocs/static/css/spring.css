@@ -479,8 +479,7 @@ div.imageright img, img.imageright {
 #trainingszeiten td {
   text-align: center;
   margin: 0; padding: 0.2em;
-  background-color: #eeeeec;
-  background-color: #f5f5e7;
+  background-color: #FAFAF0;
 }
 
 #trainingszeiten th{
@@ -520,13 +519,13 @@ div.imageright img, img.imageright {
 
 /* Anfängerkurs */
 #trainingszeiten .training4 {
-  background-color: #8ae234;
+/*  background-color: #8ae234; */
+  background-color: #9bbb38;
 }
 
 /* Freies Training */
 #trainingszeiten .training5 {
-  background-color: #d3d7cf;
-  background-color: #e8e8ce;
+  background-color: #E8E8CE;
 }
 
 /* Kindertraining  */
@@ -536,14 +535,12 @@ div.imageright img, img.imageright {
 
 /* Frühtraining */
 #trainingszeiten .training2 {
-  background-color: #d3d7cf;
-  background-color: #e8e8ce;
+  background-color: #E8E8CE;
 }
 
 /* Alle */
 #trainingszeiten .training1 {
-  background-color: #d3d7cf;
-  background-color: #e8e8ce;
+  background-color: #E8E8CE;
 }
 a.edit {
   background-color: #fce94f;
