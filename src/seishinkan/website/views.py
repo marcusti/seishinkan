@@ -47,6 +47,7 @@ def index( request, sid = 1 ):
 
     seite = get_object_or_404( Seite.public_objects, id = sid )
     ctx['seite'] = seite
+    ctx['menu'] = seite.url
     ctx['artikel'] = Artikel.public_objects.get_by_category( sid )
     ctx['termine'] = Termin.public_objects.current()
     ctx['alle_termine'] = Termin.public_objects.all()
@@ -68,6 +69,7 @@ def dynamic_url( request, sitename = '' ):
 
 def kontakt( request ):
     ctx = __get_sidebar( request )
+    ctx['menu'] = 'kontakt'
 
     if request.method == 'POST':
         # Check the captcha
@@ -230,6 +232,7 @@ def seishinkan_logout( request ):
 
 def links( request ):
     ctx = __get_sidebar( request )
+    ctx['menu'] = 'links'
 
     ctx['links'] = Link.public_objects.all()
     ctx['kategorien'] = LinkKategorie.public_objects.all()
@@ -238,17 +241,20 @@ def links( request ):
 
 def bilder( request ):
     ctx = __get_sidebar( request )
+    ctx['menu'] = 'bilder'
 
     return __create_response( request, ctx, 'bilder.html' )
 
 def downloads( request ):
     ctx = __get_sidebar( request )
+    ctx['menu'] = 'downloads'
     ctx['downloads'] = Download.public_objects.all()
 
     return __create_response( request, ctx, 'downloads.html' )
 
 def news( request, bid = None ):
     ctx = __get_sidebar( request )
+    ctx['menu'] = 'news'
 
     if bid:
         ctx['beitrag'] = get_object_or_404( News.public_objects, id = bid )
@@ -259,6 +265,7 @@ def news( request, bid = None ):
 
 def video( request, vid = None ):
     ctx = __get_sidebar( request )
+    ctx['menu'] = 'videos'
 
     import youtube
     client = youtube.YouTubeClient( 'gmsnG0W2bTA' )
