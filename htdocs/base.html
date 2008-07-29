@@ -31,7 +31,11 @@
   {% if seite.get_titelbild %}
     <img src="{{ seite.get_titelbild.get_bild_url }}" width="800" height="190" alt="[Titel Bild]" title="Titel Bild" />
   {% else %}
-    <img src="/static/images/header.jpg" width="800" height="190" alt="[Titel Bild]" title="Titel Bild" />
+    {% if homepage.get_titelbild %}
+      <img src="{{ homepage.get_titelbild.get_bild_url }}" width="800" height="190" alt="[Titel Bild]" title="Titel Bild" />
+    {% else %}
+      <img src="/static/images/header.jpg" width="800" height="190" alt="[Titel Bild]" title="Titel Bild" />
+    {% endif %}
   {% endif %}
   </div>
 
@@ -87,19 +91,6 @@
         </ul>
       </li>
     </ul>
-
-{% comment %}
-    <h3>{% trans "Sprachauswahl" %}:</h3>
-{% endcomment %}
-
-    <form id="setlang" action="/i18n/setlang/" method="post">
-     <input name="next" type="hidden" value="" />
-     <select name="language" id="language">
-     {% for lang in LANGUAGES %}
-       <option value="{{ lang.0 }}" {% ifequal language lang.0 %}selected="selected"{% endifequal %}>{{ lang.1 }}</option>
-     {% endfor %}
-     </select>
-    </form>
 
     <br/>
     <h2>{% trans "Training heute" %},<br/>{% now "l" %}</h2>
@@ -317,6 +308,20 @@
       <tr>
         <td colspan="3" align="center">
          <ul class="flags">
+          <li>
+{% comment %}
+    <h3>{% trans "Sprachauswahl" %}:</h3>
+{% endcomment %}
+
+    <form id="setlang" action="/i18n/setlang/" method="post">
+     <input name="next" type="hidden" value="" />
+     <select name="language" id="language">
+     {% for lang in LANGUAGES %}
+       <option value="{{ lang.0 }}" {% ifequal language lang.0 %}selected="selected"{% endifequal %}>{{ lang.1 }}</option>
+     {% endfor %}
+     </select>
+    </form>
+          </li>
           <li>
             <a href="/lang/de/"><img class="flag" src="/static/images/de.png" alt="[de]" title="Deutsch" /></a>
             <a href="/lang/en/"><img class="flag" src="/static/images/en.png" alt="[en]" title="English" /></a>
