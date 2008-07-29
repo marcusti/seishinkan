@@ -234,7 +234,6 @@ html>body #sidebar ul ul li a {
 }
 /* Nested lists? */
 #sidebar ul ul ul {
-	margin: 0;
 	margin: 0 0 0 -10px;
 	border: none;
 }
@@ -344,7 +343,7 @@ html>body #wp-calendar {
 }
 .postentry ul {
 	font-size: 1em;
-	line-height: 1em;
+	line-height: 1.1em;
 	margin: 0;
 	padding: 0;
 }
