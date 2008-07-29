@@ -114,11 +114,10 @@ class SeitenManager( models.Manager ):
         return super( SeitenManager, self ).get_query_set().filter( public = True )
 
     def get_homepage( self ):
-        homepages = self.get_query_set().filter( is_homepage = True )
-        if homepages.count() > 0:
-            return homepages[0]
-        else:
-            return None
+        homepage = None
+        for hp in self.get_query_set().filter( is_homepage = True ):
+            homepage = hp
+        return homepage
 
 class Seite( models.Model ):
     name = models.CharField( _( u'Name' ), max_length = DEFAULT_MAX_LENGTH )
@@ -139,14 +138,11 @@ class Seite( models.Model ):
     public_objects = SeitenManager()
 
     def get_titelbild( self ):
-        hp = self.public_objects.get_homepage()
-        
         if self.titelbild:
             return self.titelbild
-        elif self.parent and self.parent.titelbild:
+
+        if self.parent and self.parent.titelbild:
             return self.parent.titelbild
-        elif hp and hp.titelbild:
-            return hp.titelbild
 
         return None
     
