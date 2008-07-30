@@ -18,6 +18,7 @@
     <a href="{{ beitrag.get_absolute_url }}" >{{ beitrag.title }}</a>
     {% if user.is_authenticated %}<a class="edit small" href="/verwaltung/news/news/{{ beitrag.id }}/">{% trans "bearbeiten" %}</a>{% endif %}
     {% if beitrag.autor %}<br/><span class="postmeta">{{ beitrag.autor }}</span>{% endif %}
+    <span class="postmeta small">({{ beitrag.text|wordcount }} {% trans "Wörter" %})</span>
    </div>
   </li>
 {% endfor %}
