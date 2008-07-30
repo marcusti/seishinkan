@@ -251,8 +251,14 @@ def news( request, bid = None ):
         ctx['beitrag'] = get_object_or_404( News.public_objects, id = bid )
         return __create_response( request, ctx, 'news.html' )
     else:
-        ctx['beitraege'] = News.public_objects.all()
-        return __create_response( request, ctx, 'news_list.html' )
+        return object_list(
+            request,
+            queryset = News.public_objects.all(),
+            paginate_by = 20,
+            allow_empty = True,
+            template_name = 'news_list.html',
+            extra_context = ctx,
+            )
 
 def video( request, vid = None ):
     ctx = __get_sidebar( request )
@@ -277,8 +283,16 @@ def termin( request, tid = None ):
         ctx['termin'] = get_object_or_404( Termin.public_objects, id = tid )
         return __create_response( request, ctx, 'termin.html' )
     else:
-        ctx['alle_termine'] = Termin.public_objects.all()
-        return __create_response( request, ctx, 'termine_list.html' )
+        #ctx['alle_termine'] = Termin.public_objects.all()
+        #return __create_response( request, ctx, 'termine_list.html' )
+        return object_list(
+            request,
+            queryset = Termin.public_objects.all(),
+            paginate_by = 20,
+            allow_empty = True,
+            template_name = 'termine_list.html',
+            extra_context = ctx,
+            )
 
 def set_lang( request, code = settings.LANGUAGE_CODE ):
     if code in dict(settings.LANGUAGES).keys():

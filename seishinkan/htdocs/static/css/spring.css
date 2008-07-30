@@ -334,7 +334,7 @@ html>body #wp-calendar {
 	color: #999;
 }
 .postentry {
-        text-align: left;
+        text-align: justify;
 }
 .postentry p {
 	font-size: 1em;
@@ -579,4 +579,10 @@ img.flag {
 }
 .current {
 	background: #E8E8CE;
+}
+.paginator {
+}
+.paginator td {
+  padding: 0 1em;
+  text-align: center;
 }
