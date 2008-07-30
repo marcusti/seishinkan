@@ -334,21 +334,21 @@ html>body #wp-calendar {
 	color: #999;
 }
 .postentry {
-        text-align: justify;
+        text-align: left;
 }
 .postentry p {
 	font-size: 1em;
 	line-height: 1.5em;
-	margin: 0;
+/*	margin: 0 0 1em 0; */
 }
 .postentry ul {
 	font-size: 1em;
-	line-height: 1.1em;
+	line-height: 1.5em;
 	margin: 0;
 	padding: 0;
 }
 .postentry li {
-  padding: 0.1em 20px;
+  padding: 0 20px;
 }
 .permalink {
 	margin: 0 1.8em 0 0;

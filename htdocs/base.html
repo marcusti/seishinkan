@@ -126,8 +126,8 @@
         <ul>
           {% for termin in termine %}
             <li>
-              <a href="{{ termin.get_absolute_url }}"><small class="postmeta">{{ termin.beginn|date:"j.n.Y" }}
-                {% ifnotequal termin.beginn termin.ende %} - {{ termin.ende|date:"j.n.Y" }}{% endifnotequal %}</small><br/>
+              <a href="{{ termin.get_absolute_url }}"><small class="postmeta">{{ termin.beginn|date:"d.m.Y" }}
+                {% ifnotequal termin.beginn termin.ende %} - {{ termin.ende|date:"d.m.Y" }}{% endifnotequal %}</small><br/>
               {{ termin.title }}</a>
             </li>
           {% endfor %}
@@ -152,7 +152,7 @@
             <li>
               <a href="{{ beitrag.get_absolute_url }}">
               {% if beitrag.neu %}<span class="neu">{% trans "NEU" %}</span>{% endif %}
-              <small class="postmeta">{{ beitrag.datum|date:"j.n.Y" }}<br/></small>{{ beitrag.title }}</a>
+              <small class="postmeta">{{ beitrag.datum|date:"d.m.Y" }}<br/></small>{{ beitrag.title }}</a>
             </li>
           {% endfor %}
         </ul>
@@ -267,7 +267,7 @@
       <li>
        <div class="right postmeta">
         {% if beitrag.neu %}<span class="neu">{% trans "NEU" %}</span>{% endif %}
-        {{ beitrag.datum|date:"j.n.Y" }}<br/>
+        {{ beitrag.datum|date:"d.m.Y" }}<br/>
        </div>
        <div>
         <a href="{{ beitrag.get_absolute_url }}">
