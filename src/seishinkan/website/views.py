@@ -283,8 +283,6 @@ def termin( request, tid = None ):
         ctx['termin'] = get_object_or_404( Termin.public_objects, id = tid )
         return __create_response( request, ctx, 'termin.html' )
     else:
-        #ctx['alle_termine'] = Termin.public_objects.all()
-        #return __create_response( request, ctx, 'termine_list.html' )
         return object_list(
             request,
             queryset = Termin.public_objects.all(),
