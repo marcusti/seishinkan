@@ -287,12 +287,12 @@ class Termin( models.Model ):
         return u'%s'.strip() % ( self.title )
 
     class Meta:
-        ordering = ['ende', 'beginn', 'title']
+        ordering = ['-ende', '-beginn', 'title']
         verbose_name = _( u'Termin' )
         verbose_name_plural = _( u'Termine' )
 
 class TerminAdmin( admin.ModelAdmin ):
-    ordering = ['ende', 'beginn', 'title']
+    ordering = ['-ende', '-beginn', 'title']
     search_fields = [ 'title', 'text', 'ort' ]
     list_display = ( 'title', 'ort', 'beginn', 'ende', 'bild', 'modified', 'public', 'id' )
     list_filter = ( 'beginn', 'ende', 'ort' )
