@@ -249,6 +249,7 @@ def news( request, bid = None ):
 
     if bid:
         ctx['beitrag'] = get_object_or_404( News.public_objects, id = bid )
+        ctx['anzahl'] = News.public_objects.all().count()
         return __create_response( request, ctx, 'news.html' )
     else:
         return object_list(
