@@ -23,6 +23,8 @@ p {
 	line-height: 1.5em;
 	margin: 1.2em 0;
 }
+strong {
+}
 ol, ul {
 	font-size: 1em;
 	line-height: 1.5em;
@@ -80,6 +82,9 @@ blockquote {
 }
 .small, small {
 	font-size: 0.9em;
+}
+.smaller {
+	font-size: 0.7em;
 }
 code {
 	font-size: 1.1em;
