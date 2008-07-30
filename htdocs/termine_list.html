@@ -8,7 +8,7 @@
 <div class="post">
 {% autoescape on%}
 <ul class="event">
-{% for termin in alle_termine %}
+{% for termin in object_list %}
   <li>
     <div class="right postmeta">
       {{ termin.beginn|date:"d.m.Y" }}{% ifnotequal termin.beginn termin.ende %} - {{ termin.ende|date:"d.m.Y" }}{% endifnotequal %}
@@ -22,7 +22,9 @@
 {% endfor %}
 </ul>
 {% endautoescape %}
-</div>
 
+{% include "paginator.html" %}
+
+</div>
 {% endblock %}
 

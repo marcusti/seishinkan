@@ -1,0 +1,43 @@
+{% load i18n %}
+
+{% if is_paginated %}
+<table class="paginator" align="center">
+<tr>
+
+  <td class="postmeta">
+  {% ifnotequal page 1 %}
+    <a href="{{ path }}" title="{% trans "zur ersten Seite" %}">{% trans "<<" %}</a>
+  {% else %}
+    {% trans "<<" %}
+  {% endifnotequal %}
+  </td>
+
+  <td class="postmeta">
+  {% if has_previous %}
+    <a href="{{ path }}?page={{ previous }}" title="{% trans "eine Seite zurück" %}">{% trans "zurück" %}</a>
+  {% else %}
+    {% trans "zurück" %}
+  {% endif %}
+  </td>
+
+  <td>{% trans "Seite" %} {{ page }} {% trans "von" %} {{ pages }}</td>
+
+  <td class="postmeta">
+  {% if has_next %}
+    <a href="{{ path }}?page={{ next }}" title="{% trans "eine Seite vor" %}">{% trans "vor" %}</a>
+  {% else %}
+    {% trans "vor" %}
+  {% endif %}
+  </td>
+
+  <td class="postmeta">
+  {% ifnotequal page pages %}
+    <a href="{{ path }}?page={{ pages }}" title="{% trans "zur letzten Seite" %}">{% trans ">>" %}</a>
+  {% else %}
+    {% trans ">>" %}
+  {% endifnotequal %}
+  </td>
+
+</tr>
+</table>
+{% endif %}
