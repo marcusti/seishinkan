@@ -68,7 +68,7 @@
 
           {% for meldung in training_aktuell%}
             <li class="page_item small">
-              {{ meldung.text|linebreaksbr }}
+              {{ meldung.get_text|linebreaksbr }}
             </li>
           {% endfor %}
         {% else %}

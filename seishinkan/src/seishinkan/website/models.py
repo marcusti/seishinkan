@@ -50,8 +50,8 @@ class Bild( models.Model ):
     name = models.CharField( _( u'Titel' ), max_length = DEFAULT_MAX_LENGTH, blank = True, unique = True )
     bild = models.ImageField( _( u'Pfad' ), upload_to = 'bilder/' )
     vorschau = models.ImageField( _( u'Vorschau' ), upload_to = 'bilder/thumbs/', blank = True, editable = False )
-    max_breit = models.IntegerField( _( u'max. Breite' ), default = 200 )
-    max_hoch = models.IntegerField( _( u'max. Höhe' ), default = 200 )
+    max_breit = models.IntegerField( _( u'max. Breite' ), default = 200, help_text = u'Das Bild wird automatisch auf die angegebene Breite skaliert. (Das Seitenverhältnis bleibt erhalten.)' )
+    max_hoch = models.IntegerField( _( u'max. Höhe' ), default = 200, help_text = u'Das Bild wird automatisch auf die angegebene Höhe skaliert. (Das Seitenverhältnis bleibt erhalten.)' )
 
     public = models.BooleanField( _( u'Öffentlich' ), default = True )
     creation = models.DateTimeField( _( u'Erfasst am' ), auto_now_add = True )
@@ -388,12 +388,14 @@ class TrainingAktuellManager( models.Manager ):
         return self.get_query_set().filter( beginn__lte = heute, ende__gte = heute )
 
 class TrainingAktuell( models.Model ):
-    name = models.CharField( _( u'Name' ), max_length = DEFAULT_MAX_LENGTH )
-    text = models.TextField( _( u'Text' ) )
-    beginn = models.DateField( _( u'Beginn' ) )
-    ende = models.DateField( _( u'Ende' ) )
+    name = models.CharField( _( u'Name' ), max_length = DEFAULT_MAX_LENGTH, help_text = u'Der Name dient nur zur Übersicht und wird auf der Webseite nicht angezeigt.' )
+    text = models.TextField( _( u'Text' ), help_text = u'Dieser Text wird unter der Rubrik "Training heute" angezeigt.' )
+    text_en = models.TextField( _( u'Text (Englisch)' ), blank = True )
+    text_ja = models.TextField( _( u'Text (Japanisch)' ), blank = True )
+    beginn = models.DateField( _( u'Beginn' ), help_text = u'Ab diesem Datum wird obiger Text auf der Webseite angezeigt.' )
+    ende = models.DateField( _( u'Ende' ), help_text = u'Bis zu diesem Datum (einschließlich) wird obiger Text auf der Webseite angezeigt.' )
     
-    public = models.BooleanField( _( u'Öffentlich' ), default = True )
+    public = models.BooleanField( _( u'Öffentlich' ), default = True, help_text = u'Nur öffentliche Objekte erscheinen auf der Webseite.' )
     creation = models.DateTimeField( _( u'Erfasst am' ), auto_now_add = True )
     modified = models.DateTimeField( _( u'Geändert am' ), auto_now = True )
 
@@ -402,6 +404,9 @@ class TrainingAktuell( models.Model ):
 
     def __unicode__( self ):
         return u'%s'.strip() % ( self.name )
+
+    def get_text( self, language = None ):
+        return getattr( self, "text_%s" % ( language or translation.get_language()[:2] ), "" ) or self.text
 
     def get_absolute_url( self ):
         return '/'
@@ -415,6 +420,11 @@ class TrainingAktuellAdmin( admin.ModelAdmin ):
     ordering = [ '-ende', '-beginn', 'name' ]
     search_fields = [ 'name', 'text' ]
     list_display = ( 'name', 'text', 'beginn', 'ende', 'public' )
+    fieldsets = (
+        ( None, { 'fields': ( 'name', 'text', 'beginn', 'ende', 'public' ) } ),
+        ( 'Englisch', { 'fields': ( 'text_en', ), 'classes': ( 'collapse', ) } ),
+        ( 'Japanisch', { 'fields': ( 'text_ja', ), 'classes': ( 'collapse', ) } ),
+    )
 
 admin.site.register( TrainingAktuell, TrainingAktuellAdmin )
 
