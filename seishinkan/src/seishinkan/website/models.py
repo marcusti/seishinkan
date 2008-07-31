@@ -379,6 +379,45 @@ class TrainingAdmin( admin.ModelAdmin ):
 
 admin.site.register( Training, TrainingAdmin )
 
+class TrainingAktuellManager( models.Manager ):
+    def get_query_set( self ):
+        return super( TrainingAktuellManager, self ).get_query_set().filter( public = True )
+
+    def get_aktuelle_meldungen( self ):
+        heute = date.today()
+        return self.get_query_set().filter( Q( beginn__gte = heute ) | Q( ende__gte = heute ) )
+
+class TrainingAktuell( models.Model ):
+    name = models.CharField( _( u'Name' ), max_length = DEFAULT_MAX_LENGTH )
+    text = models.TextField( _( u'Text' ) )
+    beginn = models.DateField( _( u'Beginn' ) )
+    ende = models.DateField( _( u'Ende' ) )
+    
+    public = models.BooleanField( _( u'Öffentlich' ), default = True )
+    creation = models.DateTimeField( _( u'Erfasst am' ), auto_now_add = True )
+    modified = models.DateTimeField( _( u'Geändert am' ), auto_now = True )
+
+    objects = models.Manager()
+    public_objects = TrainingAktuellManager()
+
+    def __unicode__( self ):
+        return u'%s'.strip() % ( self.name )
+
+    def get_absolute_url( self ):
+        return '/'
+
+    class Meta:
+        ordering = ['-ende', '-beginn', 'name']
+        verbose_name = _( u'Training Aktuell' )
+        verbose_name_plural = _( u'Training Aktuell' )
+
+class TrainingAktuellAdmin( admin.ModelAdmin ):
+    ordering = [ '-ende', '-beginn', 'name' ]
+    search_fields = [ 'name', 'text' ]
+    list_display = ( 'name', 'text', 'beginn', 'ende', 'public' )
+
+admin.site.register( TrainingAktuell, TrainingAktuellAdmin )
+
 class DownloadManager( models.Manager ):
     def get_query_set( self ):
         return super( DownloadManager, self ).get_query_set().filter( public = True )
