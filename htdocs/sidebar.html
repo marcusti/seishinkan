@@ -1,0 +1,136 @@
+{% load i18n %}
+{% if sidebar %}
+  <div id="sidebar">
+    <a href="/"><img src="/static/images/Seishinkan_peter_190.jpg" alt="[Seishinkan Logo]" title="Seishinkan Logo" /></a>
+
+  {% if user.is_authenticated %}
+    <p class="small">
+    {% trans "Hallo" %} {{ user.first_name }}.<br/>
+    <a class="edit" href="/verwaltung/">{% trans "Verwaltung" %}</a> |
+    <a class="edit" href="/logout/">{% trans "Logout" %}</a>
+    <br/>
+    <table>
+      <tr class="small"><td colspan="2" class="small postmeta"><a href="http://www.djangoproject.com/" target="_blank">Django</a> {{ django_version }}</td></tr>
+    {% if users %}
+      <tr class="postmeta"><td colspan="2">{% trans "Zuletzt angemeldet" %}:</td></tr>
+    {% for user in users %}
+      <tr class="postmeta"><td>{{ user.first_name }}</td><td>{{ user.last_login|date:"d.m.y G:i" }}</td></tr>
+    {% endfor %}
+    {% endif %}
+    </table>
+    <br/>
+    </p>
+  {% endif %}
+
+    <ul>
+      <li>
+        <ul>
+          {% for seite in seiten %}
+            <li class="page_item{% ifequal menu seite.url %} current{% endifequal %}"><a href="{{ seite.get_absolute_url }}">{{ seite.get_name }}</a>
+              {% if seite.has_sub_sites %}
+              <ul>
+              {% for sub in seite.get_sub_sites %}
+                <li class="page_item{% ifequal menu sub.url %} current{% endifequal %}"><a href="{{ sub.get_absolute_url }}">{{ sub.get_name }}</a></li>
+              {% endfor %}
+              </ul>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      </li>
+    </ul>
+
+    <ul>
+      <li>
+        <ul>
+            <li class="page_item{% ifequal menu "news" %} current{% endifequal %}"><a href="/news/">{% trans "Beiträge" %}</a></li>
+            <li class="page_item{% ifequal menu "bilder" %} current{% endifequal %}"><a href="/bilder/">{% trans "Bilder" %}</a></li>
+            <li class="page_item{% ifequal menu "videos" %} current{% endifequal %}"><a href="/video/">{% trans "Videos" %}</a></li>
+            <li class="page_item{% ifequal menu "downloads" %} current{% endifequal %}"><a href="/downloads/">{% trans "Downloads" %}</a></li>
+            <li class="page_item{% ifequal menu "links" %} current{% endifequal %}"><a href="/links/">{% trans "Links" %}</a></li>
+            <li class="page_item{% ifequal menu "kontakt" %} current{% endifequal %}"><a href="/kontakt/">{% trans "Kontakt" %}</a></li>
+        </ul>
+      </li>
+    </ul>
+
+    <br/>
+    <h2>{% trans "Training heute" %},<br/>{% now "l" %}</h2>
+    <ul>
+      <li>
+        <ul>
+        {% if training_heute %}
+          {% for training in training_heute %}
+            <li class="page_item">
+              <a href="/zeiten/">{{ training.von|time:"G:i" }} - {{ training.bis|time:"G:i" }}<br/>
+                {{ training.art }}</a>
+            </li>
+          {% endfor %}
+
+          {% for meldung in training_aktuell%}
+            <li class="page_item small error">
+              {{ meldung.text|linebreaksbr }}
+            </li>
+          {% endfor %}
+        {% else %}
+          <li class="postmeta">{% trans "Heute findet kein Training statt." %}</li>
+        {% endif %}
+        {% if user.is_authenticated %}<li class="postmeta"><a class="edit small" href="/verwaltung/website/trainingaktuell/">{% trans "Meldungen bearbeiten" %}</a></li>{% endif %}
+        </ul>
+      </li>
+    </ul>
+
+{% comment %}
+    <br/>
+    <h2>{% trans "Termine" %}</h2>
+    {% if user.is_authenticated %}<a class="edit small" href="/verwaltung/website/termin/add/">{% trans "neu" %}</a>{% endif %}
+    {% if not termine %}
+      <ul><li><ul><li class="postmeta">{% trans "Zur Zeit gibt es keine aktuellen Termine." %}</li></ul></li></ul>
+    {% else %}
+    <ul>
+      <li>
+        <ul>
+          {% for termin in termine %}
+            <li>
+              <a href="{{ termin.get_absolute_url }}"><small class="postmeta">{{ termin.beginn|date:"d.m.Y" }}
+                {% ifnotequal termin.beginn termin.ende %} - {{ termin.ende|date:"d.m.Y" }}{% endifnotequal %}</small><br/>
+              {{ termin.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </li>
+    </ul>
+    {% endif %}
+    <ul>
+      <li><ul><li class="small"><a href="/termin/archiv/">{% trans "Archiv" %} <span class="postmeta">({{ alle_termine|length }})</span></a></li></ul></li>
+    </ul>
+
+    <br/>
+    <h2>{% trans "Beiträge" %}</h2>
+    {% if user.is_authenticated %}<a class="edit small" href="/verwaltung/news/news/add/">{% trans "neu" %}</a>{% endif %}
+    {% if not beitraege %}
+      <p>{% trans "Zur Zeit gibt es keine Beiträge." %}</p>
+    {% else %}
+    <ul>
+      <li>
+        <ul>
+          {% for beitrag in beitraege|slice:":3" %}
+            <li>
+              <a href="{{ beitrag.get_absolute_url }}">
+              {% if beitrag.neu %}<span class="neu">{% trans "NEU" %}</span>{% endif %}
+              <small class="postmeta">{{ beitrag.datum|date:"d.m.Y" }}<br/></small>{{ beitrag.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </li>
+    </ul>
+    {% endif %}
+    <ul>
+      <li><ul><li class="small"><a href="/news/archiv/">{% trans "Archiv" %} <span class="postmeta">({{ beitraege|length }})</span></a></li></ul></li>
+    </ul>
+{% endcomment %}
+
+    <br/>
+    <p><img src="/static/images/TWA.jpg" alt="[]" title="" /></p>
+  </div>
+{% endif %}
+

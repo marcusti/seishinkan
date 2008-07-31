@@ -15,7 +15,7 @@ from seishinkan import settings
 from seishinkan.links.models import Link, LinkKategorie
 from seishinkan.news.models import News
 from seishinkan.website.forms import LoginForm, KontaktForm
-from seishinkan.website.models import Artikel, Bild, Download, Kontakt, Seite, Termin, TrainingManager, Trainingsart, Wochentag
+from seishinkan.website.models import *
 import captcha
 import os
 
@@ -27,6 +27,7 @@ def __get_sidebar( request ):
     ctx['seiten'] = Seite.public_objects.filter( parent__isnull = True ).order_by( 'position' )
     ctx['language'] = request.session.get( 'django_language', 'de' )
     ctx['training_heute'] = TrainingManager().get_einheiten_pro_tag( heute )
+    ctx['training_aktuell'] = TrainingAktuell.public_objects.get_aktuelle_meldungen()
     ctx['path'] = request.path
     ctx['host'] = request.META['HTTP_HOST']
     ctx['django_version'] = get_version()
