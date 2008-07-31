@@ -50,34 +50,7 @@
 
     <p>{% if user.is_authenticated %}<a class="edit small" href="/verwaltung/website/seite/{{ seite.id }}/">{% trans "Seite bearbeiten" %}</a>{% endif %}</p>
 
-    {% if wochenplan %}
-    <div class="post">
-    <h3>{% trans "Trainingszeiten" %}</h3>
-    <div class="postentry">
-      <table id="trainingszeiten" class="small">
-        <tr>
-          {% for tag in wochentage %}
-            <th>{{ tag }}</th>
-          {% endfor %}
-        </tr>
-
-        {% for tage in wochenplan %}
-          <tr>
-          {% for training in tage %}
-            <td class="training{{ training.art.id }}">
-              {% if training %}
-                {{ training.von|time:"G:i" }} - {{ training.bis|time:"G:i" }}
-                <br />{{ training.art }}
-              {% endif %}
-            </td>
-          {% endfor %}
-          </tr>
-        {% endfor %}
-
-      </table>
-    </div>
-    </div>
-    {% endif %}
+    {% include "training.html" %}
 
     {% for art in artikel %}
     <div class="post">
@@ -210,12 +183,14 @@
           <li>
             <a href="/lang/de/"><img class="flag" src="/static/images/de.png" alt="[de]" title="Deutsch" /></a>
             <a href="/lang/en/"><img class="flag" src="/static/images/en.png" alt="[en]" title="English" /></a>
+            <a href="/lang/ja/"><img class="flag" src="/static/images/ja.png" alt="[ja]" title="日本語" /></a>
+{% comment %}
             <a href="/lang/fr/"><img class="flag" src="/static/images/fr.png" alt="[fr]" title="Français" /></a>
             <a href="/lang/es/"><img class="flag" src="/static/images/es.png" alt="[es]" title="Español" /></a>
-            <a href="/lang/ja/"><img class="flag" src="/static/images/ja.png" alt="[ja]" title="日本語" /></a>
             <a href="/lang/ru/"><img class="flag" src="/static/images/ru.png" alt="[ru]" title="Русский" /></a>
             <a href="/lang/tr/"><img class="flag" src="/static/images/tr.png" alt="[tr]" title="Türkçe" /></a>
             <a href="/lang/sh/"><img class="flag" src="/static/images/sh.png" alt="[sh]" title="српски" /></a>
+{% endcomment %}
           </li>
           <li>
             &copy; {% now "Y" %} Aikido Dojo Seishinkan
