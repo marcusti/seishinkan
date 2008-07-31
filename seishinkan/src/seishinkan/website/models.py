@@ -189,7 +189,7 @@ class Artikel( models.Model ):
     text = models.TextField( _( u'Text' ), blank = True )
     text_en = models.TextField( _( u'Text' ), blank = True )
     text_ja = models.TextField( _( u'Text' ), blank = True )
-    text_src = models.CharField( _( u'Code' ), max_length = 5000, blank = True )
+    text_src = models.CharField( _( u'Code' ), max_length = 5000, blank = True, help_text = u'Wird für einige Seiten benötigt, die Scripte enthalten. Z.B. bei der Google Map im Lageplan. Den Code bitte nicht im Editor Fenster von TinyMCE eingeben.' )
     position = models.IntegerField( _( u'Position auf der Seite' ), default = 0, blank = True )
     bild = models.ForeignKey( Bild, verbose_name = u'Bild', blank = True, null = True )
     bild_ausrichtung = models.CharField( _( u'Bild Ausrichtung' ), max_length = DEFAULT_MAX_LENGTH, choices = AUSRICHTUNGEN, default = u'right', blank = True )
@@ -385,7 +385,7 @@ class TrainingAktuellManager( models.Manager ):
 
     def get_aktuelle_meldungen( self ):
         heute = date.today()
-        return self.get_query_set().filter( Q( beginn__gte = heute ) | Q( ende__gte = heute ) )
+        return self.get_query_set().filter( beginn__lte = heute, ende__gte = heute )
 
 class TrainingAktuell( models.Model ):
     name = models.CharField( _( u'Name' ), max_length = DEFAULT_MAX_LENGTH )
