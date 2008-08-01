@@ -14,22 +14,15 @@
       <td class="white">{{ field }}{% if field.errors %}<span class="small error">{{ field.errors }}</span>{% endif %}</td>
     </tr>
   {% endfor %}
-    <tr><td class="white" colspan="2">&nbsp;</td></tr>
-    <tr>
-      <td class="white" colspan="2">
-        {% trans "Wenn Sie kein Automat sind geben Sie bitte die beiden Wörter ein *" %}
-      </td>
-    </tr>
-    <tr>
-      <td class="white"></td>
-      <td class="white">
-        {% autoescape off %}{{ html_captcha }}{% endautoescape %}
-        {% if captcha_error %}<span class="small error"><ul class="errorlist"><li>{% trans "Falsche Eingabe" %}</li></ul></span>{% endif %}
-      </td>
-    </tr>
-    <tr><td class="white" colspan="2">&nbsp;</td></tr>
-    <tr><td class="white"></td><td class="white"><input type="submit" /></td></tr>
   </table>
+
+  <p>{% trans "Wenn Sie kein Automat sind geben Sie bitte die beiden Wörter ein *" %}</p>
+  <p>
+    {% autoescape off %}{{ html_captcha }}{% endautoescape %}
+    {% if captcha_error %}<br/><span class="small error"><ul class="errorlist"><li>{% trans "Falsche Eingabe" %}</li></ul></span>{% endif %}
+  </p>
+
+  <p><input type="submit" /></p>
 </form>
 
 <br/>
