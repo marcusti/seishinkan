@@ -4,22 +4,11 @@
     <a href="/"><img src="/static/images/Seishinkan_peter_190.jpg" alt="[Seishinkan Logo]" title="Seishinkan Logo" /></a>
 
   {% if user.is_authenticated %}
-    <p class="small">
-    {% trans "Hallo" %} {{ user.first_name }}.<br/>
-    <a class="edit" href="/verwaltung/">{% trans "Verwaltung" %}</a> |
-    <a class="edit" href="/logout/">{% trans "Logout" %}</a>
-    <br/>
-    <table>
-    {% if users %}
-      <tr class="postmeta"><td colspan="2">{% trans "Zuletzt angemeldet" %}:</td></tr>
-    {% for user in users %}
-      <tr class="postmeta"><td>{{ user.first_name }}</td><td>{{ user.last_login|date:"d.m.y G:i" }}</td></tr>
-    {% endfor %}
-    {% endif %}
-      <tr class="small"><td colspan="2" class="small postmeta"><a href="http://www.djangoproject.com/documentation/" target="_blank">Django</a> {{ django_version }}</td></tr>
-    </table>
-    <br/>
-    </p>
+    <div class="">
+      <h2>{% trans "Hallo" %} {{ user.first_name }}.</h2><br/>
+      <a class="edit" href="/verwaltung/">{% trans "Verwaltung" %}</a>&nbsp;
+      <a class="edit" href="/logout/">{% trans "Logout" %}</a>
+    </div>
   {% endif %}
 
     <ul>
@@ -79,58 +68,21 @@
       </li>
     </ul>
 
-{% comment %}
+  {% if user.is_authenticated %}
     <br/>
-    <h2>{% trans "Termine" %}</h2>
-    {% if user.is_authenticated %}<a class="edit small" href="/verwaltung/website/termin/add/">{% trans "neu" %}</a>{% endif %}
-    {% if not termine %}
-      <ul><li><ul><li class="postmeta">{% trans "Zur Zeit gibt es keine aktuellen Termine." %}</li></ul></li></ul>
-    {% else %}
-    <ul>
-      <li>
-        <ul>
-          {% for termin in termine %}
-            <li>
-              <a href="{{ termin.get_absolute_url }}"><small class="postmeta">{{ termin.beginn|date:"d.m.Y" }}
-                {% ifnotequal termin.beginn termin.ende %} - {{ termin.ende|date:"d.m.Y" }}{% endifnotequal %}</small><br/>
-              {{ termin.title }}</a>
-            </li>
-          {% endfor %}
-        </ul>
-      </li>
-    </ul>
+    <table>
+    {% if users %}
+      <tr class="postmeta"><td colspan="2">{% trans "Zuletzt angemeldet" %}:</td></tr>
+    {% for user in users %}
+      <tr class="postmeta"><td>{{ user.first_name }}</td><td>{{ user.last_login|date:"d.m.y G:i" }}</td></tr>
+    {% endfor %}
     {% endif %}
-    <ul>
-      <li><ul><li class="small"><a href="/termin/archiv/">{% trans "Archiv" %} <span class="postmeta">({{ alle_termine|length }})</span></a></li></ul></li>
-    </ul>
-
+      <tr class="small"><td colspan="2" class="small postmeta"><a href="http://www.djangoproject.com/documentation/" target="_blank">Django</a> {{ django_version }}</td></tr>
+    </table>
     <br/>
-    <h2>{% trans "Beiträge" %}</h2>
-    {% if user.is_authenticated %}<a class="edit small" href="/verwaltung/news/news/add/">{% trans "neu" %}</a>{% endif %}
-    {% if not beitraege %}
-      <p>{% trans "Zur Zeit gibt es keine Beiträge." %}</p>
-    {% else %}
-    <ul>
-      <li>
-        <ul>
-          {% for beitrag in beitraege|slice:":3" %}
-            <li>
-              <a href="{{ beitrag.get_absolute_url }}">
-              {% if beitrag.neu %}<span class="neu">{% trans "NEU" %}</span>{% endif %}
-              <small class="postmeta">{{ beitrag.datum|date:"d.m.Y" }}<br/></small>{{ beitrag.title }}</a>
-            </li>
-          {% endfor %}
-        </ul>
-      </li>
-    </ul>
-    {% endif %}
-    <ul>
-      <li><ul><li class="small"><a href="/news/archiv/">{% trans "Archiv" %} <span class="postmeta">({{ beitraege|length }})</span></a></li></ul></li>
-    </ul>
-{% endcomment %}
+  {% endif %}
 
     <br/>
     <p><img src="/static/images/TWA.jpg" alt="[]" title="" /></p>
   </div>
 {% endif %}
-
