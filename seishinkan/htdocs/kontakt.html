@@ -6,7 +6,7 @@
 <h3>{%trans "Kontakt" %}</h3>
 
 <br/>
-<form method="post" action="">
+<form id="kontakt-form" method="post" action="">
   <table class="archiv white">
   {% for field in form %}
     <tr>
@@ -22,7 +22,8 @@
     {% if captcha_error %}<br/><span class="small error"><ul class="errorlist"><li>{% trans "Falsche Eingabe" %}</li></ul></span>{% endif %}
   </p>
 
-  <p><input type="submit" /></p>
+  <br/>
+  <p><input id="kontakt-button" type="submit" value="{% trans "Nachricht absenden" %}" /></p>
 </form>
 
 <br/>
