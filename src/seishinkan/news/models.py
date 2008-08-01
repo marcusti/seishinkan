@@ -4,6 +4,7 @@ from datetime import date, datetime
 from django.contrib import admin
 from django.db import models
 from django.db.models import Q
+from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
 from seishinkan.utils import DEFAULT_MAX_LENGTH
 from seishinkan.website.models import AUSRICHTUNGEN, Bild

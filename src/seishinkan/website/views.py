@@ -259,8 +259,16 @@ def news( request, bid = None ):
     ctx['menu'] = 'news'
 
     if bid:
-        ctx['beitrag'] = get_object_or_404( News.public_objects, id = bid )
-        ctx['anzahl'] = News.public_objects.all().count()
+        all_news = News.public_objects.all()
+        beitrag = get_object_or_404( News.public_objects, id = bid )
+        ctx['beitrag'] = beitrag
+        ctx['anzahl'] = all_news.count()
+        try:
+            heute = date.today()
+            ctx['next'] = beitrag.get_previous_by_beginn( public = True, beginn__lte = heute, ende__isnull = True )
+            ctx['previous'] = beitrag.get_next_by_beginn( public = True, beginn__lte = heute, ende__isnull = True )
+        except:
+            pass
         return __create_response( request, ctx, 'news.html' )
     else:
         return object_list(
