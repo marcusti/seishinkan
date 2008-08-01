@@ -15,12 +15,18 @@
   <h3>{{ beitrag.title }}</h3>
   <div class="postentry">
     <h6>{{ beitrag.einleitung }}</h6>
+    {% if beitrag.bild %}
+      <p><img class="image{% if beitrag.bild_ausrichtung %}{{ beitrag.bild_ausrichtung }}{% endif %}"
+           src="{{ beitrag.bild.get_bild_url }}"
+           title="{{ beitrag.bild.name }}"
+           alt="[{{ beitrag.bild.name }}]" /></p>
+    {% endif %}
     <p>{{ beitrag.text }}</p>
   </div>
 {% endautoescape %}
 
 <br/>
-<ul class="postmeta event">
+<ul class="postmeta event clear">
   <li>
     <a href="/news/archiv/">{% trans "alle Beiträge anzeigen" %}</a>
     ({{ anzahl }})
