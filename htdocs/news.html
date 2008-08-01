@@ -27,6 +27,8 @@
 
 <br/>
 <ul class="postmeta event clear">
+  {% if previous %}<li>{% trans "voriger Beitrag" %}: <a href="{{ previous.get_absolute_url }}">{{ previous.title }}</a></li>{% endif %}
+  {% if next %}<li>{% trans "nächster Beitrag" %}: <a href="{{ next.get_absolute_url }}">{{ next.title }}</a></li>{% endif %}
   <li>
     <a href="/news/archiv/">{% trans "alle Beiträge anzeigen" %}</a>
     ({{ anzahl }})
