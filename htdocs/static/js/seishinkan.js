@@ -18,6 +18,11 @@ $(document).ready(function(){
     $("#login-form").submit();
   });
 
+  $("#kontakt-button").click(function() {
+    $("#kontakt-button").attr("disabled", "disabled");
+    $("#kontakt-form").submit();
+  });
+
 });
 
 var RecaptchaOptions = {
