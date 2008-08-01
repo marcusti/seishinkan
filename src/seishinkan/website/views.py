@@ -4,7 +4,7 @@ from datetime import date, datetime
 from django import get_version
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
-from django.core.mail import EmailMessage, mail_admins, send_mail, send_mass_mail
+from django.core.mail import mail_admins, send_mail, send_mass_mail
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
@@ -94,6 +94,7 @@ def kontakt( request ):
             marcus = User.objects.get( username__iexact = 'marcus' )
             ecki = User.objects.get( username__iexact = 'ecki' )
             bert = User.objects.get( username__iexact = 'bert' )
+            ralf = User.objects.get( username__iexact = 'ralf' )
 
             to_users = [ ecki, marcus ]
 
@@ -110,9 +111,18 @@ def kontakt( request ):
                 if user.email:
                     to_list.append( user.email )
 
-            email = EmailMessage( subject=subject, body=message, from_email=from_email, to=to_list )
-            email.send()
+            mails = []
 
+            # Wenn gewünscht, Kopie an den Absender...
+            if form.data.get( 'copy_to_me', False ):
+                to_list.append( from_email )
+
+            # Je eine Mail an die ausgewählten User senden...
+            for email in to_list:
+                mails.append( ( subject, message, from_email, [email] ) )
+            
+            send_mass_mail( mails )
+            
             # An die Admins der Webanwendung: 
             # mail_admins( subject, message, fail_silently=False)
 

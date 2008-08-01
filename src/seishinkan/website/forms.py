@@ -54,6 +54,10 @@ class KontaktForm( forms.Form ):
                              required = True,
                              )
 
+    copy_to_me = forms.BooleanField( required = False,
+                                     label = _( 'Kopie an mich senden' ),
+                                     )
+    
     subject = forms.CharField( max_length = DEFAULT_MAX_LENGTH,
                               min_length = 4,
                               label = _( 'Betreff' ),
