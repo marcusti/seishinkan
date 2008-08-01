@@ -43,7 +43,7 @@ class LoginForm( forms.Form ):
 
 class KontaktForm( forms.Form ):
     name = forms.CharField( max_length = DEFAULT_MAX_LENGTH,
-                            min_length = 4,
+                            min_length = 1,
                             label = _( 'Ihr Name' ),
                             required = False,
                             )
