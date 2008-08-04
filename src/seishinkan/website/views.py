@@ -211,10 +211,7 @@ def seishinkan_login( request ):
                 except:
                     pass
 
-            if request.has_key( 'next' ):
-                next = request['next']
-            else:
-                next = settings.LOGIN_REDIRECT_URL
+            next = request.REQUEST.get( 'next', settings.LOGIN_REDIRECT_URL )
 
             return redirect_to( request, next )
     else:
