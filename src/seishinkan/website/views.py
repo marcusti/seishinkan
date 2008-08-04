@@ -242,6 +242,21 @@ def bilder( request ):
     ctx = __get_sidebar( request )
     ctx['menu'] = 'bilder'
 
+    try:
+        import gdata.photos.service
+        ps = gdata.photos.service.PhotosService()
+        albums = []
+        for album in ps.GetUserFeed( user = 'ehemkemeier' ).entry:
+            albums.append( {
+                'name': album.title.text,
+                'url': album.GetHtmlLink().href,
+                'photos': album.numphotos.text,
+                'photo': album.media.thumbnail[0].url,
+                } )
+        ctx['albums'] = albums
+    except:
+        raise Http404
+
     return __create_response( request, ctx, 'bilder.html' )
 
 def downloads( request ):
