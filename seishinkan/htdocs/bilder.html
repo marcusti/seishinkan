@@ -12,4 +12,18 @@ oder <a href="http://flickr.com" target="_blank">Flickr</a>
 angezeigt werden...
 </p>
 
+<ul class="event">
+{% for album in albums %}
+  <li>
+    <div class="imageleft">
+      <a href="{{ album.url }}" target="_blank">
+        <img class="left" src="{{ album.photo }}" alt="[]" title="" width="160" height="160" /></a>
+      <a href="{{ album.url }}" target="_blank">{{ album.name }}</a>
+      {% if album.photos %}<br/><span class="postmeta"> {{ album.photos }} {% trans "Bilder" %}</span>{% endif %}
+    </div>
+    <div class="clear"></div>
+  </li>
+{% endfor %}
+</ul>
+
 {% endblock %}
