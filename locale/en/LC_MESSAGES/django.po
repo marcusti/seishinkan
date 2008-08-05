@@ -145,6 +145,7 @@ msgstr ""
 #: src/seishinkan/links/models.py:65
 msgid "Links"
 msgstr ""
+"Your message has been sent to Aikido Dojo Seishinkan. Thank you for your interest."
 
 #: htdocs/login.html:41
 msgid "Falscher Benutzername oder Passwort."
@@ -388,57 +389,58 @@ msgstr ""
 
 #: src/seishinkan/website/forms.py:11
 msgid "Benutzername"
-msgstr ""
+msgstr "Username"
 
 #: src/seishinkan/website/forms.py:13
 msgid "Benutzername wird benötigt."
-msgstr ""
+msgstr "username required"
 
 #: src/seishinkan/website/forms.py:14
 msgid "Benutzername ist zu kurz."
-msgstr ""
+msgstr "username is too short"
 
 #: src/seishinkan/website/forms.py:19
 msgid "Passwort"
-msgstr ""
+msgstr "Password"
 
 #: src/seishinkan/website/forms.py:22
 msgid "Passwort wird benötigt."
-msgstr ""
+msgstr "password required"
 
 #: src/seishinkan/website/forms.py:23
 msgid "Passort ist zu kurz."
-msgstr ""
+msgstr "password is too short"
 
 #: src/seishinkan/website/forms.py:34
 msgid ""
 "Bitte einen gültigen Benutzernamen und Passwort eingeben. Dabei ist die "
 "Groß-/Kleinschreibung zu beachten."
 msgstr ""
+"Please enter username and password. Words are case-sensitive."
 
 #: src/seishinkan/website/forms.py:37
 msgid "Dieses Benutzerkonto ist nicht aktiv. Anmeldung nicht erlaubt."
-msgstr ""
+msgstr "This user account is not active."
 
 #: src/seishinkan/website/forms.py:47
 msgid "Ihr Name"
-msgstr ""
+msgstr "Your name"
 
 #: src/seishinkan/website/forms.py:53
 msgid "Ihre Email-Adresse"
-msgstr ""
+msgstr "Your E-mail"
 
 #: src/seishinkan/website/forms.py:58
 msgid "Kopie an mich senden"
-msgstr ""
+msgstr "Send a copy to me"
 
 #: src/seishinkan/website/forms.py:63 src/seishinkan/website/models.py:476
 msgid "Betreff"
-msgstr ""
+msgstr "Subject"
 
 #: src/seishinkan/website/forms.py:69 src/seishinkan/website/models.py:478
 msgid "Nachricht"
-msgstr ""
+msgstr "Message"
 
 #: src/seishinkan/website/models.py:19 src/seishinkan/website/models.py:123
 #: src/seishinkan/website/models.py:332 src/seishinkan/website/models.py:391
