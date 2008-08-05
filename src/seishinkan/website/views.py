@@ -244,18 +244,45 @@ def bilder( request ):
 
     try:
         import gdata.photos.service
+        username = 'ehemkemeier'
         ps = gdata.photos.service.PhotosService()
         albums = []
-        for album in ps.GetUserFeed( user = 'ehemkemeier' ).entry:
-            albums.append( {
-                'name': album.title.text,
+        for album in ps.GetFeed( '/data/feed/api/user/%s?kind=album&thumbsize=160&max-results=10' % ( username )  ).entry:
+            photos = []
+            for photo in ps.GetFeed( '/data/feed/api/user/%s/album/%s?kind=photo&thumbsize=48&max-results=10' % ( username, album.name.text ) ).entry:
+                photos.append( {
+                    'title': photo.title.text,
+                    'url': photo.GetHtmlLink().href,
+                    'thumb_url': photo.media.thumbnail[0].url,
+                    'thumb_height': photo.media.thumbnail[0].height,
+                    'thumb_width': photo.media.thumbnail[0].width,
+                    } )
+
+            a = {
+                'title': album.title.text,
+                'name': album.name.text,
                 'url': album.GetHtmlLink().href,
-                'photos': album.numphotos.text,
-                'photo': album.media.thumbnail[0].url,
-                } )
+                'numcomments': album.commentCount.text,
+                'numphotos': album.numphotos.text,
+                'thumb_url': album.media.thumbnail[0].url,
+                'thumb_height': album.media.thumbnail[0].height,
+                'thumb_width': album.media.thumbnail[0].width,
+                'photos': photos,
+                }
+
+            try:
+                a['timestamp'] = date.fromtimestamp( int( album.timestamp.text[:10] ) )
+            except:
+                pass
+
+            albums.append( a )
+            
+        ctx['username'] = username
         ctx['albums'] = albums
-    except:
-        raise Http404
+    except Exception, ex:
+        mail_admins( 'Picasa error',  ex, fail_silently = False )
+        ctx['picasa_error'] = True
+        #raise ex
 
     return __create_response( request, ctx, 'bilder.html' )
 
@@ -297,8 +324,10 @@ def video( request, vid = None ):
     ctx['menu'] = 'videos'
 
     import youtube
+    username = 'eckido'
     client = youtube.YouTubeClient( 'gmsnG0W2bTA' )
-    ctx['videos'] = client.list_by_user( 'eckido', page = 1, per_page = 10 )
+    ctx['videos'] = client.list_by_user( username, page = 1, per_page = 10 )
+    ctx['username'] = username
 
     if vid:
         video = client.get_details( vid )

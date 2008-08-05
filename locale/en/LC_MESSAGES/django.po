@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-04 15:40+0200\n"
+"POT-Creation-Date: 2008-08-05 16:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -98,10 +98,34 @@ msgstr "top"
 msgid "Sprachauswahl"
 msgstr "Language selection"
 
-#: htdocs/bilder.html:6 htdocs/sidebar.html:36
+#: htdocs/bilder.html:6 htdocs/bilder.html.py:22 htdocs/sidebar.html:36
 #: src/seishinkan/website/models.py:94
 msgid "Bilder"
 msgstr "Images"
+
+#: htdocs/bilder.html:10
+msgid ""
+"Beim Übertragen der Bilder von Picasa ist ein Fehler aufgetreten. Versuchen "
+"Sie es später noch einmal."
+msgstr ""
+"Problem receiving images from Picasa. Please try again later."
+
+#: htdocs/bilder.html:11
+msgid "Neu laden"
+msgstr "Reload"
+
+#: htdocs/bilder.html:23
+msgid "Kommentare"
+msgstr "Comments"
+
+#: htdocs/bilder.html:24 src/seishinkan/news/models.py:70
+#: src/seishinkan/website/models.py:52 src/seishinkan/website/models.py:230
+msgid "Vorschau"
+msgstr "Preview"
+
+#: htdocs/bilder.html:33
+msgid "Alle Fotoalben bei Picasa anzeigen."
+msgstr "Show all pictures at Picasa."
 
 #: htdocs/downloads.html:6 htdocs/sidebar.html:38
 #: src/seishinkan/website/models.py:465
@@ -140,12 +164,13 @@ msgid ""
 "Vielen Dank für Ihr Interesse. Die Nachricht wurde erfolgreich an das Aikido "
 "Dojo Seishinkan versandt."
 msgstr ""
+"Your message has been sent to Aikido Dojo Seishinkan. Thank you for your "
+"interest."
 
 #: htdocs/links.html:6 htdocs/sidebar.html:39
 #: src/seishinkan/links/models.py:65
 msgid "Links"
 msgstr ""
-"Your message has been sent to Aikido Dojo Seishinkan. Thank you for your interest."
 
 #: htdocs/login.html:41
 msgid "Falscher Benutzername oder Passwort."
@@ -378,11 +403,6 @@ msgstr ""
 msgid "Neu"
 msgstr ""
 
-#: src/seishinkan/news/models.py:70 src/seishinkan/website/models.py:52
-#: src/seishinkan/website/models.py:230
-msgid "Vorschau"
-msgstr ""
-
 #: src/seishinkan/news/models.py:75
 msgid "Beitrag"
 msgstr ""
@@ -415,8 +435,7 @@ msgstr "password is too short"
 msgid ""
 "Bitte einen gültigen Benutzernamen und Passwort eingeben. Dabei ist die "
 "Groß-/Kleinschreibung zu beachten."
-msgstr ""
-"Please enter username and password. Words are case-sensitive."
+msgstr "Please enter username and password. Words are case-sensitive."
 
 #: src/seishinkan/website/forms.py:37
 msgid "Dieses Benutzerkonto ist nicht aktiv. Anmeldung nicht erlaubt."
