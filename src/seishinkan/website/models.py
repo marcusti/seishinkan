@@ -436,6 +436,7 @@ class Download( models.Model ):
     name = models.CharField( _( u'Name' ), max_length = DEFAULT_MAX_LENGTH )
     text = models.TextField( _( u'Text' ) )
     datei = models.FileField( _( u'Pfad' ), upload_to = 'downloads/' )
+    vorschau = models.ImageField( _( u'Vorschau' ), upload_to = 'bilder/thumbs/', blank = True, editable = False )
 
     public = models.BooleanField( _( u'Öffentlich' ), default = True )
     creation = models.DateTimeField( _( u'Erfasst am' ), auto_now_add = True )
@@ -443,6 +444,23 @@ class Download( models.Model ):
 
     objects = models.Manager()
     public_objects = DownloadManager()
+
+    def save( self ):
+        try:
+            if self.datei:
+                from PIL import Image
+                THUMBNAIL_SIZE = ( 75, 75 )
+                if not self.vorschau:
+                    self.save_vorschau_file( self.get_datei_filename(), '' )
+                image = Image.open( self.get_datei_filename() )
+                if image.mode not in ( 'L', 'RGB' ):
+                    image = image.convert( 'RGB' )
+                image.thumbnail( THUMBNAIL_SIZE, Image.ANTIALIAS )
+                image.save( self.get_vorschau_filename() )
+        except:
+            pass
+
+        super( Download, self ).save()
 
     def extension( self ):
         root, ext =  os.path.splitext( self.datei )
