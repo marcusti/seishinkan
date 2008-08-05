@@ -25,13 +25,8 @@
               {% endif %}
             </li>
           {% endfor %}
-        </ul>
-      </li>
-    </ul>
 
-    <ul>
-      <li>
-        <ul>
+            <li>&nbsp;</li>
             <li class="page_item{% ifequal menu "news" %} current{% endifequal %}"><a href="/news/">{% trans "Beiträge" %}</a></li>
             <li class="page_item{% ifequal menu "bilder" %} current{% endifequal %}"><a href="/bilder/">{% trans "Bilder" %}</a></li>
             <li class="page_item{% ifequal menu "videos" %} current{% endifequal %}"><a href="/video/">{% trans "Videos" %}</a></li>
@@ -43,10 +38,11 @@
     </ul>
 
     <br/>
+    <p><img src="/static/images/TWA.jpg" alt="[]" title="" /></p>
+    <br/>
+
     <h2>{% trans "Training heute" %},<br/>{% now "l" %}</h2>
-    <ul>
-      <li>
-        <ul>
+    <ul class="event">
         {% if training_heute %}
           {% for training in training_heute %}
             <li class="page_item">
@@ -64,8 +60,6 @@
           <li class="postmeta">{% trans "Heute findet kein Training statt." %}</li>
         {% endif %}
         {% if user.is_authenticated %}<li class="postmeta"><a class="edit small" href="/verwaltung/website/trainingaktuell/">{% trans "Meldungen bearbeiten" %}</a></li>{% endif %}
-        </ul>
-      </li>
     </ul>
 
   {% if user.is_authenticated %}
@@ -82,7 +76,5 @@
     <br/>
   {% endif %}
 
-    <br/>
-    <p><img src="/static/images/TWA.jpg" alt="[]" title="" /></p>
   </div>
 {% endif %}
