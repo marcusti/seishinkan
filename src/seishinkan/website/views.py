@@ -335,6 +335,29 @@ def video( request, vid = None ):
             ctx['vid'] = vid
             ctx['watch'] = video
 
+#    import gdata.youtube.service
+#    ys = gdata.youtube.service.YouTubeService()
+#    videos = []
+#    if vid:
+#        feed = None
+#    else:
+#        feed = ys.GetYouTubeVideoFeed( 'http://gdata.youtube.com/feeds/api/videos?author=%s&orderby=published&max-results=10' % username )
+#
+#    for video in feed.entry:
+#        v = {
+#            'id': video.id.text,
+#            'title': video.media.title.text,
+#            'description': video.media.description.text,
+#            'length': video.media.duration.seconds,
+#            'view_count': video.statistics.view_count,
+#            'author': username,
+#            'thumbnail_url': video.media.thumbnail[0].url,
+#            'xml': video,
+#            }
+#        videos.append( v )
+#        
+#    ctx['videos'] = videos
+    
     return __create_response( request, ctx, 'videos.html' )
 
 def termin( request, tid = None ):
