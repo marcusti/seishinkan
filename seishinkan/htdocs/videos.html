@@ -41,7 +41,7 @@
     {{ video.description|linebreaksbr }}
 
     <p class="small">
-      {% trans "Länge" %}: {{ video.length_seconds }} sec,
+      {% trans "Länge" %}: {{ video.length }} sec,
       {% trans "Aufrufe" %}: {{ video.view_count }},
       {% trans "Autor" %}: <a href="http://www.youtube.com/user/{{ video.author }}" target="_blank">{{ video.author }}</a>
     </p>
