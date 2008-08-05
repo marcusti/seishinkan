@@ -11,17 +11,27 @@
 <ul class="event">
 {% for download in downloads %}
   <li>
+{#    {% if download.vorschau %}<img class="left" src="{{ download.get_vorschau_url }}" width="{{ download.get_vorschau_width }}" height="{{ download.get_vorschau_height }}" alt="[]" title="" />{% endif %} #}
     <div class="right small postmeta">{{ download.modified|date:"d.m.Y G:i" }}</div>
     <div>
     <a href="{{ download.get_datei_url }}">{{ download.name }}</a>
     <span class="small postmeta">
-      {{ download.extension }}
-    </span><br/>
+      <br/>
+      {{ download.extension|upper }},
+      {{ download.get_datei_size|filesizeformat }}
+      <br/>
+    </span>
     {{ download.text|linebreaksbr }}
       {% if user.is_authenticated %}<a class="edit small" href="/verwaltung/website/download/{{ download.id }}/">{% trans "bearbeiten" %}</a>{% endif %}
+      <div class="clear"></div>
     </div>
   </li>
 {% endfor %}
+
+{% if user.is_authenticated %}
+  <li><a class="edit small" href="/verwaltung/website/download/add/">{% trans "neuen Download erstellen" %}</a></li>
+{% endif %}
+
 </ul>
 </div>
 </div>
