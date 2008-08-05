@@ -29,14 +29,12 @@
 <br/>
 {% endif %}
 
-<table>
+<ul class="event">
 {% for video in videos %}
 {% ifnotequal video.id vid %}
-<tr>
-  <td><h5><a href="/video/{{ video.id }}/">{{ video.title }}</a></h5></td>
-</tr>
-<tr>
-  <td>
+<li>
+  <h5><a href="/video/{{ video.id }}/">{{ video.title }}</a></h5>
+
     <a href="/video/{{video.id }}/" >
       <img src="{{ video.thumbnail_url }}" class="imageleft" alt="[{{video.thumbnail_url}}]" title="{{video.title}}"/></a>
 
@@ -47,10 +45,13 @@
       {% trans "Aufrufe" %}: {{ video.view_count }},
       {% trans "Autor" %}: <a href="http://www.youtube.com/user/{{ video.author }}" target="_blank">{{ video.author }}</a>
     </p>
-  </td>
-</tr>
-<tr><td></td></tr>
+</li>
 {% endifnotequal %}
 {% endfor %}
-</table>
+  <li>&nbsp;</li>
+  <li class="postmeta">
+    <a href="http://www.youtube.com/user/{{ username }}" target="_blank"><img src="/static/bilder/YouTube.jpg" alt="" title="" /></a>
+    <a href="http://www.youtube.com/user/{{ username }}" target="_blank">{% trans "Alle Videos bei Youtube anzeigen." %}</a>
+  </li>
+</ul>
 {% endblock %}

@@ -28,7 +28,7 @@ strong {
 ol, ul {
 	font-size: 1em;
 	line-height: 1.5em;
-	margin: 1.2em 0 1.2em 2em;
+	margin: 1.2em 0 1em 1em;
 	padding: 0;
 }
 h1, h2, h3, h4, h5, h6 {
@@ -383,7 +383,7 @@ html>body #wp-calendar {
 }
 .event li {
   border-top: 1px solid #E8E7D0;
-  padding: 0.1em 20px;
+  padding: 0.1em 10px;
   background-color: #FFF;
 }
 .event li a {
