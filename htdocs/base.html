@@ -78,7 +78,6 @@
     {% endblock %}
 
   {% if seite.show_anfaenger %}
-    {% autoescape off%}
     <br/>
     <h5>{{ anfaengerkurs_name }}</h5>
     <ul class="event">
@@ -94,16 +93,14 @@
     </li>
 
     {% if anfaengerkurs_text %}
-    <li>
-      {{ anfaengerkurs_text }}
+    <li class="postmeta">
+      {{ anfaengerkurs_text|linebreaksbr }}
     </li>
     {% endif %}
       </ul>
-    {% endautoescape %}
   {% endif %}
 
   {% if seite.show_kinder %}
-    {% autoescape off%}
     <br/>
     <h5>{{ kindertraining_name }}</h5>
     <ul class="event">
@@ -119,13 +116,12 @@
     </li>
 
     {% if kindertraining_text %}
-    <li>
-      {{ kindertraining_text }}
+    <li class="postmeta">
+      {{ kindertraining_text|linebreaksbr }}
     </li>
     {% endif %}
 
     </ul>
-    {% endautoescape %}
   {% endif %}
 
   {% if seite.show_events %}
