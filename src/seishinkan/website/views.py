@@ -50,15 +50,33 @@ def index( request, sid = 1 ):
     ctx['seite'] = seite
     ctx['menu'] = seite.url
     ctx['artikel'] = Artikel.public_objects.get_by_category( sid )
-    ctx['termine'] = Termin.public_objects.current()
-    ctx['alle_termine'] = Termin.public_objects.all()
-    ctx['beitraege'] = News.public_objects.all()
+
+    if seite.show_events:
+        ctx['termine'] = Termin.public_objects.current()
+        ctx['anzahl_termine'] = Termin.public_objects.all().count()
+        
+    if seite.show_news:
+        ctx['beitraege'] = News.public_objects.all()
 
     if seite.show_training:
         ctx['wochenplan'] = TrainingManager().get_wochenplan()
         ctx['wochentage'] = TrainingManager().get_wochentage()
         ctx['trainingsarten'] = Trainingsart.objects.filter( public = True )
 
+    if seite.show_anfaenger:
+        anfaengerkurse = Training.objects.filter( public = True, art__ist_anfaengerkurs = True )
+        if anfaengerkurse and anfaengerkurse.count() > 0:
+            ctx['anfaengerkurse'] = anfaengerkurse
+            ctx['anfaengerkurs_name'] = anfaengerkurse[0].art.get_name()
+            ctx['anfaengerkurs_text'] = anfaengerkurse[0].art.get_text()
+        
+    if seite.show_kinder:
+        kindertraining = Training.objects.filter( public = True, art__ist_kindertraining = True )
+        if kindertraining and kindertraining.count() > 0:
+            ctx['kindertraining'] = kindertraining
+            ctx['kindertraining_name'] = kindertraining[0].art.get_name()
+            ctx['kindertraining_text'] = kindertraining[0].art.get_text()
+        
     return __create_response( request, ctx )
 
 def dynamic_url( request, sitename = '' ):
