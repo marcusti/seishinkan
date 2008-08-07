@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load seishinkan_tags %}
 
 {% block content %}
 
@@ -19,11 +20,12 @@
     width="425" height="344"></embed>
   </object>
 
-  <p class="small">
+  <div class="clear postmeta">
+    {{ watch.upload_time|fromtimestamp|date:"d.m.Y" }},
     {% trans "Länge" %}: {{ watch.length_seconds }} sec,
     {% trans "Aufrufe" %}: {{ watch.view_count }},
     {% trans "Autor" %}: <a href="http://www.youtube.com/user/{{ watch.author }}" target="_blank">{{ watch.author }}</a>
-  </p>
+  </div>
 </p>
 
 <br/>
@@ -40,11 +42,12 @@
 
     {{ video.description|linebreaksbr }}
 
-    <p class="small">
-      {% trans "Länge" %}: {{ video.length }} sec,
+    <div class="clear postmeta">
+      {{ video.upload_time|fromtimestamp|date:"d.m.Y" }},
+      {% trans "Länge" %}: {{ video.length_seconds }} sec,
       {% trans "Aufrufe" %}: {{ video.view_count }},
       {% trans "Autor" %}: <a href="http://www.youtube.com/user/{{ video.author }}" target="_blank">{{ video.author }}</a>
-    </p>
+    </div>
 </li>
 {% endifnotequal %}
 {% endfor %}
