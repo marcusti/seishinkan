@@ -371,10 +371,6 @@ class TrainingsartAdmin( admin.ModelAdmin ):
         ( None, { 'fields': ( 'ist_anfaengerkurs', 'ist_kindertraining', 'public' ) } ),
     )
 
-    class Media:
-        js = ( '/static/js/tiny_mce/tiny_mce.js',
-              '/static/js/textareas.js', )
-
 admin.site.register( Trainingsart, TrainingsartAdmin )
 
 class Training( models.Model ):
