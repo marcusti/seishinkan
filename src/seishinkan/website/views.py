@@ -268,13 +268,19 @@ def bilder( request ):
         for album in ps.GetFeed( '/data/feed/api/user/%s?kind=album&thumbsize=160&max-results=10' % ( username )  ).entry:
             photos = []
             for photo in ps.GetFeed( '/data/feed/api/user/%s/album/%s?kind=photo&thumbsize=48&max-results=10' % ( username, album.name.text ) ).entry:
-                photos.append( {
-                    'title': photo.title.text,
+                p = {
                     'url': photo.GetHtmlLink().href,
                     'thumb_url': photo.media.thumbnail[0].url,
                     'thumb_height': photo.media.thumbnail[0].height,
                     'thumb_width': photo.media.thumbnail[0].width,
-                    } )
+                    }
+
+                if photo.summary.text:
+                    p['title'] = photo.summary.text
+                else:
+                    p['title'] = photo.title.text
+
+                photos.append( p )
 
             a = {
                 'title': album.title.text,
@@ -289,7 +295,7 @@ def bilder( request ):
                 }
 
             try:
-                a['timestamp'] = date.fromtimestamp( int( album.timestamp.text[:10] ) )
+                a['timestamp'] = album.timestamp.text[:10]
             except:
                 pass
 

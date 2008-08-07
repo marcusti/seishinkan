@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load seishinkan_tags %}
 
 {% block content %}
 
@@ -17,17 +18,17 @@
       <h5><a href="{{ album.url }}" target="_blank">{{ album.title }}</a></h5>
       <a href="{{ album.url }}" target="_blank">
         <img class="left" src="{{ album.thumb_url }}" alt="[{{ album.title}}]" title="{{ album.title }}" width="{{ album.thumb_width }}" height="{{ album.thumb_height }}" /></a>
-      <span class="postmeta">
-      {{ album.timestamp|date:"d.m.Y" }}
-      {% if album.numphotos %}, {{ album.numphotos }} {% trans "Bilder" %}{% endif %}
-      {% if album.numcomments %}, {{ album.numcomments }} {% trans "Kommentare" %}{% endif %}
-      <br/>{% trans "Vorschau" %}:<br/>
-      </span>
+
       {% for photo in album.photos %}
         <a href="{{ photo.url }}" target="_blank"><img src="{{ photo.thumb_url }}" alt="[{{ photo.title }}]" title="{{ photo.title }}" width="{{ photo.thumb_width }}" height="{{ photo.thumb_height }}" /></a>
       {% endfor %}
     </div>
-    <div class="clear"></div>
+
+    <div class="clear postmeta">
+      {{ album.timestamp|fromtimestamp|date:"d.m.Y" }}
+      {% if album.numphotos %}, {% blocktrans count album.numphotos as x %}{{ x }} Bild{% plural %}{{ x }} Bilder{% endblocktrans %}{% endif %}
+      {% if album.numcomments %}, {% blocktrans count album.numcomments as x %}{{ x }} Kommentar{% plural %}{{ x }} Kommentare{% endblocktrans %}{% endif %}
+    </div>
   </li>
 {% endfor %}
   <li>&nbsp;</li>
