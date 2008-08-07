@@ -47,8 +47,8 @@ class BildManager( models.Manager ):
         return super( BildManager, self ).get_query_set().filter( public = True )
 
 class Bild( models.Model ):
-    name = models.CharField( _( u'Titel' ), max_length = DEFAULT_MAX_LENGTH, blank = True, unique = True )
-    bild = models.ImageField( _( u'Pfad' ), upload_to = 'bilder/' )
+    name = models.CharField( _( u'Titel' ), max_length = DEFAULT_MAX_LENGTH, unique = True, help_text = u'Der Name muss eindeutig sein.' )
+    bild = models.ImageField( _( u'Datei' ), upload_to = 'bilder/' )
     vorschau = models.ImageField( _( u'Vorschau' ), upload_to = 'bilder/thumbs/', blank = True, editable = False )
     max_breit = models.IntegerField( _( u'max. Breite' ), default = 200, help_text = u'Das Bild wird automatisch auf die angegebene Breite skaliert. (Das Seitenverhältnis bleibt erhalten.)' )
     max_hoch = models.IntegerField( _( u'max. Höhe' ), default = 200, help_text = u'Das Bild wird automatisch auf die angegebene Höhe skaliert. (Das Seitenverhältnis bleibt erhalten.)' )
@@ -86,7 +86,7 @@ class Bild( models.Model ):
     admin_thumb.allow_tags = True
 
     def __unicode__( self ):
-        return self.name
+        return '%s (%s %s)' % ( self.name, self.bild, self.modified )
 
     class Meta:
         ordering = ['name']
@@ -127,7 +127,11 @@ class Seite( models.Model ):
     position = models.IntegerField( _( u'Position im Menü' ), default = 0 )
     parent = models.ForeignKey( 'self', verbose_name = _( u'Über' ), null = True, blank = True, related_name = 'child_set' )
     titelbild = models.ForeignKey( TitelBild, verbose_name = u'Bild im Kopf', blank = True, null = True )
+    show_events = models.BooleanField( _( u'Enthält Termine Übersicht' ), default = False )
+    show_news = models.BooleanField( _( u'Enthält Beiträge Übersicht' ), default = False )
     show_training = models.BooleanField( _( u'Enthält Trainingszeiten' ), default = False )
+    show_anfaenger = models.BooleanField( _( u'Enthält Anfängerkurs Info' ), default = False )
+    show_kinder = models.BooleanField( _( u'Enthält Kindertraining Info' ), default = False )
     is_homepage = models.BooleanField( _( u'Ist Startseite' ), default = False )
 
     public = models.BooleanField( _( u'Öffentlich' ), default = True )
@@ -293,6 +297,7 @@ class Termin( models.Model ):
 
 class TerminAdmin( admin.ModelAdmin ):
     ordering = ['-ende', '-beginn', 'title']
+    date_hierarchy = 'ende'
     search_fields = [ 'title', 'text', 'ort' ]
     list_display = ( 'title', 'ort', 'beginn', 'ende', 'bild', 'modified', 'public', 'id' )
     list_filter = ( 'beginn', 'ende', 'ort' )
@@ -332,6 +337,11 @@ class Trainingsart( models.Model ):
     name = models.CharField( _( u'Name' ), max_length = DEFAULT_MAX_LENGTH )
     name_en = models.CharField( _( u'Name (Englisch)' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     name_ja = models.CharField( _( u'Name (Japanisch)' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
+    text = models.TextField( _( u'Text' ), blank = True )
+    text_en = models.TextField( _( u'Text (Englisch)' ), blank = True )
+    text_ja = models.TextField( _( u'Text (Japanisch)' ), blank = True )
+    ist_anfaengerkurs = models.BooleanField( _( u'Anfängerkurs' ), default = False )
+    ist_kindertraining = models.BooleanField( _( u'Kindertraining' ), default = False )
 
     public = models.BooleanField( _( u'Öffentlich' ), default = True )
     creation = models.DateTimeField( _( u'Erfasst am' ), auto_now_add = True )
@@ -339,6 +349,9 @@ class Trainingsart( models.Model ):
 
     def get_name( self, language = None ):
         return getattr( self, "name_%s" % ( language or translation.get_language()[:2] ), "" ) or self.name
+
+    def get_text( self, language = None ):
+        return getattr( self, "text_%s" % ( language or translation.get_language()[:2] ), "" ) or self.text
 
     def __unicode__( self ):
         return u'%s'.strip() % ( self.get_name() )
@@ -350,7 +363,17 @@ class Trainingsart( models.Model ):
 
 class TrainingsartAdmin( admin.ModelAdmin ):
     ordering = ['name']
-    list_display = ( 'name', 'creation', 'modified', 'public', 'id' )
+    list_display = ( 'name', 'ist_anfaengerkurs', 'ist_kindertraining', 'public', 'id' )
+    fieldsets = (
+        ( 'Deutsch', { 'fields': ( 'name', 'text', ) } ),
+        ( 'Englisch', { 'fields': ( 'name_en', 'text_en' ), 'classes': ( 'collapse', ) } ),
+        ( 'Japanisch', { 'fields': ( 'name_ja', 'text_ja' ), 'classes': ( 'collapse', ) } ),
+        ( None, { 'fields': ( 'ist_anfaengerkurs', 'ist_kindertraining', 'public' ) } ),
+    )
+
+    class Media:
+        js = ( '/static/js/tiny_mce/tiny_mce.js',
+              '/static/js/textareas.js', )
 
 admin.site.register( Trainingsart, TrainingsartAdmin )
 
