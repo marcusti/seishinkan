@@ -77,7 +77,58 @@
     {% endfor %}
     {% endblock %}
 
-  {% if seite.is_homepage %}
+  {% if seite.show_anfaenger %}
+    {% autoescape off%}
+    <br/>
+    <h5>{{ anfaengerkurs_name }}</h5>
+    <ul class="event">
+    <li>
+    <table>
+    {% for training in anfaengerkurse %}
+      <tr>
+        <td>{{ training.wochentag }}</td>
+        <td>{{ training.von|time:"G:i" }} - {{ training.bis|time:"G:i" }}</td>
+      </tr>
+    {% endfor %}
+    </table>
+    </li>
+
+    {% if anfaengerkurs_text %}
+    <li>
+      {{ anfaengerkurs_text }}
+    </li>
+    {% endif %}
+      </ul>
+    {% endautoescape %}
+  {% endif %}
+
+  {% if seite.show_kinder %}
+    {% autoescape off%}
+    <br/>
+    <h5>{{ kindertraining_name }}</h5>
+    <ul class="event">
+    <li>
+    <table>
+    {% for training in kindertraining %}
+      <tr>
+        <td>{{ training.wochentag }}</td>
+        <td>{{ training.von|time:"G:i" }} - {{ training.bis|time:"G:i" }}</td>
+      </tr>
+    {% endfor %}
+    </table>
+    </li>
+
+    {% if kindertraining_text %}
+    <li>
+      {{ kindertraining_text }}
+    </li>
+    {% endif %}
+
+    </ul>
+    {% endautoescape %}
+  {% endif %}
+
+  {% if seite.show_events %}
     <br/>
     <h5>{% trans "aktuelle Termine" %}</h5>
     <ul class="event">
@@ -100,12 +151,14 @@
     {% endif %}
      <li class="small">
         <a href="/termin/archiv/">{% trans "Archiv" %}</a>
-        <span class="postmeta">({{ alle_termine|length }})</span>
+        <span class="postmeta">({{ anzahl_termine }})</span>
         {% if user.is_authenticated %}<a class="edit small"
         href="/verwaltung/website/termin/add/">{% trans "neuer Termin" %}</a>{% endif %}
     </li>
    </ul>
+  {% endif %}
 
+  {% if seite.show_news %}
     <br/>
     <h5>{% trans "aktuelle Beiträge" %}</h5>
     <ul class="event">
