@@ -66,12 +66,8 @@ a:hover {
 input, textarea, select {
 	border: 1px solid #C1C0B5;
 	background: #FAFAF0;
-	color: #333;
 	font-size: 1em;
 	font-family: "Lucida Sans Unicode", Tahoma, Arial, sans-serif;
-}
-input:disabled {
- color: #E8E7D0;
 }
 blockquote {
 	margin: 1.2em 20px;
@@ -547,10 +543,10 @@ div.imageright img, img.imageright {
 #trainingszeiten .training1 {
   background-color: #E8E8CE;
 }
-a.edit {
+a.create, a.edit {
   background-color: #fce94f;
 }
-a.edit:hover {
+a.create:hover, a.edit:hover {
   color: red;
 }
 .neu {
