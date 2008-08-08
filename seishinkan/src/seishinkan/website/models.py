@@ -132,7 +132,7 @@ class Seite( models.Model ):
     show_training = models.BooleanField( _( u'Enthält Trainingszeiten' ), default = False )
     show_anfaenger = models.BooleanField( _( u'Enthält Anfängerkurs Info' ), default = False )
     show_kinder = models.BooleanField( _( u'Enthält Kindertraining Info' ), default = False )
-    is_homepage = models.BooleanField( _( u'Ist Startseite' ), default = False )
+    is_homepage = models.BooleanField( _( u'Ist Startseite' ), default = False, editable = False )
 
     public = models.BooleanField( _( u'Öffentlich' ), default = True )
     creation = models.DateTimeField( _( u'Erfasst am' ), auto_now_add = True )
@@ -411,8 +411,8 @@ class TrainingAktuell( models.Model ):
     text = models.TextField( _( u'Text' ), help_text = u'Dieser Text wird unter der Rubrik "Training heute" angezeigt.' )
     text_en = models.TextField( _( u'Text (Englisch)' ), blank = True )
     text_ja = models.TextField( _( u'Text (Japanisch)' ), blank = True )
-    beginn = models.DateField( _( u'Beginn' ), help_text = u'Ab diesem Datum wird obiger Text auf der Webseite angezeigt.' )
-    ende = models.DateField( _( u'Ende' ), help_text = u'Bis zu diesem Datum (einschließlich) wird obiger Text auf der Webseite angezeigt.' )
+    beginn = models.DateField( _( u'Beginn' ), help_text = u'Ab diesem Datum wird der Text auf der Webseite angezeigt.' )
+    ende = models.DateField( _( u'Ende' ), help_text = u'Bis zu diesem Datum (einschließlich) wird der Text auf der Webseite angezeigt.' )
     
     public = models.BooleanField( _( u'Öffentlich' ), default = True, help_text = u'Nur öffentliche Objekte erscheinen auf der Webseite.' )
     creation = models.DateTimeField( _( u'Erfasst am' ), auto_now_add = True )
@@ -432,8 +432,8 @@ class TrainingAktuell( models.Model ):
 
     class Meta:
         ordering = ['-ende', '-beginn', 'name']
-        verbose_name = _( u'Training Aktuell' )
-        verbose_name_plural = _( u'Training Aktuell' )
+        verbose_name = _( u'Training Aktuell Meldung' )
+        verbose_name_plural = _( u'Training Aktuell Meldungen' )
 
 class TrainingAktuellAdmin( admin.ModelAdmin ):
     ordering = [ '-ende', '-beginn', 'name' ]
