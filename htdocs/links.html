@@ -4,6 +4,7 @@
 {% block content %}
 
 <h3>{%trans "Links" %}</h3>
+{% if user.is_authenticated %}<a class="create small" href="/verwaltung/links/link/add/">{% trans "neuen Link erstellen" %}</a>{% endif %}
 
 {% autoescape on%}
 <div class="post">
