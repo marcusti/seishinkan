@@ -66,16 +66,14 @@ def index( request, sid = 1 ):
     if seite.show_anfaenger:
         anfaengerkurse = Training.objects.filter( public = True, art__ist_anfaengerkurs = True )
         if anfaengerkurse and anfaengerkurse.count() > 0:
-            ctx['anfaengerkurse'] = anfaengerkurse
-            ctx['anfaengerkurs_name'] = anfaengerkurse[0].art.get_name()
-            ctx['anfaengerkurs_text'] = anfaengerkurse[0].art.get_text()
+            ctx['anfaengerkurs_liste'] = anfaengerkurse
+            ctx['anfaengerkurs'] = anfaengerkurse[0].art
         
     if seite.show_kinder:
         kindertraining = Training.objects.filter( public = True, art__ist_kindertraining = True )
         if kindertraining and kindertraining.count() > 0:
-            ctx['kindertraining'] = kindertraining
-            ctx['kindertraining_name'] = kindertraining[0].art.get_name()
-            ctx['kindertraining_text'] = kindertraining[0].art.get_text()
+            ctx['kindertraining_liste'] = kindertraining
+            ctx['kindertraining'] = kindertraining[0].art
         
     return __create_response( request, ctx )
 
