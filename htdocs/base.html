@@ -79,11 +79,11 @@
 
   {% if seite.show_anfaenger %}
     <br/>
-    <h5>{{ anfaengerkurs_name }}</h5>
+    <h5>{{ anfaengerkurs.get_name }}</h5>
     <ul class="event">
     <li>
     <table>
-    {% for training in anfaengerkurse %}
+    {% for training in anfaengerkurs_liste %}
       <tr>
         <td>{{ training.wochentag }}</td>
         <td>{{ training.von|time:"G:i" }} - {{ training.bis|time:"G:i" }}</td>
@@ -92,9 +92,10 @@
     </table>
     </li>
 
-    {% if anfaengerkurs_text %}
+    {% if anfaengerkurs.get_text %}
     <li class="postmeta">
-      {{ anfaengerkurs_text|linebreaksbr }}
+      {{ anfaengerkurs.get_text|linebreaksbr }}
+      {% if user.is_authenticated %}<a class="edit small" href="/verwaltung/website/trainingsart/{{ anfaengerkurs.id }}/">{% trans "bearbeiten" %}</a>{% endif %}
     </li>
     {% endif %}
       </ul>
@@ -102,11 +103,11 @@
 
   {% if seite.show_kinder %}
     <br/>
-    <h5>{{ kindertraining_name }}</h5>
+    <h5>{{ kindertraining.get_name }}</h5>
     <ul class="event">
     <li>
     <table>
-    {% for training in kindertraining %}
+    {% for training in kindertraining_liste %}
       <tr>
         <td>{{ training.wochentag }}</td>
         <td>{{ training.von|time:"G:i" }} - {{ training.bis|time:"G:i" }}</td>
@@ -115,9 +116,10 @@
     </table>
     </li>
 
-    {% if kindertraining_text %}
+    {% if kindertraining.get_text %}
     <li class="postmeta">
-      {{ kindertraining_text|linebreaksbr }}
+      {{ kindertraining.get_text|linebreaksbr }}
+      {% if user.is_authenticated %}<a class="edit small" href="/verwaltung/website/trainingsart/{{ kindertraining.id }}/">{% trans "bearbeiten" %}</a>{% endif %}
     </li>
     {% endif %}
 
