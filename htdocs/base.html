@@ -31,10 +31,10 @@
   <div id="header">
     <a name="top">
   {% if seite.get_titelbild %}
-    <img src="{{ seite.get_titelbild.get_bild_url }}" width="800" height="190" alt="[Titel Bild]" title="Titel Bild" />
+    <img src="{{ seite.get_titelbild.bild.url }}" width="800" height="190" alt="[Titel Bild]" title="Titel Bild" />
   {% else %}
     {% if homepage.get_titelbild %}
-      <img src="{{ homepage.get_titelbild.get_bild_url }}" width="800" height="190" alt="[Titel Bild]" title="Titel Bild" />
+      <img src="{{ homepage.get_titelbild.bild.url }}" width="800" height="190" alt="[Titel Bild]" title="Titel Bild" />
     {% else %}
       <img src="/static/images/header.jpg" width="800" height="190" alt="[Titel Bild]" title="Titel Bild" />
     {% endif %}
@@ -67,7 +67,7 @@
       <div class="postentry">
         {% if art.bild %}
           <p><img class="image{% if art.bild_ausrichtung %}{{ art.bild_ausrichtung }}{% endif %}"
-               src="{{ art.bild.get_bild_url }}"
+               src="{{ art.bild.bild.url }}"
                title="{{ art.bild.name }}"
                alt="[{{ art.bild.name }}]" /></p>
         {% endif %}

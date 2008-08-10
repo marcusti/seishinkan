@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load seishinkan_tags %}
 
 {% block content %}
 
@@ -11,14 +12,14 @@
 <ul class="event">
 {% for download in downloads %}
   <li>
-{#    {% if download.vorschau %}<img class="left" src="{{ download.get_vorschau_url }}" width="{{ download.get_vorschau_width }}" height="{{ download.get_vorschau_height }}" alt="[]" title="" />{% endif %} #}
+{#    {% if download.vorschau %}<img class="left" src="{{ download.vorschau.url }}" width="{{ download.vorschau.width }}" height="{{ download.vorschau.height }}" alt="[]" title="" />{% endif %} #}
     <div class="right small postmeta">{{ download.modified|date:"d.m.Y G:i" }}</div>
     <div>
-    <a href="{{ download.get_datei_url }}">{{ download.name }}</a>
+    <a href="{{ download.datei.url }}">{{ download.name }}</a>
     <span class="small postmeta">
       <br/>
-      {{ download.extension|upper }},
-      {{ download.get_datei_size|filesizeformat }}
+      {{ download.datei|extension|upper }},
+      {{ download.datei.size|filesizeformat }}
       <br/>
     </span>
     {{ download.text|linebreaksbr }}
