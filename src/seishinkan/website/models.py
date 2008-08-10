@@ -481,15 +481,6 @@ class Download( models.Model ):
 
         super( Download, self ).save()
 
-    def extension( self ):
-        root, ext =  os.path.splitext( self.datei )
-        if ext and len( ext ) > 0:
-            if ext.startswith( '.' ):
-                return ext.lower()[1:]
-            else:
-                return ext.lower()
-        return ''
-
     def __unicode__( self ):
         return u'%s %s'.strip() % ( self.name, self.datei )
 

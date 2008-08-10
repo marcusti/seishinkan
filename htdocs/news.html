@@ -17,7 +17,7 @@
     <h6>{{ beitrag.einleitung }}</h6>
     {% if beitrag.bild %}
       <p><img class="image{% if beitrag.bild_ausrichtung %}{{ beitrag.bild_ausrichtung }}{% endif %}"
-           src="{{ beitrag.bild.get_bild_url }}"
+           src="{{ beitrag.bild.bild.url }}"
            title="{{ beitrag.bild.name }}"
            alt="[{{ beitrag.bild.name }}]" /></p>
     {% endif %}
