@@ -27,6 +27,7 @@ def __get_sidebar( request ):
     ctx['seiten'] = Seite.public_objects.filter( parent__isnull = True ).order_by( 'position' )
     ctx['language'] = request.session.get( 'django_language', 'de' )
     ctx['training_heute'] = TrainingManager().get_einheiten_pro_tag( heute )
+    ctx['termine_heute'] = Termin.public_objects.current()
     ctx['training_aktuell'] = TrainingAktuell.public_objects.get_aktuelle_meldungen()
     ctx['path'] = request.path
     ctx['host'] = request.META['HTTP_HOST']
