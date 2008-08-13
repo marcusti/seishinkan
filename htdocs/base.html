@@ -144,6 +144,7 @@
       {% for termin in termine %}
         <li>
          <div class="right postmeta">
+	  {% if termin.ist_heute %}<span class="neu">{% trans "HEUTE" %}</span>{% endif %}
           {{ termin.beginn|date:"d.m.Y" }}
           {% ifnotequal termin.beginn termin.ende %} - {{ termin.ende|date:"d.m.Y" }}{% endifnotequal %}
          </div>

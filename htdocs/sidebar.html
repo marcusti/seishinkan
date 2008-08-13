@@ -41,7 +41,7 @@
     <p><img src="/static/images/TWA.jpg" alt="[]" title="" /></p>
     <br/>
 
-    <h2>{% trans "Training heute" %},<br/>{% now "l" %}</h2>
+    <h2>{% trans "Training heute" %},<br/>{% now "l, d.m." %}</h2>
     <ul class="event">
         {% if training_heute %}
           {% for training in training_heute %}
