@@ -271,6 +271,10 @@ class Termin( models.Model ):
     objects = models.Manager()
     public_objects = TerminManager()
 
+    def ist_heute( self ):
+        heute = date.today()
+        return self.beginn <= heute and self.ende >= heute
+    
     def get_absolute_url( self ):
         return '/termin/%i/' % self.id
 
