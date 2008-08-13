@@ -36,11 +36,36 @@ class Wochentag( models.Model ):
         verbose_name = _( u'Wochentag' )
         verbose_name_plural = _( u'Wochentage' )
 
-class WochentagAdmin( admin.ModelAdmin ):
-    ordering = ['index', 'name']
-    list_display = ( 'name', 'public', 'creation', 'modified', 'index' )
+class Dokument( models.Model ):
+    name = models.CharField( _( u'Titel' ), max_length = DEFAULT_MAX_LENGTH, help_text = u'' )
+    datei = models.FileField( _( u'Datei' ), upload_to = 'dokumente/' )
 
-admin.site.register( Wochentag, WochentagAdmin )
+    public = models.BooleanField( _( u'Öffentlich' ), default = True )
+    creation = models.DateTimeField( _( u'Erfasst am' ), auto_now_add = True )
+    modified = models.DateTimeField( _( u'Geändert am' ), auto_now = True )
+
+    def __unicode__( self ):
+        return u'%s (%s)' % ( self.name, self.datei )
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = _( u'Dokument' )
+        verbose_name_plural = _( u'Dokumente' )
+
+class Ort( models.Model ):
+    name = models.CharField( _( u'Titel' ), max_length = DEFAULT_MAX_LENGTH, help_text = u'' )
+
+    public = models.BooleanField( _( u'Öffentlich' ), default = True )
+    creation = models.DateTimeField( _( u'Erfasst am' ), auto_now_add = True )
+    modified = models.DateTimeField( _( u'Geändert am' ), auto_now = True )
+
+    def __unicode__( self ):
+        return self.name
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = _( u'Ort' )
+        verbose_name_plural = _( u'Orte' )
 
 class BildManager( models.Manager ):
     def get_query_set( self ):
@@ -93,13 +118,6 @@ class Bild( models.Model ):
         verbose_name = _( u'Bild' )
         verbose_name_plural = _( u'Bilder' )
 
-class BildAdmin( admin.ModelAdmin ):
-    list_display = ( 'name', 'bild', 'max_breit', 'max_hoch', 'modified', 'admin_thumb' )
-    list_display_links = ( 'name', 'admin_thumb' )
-    search_fields = [ 'name', 'bild' ]
-
-admin.site.register( Bild, BildAdmin )
-
 class TitelBild( Bild ):
     
     class Meta:
@@ -107,8 +125,6 @@ class TitelBild( Bild ):
         verbose_name = _( u'Bild im Kopf' )
         verbose_name_plural = _( u'Bilder im Kopf' )
 
-admin.site.register( TitelBild, BildAdmin )
-   
 class SeitenManager( models.Manager ):
     def get_query_set( self ):
         return super( SeitenManager, self ).get_query_set().filter( public = True )
@@ -170,15 +186,6 @@ class Seite( models.Model ):
         verbose_name = _( u'Seite' )
         verbose_name_plural = _( u'Seiten' )
 
-class SeiteAdmin( admin.ModelAdmin ):
-    prepopulated_fields = {'url': ( 'name', )}
-    ordering = ['name']
-    search_fields = [ 'name' ]
-    list_display = ( 'name', 'url', 'parent', 'position', 'is_homepage', 'public', 'id' )
-    list_filter = ( 'parent', )
-
-admin.site.register( Seite, SeiteAdmin )
-
 class ArtikelManager( models.Manager ):
     def get_query_set( self ):
         return super( ArtikelManager, self ).get_query_set().filter( public = True )
@@ -239,27 +246,6 @@ class Artikel( models.Model ):
         verbose_name = _( u'Artikel' )
         verbose_name_plural = _( u'Artikel' )
 
-class ArtikelAdmin( admin.ModelAdmin ):
-    ordering = ['title', 'text']
-    search_fields = [ 'title', 'text' ]
-    list_display = ( 'get_title', 'preview', 'seite', 'position', 'public', 'id' )
-    list_display_links = ( 'get_title', 'preview' )
-    list_filter = ( 'seite', )
-    fieldsets = (
-        ( None, { 'fields': ( 'seite', 'position', 'public' ) } ),
-        ( 'Bild', { 'fields': ( 'bild', 'bild_ausrichtung' ) } ),
-        ( 'HTML Code', { 'fields': ( 'text_src', ) } ),
-        ( 'Deutsch', { 'fields': ( 'title', 'text' ) } ),
-        ( 'Englisch', { 'fields': ( 'title_en', 'text_en' ), 'classes': ( 'collapse', ) } ),
-        ( 'Japanisch', { 'fields': ( 'title_ja', 'text_ja' ), 'classes': ( 'collapse', ) } ),
-    )
-
-    class Media:
-        js = ( '/static/js/tiny_mce/tiny_mce.js',
-              '/static/js/textareas.js', )
-
-admin.site.register( Artikel, ArtikelAdmin )
-
 class TerminManager( models.Manager ):
     def get_query_set( self ):
         return super( TerminManager, self ).get_query_set().filter( public = True ).order_by( '-ende', '-beginn', 'title' )
@@ -271,9 +257,10 @@ class TerminManager( models.Manager ):
 class Termin( models.Model ):
     title = models.CharField( _( u'Überschrift' ), max_length = DEFAULT_MAX_LENGTH )
     text = models.TextField( _( u'Text' ) )
-    ort = models.CharField( _( u'Ort' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
+    ort = models.ForeignKey( Ort, blank = True, null = True )
     bild = models.ForeignKey( Bild, verbose_name = u'Bild', blank = True, null = True )
     bild_ausrichtung = models.CharField( _( u'Bild Ausrichtung' ), max_length = DEFAULT_MAX_LENGTH, choices = AUSRICHTUNGEN, default = u'right', blank = True )
+    dokument = models.ForeignKey( Dokument, blank = True, null = True )
     beginn = models.DateField( _( u'Beginn' ) )
     ende = models.DateField( _( u'Ende' ) )
 
@@ -294,19 +281,6 @@ class Termin( models.Model ):
         ordering = ['-ende', '-beginn', 'title']
         verbose_name = _( u'Termin' )
         verbose_name_plural = _( u'Termine' )
-
-class TerminAdmin( admin.ModelAdmin ):
-    ordering = ['-ende', '-beginn', 'title']
-    date_hierarchy = 'ende'
-    search_fields = [ 'title', 'text', 'ort' ]
-    list_display = ( 'title', 'ort', 'beginn', 'ende', 'bild', 'modified', 'public', 'id' )
-    list_filter = ( 'beginn', 'ende', 'ort' )
-
-    class Media:
-        js = ( '/static/js/tiny_mce/tiny_mce.js',
-              '/static/js/textareas.js', )
-
-admin.site.register( Termin, TerminAdmin )
 
 class TrainingManager( models.Manager ):
     def get_einheit( self, tag, anfang ):
@@ -361,18 +335,6 @@ class Trainingsart( models.Model ):
         verbose_name = _( u'Trainingsart' )
         verbose_name_plural = _( u'Trainingsarten' )
 
-class TrainingsartAdmin( admin.ModelAdmin ):
-    ordering = ['name']
-    list_display = ( 'name', 'ist_anfaengerkurs', 'ist_kindertraining', 'public', 'id' )
-    fieldsets = (
-        ( 'Deutsch', { 'fields': ( 'name', 'text', ) } ),
-        ( 'Englisch', { 'fields': ( 'name_en', 'text_en' ), 'classes': ( 'collapse', ) } ),
-        ( 'Japanisch', { 'fields': ( 'name_ja', 'text_ja' ), 'classes': ( 'collapse', ) } ),
-        ( None, { 'fields': ( 'ist_anfaengerkurs', 'ist_kindertraining', 'public' ) } ),
-    )
-
-admin.site.register( Trainingsart, TrainingsartAdmin )
-
 class Training( models.Model ):
     '''Modell einer Trainingseinheit'''
     von = models.TimeField( _( u'Von' ) )
@@ -391,12 +353,6 @@ class Training( models.Model ):
         ordering = ['wochentag', 'von']
         verbose_name = _( u'Training' )
         verbose_name_plural = _( u'Training' )
-
-class TrainingAdmin( admin.ModelAdmin ):
-    ordering = ['wochentag', 'von']
-    list_display = ( 'wochentag', 'von', 'bis', 'art', 'creation', 'modified', 'public' )
-
-admin.site.register( Training, TrainingAdmin )
 
 class TrainingAktuellManager( models.Manager ):
     def get_query_set( self ):
@@ -434,18 +390,6 @@ class TrainingAktuell( models.Model ):
         ordering = ['-ende', '-beginn', 'name']
         verbose_name = _( u'Training Aktuell Meldung' )
         verbose_name_plural = _( u'Training Aktuell Meldungen' )
-
-class TrainingAktuellAdmin( admin.ModelAdmin ):
-    ordering = [ '-ende', '-beginn', 'name' ]
-    search_fields = [ 'name', 'text' ]
-    list_display = ( 'name', 'text', 'beginn', 'ende', 'public' )
-    fieldsets = (
-        ( None, { 'fields': ( 'name', 'text', 'beginn', 'ende', 'public' ) } ),
-        ( 'Englisch', { 'fields': ( 'text_en', ), 'classes': ( 'collapse', ) } ),
-        ( 'Japanisch', { 'fields': ( 'text_ja', ), 'classes': ( 'collapse', ) } ),
-    )
-
-admin.site.register( TrainingAktuell, TrainingAktuellAdmin )
 
 class DownloadManager( models.Manager ):
     def get_query_set( self ):
@@ -492,13 +436,6 @@ class Download( models.Model ):
         verbose_name = _( u'Download' )
         verbose_name_plural = _( u'Downloads' )
 
-class DownloadAdmin( admin.ModelAdmin ):
-    ordering = [ '-modified' ]
-    search_fields = [ 'name', 'text', 'datei' ]
-    list_display = ( 'name', 'datei', 'modified', 'public' )
-
-admin.site.register( Download, DownloadAdmin )
-
 class Kontakt( models.Model ):
     sender = models.EmailField( _( u'Absender' ) )
     betreff = models.CharField( _( u'Betreff' ), max_length = DEFAULT_MAX_LENGTH )
@@ -519,11 +456,3 @@ class Kontakt( models.Model ):
         ordering = ['-creation']
         verbose_name = _( u'Kontakt' )
         verbose_name_plural = _( u'Kontakte' )
-
-class KontaktAdmin( admin.ModelAdmin ):
-    ordering = [ '-creation' ]
-    search_fields = [ 'sender', 'betreff', 'nachricht' ]
-    list_display = ( 'sender', 'betreff', 'kurzform', 'creation' )
-    list_display_links = ( 'sender', 'betreff', 'kurzform' )
-
-admin.site.register( Kontakt, KontaktAdmin )
