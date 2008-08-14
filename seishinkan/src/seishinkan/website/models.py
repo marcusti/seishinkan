@@ -88,25 +88,25 @@ class Bild( models.Model ):
     def save( self ):
         if self.bild:
             if not self.name or self.name.strip() == '':
-                self.name = self.get_bild_filename()
+                self.name = self.bildpath
             from PIL import Image
             THUMBNAIL_SIZE = ( 75, 75 )
             SCALE_SIZE = ( self.max_breit, self.max_hoch )
             if not self.vorschau:
-                self.save_vorschau_file( self.get_bild_filename(), '' )
-            image = Image.open( self.get_bild_filename() )
+                self.vorschau.save( self.bild.path, '' )
+            image = Image.open( self.bild.path )
             image.thumbnail( SCALE_SIZE, Image.ANTIALIAS )
-            image.save( self.get_bild_filename() )
+            image.save( self.bild.path )
             if image.mode not in ( 'L', 'RGB' ):
                 image = image.convert( 'RGB' )
             image.thumbnail( THUMBNAIL_SIZE, Image.ANTIALIAS )
-            image.save( self.get_vorschau_filename() )
+            image.save( self.vorschau.path )
             super( Bild, self ).save()
 
     def admin_thumb( self ):
-        w = self.get_vorschau_width()
-        h = self.get_vorschau_height()
-        return u'<img src="%s" width="%s" height="%s" />' % ( self.get_vorschau_url(), w, h )
+        w = self.vorschau.width
+        h = self.vorschau.height
+        return u'<img src="%s" width="%s" height="%s" />' % ( self.vorschau.url, w, h )
     admin_thumb.short_description = _( u'Bild' )
     admin_thumb.allow_tags = True
 
