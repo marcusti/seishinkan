@@ -9,7 +9,10 @@
   <p><a class="edit small" href="/verwaltung/news/news/{{beitrag.id}}/">{% trans "bearbeiten" %}</a></p>
 {% endif %}
 
-<p class="">{% if beitrag.autor %}{{ beitrag.autor }}, {% endif %}{{ beitrag.datum|date:"d.m.Y" }}</p>
+<p>
+  {{ beitrag.datum|date:"d.m.Y" }}<br/>
+  {% for autor in beitrag.autoren.all %}{{ autor }}{% if not forloop.last %}, {% endif %}{% endfor %}
+</p>
 
 {% autoescape off%}
   <h3>{{ beitrag.title }}</h3>
