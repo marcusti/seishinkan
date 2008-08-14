@@ -15,6 +15,27 @@ AUSRICHTUNGEN = [
     ( u'right', u'rechts' ),
 ]
 
+class Person( models.Model ):
+    firstname = models.CharField( _( u'Vorname' ), max_length = DEFAULT_MAX_LENGTH )
+    lastname = models.CharField( _( u'Nachname' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
+
+    public = models.BooleanField( _( u'Öffentlich' ), default = True )
+    creation = models.DateTimeField( _( u'Erfasst am' ), auto_now_add = True )
+    modified = models.DateTimeField( _( u'Geändert am' ), auto_now = True )
+
+    def name( self ):
+        return ( '%s %s' % ( self.firstname, self.lastname ) ).strip()
+    name.short_description = _( u'Name' )
+    name.allow_tags = True
+
+    def __unicode__( self ):
+        return self.name()
+
+    class Meta:
+        ordering = ['firstname', 'lastname']
+        verbose_name = _( u'Person' )
+        verbose_name_plural = _( u'Personen' )
+
 class Wochentag( models.Model ):
     name = models.CharField( _( u'Name' ), max_length = DEFAULT_MAX_LENGTH )
     name_en = models.CharField( _( u'Name (Englisch)' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
@@ -441,6 +462,10 @@ class Download( models.Model ):
         verbose_name_plural = _( u'Downloads' )
 
 class Kontakt( models.Model ):
+    """
+    Dieses Model dient auschliesslich zur Speicherung der Kontaktdaten in der Datenbank.
+    Das Model fuer das Formular  in der Website findet sich in forms.py.
+    """
     sender = models.EmailField( _( u'Absender' ) )
     betreff = models.CharField( _( u'Betreff' ), max_length = DEFAULT_MAX_LENGTH )
     captcha = models.CharField( _( u'Captcha' ), max_length = DEFAULT_MAX_LENGTH )
