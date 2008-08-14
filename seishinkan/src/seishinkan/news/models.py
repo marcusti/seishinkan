@@ -7,7 +7,7 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
 from seishinkan.utils import DEFAULT_MAX_LENGTH
-from seishinkan.website.models import AUSRICHTUNGEN, Bild
+from seishinkan.website.models import AUSRICHTUNGEN, Bild, Person
 
 class NewsManager( models.Manager ):
     def get_query_set( self ):
@@ -24,9 +24,10 @@ class News( models.Model ):
     text = models.TextField( _( u'Text' ) )
     bild = models.ForeignKey( Bild, verbose_name = u'Bild', blank = True, null = True )
     bild_ausrichtung = models.CharField( _( u'Bild Ausrichtung' ), max_length = DEFAULT_MAX_LENGTH, choices = AUSRICHTUNGEN, default = u'right', blank = True )
-    autor = models.CharField( _( u'Autor' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
+    #autor = models.CharField( _( u'Autor' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     beginn = models.DateField( _( u'veröffentlicht' ), default = date.today() )
     ende = models.DateField( _( u'endet' ), blank = True, null = True )
+    autoren = models.ManyToManyField( Person, verbose_name = 'Autoren', blank = True, null = True )
 
     public = models.BooleanField( _( u'Öffentlich' ), default = True )
     creation = models.DateTimeField( _( u'Erfasst am' ), auto_now_add = True )
@@ -74,18 +75,3 @@ class News( models.Model ):
         ordering = ['-beginn', '-creation', 'title']
         verbose_name = _( u'Beitrag' )
         verbose_name_plural = _( u'Beiträge' )
-
-class NewsAdmin( admin.ModelAdmin ):
-    ordering = ['-beginn', '-creation', 'title']
-    date_hierarchy = 'beginn'
-    search_fields = [ 'title', 'einleitung', 'text' ]
-    list_display = ( 'title', 'preview', 'autor', 'beginn', 'ende', 'bild', 'public', 'id' )
-    list_display_links = ( 'title', 'preview' )
-    list_filter = ( 'beginn', 'autor' )
-    js = ['tiny_mce/tiny_mce.js', 'js/textareas.js']
-
-    class Media:
-        js = ( '/static/js/tiny_mce/tiny_mce.js',
-              '/static/js/textareas.js', )
-
-admin.site.register( News, NewsAdmin )
