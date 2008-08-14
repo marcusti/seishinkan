@@ -433,6 +433,11 @@ class Download( models.Model ):
     objects = models.Manager()
     public_objects = DownloadManager()
 
+    def neu( self ):
+        return ( datetime.now() - self.creation ).days < 7
+    neu.short_description = _( u'Neu' )
+    neu.allow_tags = False
+
     def save( self ):
         try:
             if self.datei:
@@ -457,7 +462,7 @@ class Download( models.Model ):
         return '/downloads/'
 
     class Meta:
-        ordering = ['-modified']
+        ordering = ['name']
         verbose_name = _( u'Download' )
         verbose_name_plural = _( u'Downloads' )
 
