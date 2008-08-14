@@ -10,7 +10,7 @@
 {% endif %}
 
 <p>
-  {{ beitrag.datum|date:"d.m.Y" }}<br/>
+  {{ beitrag.datum|date:"l, d. F Y" }}<br/>
   {% for autor in beitrag.autoren.all %}{{ autor }}{% if not forloop.last %}, {% endif %}{% endfor %}
 </p>
 

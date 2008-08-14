@@ -550,8 +550,9 @@ a.create:hover, a.edit:hover {
   color: red;
 }
 .neu {
-  background-color: red;
+  background-color: #d7030f;
   color: white;
+  padding: 0 2px;
 }
 .error {
   color: red;

@@ -47,11 +47,7 @@ class News( models.Model ):
     text.allow_tags = True
 
     def neu( self ):
-        delta = date.today() - self.beginn
-        if delta.days < 7:
-            return True
-        else:
-            return False
+        return ( date.today() - self.beginn ).days < 7
     neu.short_description = _( u'Neu' )
     neu.allow_tags = False
 

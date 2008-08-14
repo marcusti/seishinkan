@@ -13,19 +13,17 @@
 {% for download in downloads %}
   <li>
 {#    {% if download.vorschau %}<img class="left" src="{{ download.vorschau.url }}" width="{{ download.vorschau.width }}" height="{{ download.vorschau.height }}" alt="[]" title="" />{% endif %} #}
-    <div class="right small postmeta">{{ download.modified|date:"d.m.Y G:i" }}</div>
-    <div>
-    <a href="{{ download.datei.url }}">{{ download.name }}</a>
-    <span class="small postmeta">
-      <br/>
-      {{ download.datei|extension|upper }},
-      {{ download.datei.size|filesizeformat }}
-      <br/>
-    </span>
-    {{ download.text|linebreaksbr }}
-      {% if user.is_authenticated %}<a class="edit small" href="/verwaltung/website/download/{{ download.id }}/">{% trans "bearbeiten" %}</a>{% endif %}
-      <div class="clear"></div>
+{#    <div class="right small postmeta">{{ download.modified|date:"d.m.Y G:i" }}</div> #}
+    <div class="right small postmeta">
+      {{ download.datei.size|filesizeformat }},
+      {{ download.datei|extension|lower }}
     </div>
+    {% if download.neu %}<span class="neu">{% trans "NEU" %}</span>{% endif %}
+    <a href="{{ download.datei.url }}">{{ download.name }}</a>
+    <br/>
+    {{ download.text|linebreaksbr }}
+    {% if user.is_authenticated %}<a class="edit small" href="/verwaltung/website/download/{{ download.id }}/">{% trans "bearbeiten" %}</a>{% endif %}
+    <div class="clear"></div>
   </li>
 {% endfor %}
 
