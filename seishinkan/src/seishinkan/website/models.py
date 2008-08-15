@@ -93,7 +93,7 @@ class BildManager( models.Manager ):
         return super( BildManager, self ).get_query_set().filter( public = True )
 
 class Bild( models.Model ):
-    name = models.CharField( _( u'Titel' ), max_length = DEFAULT_MAX_LENGTH, unique = True, help_text = u'Der Name muss eindeutig sein.' )
+    name = models.CharField( _( u'Titel' ), max_length = DEFAULT_MAX_LENGTH, help_text = u'Der Name muss eindeutig sein.' )
     bild = models.ImageField( _( u'Datei' ), upload_to = 'bilder/' )
     vorschau = models.ImageField( _( u'Vorschau' ), upload_to = 'bilder/thumbs/', blank = True, editable = False )
     max_breit = models.IntegerField( _( u'max. Breite' ), default = 200, help_text = u'Das Bild wird automatisch auf die angegebene Breite skaliert. (Das Seitenverhältnis bleibt erhalten.)' )
@@ -109,17 +109,17 @@ class Bild( models.Model ):
     def save( self ):
         if self.bild:
             if not self.name or self.name.strip() == '':
-                self.name = self.bildpath
+                self.name = self.bild.path
             from PIL import Image
             THUMBNAIL_SIZE = ( 75, 75 )
             SCALE_SIZE = ( self.max_breit, self.max_hoch )
             if not self.vorschau:
-                self.vorschau.save( self.bild.path, '' )
+                self.vorschau.save( self.bild.path, self.bild, save = True )
             image = Image.open( self.bild.path )
-            image.thumbnail( SCALE_SIZE, Image.ANTIALIAS )
-            image.save( self.bild.path )
             if image.mode not in ( 'L', 'RGB' ):
                 image = image.convert( 'RGB' )
+            image.thumbnail( SCALE_SIZE, Image.ANTIALIAS )
+            image.save( self.bild.path )
             image.thumbnail( THUMBNAIL_SIZE, Image.ANTIALIAS )
             image.save( self.vorschau.path )
             super( Bild, self ).save()
