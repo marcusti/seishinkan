@@ -3,10 +3,6 @@
 from django.contrib import admin
 from seishinkan.website.models import *
 
-class PersonAdmin( admin.ModelAdmin ):
-    ordering = ['firstname', 'lastname']
-    list_display = ( 'firstname', 'lastname', 'public', 'modified', 'id' )
-
 class WochentagAdmin( admin.ModelAdmin ):
     ordering = ['index', 'name']
     list_display = ( 'name', 'public', 'creation', 'modified', 'index' )
@@ -94,7 +90,6 @@ class KontaktAdmin( admin.ModelAdmin ):
     list_display = ( 'sender', 'betreff', 'kurzform', 'creation' )
     list_display_links = ( 'sender', 'betreff', 'kurzform' )
 
-admin.site.register( Person, PersonAdmin )
 admin.site.register( Ort, OrtAdmin )
 admin.site.register( Dokument, DokumentAdmin )
 admin.site.register( Kontakt, KontaktAdmin )

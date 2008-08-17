@@ -7,7 +7,8 @@ from django.db import models
 from django.db.models import Q
 from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
-from seishinkan.utils import DEFAULT_MAX_LENGTH
+from seishinkan.utils import DEFAULT_MAX_LENGTH, AbstractModel
+from seishinkan.members.models import Person
 import os
 
 AUSRICHTUNGEN = [
@@ -15,36 +16,11 @@ AUSRICHTUNGEN = [
     ( u'right', u'rechts' ),
 ]
 
-class Person( models.Model ):
-    firstname = models.CharField( _( u'Vorname' ), max_length = DEFAULT_MAX_LENGTH )
-    lastname = models.CharField( _( u'Nachname' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
-
-    public = models.BooleanField( _( u'Öffentlich' ), default = True )
-    creation = models.DateTimeField( _( u'Erfasst am' ), auto_now_add = True )
-    modified = models.DateTimeField( _( u'Geändert am' ), auto_now = True )
-
-    def name( self ):
-        return ( '%s %s' % ( self.firstname, self.lastname ) ).strip()
-    name.short_description = _( u'Name' )
-    name.allow_tags = True
-
-    def __unicode__( self ):
-        return self.name()
-
-    class Meta:
-        ordering = ['firstname', 'lastname']
-        verbose_name = _( u'Person' )
-        verbose_name_plural = _( u'Personen' )
-
-class Wochentag( models.Model ):
+class Wochentag( AbstractModel ):
     name = models.CharField( _( u'Name' ), max_length = DEFAULT_MAX_LENGTH )
     name_en = models.CharField( _( u'Name (Englisch)' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     name_ja = models.CharField( _( u'Name (Japanisch)' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     index = models.IntegerField( _( u'Index (Reihenfolge)' ), default = 0 )
-
-    public = models.BooleanField( _( u'Öffentlich' ), default = True )
-    creation = models.DateTimeField( _( u'Erfasst am' ), auto_now_add = True )
-    modified = models.DateTimeField( _( u'Geändert am' ), auto_now = True )
 
     def get_name( self, language = None ):
         return getattr( self, "name_%s" % ( language or translation.get_language()[:2] ), "" ) or self.name
@@ -57,13 +33,9 @@ class Wochentag( models.Model ):
         verbose_name = _( u'Wochentag' )
         verbose_name_plural = _( u'Wochentage' )
 
-class Dokument( models.Model ):
+class Dokument( AbstractModel ):
     name = models.CharField( _( u'Titel' ), max_length = DEFAULT_MAX_LENGTH, help_text = u'' )
     datei = models.FileField( _( u'Datei' ), upload_to = 'dokumente/' )
-
-    public = models.BooleanField( _( u'Öffentlich' ), default = True )
-    creation = models.DateTimeField( _( u'Erfasst am' ), auto_now_add = True )
-    modified = models.DateTimeField( _( u'Geändert am' ), auto_now = True )
 
     def __unicode__( self ):
         return u'%s (%s)' % ( self.name, self.datei )
@@ -73,12 +45,8 @@ class Dokument( models.Model ):
         verbose_name = _( u'Dokument' )
         verbose_name_plural = _( u'Dokumente' )
 
-class Ort( models.Model ):
+class Ort( AbstractModel ):
     name = models.CharField( _( u'Titel' ), max_length = DEFAULT_MAX_LENGTH, help_text = u'' )
-
-    public = models.BooleanField( _( u'Öffentlich' ), default = True )
-    creation = models.DateTimeField( _( u'Erfasst am' ), auto_now_add = True )
-    modified = models.DateTimeField( _( u'Geändert am' ), auto_now = True )
 
     def __unicode__( self ):
         return self.name
@@ -92,16 +60,12 @@ class BildManager( models.Manager ):
     def get_query_set( self ):
         return super( BildManager, self ).get_query_set().filter( public = True )
 
-class Bild( models.Model ):
+class Bild( AbstractModel ):
     name = models.CharField( _( u'Titel' ), max_length = DEFAULT_MAX_LENGTH, help_text = u'Der Name muss eindeutig sein.' )
     bild = models.ImageField( _( u'Datei' ), upload_to = 'bilder/' )
     vorschau = models.ImageField( _( u'Vorschau' ), upload_to = 'bilder/thumbs/', blank = True, editable = False )
     max_breit = models.IntegerField( _( u'max. Breite' ), default = 200, help_text = u'Das Bild wird automatisch auf die angegebene Breite skaliert. (Das Seitenverhältnis bleibt erhalten.)' )
     max_hoch = models.IntegerField( _( u'max. Höhe' ), default = 200, help_text = u'Das Bild wird automatisch auf die angegebene Höhe skaliert. (Das Seitenverhältnis bleibt erhalten.)' )
-
-    public = models.BooleanField( _( u'Öffentlich' ), default = True )
-    creation = models.DateTimeField( _( u'Erfasst am' ), auto_now_add = True )
-    modified = models.DateTimeField( _( u'Geändert am' ), auto_now = True )
 
     objects = models.Manager()
     public_objects = BildManager()
@@ -156,7 +120,7 @@ class SeitenManager( models.Manager ):
             homepage = hp
         return homepage
 
-class Seite( models.Model ):
+class Seite( AbstractModel ):
     name = models.CharField( _( u'Name' ), max_length = DEFAULT_MAX_LENGTH )
     name_en = models.CharField( _( u'Name (Englisch)' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     name_ja = models.CharField( _( u'Name (Japanisch)' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
@@ -170,10 +134,6 @@ class Seite( models.Model ):
     show_anfaenger = models.BooleanField( _( u'Enthält Anfängerkurs Info' ), default = False )
     show_kinder = models.BooleanField( _( u'Enthält Kindertraining Info' ), default = False )
     is_homepage = models.BooleanField( _( u'Ist Startseite' ), default = False, editable = False )
-
-    public = models.BooleanField( _( u'Öffentlich' ), default = True )
-    creation = models.DateTimeField( _( u'Erfasst am' ), auto_now_add = True )
-    modified = models.DateTimeField( _( u'Geändert am' ), auto_now = True )
 
     objects = models.Manager()
     public_objects = SeitenManager()
@@ -214,7 +174,7 @@ class ArtikelManager( models.Manager ):
     def get_by_category( self, kid ):
         return self.get_query_set().filter( seite = kid ).order_by( 'position' )
 
-class Artikel( models.Model ):
+class Artikel( AbstractModel ):
     title = models.CharField( _( u'Überschrift' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     title_en = models.CharField( _( u'Überschrift' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     title_ja = models.CharField( _( u'Überschrift' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
@@ -226,10 +186,6 @@ class Artikel( models.Model ):
     bild = models.ForeignKey( Bild, verbose_name = u'Bild', blank = True, null = True )
     bild_ausrichtung = models.CharField( _( u'Bild Ausrichtung' ), max_length = DEFAULT_MAX_LENGTH, choices = AUSRICHTUNGEN, default = u'right', blank = True )
     seite = models.ForeignKey( Seite, verbose_name = _( u'Seite' ) )
-
-    public = models.BooleanField( _( u'Öffentlich' ), default = True )
-    creation = models.DateTimeField( _( u'Erfasst am' ), auto_now_add = True )
-    modified = models.DateTimeField( _( u'Geändert am' ), auto_now = True )
 
     objects = models.Manager()
     public_objects = ArtikelManager()
@@ -275,7 +231,7 @@ class TerminManager( models.Manager ):
         heute = date.today()
         return self.get_query_set().filter( Q( beginn__gte = heute ) | Q( ende__gte = heute ) ).order_by( 'ende', 'beginn', 'title' )
 
-class Termin( models.Model ):
+class Termin( AbstractModel ):
     title = models.CharField( _( u'Überschrift' ), max_length = DEFAULT_MAX_LENGTH )
     text = models.TextField( _( u'Text' ) )
     ort = models.ForeignKey( Ort, blank = True, null = True )
@@ -284,10 +240,6 @@ class Termin( models.Model ):
     dokument = models.ForeignKey( Dokument, blank = True, null = True )
     beginn = models.DateField( _( u'Beginn' ) )
     ende = models.DateField( _( u'Ende' ) )
-
-    public = models.BooleanField( _( u'Öffentlich' ), default = True )
-    creation = models.DateTimeField( _( u'Erfasst am' ), auto_now_add = True )
-    modified = models.DateTimeField( _( u'Geändert am' ), auto_now = True )
 
     objects = models.Manager()
     public_objects = TerminManager()
@@ -332,7 +284,7 @@ class TrainingManager( models.Manager ):
             plan.append( row )
         return plan
 
-class Trainingsart( models.Model ):
+class Trainingsart( AbstractModel ):
     name = models.CharField( _( u'Name' ), max_length = DEFAULT_MAX_LENGTH )
     name_en = models.CharField( _( u'Name (Englisch)' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     name_ja = models.CharField( _( u'Name (Japanisch)' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
@@ -341,10 +293,6 @@ class Trainingsart( models.Model ):
     text_ja = models.TextField( _( u'Text (Japanisch)' ), blank = True )
     ist_anfaengerkurs = models.BooleanField( _( u'Anfängerkurs' ), default = False )
     ist_kindertraining = models.BooleanField( _( u'Kindertraining' ), default = False )
-
-    public = models.BooleanField( _( u'Öffentlich' ), default = True )
-    creation = models.DateTimeField( _( u'Erfasst am' ), auto_now_add = True )
-    modified = models.DateTimeField( _( u'Geändert am' ), auto_now = True )
 
     def get_name( self, language = None ):
         return getattr( self, "name_%s" % ( language or translation.get_language()[:2] ), "" ) or self.name
@@ -360,16 +308,12 @@ class Trainingsart( models.Model ):
         verbose_name = _( u'Trainingsart' )
         verbose_name_plural = _( u'Trainingsarten' )
 
-class Training( models.Model ):
+class Training( AbstractModel ):
     '''Modell einer Trainingseinheit'''
     von = models.TimeField( _( u'Von' ) )
     bis = models.TimeField( _( u'Bis' ) )
     art = models.ForeignKey( Trainingsart, verbose_name = _( u'Trainingsart' ) )
     wochentag = models.ForeignKey( Wochentag, verbose_name = _( u'Wochentag' ) )
-
-    public = models.BooleanField( _( u'Öffentlich' ), default = True )
-    creation = models.DateTimeField( _( u'Erfasst am' ), auto_now_add = True )
-    modified = models.DateTimeField( _( u'Geändert am' ), auto_now = True )
 
     def __unicode__( self ):
         return u'%s %s - %s'.strip() % ( self.wochentag, self.von, self.bis )
@@ -387,7 +331,7 @@ class TrainingAktuellManager( models.Manager ):
         heute = date.today()
         return self.get_query_set().filter( beginn__lte = heute, ende__gte = heute )
 
-class TrainingAktuell( models.Model ):
+class TrainingAktuell( AbstractModel ):
     name = models.CharField( _( u'Name' ), max_length = DEFAULT_MAX_LENGTH, help_text = u'Der Name dient nur zur Übersicht und wird auf der Webseite nicht angezeigt.' )
     text = models.TextField( _( u'Text' ), help_text = u'Dieser Text wird unter der Rubrik "Training heute" angezeigt.' )
     text_en = models.TextField( _( u'Text (Englisch)' ), blank = True )
@@ -395,10 +339,6 @@ class TrainingAktuell( models.Model ):
     beginn = models.DateField( _( u'Beginn' ), help_text = u'Ab diesem Datum wird der Text auf der Webseite angezeigt.' )
     ende = models.DateField( _( u'Ende' ), help_text = u'Bis zu diesem Datum (einschließlich) wird der Text auf der Webseite angezeigt.' )
     
-    public = models.BooleanField( _( u'Öffentlich' ), default = True, help_text = u'Nur öffentliche Objekte erscheinen auf der Webseite.' )
-    creation = models.DateTimeField( _( u'Erfasst am' ), auto_now_add = True )
-    modified = models.DateTimeField( _( u'Geändert am' ), auto_now = True )
-
     objects = models.Manager()
     public_objects = TrainingAktuellManager()
 
@@ -420,15 +360,11 @@ class DownloadManager( models.Manager ):
     def get_query_set( self ):
         return super( DownloadManager, self ).get_query_set().filter( public = True )
 
-class Download( models.Model ):
+class Download( AbstractModel ):
     name = models.CharField( _( u'Name' ), max_length = DEFAULT_MAX_LENGTH )
     text = models.TextField( _( u'Text' ) )
     datei = models.FileField( _( u'Pfad' ), upload_to = 'downloads/' )
     vorschau = models.ImageField( _( u'Vorschau' ), upload_to = 'bilder/thumbs/', blank = True, editable = False )
-
-    public = models.BooleanField( _( u'Öffentlich' ), default = True )
-    creation = models.DateTimeField( _( u'Erfasst am' ), auto_now_add = True )
-    modified = models.DateTimeField( _( u'Geändert am' ), auto_now = True )
 
     objects = models.Manager()
     public_objects = DownloadManager()
@@ -466,7 +402,7 @@ class Download( models.Model ):
         verbose_name = _( u'Download' )
         verbose_name_plural = _( u'Downloads' )
 
-class Kontakt( models.Model ):
+class Kontakt( AbstractModel ):
     """
     Dieses Model dient auschliesslich zur Speicherung der Kontaktdaten in der Datenbank.
     Das Model fuer das Formular  in der Website findet sich in forms.py.
@@ -476,10 +412,6 @@ class Kontakt( models.Model ):
     captcha = models.CharField( _( u'Captcha' ), max_length = DEFAULT_MAX_LENGTH )
     nachricht = models.TextField( _( u'Nachricht' ) )
     to = models.TextField( _( u'Empfänger' ) )
-
-    public = models.BooleanField( _( u'Öffentlich' ), default = False )
-    creation = models.DateTimeField( _( u'Gesendet am' ), auto_now_add = True )
-    modified = models.DateTimeField( _( u'Geändert am' ), auto_now = True )
 
     def kurzform( self ):
         return self.nachricht[:50]

@@ -1,4 +1,17 @@
+#-*- coding: utf-8 -*-
+
+from django.db import models
+from django.utils.translation import ugettext_lazy as _
+
 DEFAULT_MAX_LENGTH = 200
+
+class AbstractModel( models.Model ):
+    public = models.BooleanField( _( u'Öffentlich' ), default = True, help_text = '' )
+    creation = models.DateTimeField( _( u'Erfasst am' ), auto_now_add = True, help_text = '' )
+    modified = models.DateTimeField( _( u'Geändert am' ), auto_now = True, help_text = '' )
+
+    class Meta:
+        abstract = True
 
 class XFieldList(list):
     """ List for field names.
