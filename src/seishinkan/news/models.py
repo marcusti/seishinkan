@@ -6,8 +6,9 @@ from django.db import models
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
-from seishinkan.utils import DEFAULT_MAX_LENGTH
-from seishinkan.website.models import AUSRICHTUNGEN, Bild, Person
+from seishinkan.utils import DEFAULT_MAX_LENGTH, AbstractModel
+from seishinkan.website.models import AUSRICHTUNGEN, Bild
+from seishinkan.members.models import Person
 
 class NewsManager( models.Manager ):
     def get_query_set( self ):
@@ -18,20 +19,15 @@ class NewsManager( models.Manager ):
             Q( ende__gt = heute ) | Q( ende__isnull = True ),
             )
 
-class News( models.Model ):
+class News( AbstractModel ):
     title = models.CharField( _( u'Überschrift' ), max_length = DEFAULT_MAX_LENGTH )
     einleitung = models.TextField( _( u'Einleitung' ), blank = True )
     text = models.TextField( _( u'Text' ) )
     bild = models.ForeignKey( Bild, verbose_name = u'Bild', blank = True, null = True )
     bild_ausrichtung = models.CharField( _( u'Bild Ausrichtung' ), max_length = DEFAULT_MAX_LENGTH, choices = AUSRICHTUNGEN, default = u'right', blank = True )
-    #autor = models.CharField( _( u'Autor' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     beginn = models.DateField( _( u'veröffentlicht' ), default = date.today() )
     ende = models.DateField( _( u'endet' ), blank = True, null = True )
     autoren = models.ManyToManyField( Person, verbose_name = 'Autoren', blank = True, null = True )
-
-    public = models.BooleanField( _( u'Öffentlich' ), default = True )
-    creation = models.DateTimeField( _( u'Erfasst am' ), auto_now_add = True )
-    modified = models.DateTimeField( _( u'Geändert am' ), auto_now = True )
 
     objects = models.Manager()
     public_objects = NewsManager()
