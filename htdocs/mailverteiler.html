@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load seishinkan_tags %}
+
+{% block content %}
+
+<h3>{%trans "Email Verteiler" %}</h3>
+
+{% spaceless %}
+<a href="mailto:{% for mitglied in mitglieder %}{% if mitglied.email and mitglied.ist_mitglied and mitglied.bekommt_emails %}&quot;{{ mitglied }}&quot; &lt;{{ mitglied.email }}&gt;{% if not forloop.last %}, {% endif %}{% endif %}{% endfor %}">Verteiler</a>
+{% endspaceless %}
+
+<p>
+{% for mitglied in mitglieder %}
+  {% if mitglied.email and mitglied.ist_mitglied and mitglied.bekommt_emails %}
+  &quot;{{ mitglied }}&quot; &lt;{{ mitglied.email }}&gt;{% if not forloop.last %}, <br/>{% endif %}{% endif %}
+{% endfor %}
+</p>
+
+{% endblock %}
