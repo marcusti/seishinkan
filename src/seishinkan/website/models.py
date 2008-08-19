@@ -36,6 +36,8 @@ class Dokument( AbstractModel ):
     name = models.CharField( _( u'Titel' ), max_length = DEFAULT_MAX_LENGTH, help_text = u'' )
     datei = models.FileField( _( u'Datei' ), upload_to = 'dokumente/' )
 
+    objects = models.Manager()
+
     def __unicode__( self ):
         return u'%s (%s)' % ( self.name, self.datei )
 
@@ -46,6 +48,8 @@ class Dokument( AbstractModel ):
 
 class Ort( AbstractModel ):
     name = models.CharField( _( u'Titel' ), max_length = DEFAULT_MAX_LENGTH, help_text = u'' )
+
+    objects = models.Manager()
 
     def __unicode__( self ):
         return self.name

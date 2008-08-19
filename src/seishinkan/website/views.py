@@ -4,6 +4,7 @@ from datetime import date, datetime
 from django import get_version
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.core.mail import mail_admins, send_mail, send_mass_mail
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
@@ -16,6 +17,7 @@ from seishinkan.links.models import Link, LinkKategorie
 from seishinkan.news.models import News
 from seishinkan.website.forms import LoginForm, KontaktForm
 from seishinkan.website.models import *
+from seishinkan.members.models import *
 import captcha
 import os
 
@@ -167,6 +169,41 @@ def kontakt( request ):
     ctx['html_captcha'] = html_captcha
 
     return __create_response( request, ctx, 'kontakt.html' )
+
+@login_required
+def members( request ):
+    ctx = __get_sidebar( request )
+    ctx['mitglieder'] = Mitglied.public_objects.all()
+
+    return __create_response( request, ctx, 'mitglieder.html' )
+
+@login_required
+def mailinglist( request ):
+    ctx = __get_sidebar( request )
+    ctx['mitglieder'] = Mitglied.public_objects.all()
+
+    return __create_response( request, ctx, 'mailverteiler.html' )
+
+@login_required
+def special_members( request ):
+    ctx = __get_sidebar( request )
+    ctx['mitglieder'] = Mitglied.public_objects.filter( status = 3 )
+
+    return __create_response( request, ctx, 'mitglieder.html' )
+
+@login_required
+def active_members( request ):
+    ctx = __get_sidebar( request )
+    ctx['mitglieder'] = Mitglied.public_objects.filter( status = 1 )
+
+    return __create_response( request, ctx, 'mitglieder.html' )
+
+@login_required
+def passive_members( request ):
+    ctx = __get_sidebar( request )
+    ctx['mitglieder'] = Mitglied.public_objects.filter( status = 2 )
+
+    return __create_response( request, ctx, 'mitglieder.html' )
 
 def impressum( request ):
     ctx = __get_sidebar( request )

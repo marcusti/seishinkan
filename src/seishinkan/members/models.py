@@ -63,6 +63,7 @@ class Mitglied( AbstractModel ):
     ist_vorstand = models.BooleanField( _( u'Vorstand' ), default = False )
     ist_trainer = models.BooleanField( _( u'Trainer' ), default = False )
     ist_kind = models.BooleanField( _( u'Kind' ), default = False )
+    bekommt_emails = models.BooleanField( _( u'bekommt Emails' ), default = True )
 
     objects = models.Manager()
     public_objects = MitgliederManager()
@@ -71,6 +72,18 @@ class Mitglied( AbstractModel ):
         return ( '%s %s' % ( self.vorname, self.nachname ) ).strip()
     name.short_description = _( u'Name' )
     name.allow_tags = True
+
+    def ist_mitglied( self ):
+        return not self.status == 0
+
+    def ist_aktiv( self ):
+        return self.status == 1
+
+    def ist_passiv( self ):
+        return self.status == 2
+
+    def ist_ehrenmitglied( self ):
+        return self.status == 3
 
     def __unicode__( self ):
         return self.name()

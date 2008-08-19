@@ -34,6 +34,7 @@
             <li class="page_item{% ifequal menu "links" %} current{% endifequal %}"><a href="/links/">{% trans "Links" %}</a></li>
             <li class="page_item{% ifequal menu "kontakt" %} current{% endifequal %}"><a href="/kontakt/">{% trans "Kontakt" %}</a></li>
         </ul>
+
       </li>
     </ul>
 
@@ -63,6 +64,23 @@
     </ul>
 
   {% if user.is_authenticated %}
+
+{% comment %}
+    <br/>
+    <h2>{% trans "Mitgliederbereich" %}</h2>
+    <ul>
+      <li>
+	<ul class="">
+	  <li class="page_item{% ifequal menu "mitglieder" %} current{% endifequal %}"><a href="/mitglieder/">{% trans "Alle Mitglieder" %}</a></li>
+	  <li class="page_item{% ifequal menu "mitglieder" %} current{% endifequal %}"><a href="/mitglieder/aktive/">{% trans "aktive Mitglieder" %}</a></li>
+	  <li class="page_item{% ifequal menu "mitglieder" %} current{% endifequal %}"><a href="/mitglieder/passive/">{% trans "passive Mitglieder" %}</a></li>
+	  <li class="page_item{% ifequal menu "mitglieder" %} current{% endifequal %}"><a href="/ehrenmitglieder/">{% trans "Ehrenmitglieder" %}</a></li>
+	  <li class="page_item{% ifequal menu "mitglieder" %} current{% endifequal %}"><a href="/emailverteiler/">{% trans "Email Verteiler" %}</a></li>
+	</ul>
+      </li>
+    </ul>
+{% endcomment %}
+
     <br/>
     <table>
     {% if users %}
