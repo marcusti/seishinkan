@@ -3,19 +3,13 @@
 from django.contrib import admin
 from seishinkan.members.models import *
 
-class PersonAdmin( admin.ModelAdmin ):
-    ordering = ['vorname', 'nachname']
-    list_display = ( 'vorname', 'nachname', 'public', 'modified', 'id' )
-    list_display_links = ( 'vorname', 'nachname' )
-    list_per_page = 200
-    search_fields = ( 'vorname', 'nachname', 'email', 'text' )
-
 class GraduierungAdmin( admin.ModelAdmin ):
-    ordering = ['id']
+    ordering = ['-graduierung', '-datum', 'person']
     list_display = ( 'person', 'datum', 'graduierung', 'public', 'modified', 'id' )
 
 class GraduierungInline( admin.TabularInline ):
     model = Graduierung
+    extra = 1
 
 class MitgliedAdmin( admin.ModelAdmin ):
     ordering = ['id']
@@ -26,7 +20,5 @@ class MitgliedAdmin( admin.ModelAdmin ):
     search_fields = ( 'vorname', 'nachname', 'email', 'text' )
     inlines = [ GraduierungInline, ]
 
-admin.site.register( Person, PersonAdmin )
 admin.site.register( Mitglied, MitgliedAdmin )
 admin.site.register( Graduierung, GraduierungAdmin )
-
