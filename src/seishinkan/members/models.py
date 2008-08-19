@@ -2,9 +2,7 @@
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from seishinkan.utils import DEFAULT_MAX_LENGTH, AbstractModel, UnicodeReader
-from datetime import datetime
-import csv
+from seishinkan.utils import DEFAULT_MAX_LENGTH, AbstractModel
 
 STATUS = [
     ( 0, _( u'Nicht Mitglied' ) ),
@@ -30,6 +28,17 @@ GRADUIERUNGEN = [
     ( 30,    _( u'3. Kyu' ) ),
     ( 20,    _( u'4. Kyu' ) ),
     ( 10,    _( u'5. Kyu' ) ),
+
+    ( -10,    _( u'1.2 Kinder-Kyu' ) ),
+    ( -11,    _( u'1.1 Kinder-Kyu' ) ),
+    ( -20,    _( u'2.2 Kinder-Kyu' ) ),
+    ( -21,    _( u'2.1 Kinder-Kyu' ) ),
+    ( -30,    _( u'3.2 Kinder-Kyu' ) ),
+    ( -31,    _( u'3.1 Kinder-Kyu' ) ),
+    ( -40,    _( u'4.2 Kinder-Kyu' ) ),
+    ( -41,    _( u'4.1 Kinder-Kyu' ) ),
+    ( -50,    _( u'5.2 Kinder-Kyu' ) ),
+    ( -51,    _( u'5.1 Kinder-Kyu' ) ),
 ]
 
 class MitgliederManager( models.Manager ):
@@ -89,71 +98,3 @@ class Graduierung( AbstractModel ):
         ordering = ['-graduierung']
         verbose_name = _( u'Graduierung' )
         verbose_name_plural = _( u'Graduierungen' )
-
-def import_mitglieder( filename = 'members/mitglieder.csv'):
-    for row in UnicodeReader( open( filename, 'rb' ) ):
-        m = Mitglied()
-        m.public = True
-        m.creation = datetime.now().strftime( '%Y-%m-%d %H:%M:%S' )
-        m.modified = datetime.now().strftime( '%Y-%m-%d %H:%M:%S' )
-        m.id = row[0]
-        m.nachname = row[1]
-        m.vorname = row[2]
-        m.plz = row[3]
-        m.stadt = row[4]
-        m.strasse = row[5]
-        m.fon = row[6]
-        m.mobil = row[7]
-        m.fax = row[8]
-        m.email = row[9]
-
-        if 'j' == row[14].lower().strip():
-            m.status = 2 # Passiv
-
-        if 'n' == row[15].lower().strip():
-            m.status = 0 # Austritt
-
-        if 'j' == row[16].lower().strip():
-            m.status = 3 # Ehrenmitglied
-
-        if 'j' == row[17].lower().strip():
-            m.ist_vorstand = True
-
-        if 'j' == row[18].lower().strip():
-            m.ist_trainer = True
-
-        if 'j' == row[19].lower().strip():
-            m.ist_kind = True
-
-        try:
-            m.geburt = datetime.strptime( row[10], '%d.%m.%Y' ).strftime( '%Y-%m-%d' )
-        except:
-            pass
-
-        try:
-            m.mitglied_seit = datetime.strptime( row[11], '%d.%m.%Y' ).strftime( '%Y-%m-%d' )
-        except:
-            pass
-
-        m.save()
-        print m
-
-        # Graduierungen...
-
-        if row[12]:
-            for gid, grad in GRADUIERUNGEN:
-                if grad == row[12]:
-                    try:
-                        gdatum = datetime.strptime( row[13], '%d.%m.%Y' ).strftime( '%Y-%m-%d' )
-                    except:
-                        print m
-                        gdatum = None
-                
-                    g, created = Graduierung.objects.get_or_create( person = m, graduierung = gid, datum = gdatum,
-                                                                    defaults = {
-                            'person': m,
-                            'datum': gdatum,
-                            'graduierung': gid,
-                            })
-
-                    g.save()
