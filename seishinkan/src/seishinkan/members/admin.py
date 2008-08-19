@@ -6,6 +6,8 @@ from seishinkan.members.models import *
 class GraduierungAdmin( admin.ModelAdmin ):
     ordering = ['-graduierung', '-datum', 'person']
     list_display = ( 'person', 'datum', 'graduierung', 'public', 'modified', 'id' )
+    list_filter = ( 'graduierung', 'person' )
+    search_fields = ( 'person__vorname', 'person__nachname' )
 
 class GraduierungInline( admin.TabularInline ):
     model = Graduierung
