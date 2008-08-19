@@ -68,7 +68,10 @@
     {% if users %}
       <tr class="postmeta"><td colspan="2">{% trans "Zuletzt angemeldet" %}:</td></tr>
     {% for user in users %}
-      <tr class="postmeta"><td>{{ user.first_name }}</td><td>{{ user.last_login|date:"d.m.y G:i" }}</td></tr>
+      <tr class="postmeta">
+	<td>{{ user.first_name }}</td>
+	<td>{{ user.last_login|date:"d.m.y H:i" }}</td>
+      </tr>
     {% endfor %}
     {% endif %}
       <tr class="small"><td colspan="2" class="small postmeta"><a href="http://www.djangoproject.com/documentation/" target="_blank">Django</a> {{ django_version }}</td></tr>
