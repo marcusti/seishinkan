@@ -8,7 +8,6 @@ from django.db.models import Q
 from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
 from seishinkan.utils import DEFAULT_MAX_LENGTH, AbstractModel
-from seishinkan.members.models import Person
 import os
 
 AUSRICHTUNGEN = [
