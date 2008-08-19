@@ -7,7 +7,7 @@ from datetime import datetime
 import csv
 
 STATUS = [
-    ( 0, _( u'Austritt' ) ),
+    ( 0, _( u'Nicht Mitglied' ) ),
     ( 1, _( u'Aktiv' ) ),
     ( 2, _( u'Passiv' ) ),
     ( 3, _( u'Ehrenmitglied' ) ),
@@ -32,7 +32,11 @@ GRADUIERUNGEN = [
     ( 10,    _( u'5. Kyu' ) ),
 ]
 
-class Person( AbstractModel ):
+class MitgliederManager( models.Manager ):
+    def get_query_set( self ):
+        return super( MitgliederManager, self ).get_query_set().filter( public = True )
+
+class Mitglied( AbstractModel ):
     vorname = models.CharField( _( u'Vorname' ), max_length = DEFAULT_MAX_LENGTH )
     nachname = models.CharField( _( u'Nachname' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     plz = models.CharField( _( u'PLZ' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
@@ -45,24 +49,6 @@ class Person( AbstractModel ):
     geburt = models.DateField( _( u'Geburt' ), blank = True, null = True )
     text = models.TextField( _( u'Text' ), blank = True )
 
-    def name( self ):
-        return ( '%s %s' % ( self.vorname, self.nachname ) ).strip()
-    name.short_description = _( u'Name' )
-    name.allow_tags = True
-
-    def __unicode__( self ):
-        return '%s (%s)' % ( self.name(), self.id )
-
-    class Meta:
-        ordering = ['vorname', 'nachname']
-        verbose_name = _( u'Person' )
-        verbose_name_plural = _( u'Personen' )
-
-class MitgliederManager( models.Manager ):
-    def get_query_set( self ):
-        return super( MitgliederManager, self ).get_query_set().filter( public = True )
-
-class Mitglied( Person ):
     status = models.IntegerField( _( u'Status' ), default = 1, choices = STATUS )
     mitglied_seit = models.DateField( _( u'Mitglied seit' ), blank = True, null = True )
     ist_vorstand = models.BooleanField( _( u'Vorstand' ), default = False )
@@ -72,29 +58,35 @@ class Mitglied( Person ):
     objects = models.Manager()
     public_objects = MitgliederManager()
 
+    def name( self ):
+        return ( '%s %s' % ( self.vorname, self.nachname ) ).strip()
+    name.short_description = _( u'Name' )
+    name.allow_tags = True
+
+    def __unicode__( self ):
+        return self.name()
+
     def aktuelle_graduierung( self ):
         return self.graduierung_set.latest( 'datum' )
     aktuelle_graduierung.short_description = _( u'Graduierung' )
     aktuelle_graduierung.allow_tags = True
 
-    def __unicode__( self ):
-        return super( Mitglied, self ).__unicode__()
-
-    class Meta( Person.Meta ):
+    class Meta:
+        ordering = [ 'vorname', 'nachname' ]
         verbose_name = _( u'Mitglied' )
         verbose_name_plural = _( u'Mitglieder' )
 
 class Graduierung( AbstractModel ):
-    person = models.ForeignKey( Person, verbose_name = _( u'Person' ) )
+    person = models.ForeignKey( Mitglied, verbose_name = _( u'Person' ) )
     datum = models.DateField( _( u'Datum' ), blank = True, null = True )
     graduierung = models.IntegerField( _( u'Graduierung' ), choices = GRADUIERUNGEN )
     text = models.TextField( _( u'Text' ), blank = True )
 
     def __unicode__( self ):
-        return self.name()
+        return self.get_graduierung_display()
 
     class Meta:
-        ordering = ['graduierung']
+        ordering = ['-graduierung']
         verbose_name = _( u'Graduierung' )
         verbose_name_plural = _( u'Graduierungen' )
 
@@ -121,6 +113,9 @@ def import_mitglieder( filename = 'members/mitglieder.csv'):
         if 'n' == row[15].lower().strip():
             m.status = 0 # Austritt
 
+        if 'j' == row[16].lower().strip():
+            m.status = 3 # Ehrenmitglied
+
         if 'j' == row[17].lower().strip():
             m.ist_vorstand = True
 
@@ -143,10 +138,7 @@ def import_mitglieder( filename = 'members/mitglieder.csv'):
         m.save()
         print m
 
-
         # Graduierungen...
-
-
 
         if row[12]:
             for gid, grad in GRADUIERUNGEN:

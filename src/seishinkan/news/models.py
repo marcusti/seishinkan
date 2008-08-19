@@ -8,7 +8,7 @@ from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
 from seishinkan.utils import DEFAULT_MAX_LENGTH, AbstractModel
 from seishinkan.website.models import AUSRICHTUNGEN, Bild
-from seishinkan.members.models import Person
+from seishinkan.members.models import Mitglied
 
 class NewsManager( models.Manager ):
     def get_query_set( self ):
@@ -27,7 +27,7 @@ class News( AbstractModel ):
     bild_ausrichtung = models.CharField( _( u'Bild Ausrichtung' ), max_length = DEFAULT_MAX_LENGTH, choices = AUSRICHTUNGEN, default = u'right', blank = True )
     beginn = models.DateField( _( u'veröffentlicht' ), default = date.today() )
     ende = models.DateField( _( u'endet' ), blank = True, null = True )
-    autoren = models.ManyToManyField( Person, verbose_name = 'Autoren', blank = True, null = True )
+    autoren = models.ManyToManyField( Mitglied, verbose_name = 'Autoren', blank = True, null = True )
 
     objects = models.Manager()
     public_objects = NewsManager()
