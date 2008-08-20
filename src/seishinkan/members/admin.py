@@ -15,7 +15,7 @@ class GraduierungInline( admin.TabularInline ):
 
 class MitgliedAdmin( admin.ModelAdmin ):
     ordering = ['id']
-    list_display = ( 'id', 'vorname', 'nachname', 'aktuelle_graduierung', 'status', 'email', 'geburt', 'mitglied_seit', 'ist_vorstand', 'ist_trainer', 'ist_kind' )
+    list_display = ( 'id', 'vorname', 'nachname', 'aktuelle_graduierung', 'status', 'email', 'alter', 'modified' )
     list_display_links = ( 'vorname', 'nachname' )
     list_filter = ( 'status', 'ist_vorstand', 'ist_trainer', 'ist_kind')
     list_per_page = 200
