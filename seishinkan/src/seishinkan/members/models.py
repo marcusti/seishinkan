@@ -3,6 +3,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from seishinkan.utils import DEFAULT_MAX_LENGTH, AbstractModel
+from seishinkan.website.templatetags.seishinkan_tags import *
 
 STATUS = [
     ( 0, _( u'Nicht Mitglied' ) ),
@@ -72,6 +73,11 @@ class Mitglied( AbstractModel ):
         return ( '%s %s' % ( self.vorname, self.nachname ) ).strip()
     name.short_description = _( u'Name' )
     name.allow_tags = True
+
+    def alter( self ):
+        return age( self.geburt )
+    alter.short_description = _( u'Alter' )
+    alter.allow_tags = True
 
     def ist_mitglied( self ):
         return not self.status == 0
