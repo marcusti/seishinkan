@@ -2,6 +2,7 @@
 
 from datetime import date, datetime
 from django import get_version
+from django.contrib.admin.models import LogEntry
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -169,6 +170,26 @@ def kontakt( request ):
     ctx['html_captcha'] = html_captcha
 
     return __create_response( request, ctx, 'kontakt.html' )
+
+@login_required
+def admin_log( request ):
+    ctx = __get_sidebar( request )
+    ctx['menu'] = 'admin_log'
+
+    if request.user.is_authenticated():
+        qs = LogEntry.objects.all().order_by( '-action_time' )
+    else:
+        qs = LogEntry.objects.none()
+
+#    return __create_response( request, ctx, 'admin_log.html' )
+    return object_list(
+        request,
+        queryset = qs,
+        paginate_by = 20,
+        allow_empty = True,
+        template_name = 'admin_log.html',
+        extra_context = ctx,
+        )
 
 @login_required
 def members( request ):

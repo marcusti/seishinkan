@@ -3,14 +3,6 @@
   <div id="sidebar">
     <a href="/"><img src="/static/images/Seishinkan_peter_190.jpg" alt="[Seishinkan Logo]" title="Seishinkan Logo" /></a>
 
-  {% if user.is_authenticated %}
-    <div class="">
-      <h2>{% trans "Hallo" %} {{ user.first_name }}.</h2><br/>
-      <a class="edit" href="/verwaltung/">{% trans "Verwaltung" %}</a>&nbsp;
-      <a class="edit" href="/logout/">{% trans "Logout" %}</a>
-    </div>
-  {% endif %}
-
     <ul>
       <li>
         <ul>
@@ -34,9 +26,50 @@
             <li class="page_item{% ifequal menu "links" %} current{% endifequal %}"><a href="/links/">{% trans "Links" %}</a></li>
             <li class="page_item{% ifequal menu "kontakt" %} current{% endifequal %}"><a href="/kontakt/">{% trans "Kontakt" %}</a></li>
         </ul>
-
       </li>
     </ul>
+
+{% if user.is_authenticated %}
+    <br/>
+    <h2>{% trans "Mitgliederbereich" %}</h2>
+
+    <ul class="event">
+      <li>{% trans "Hallo" %} {{ user.first_name }}.</li>
+      <li>
+	<a class="edit" href="/verwaltung/">{% trans "Verwaltung" %}</a>
+	<a class="edit" href="/logout/">{% trans "Logout" %}</a>
+      </li>
+    </ul>
+
+    <ul>
+      <li>
+	<ul class="">
+	  <li class="page_item{% ifequal menu "admin_log" %} current{% endifequal %}"><a href="/log/">{% trans "Letzte Änderungen" %}</a></li>
+{% comment %}
+	  <li class="page_item{% ifequal menu "mitglieder" %} current{% endifequal %}"><a href="/mitglieder/">{% trans "Alle Mitglieder" %}</a></li>
+	  <li class="page_item{% ifequal menu "mitglieder" %} current{% endifequal %}"><a href="/mitglieder/aktive/">{% trans "aktive Mitglieder" %}</a></li>
+	  <li class="page_item{% ifequal menu "mitglieder" %} current{% endifequal %}"><a href="/mitglieder/passive/">{% trans "passive Mitglieder" %}</a></li>
+	  <li class="page_item{% ifequal menu "mitglieder" %} current{% endifequal %}"><a href="/ehrenmitglieder/">{% trans "Ehrenmitglieder" %}</a></li>
+	  <li class="page_item{% ifequal menu "mitglieder" %} current{% endifequal %}"><a href="/emailverteiler/">{% trans "Email Verteiler" %}</a></li>
+{% endcomment %}
+	</ul>
+      </li>
+    </ul>
+
+    <br/>
+    <table>
+    {% if users %}
+      <tr class="postmeta"><td colspan="2">{% trans "Zuletzt angemeldet" %}:</td></tr>
+    {% for user in users %}
+      <tr class="postmeta">
+	<td>{{ user.first_name }}</td>
+	<td>{{ user.last_login|date:"d.m.y H:i" }}</td>
+      </tr>
+    {% endfor %}
+    {% endif %}
+      <tr class="small"><td colspan="2" class="small postmeta"><a href="http://www.djangoproject.com/documentation/" target="_blank">Django</a> {{ django_version }}</td></tr>
+    </table>
+{% endif %}
 
     <br/>
     <p><img src="/static/images/TWA.jpg" alt="[]" title="" /></p>
@@ -64,37 +97,6 @@
     </ul>
 
   {% if user.is_authenticated %}
-
-{% comment %}
-    <br/>
-    <h2>{% trans "Mitgliederbereich" %}</h2>
-    <ul>
-      <li>
-	<ul class="">
-	  <li class="page_item{% ifequal menu "mitglieder" %} current{% endifequal %}"><a href="/mitglieder/">{% trans "Alle Mitglieder" %}</a></li>
-	  <li class="page_item{% ifequal menu "mitglieder" %} current{% endifequal %}"><a href="/mitglieder/aktive/">{% trans "aktive Mitglieder" %}</a></li>
-	  <li class="page_item{% ifequal menu "mitglieder" %} current{% endifequal %}"><a href="/mitglieder/passive/">{% trans "passive Mitglieder" %}</a></li>
-	  <li class="page_item{% ifequal menu "mitglieder" %} current{% endifequal %}"><a href="/ehrenmitglieder/">{% trans "Ehrenmitglieder" %}</a></li>
-	  <li class="page_item{% ifequal menu "mitglieder" %} current{% endifequal %}"><a href="/emailverteiler/">{% trans "Email Verteiler" %}</a></li>
-	</ul>
-      </li>
-    </ul>
-{% endcomment %}
-
-    <br/>
-    <table>
-    {% if users %}
-      <tr class="postmeta"><td colspan="2">{% trans "Zuletzt angemeldet" %}:</td></tr>
-    {% for user in users %}
-      <tr class="postmeta">
-	<td>{{ user.first_name }}</td>
-	<td>{{ user.last_login|date:"d.m.y H:i" }}</td>
-      </tr>
-    {% endfor %}
-    {% endif %}
-      <tr class="small"><td colspan="2" class="small postmeta"><a href="http://www.djangoproject.com/documentation/" target="_blank">Django</a> {{ django_version }}</td></tr>
-    </table>
-    <br/>
   {% endif %}
 
   </div>
