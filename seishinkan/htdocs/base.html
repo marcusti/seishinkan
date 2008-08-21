@@ -207,7 +207,8 @@
       <tr>
         <td align="left" valign="bottom" class="postmeta">
         {% if user.is_authenticated %}
-          <a href="/logout/">{% trans "Logout" %}</a>
+          <a href="/logout/">{% trans "Logout" %}</a> |
+	  <a href="/verwaltung/">{% trans "Verwaltung" %}</a>&nbsp;
         {% else %}
           <a href="/login/{% if path %}?next={{ path }}{% endif %}">{% trans "Login" %}</a>
         {% endif %}
