@@ -7,7 +7,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.mail import mail_admins, send_mail, send_mass_mail
-from django.http import Http404, HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.views.generic.list_detail import object_list, object_detail
@@ -19,6 +19,7 @@ from seishinkan.news.models import News
 from seishinkan.website.forms import LoginForm, KontaktForm
 from seishinkan.website.models import *
 from seishinkan.members.models import *
+from seishinkan.utils import UnicodeWriter
 import captcha
 import os
 
@@ -181,7 +182,6 @@ def admin_log( request ):
     else:
         qs = LogEntry.objects.none()
 
-#    return __create_response( request, ctx, 'admin_log.html' )
     return object_list(
         request,
         queryset = qs,
@@ -190,6 +190,90 @@ def admin_log( request ):
         template_name = 'admin_log.html',
         extra_context = ctx,
         )
+
+@login_required
+def mitglieder_csv( request, status = None ):
+    response = HttpResponse( mimetype='text/csv' )
+    response['Content-Disposition'] = 'attachment; filename=mitglieder.csv'
+
+    writer = UnicodeWriter( response )
+    writer.writerow( [ 
+            'ID', 
+            'VORNAME',
+            'NACHNAME', 
+            'GRADUIERUNG',
+            'GRAD DATUM',
+            'STATUS',
+            'GEBURT',
+            'STRASSE',
+            'PLZ',
+            'STADT',
+            'EMAIL',
+            'FON',
+            'FAX',
+            'MOBIL',
+            'MITGLIED SEIT',
+            'AUSTRITT AM',
+            'VORSTAND',
+            'TRAINER',
+            'KIND',
+            'BEKOMMT EMAILS',
+            ] )
+
+    if status is None:
+        mitglieder = Mitglied.public_objects.all().exclude( status = 0 ).order_by( 'id' )
+    else:
+        mitglieder = Mitglied.public_objects.filter( status = status )
+
+    for m in mitglieder:
+        writer.writerow( [ 
+                str( m.id ), 
+                m.vorname, 
+                m.nachname, 
+                __get_graduierung( m ),
+                __get_graduierung_datum( m ),
+                m.get_status_display(), 
+                __get_datum( m.geburt ),
+                m.strasse, 
+                m.plz, 
+                m.stadt, 
+                m.email ,
+                m.fon ,
+                m.fax ,
+                m.mobil ,
+                __get_datum( m.mitglied_seit ),
+                __get_datum( m.austritt_am ),
+                __get_bool( m.ist_vorstand ),
+                __get_bool( m.ist_trainer ),
+                __get_bool( m.ist_kind ),
+                __get_bool( m.bekommt_emails ),
+                ] )
+
+    return response
+
+def __get_graduierung( mitglied ):
+    try:
+        return mitglied.aktuelle_graduierung().get_graduierung_display()
+    except:
+        return ''
+
+def __get_graduierung_datum( mitglied ):
+    try:
+        return __get_datum( mitglied.aktuelle_graduierung().datum )
+    except:
+        return ''
+
+def __get_datum( datum ):
+    try:
+        return datum.strftime( '%d.%m.%Y' )
+    except:
+        return ''
+
+def __get_bool( bool ):
+    if bool:
+        return 'J'
+    else:
+        return 'N'
 
 @login_required
 def members( request ):
