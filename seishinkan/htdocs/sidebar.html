@@ -33,18 +33,13 @@
     <br/>
     <h2>{% trans "Mitgliederbereich" %}</h2>
 
-    <ul class="event">
-      <li>{% trans "Hallo" %} {{ user.first_name }}.</li>
-      <li>
-	<a class="edit" href="/verwaltung/">{% trans "Verwaltung" %}</a>
-	<a class="edit" href="/logout/">{% trans "Logout" %}</a>
-      </li>
-    </ul>
-
     <ul>
       <li>
 	<ul class="">
+	  <li class="edit">{% trans "Hallo" %} {{ user.first_name }}.</li>
 	  <li class="page_item{% ifequal menu "admin_log" %} current{% endifequal %}"><a href="/log/">{% trans "Letzte Änderungen" %}</a></li>
+	  <li><a class="" href="/verwaltung/">{% trans "Verwaltung" %}</a></li>
+	  <li><a class="edit" href="/logout/">{% trans "Logout" %}</a></li>
 {% comment %}
 	  <li class="page_item{% ifequal menu "mitglieder" %} current{% endifequal %}"><a href="/mitglieder/">{% trans "Alle Mitglieder" %}</a></li>
 	  <li class="page_item{% ifequal menu "mitglieder" %} current{% endifequal %}"><a href="/mitglieder/aktive/">{% trans "aktive Mitglieder" %}</a></li>
@@ -76,7 +71,9 @@
     <br/>
 
     <h2>{% trans "Training heute" %},<br/>{% now "l, d.m." %}</h2>
-    <ul class="event">
+<ul>
+<li>
+    <ul class="">
         {% if training_heute %}
           {% for training in training_heute %}
             <li class="page_item">
@@ -93,9 +90,10 @@
         {% else %}
           <li class="postmeta">{% trans "Heute findet kein Training statt." %}</li>
         {% endif %}
-        {% if user.is_authenticated %}<li class="postmeta"><a class="edit small" href="/verwaltung/website/trainingaktuell/">{% trans "Meldungen bearbeiten" %}</a></li>{% endif %}
+        {% if user.is_authenticated %}<li class=""><a class="edit" href="/verwaltung/website/trainingaktuell/">{% trans "Meldungen bearbeiten" %}</a></li>{% endif %}
     </ul>
-
+</li>
+</ul>
   {% if user.is_authenticated %}
   {% endif %}
 
