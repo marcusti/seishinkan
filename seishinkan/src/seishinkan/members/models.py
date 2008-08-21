@@ -61,6 +61,7 @@ class Mitglied( AbstractModel ):
 
     status = models.IntegerField( _( u'Status' ), default = 1, choices = STATUS )
     mitglied_seit = models.DateField( _( u'Mitglied seit' ), blank = True, null = True )
+    austritt_am = models.DateField( _( u'Austritt am' ), blank = True, null = True )
     ist_vorstand = models.BooleanField( _( u'Vorstand' ), default = False )
     ist_trainer = models.BooleanField( _( u'Trainer' ), default = False )
     ist_kind = models.BooleanField( _( u'Kind' ), default = False )
