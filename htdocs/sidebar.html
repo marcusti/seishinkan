@@ -38,6 +38,7 @@
 	<ul class="">
 	  <li class="edit">{% trans "Hallo" %} {{ user.first_name }}.</li>
 	  <li class="page_item{% ifequal menu "admin_log" %} current{% endifequal %}"><a href="/log/">{% trans "Letzte Änderungen" %}</a></li>
+	  <li><a class="" href="/mitgliederliste/">{% trans "Mitgliederliste" %}</a></li>
 	  <li><a class="" href="/verwaltung/">{% trans "Verwaltung" %}</a></li>
 	  <li><a class="edit" href="/logout/">{% trans "Logout" %}</a></li>
 {% comment %}
