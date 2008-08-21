@@ -547,7 +547,8 @@ a.create, a.edit {
   background-color: #fce94f;
 }
 a.create:hover, a.edit:hover {
-  color: red;
+  color: #d7030f;
+  background-color: white;
 }
 .neu {
   background-color: #d7030f;
