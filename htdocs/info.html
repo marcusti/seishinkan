@@ -4,21 +4,16 @@
 {% block content %}
 <h2>{% trans "Info" %}</h2>
 
+{% comment %}
 <p>
   Das Layout der Seite basiert auf dem freien Webdesign
   "<a href="http://themes.wordpress.net/columns/2-columns/93/almost-spring-10/" target="_blank">Almost Spring</a>"
   von <a href="http://beccary.com/" target="_blank">Becca Wei</a>.
 </p>
+{% endcomment %}
 
 <p>
-  {% trans "Das Aikido Dojo Seishinkan benutzt und empfiehlt die folgenden Opensource-Projekte und Standards" %}:
-</p>
-
-<p>
-  <a href="http://www.ubuntu.com/" target="_blank">
-    <img src="/static/images/UbuntuStrapLogo.png"
-     border="0" alt="[ubuntu]"
-     title="ubuntu - linux for human beings" /></a>
+  {% trans "Diese Webseite ist mit dem Django Web Framework erstellt." %}
 </p>
 
 <p>
@@ -30,6 +25,17 @@
 
 <p>
   <a href="http://www.python.org/" target="_blank"><img src="/static/images/python-powered-w-100x40.png" alt="[python]" title="python" /></a>
+</p>
+
+<p>
+  {% trans "Das Aikido Dojo Seishinkan benutzt und empfiehlt die folgenden Opensource-Projekte und Standards" %}:
+</p>
+
+<p>
+  <a href="http://www.ubuntu.com/" target="_blank">
+    <img src="/static/images/UbuntuStrapLogo.png"
+     border="0" alt="[ubuntu]"
+     title="ubuntu - linux for human beings" /></a>
 </p>
 
 <p>
