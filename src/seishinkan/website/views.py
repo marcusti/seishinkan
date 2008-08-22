@@ -197,28 +197,7 @@ def mitglieder_csv( request, status = None ):
     response['Content-Disposition'] = 'attachment; filename=mitglieder.csv'
 
     writer = UnicodeWriter( response )
-    writer.writerow( [ 
-            'ID', 
-            'VORNAME',
-            'NACHNAME', 
-            'GRADUIERUNG',
-            'GRAD DATUM',
-            'STATUS',
-            'GEBURT',
-            'STRASSE',
-            'PLZ',
-            'STADT',
-            'EMAIL',
-            'FON',
-            'FAX',
-            'MOBIL',
-            'MITGLIED SEIT',
-            'AUSTRITT AM',
-            'VORSTAND',
-            'TRAINER',
-            'KIND',
-            'BEKOMMT EMAILS',
-            ] )
+    writer.writerow( [ 'ID', 'VORNAME', 'NACHNAME', 'GRADUIERUNG', 'GRAD DATUM', 'STATUS', 'GEBURT', 'STRASSE', 'PLZ', 'STADT', 'EMAIL', 'FON', 'FAX', 'MOBIL', 'MITGLIED SEIT', 'AUSTRITT AM', 'VORSTAND', 'TRAINER', 'KIND', 'BEKOMMT EMAILS' ] )
 
     if status is None:
         mitglieder = Mitglied.public_objects.all().exclude( status = 0 ).order_by( 'id' )
@@ -276,9 +255,9 @@ def __get_bool( bool ):
         return 'N'
 
 @login_required
-def members( request ):
+def mitglieder( request ):
     ctx = __get_sidebar( request )
-    ctx['mitglieder'] = Mitglied.public_objects.all()
+    ctx['status'] = STATUS
 
     return __create_response( request, ctx, 'mitglieder.html' )
 
@@ -288,27 +267,6 @@ def mailinglist( request ):
     ctx['mitglieder'] = Mitglied.public_objects.all()
 
     return __create_response( request, ctx, 'mailverteiler.html' )
-
-@login_required
-def special_members( request ):
-    ctx = __get_sidebar( request )
-    ctx['mitglieder'] = Mitglied.public_objects.filter( status = 3 )
-
-    return __create_response( request, ctx, 'mitglieder.html' )
-
-@login_required
-def active_members( request ):
-    ctx = __get_sidebar( request )
-    ctx['mitglieder'] = Mitglied.public_objects.filter( status = 1 )
-
-    return __create_response( request, ctx, 'mitglieder.html' )
-
-@login_required
-def passive_members( request ):
-    ctx = __get_sidebar( request )
-    ctx['mitglieder'] = Mitglied.public_objects.filter( status = 2 )
-
-    return __create_response( request, ctx, 'mitglieder.html' )
 
 def impressum( request ):
     ctx = __get_sidebar( request )

@@ -4,25 +4,13 @@
 
 {% block content %}
 
-<h3>{%trans "Mitglieder" %}</h3>
+<h3>{%trans "Mitgliederlisten" %}</h3>
 
-<table class="small">
-<tr>
-  <th class="" align="right">{% trans "ID" %}</th>
-  <th class="">{% trans "Name" %}</th>
-  <th class="" align="right">{% trans "Alter" %}</th>
-  <th class="">{% trans "Email" %}</th>
-</tr>
-{% for mitglied in mitglieder %}
-  {% if mitglied.ist_mitglied %}
-  <tr class="" valign="top">
-    <td class="postmeta" align="right">{{ mitglied.id }}</td>
-    <td>{{ mitglied }}</td>
-    <td class="" align="right">{{ mitglied.geburt|age }}</td>
-    <td>{% if mitglied.email %}<a href="mailto:&quot;{{ mitglied }}&quot; &lt;{{ mitglied.email }}&gt;">{{ mitglied.email }}</a>{% endif %}</td>
-  </tr>
-  {% endif %}
+<ul class="event">
+  <li>{% trans "Alle Mitglieder" %} <a href="/mitgliederliste/" class="postmeta">csv</a></li>
+{% for s in status %} 
+ <li>{% trans "Mitglieder" %} ({% trans "Status" %} "{{ s.1 }}") <a href="/mitgliederliste/{{ s.0 }}/" class="postmeta">csv</a></li>
 {% endfor %}
-</table>
+</ul>
 
 {% endblock %}
