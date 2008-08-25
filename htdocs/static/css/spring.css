@@ -543,15 +543,27 @@ div.imageright img, img.imageright {
 #trainingszeiten .training1 {
   background-color: #E8E8CE;
 }
-a.create, a.edit {
-  background-color: #fce94f;
+a.edit {
+  background-color: #edd400;
+  color: white;
 }
-a.create:hover, a.edit:hover {
-  color: #d7030f;
+a.edit:hover {
+  color: #edd400;
   background-color: white;
 }
+a.create {
+  background-color: #f57900;
+  color: white;
+}
+a.create:hover {
+  color: #f57900;
+  background-color: white;
+}
+a.create, a.create:hover, a.edit, a.edit:hover {
+  padding: 0 2px;
+}
 .neu {
-  background-color: #d7030f;
+  background-color: #f57900;
   color: white;
   padding: 0 2px;
 }
