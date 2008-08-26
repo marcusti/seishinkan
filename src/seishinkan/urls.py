@@ -5,23 +5,17 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns( '',
-    # Example:
-    # (r'^seishinkan/', include('seishinkan.foo.urls')),
-
-    # Uncomment this for admin:
     ( r'^i18n/', include( 'django.conf.urls.i18n' ) ),
     ( r'^verwaltung/doc/', include( 'django.contrib.admindocs.urls' ) ),
     ( r'^verwaltung/(.*)', admin.site.root ),
-    #( r'^kontakt/', include( 'contact_form.urls' ) ),
-    #( r'^logout/$', 'django.contrib.auth.views.logout' ),
  )
 
 # Simple Generic Views
 urlpatterns += patterns( 'django.views.generic.simple',
-#    ( r'^seishinkan/$', 'direct_to_template', {'template': 'base.html'} ),
     ( r'^accounts/$', 'redirect_to', {'url': '/'} ),
  )
 
+# Seishinkan Website Views
 urlpatterns += patterns( 'seishinkan.website.views',
     ( r'^$', 'index' ),
     ( r'^login/$', 'seishinkan_login' ),
@@ -45,7 +39,7 @@ urlpatterns += patterns( 'seishinkan.website.views',
     ( r'^bilder/$', 'bilder' ),
     ( r'^downloads/$', 'downloads' ),
     ( r'^video/(.+)/$', 'video' ),
-    ( r'^emailverteiler/$', 'mailinglist' ),
+    ( r'^email/$', 'mailinglist' ),
     ( r'^log/$', 'admin_log' ),
     ( r'^mitglieder/$', 'mitglieder' ),
     ( r'^mitgliederliste/$', 'mitglieder_csv' ),
@@ -59,4 +53,3 @@ if settings.DEBUG:
     urlpatterns += patterns( '',
         ( r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/max/eclipse/workspace/seishinkan/htdocs/static'} ),
      )
-
