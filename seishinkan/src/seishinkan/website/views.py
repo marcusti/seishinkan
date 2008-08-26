@@ -257,6 +257,7 @@ def __get_bool( bool ):
 @login_required
 def mitglieder( request ):
     ctx = __get_sidebar( request )
+    ctx['menu'] = 'mitglieder'
     ctx['status'] = STATUS
 
     return __create_response( request, ctx, 'mitglieder.html' )
@@ -264,6 +265,7 @@ def mitglieder( request ):
 @login_required
 def mailinglist( request ):
     ctx = __get_sidebar( request )
+    ctx['menu'] = 'emailverteiler'
     ctx['mitglieder'] = Mitglied.public_objects.all()
 
     return __create_response( request, ctx, 'mailverteiler.html' )

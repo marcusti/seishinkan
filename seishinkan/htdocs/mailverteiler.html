@@ -6,14 +6,33 @@
 
 <h3>{%trans "Email Verteiler" %}</h3>
 
+{# --- TRAINER --- #}
 {% spaceless %}
-<a href="mailto:{% for mitglied in mitglieder %}{% if mitglied.email and mitglied.ist_mitglied and mitglied.bekommt_emails %}&quot;{{ mitglied }}&quot; &lt;{{ mitglied.email }}&gt;{% if not forloop.last %}, {% endif %}{% endif %}{% endfor %}">Verteiler</a>
+<a href="mailto:{% for mitglied in mitglieder %}{% if mitglied.email and mitglied.ist_mitglied and mitglied.ist_trainer and mitglied.bekommt_emails %}&quot;{{ mitglied }}&quot; &lt;{{ mitglied.email }}&gt;{% if not forloop.last %}, {% endif %}{% endif %}{% endfor %}">Verteiler Trainer</a>
 {% endspaceless %}
 
-<p>
+<p class="small">
+{% for mitglied in mitglieder %}
+  {% if mitglied.email and mitglied.ist_mitglied and mitglied.ist_trainer and mitglied.bekommt_emails %}
+    &quot;{{ mitglied }}&quot; &lt;{{ mitglied.email }}&gt;
+    {% if user.is_authenticated %}<a href="/verwaltung/members/mitglied/{{ mitglied.id }}/" class="edit smaller">{% trans "bearbeiten" %}</a>{% endif %}
+    <br/>
+  {% endif %}
+{% endfor %}
+</p>
+
+{# --- MITGLIEDER --- #}
+{% spaceless %}
+<a href="mailto:{% for mitglied in mitglieder %}{% if mitglied.email and mitglied.ist_mitglied and mitglied.bekommt_emails %}&quot;{{ mitglied }}&quot; &lt;{{ mitglied.email }}&gt;{% if not forloop.last %}, {% endif %}{% endif %}{% endfor %}">Verteiler Mitglieder</a>
+{% endspaceless %}
+
+<p class="small">
 {% for mitglied in mitglieder %}
   {% if mitglied.email and mitglied.ist_mitglied and mitglied.bekommt_emails %}
-  &quot;{{ mitglied }}&quot; &lt;{{ mitglied.email }}&gt;{% if not forloop.last %}, <br/>{% endif %}{% endif %}
+    &quot;{{ mitglied }}&quot; &lt;{{ mitglied.email }}&gt;
+    {% if user.is_authenticated %}<a href="/verwaltung/members/mitglied/{{ mitglied.id }}/" class="edit smaller">{% trans "bearbeiten" %}</a>{% endif %}
+    <br/>
+  {% endif %}
 {% endfor %}
 </p>
 
