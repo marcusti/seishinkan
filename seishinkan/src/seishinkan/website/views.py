@@ -22,6 +22,7 @@ from seishinkan.members.models import *
 from seishinkan.utils import UnicodeWriter
 import captcha
 import os
+import pyExcelerator as xl
 
 def __get_sidebar( request ):
     heute = int( datetime.today().strftime( '%w' ) )
@@ -192,12 +193,41 @@ def admin_log( request ):
         )
 
 @login_required
+def mitglieder_xls( request, status = None ):
+    workbook = xl.Workbook()
+    sheet = workbook.add_sheet( 'Mitglieder' )
+    header_font = xl.Font()
+    header_font.bold = True
+    header_style = xl.XFStyle()
+    header_style.font = header_font
+    
+    if status is None:
+        mitglieder = Mitglied.public_objects.all().exclude( status = 0 ).order_by( 'id' )
+    else:
+        mitglieder = Mitglied.public_objects.filter( status = status )
+
+    for y, header in enumerate( __get_headers() ):
+        sheet.write( 0, y, header, header_style )
+
+    for x, mitglied in enumerate( mitglieder ):
+        col = 0
+        for y, content in enumerate( __get_content( mitglied ) ):
+            sheet.write( x + 1, y, content )
+            col = y
+            
+    filename = 'mitglieder-%s.xls' % datetime.now().strftime( '%Y%m%d-%H%M%S' )
+    workbook.save( 'tmp/' + filename )
+    response = HttpResponse( open( 'tmp/' + filename, 'r' ).read(), mimetype='application/ms-excel' )
+    response['Content-Disposition'] = 'attachment; filename=%s' % filename
+    return response
+
+@login_required
 def mitglieder_csv( request, status = None ):
     response = HttpResponse( mimetype='text/csv' )
     response['Content-Disposition'] = 'attachment; filename=mitglieder.csv'
 
     writer = UnicodeWriter( response )
-    writer.writerow( [ 'ID', 'VORNAME', 'NACHNAME', 'GRADUIERUNG', 'GRAD DATUM', 'STATUS', 'GEBURT', 'STRASSE', 'PLZ', 'STADT', 'EMAIL', 'FON', 'FAX', 'MOBIL', 'MITGLIED SEIT', 'AUSTRITT AM', 'VORSTAND', 'TRAINER', 'KIND', 'BEKOMMT EMAILS' ] )
+    writer.writerow( __get_headers() )
 
     if status is None:
         mitglieder = Mitglied.public_objects.all().exclude( status = 0 ).order_by( 'id' )
@@ -205,30 +235,36 @@ def mitglieder_csv( request, status = None ):
         mitglieder = Mitglied.public_objects.filter( status = status )
 
     for m in mitglieder:
-        writer.writerow( [ 
-                str( m.id ), 
-                m.vorname, 
-                m.nachname, 
-                __get_graduierung( m ),
-                __get_graduierung_datum( m ),
-                m.get_status_display(), 
-                __get_datum( m.geburt ),
-                m.strasse, 
-                m.plz, 
-                m.stadt, 
-                m.email ,
-                m.fon ,
-                m.fax ,
-                m.mobil ,
-                __get_datum( m.mitglied_seit ),
-                __get_datum( m.austritt_am ),
-                __get_bool( m.ist_vorstand ),
-                __get_bool( m.ist_trainer ),
-                __get_bool( m.ist_kind ),
-                __get_bool( m.bekommt_emails ),
-                ] )
+        writer.writerow( __get_content( m ) )
 
     return response
+
+def __get_headers():
+    return [ 'M-ID', 'VORNAME', 'NACHNAME', 'GRADUIERUNG', 'GRAD DATUM', 'STATUS', 'GEBURT', 'STRASSE', 'PLZ', 'STADT', 'EMAIL', 'FON', 'FAX', 'MOBIL', 'MITGLIED SEIT', 'AUSTRITT AM', 'VORSTAND', 'TRAINER', 'KIND', 'BEKOMMT EMAILS' ]
+
+def __get_content( m ):
+    return [ 
+        str( m.id ), 
+        m.vorname, 
+        m.nachname, 
+        __get_graduierung( m ),
+        __get_graduierung_datum( m ),
+        m.get_status_display(), 
+        __get_datum( m.geburt ),
+        m.strasse, 
+        m.plz, 
+        m.stadt, 
+        m.email ,
+        m.fon ,
+        m.fax ,
+        m.mobil ,
+        __get_datum( m.mitglied_seit ),
+        __get_datum( m.austritt_am ),
+        __get_bool( m.ist_vorstand ),
+        __get_bool( m.ist_trainer ),
+        __get_bool( m.ist_kind ),
+        __get_bool( m.bekommt_emails ),
+        ]
 
 def __get_graduierung( mitglied ):
     try:
