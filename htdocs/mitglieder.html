@@ -7,9 +7,9 @@
 <h3>{%trans "Mitgliederlisten" %}</h3>
 
 <ul class="event">
-  <li>{% trans "Alle Mitglieder" %} <a href="/mitgliederliste/" class="postmeta">csv</a></li>
+  <li>{% trans "Alle Mitglieder" %} <a href="/mitglieder/xls/" class="postmeta">Excel</a> <a href="/mitglieder/csv/" class="postmeta">csv</a></li>
 {% for s in status %} 
- <li>{% trans "Mitglieder" %} ({% trans "Status" %} "{{ s.1 }}") <a href="/mitgliederliste/{{ s.0 }}/" class="postmeta">csv</a></li>
+ <li>{% trans "Mitglieder" %} ({% trans "Status" %} "{{ s.1 }}") <a href="/mitglieder/xls/{{ s.0 }}/" class="postmeta">Excel</a> <a href="/mitglieder/csv/{{ s.0 }}/" class="postmeta">csv</a></li>
 {% endfor %}
 </ul>
 
