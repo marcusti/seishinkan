@@ -71,7 +71,7 @@ class Mitglied( AbstractModel ):
     public_objects = MitgliederManager()
 
     def name( self ):
-        return ( '%s %s' % ( self.vorname, self.nachname ) ).strip()
+        return ( u'%s %s' % ( self.vorname, self.nachname ) ).strip()
     name.short_description = _( u'Name' )
     name.allow_tags = True
 
