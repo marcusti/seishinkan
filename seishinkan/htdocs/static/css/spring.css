@@ -111,8 +111,8 @@ a img {
 /* background: url(../images/header.jpg) no-repeat;
  background-position: center;
  height: 189px; */
- border-bottom: 5px solid #9bbb38;
- border-top: 5px solid #9bbb38;
+ border-bottom: 10px solid #9bbb38;
+ border-top: 10px solid #e8e8ce;
 }
 	/* Header Styles */
 	#header h1 {
@@ -184,7 +184,7 @@ text-decoration:none;
 		margin: 10px 0 0 0;
 		padding: 10px 0 20px 0;
 		background-color: #E8E8CE;
-		border-top: 5px solid #9bbb38;
+		border-top: 10px solid #9bbb38;
 		font-size: 0.9em;
 		text-align: right;
 	}
