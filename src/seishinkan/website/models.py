@@ -175,7 +175,7 @@ class ArtikelManager( models.Manager ):
         return super( ArtikelManager, self ).get_query_set().filter( public = True )
 
     def get_by_category( self, kid ):
-        return self.get_query_set().filter( seite = kid ).order_by( 'position' )
+        return self.get_query_set().filter( seite = kid ).order_by( 'position', 'title' )
 
 class Artikel( AbstractModel ):
     title = models.CharField( _( u'Überschrift' ), max_length = DEFAULT_MAX_LENGTH, blank = True )

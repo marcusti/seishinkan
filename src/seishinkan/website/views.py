@@ -1,5 +1,6 @@
 #-*- coding: utf-8 -*-
 
+import django
 from datetime import date, datetime
 from django import get_version
 from django.contrib.admin.models import LogEntry
@@ -21,8 +22,22 @@ from seishinkan.website.models import *
 from seishinkan.members.models import *
 from seishinkan.utils import UnicodeWriter
 import captcha
-import os
+import os, re
 import pyExcelerator as xl
+
+try:
+    from django.db import connection
+    cursor = connection.cursor()
+    cursor.execute("SELECT version()")
+    version = cursor.fetchone()[0]
+    if version.lower().startswith('postgresql'):
+        db_version = version[:version.find( ' ', 12 )]
+        db_link = 'http://www.postgresql.org/'
+    else:
+        db_version = 'MySQL %s' % version
+        db_link = 'http://www.mysql.de/'
+except:
+    db_version = ''
 
 def __get_sidebar( request ):
     heute = int( datetime.today().strftime( '%w' ) )
@@ -36,8 +51,11 @@ def __get_sidebar( request ):
     ctx['training_aktuell'] = TrainingAktuell.public_objects.get_aktuelle_meldungen()
     ctx['path'] = request.path
     ctx['host'] = request.META['HTTP_HOST']
-    ctx['django_version'] = get_version()
     ctx['homepage'] = Seite.public_objects.get_homepage()
+
+    ctx['db_version'] = db_version
+    ctx['db_link'] = db_link
+    ctx['django_version'] = get_version()
 
     try:
         ctx['wochentag'] = Wochentag.objects.get( id = heute )
@@ -302,6 +320,7 @@ def mitglieder( request ):
 def mailinglist( request ):
     ctx = __get_sidebar( request )
     ctx['menu'] = 'emailverteiler'
+    ctx['users'] = User.objects.all()
     ctx['mitglieder'] = Mitglied.public_objects.all()
 
     return __create_response( request, ctx, 'mailverteiler.html' )
