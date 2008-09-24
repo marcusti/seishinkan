@@ -26,7 +26,7 @@ class SeiteAdmin( admin.ModelAdmin ):
     list_filter = ( 'parent', )
 
 class ArtikelAdmin( admin.ModelAdmin ):
-    ordering = ['title', 'text']
+    ordering = ['position', 'title', 'text']
     search_fields = [ 'title', 'text' ]
     list_display = ( 'get_title', 'preview', 'seite', 'position', 'public', 'id' )
     list_display_links = ( 'get_title', 'preview' )
