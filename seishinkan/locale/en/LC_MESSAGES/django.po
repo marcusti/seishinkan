@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-27 09:22+0200\n"
+"POT-Creation-Date: 2008-09-25 21:17+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,7 +46,7 @@ msgstr "edit article"
 
 #: htdocs/base.html:106 htdocs/base.html.py:130 htdocs/base.html.py:153
 #: htdocs/base.html:183 htdocs/downloads.html:25 htdocs/links.html:19
-#: htdocs/mailverteiler.html:18 htdocs/mailverteiler.html.py:33
+#: htdocs/mailverteiler.html:32 htdocs/mailverteiler.html.py:47
 #: htdocs/news.html:9 htdocs/news_list.html:19 htdocs/termin.html:10
 #: htdocs/termine_list.html:18
 msgid "bearbeiten"
@@ -166,7 +166,7 @@ msgstr ""
 msgid "Diese Webseite ist mit dem Django Web Framework erstellt."
 msgstr ""
 
-#: htdocs/info.html:31
+#: htdocs/info.html:32
 msgid ""
 "Das Aikido Dojo Seishinkan benutzt und empfiehlt die folgenden Opensource-"
 "Projekte und Standards"
@@ -336,15 +336,15 @@ msgstr "Honorary Members"
 msgid "Zuletzt angemeldet"
 msgstr "Last login"
 
-#: htdocs/sidebar.html:75
+#: htdocs/sidebar.html:74
 msgid "Training heute"
 msgstr "Today's Practice"
 
-#: htdocs/sidebar.html:93
+#: htdocs/sidebar.html:92
 msgid "Heute findet kein Training statt."
 msgstr "No practice today, sorry."
 
-#: htdocs/sidebar.html:95
+#: htdocs/sidebar.html:94
 msgid "Meldungen bearbeiten"
 msgstr "edit messages"
 
