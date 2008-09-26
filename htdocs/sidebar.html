@@ -3,6 +3,7 @@
   <div id="sidebar">
     <a href="/"><img src="/static/images/Seishinkan_peter_190.jpg" alt="[Seishinkan Logo]" title="Seishinkan Logo" /></a>
 
+<strong>
     <ul>
       <li>
         <ul>
@@ -28,11 +29,13 @@
         </ul>
       </li>
     </ul>
+</strong>
 
 {% if user.is_authenticated %}
     <br/>
     <h2>{% trans "Mitgliederbereich" %}</h2>
 
+<strong>
     <ul>
       <li>
 	<ul class="">
@@ -52,6 +55,7 @@
 	</ul>
       </li>
     </ul>
+</strong>
 
     <br/>
     <table>
@@ -72,6 +76,7 @@
     <br/>
 
     <h2>{% trans "Training heute" %},<br/>{% now "l, d.m." %}</h2>
+<strong>
 <ul>
 <li>
     <ul class="">
@@ -95,6 +100,7 @@
     </ul>
 </li>
 </ul>
+</strong>
   {% if user.is_authenticated %}
   {% endif %}
 
