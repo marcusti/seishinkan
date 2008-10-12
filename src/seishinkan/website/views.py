@@ -258,24 +258,25 @@ def mitglieder_csv( request, status = None ):
     return response
 
 def __get_headers():
-    return [ 'M-ID', 'VORNAME', 'NACHNAME', 'GRADUIERUNG', 'GRAD DATUM', 'STATUS', 'GEBURT', 'STRASSE', 'PLZ', 'STADT', 'EMAIL', 'FON', 'FAX', 'MOBIL', 'MITGLIED SEIT', 'AUSTRITT AM', 'VORSTAND', 'TRAINER', 'KIND', 'BEKOMMT EMAILS' ]
+    return [ 'M-ID', 'VORNAME', 'NACHNAME', 'GRADUIERUNG', 'GRAD DATUM', 'STATUS', 'GEBURT', 'STRASSE', 'PLZ', 'STADT', 'LAND', 'EMAIL', 'FON', 'FAX', 'MOBIL', 'MITGLIED SEIT', 'AUSTRITT AM', 'VORSTAND', 'TRAINER', 'KIND', 'BEKOMMT EMAILS' ]
 
 def __get_content( m ):
-    return [ 
-        str( m.id ), 
-        m.vorname, 
-        m.nachname, 
+    return [
+        str( m.id ),
+        m.vorname,
+        m.nachname,
         __get_graduierung( m ),
         __get_graduierung_datum( m ),
-        m.get_status_display(), 
+        m.get_status_display(),
         __get_datum( m.geburt ),
-        m.strasse, 
-        m.plz, 
-        m.stadt, 
-        m.email ,
-        m.fon ,
-        m.fax ,
-        m.mobil ,
+        m.strasse,
+        m.plz,
+        m.stadt,
+        unicode( m.land ),
+        m.email,
+        m.fon,
+        m.fax,
+        m.mobil,
         __get_datum( m.mitglied_seit ),
         __get_datum( m.austritt_am ),
         __get_bool( m.ist_vorstand ),
