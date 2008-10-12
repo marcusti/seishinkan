@@ -42,6 +42,17 @@ GRADUIERUNGEN = [
     ( -51,    _( u'5.1 Kinder-Kyu' ) ),
 ]
 
+class Land( AbstractModel ):
+    name = models.CharField( _( u'Name' ), max_length = DEFAULT_MAX_LENGTH )
+
+    def __unicode__( self ):
+        return self.name
+
+    class Meta:
+        ordering = [ 'name' ]
+        verbose_name = _( u'Land' )
+        verbose_name_plural = _( u'Länder' )
+
 class MitgliederManager( models.Manager ):
     def get_query_set( self ):
         return super( MitgliederManager, self ).get_query_set().filter( public = True )
@@ -52,6 +63,7 @@ class Mitglied( AbstractModel ):
     plz = models.CharField( _( u'PLZ' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     stadt = models.CharField( _( u'Stadt' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     strasse = models.CharField( _( u'Straße' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
+    land = models.ForeignKey( Land, verbose_name = _( u'Land' ), default = 1, blank = True, null = True )
     fon = models.CharField( _( u'Telefon' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     fax = models.CharField( _( u'Telefax' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     mobil = models.CharField( _( u'Handy' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
