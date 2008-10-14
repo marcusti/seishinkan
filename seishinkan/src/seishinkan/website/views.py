@@ -321,7 +321,6 @@ def mitglieder( request ):
 def mailinglist( request ):
     ctx = __get_sidebar( request )
     ctx['menu'] = 'emailverteiler'
-    ctx['users'] = User.objects.all()
     ctx['mitglieder'] = Mitglied.public_objects.all()
 
     return __create_response( request, ctx, 'mailverteiler.html' )
