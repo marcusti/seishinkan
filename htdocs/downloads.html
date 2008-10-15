@@ -6,10 +6,15 @@
 
 <h3>{% trans "Downloads" %}</h3>
 
+{% if user.is_authenticated %}
+  <p><a class="create small" href="/verwaltung/website/download/add/">{% trans "neuen Download erstellen" %}</a></p>
+{% endif %}
+
 {% if downloads %}
 <div class="post">
 <div class="postentry">
 <ul class="event">
+
 {% for download in downloads %}
   <li>
 {#    {% if download.vorschau %}<img class="left" src="{{ download.vorschau.url }}" width="{{ download.vorschau.width }}" height="{{ download.vorschau.height }}" alt="[]" title="" />{% endif %} #}
@@ -26,10 +31,6 @@
     <div class="clear"></div>
   </li>
 {% endfor %}
-
-{% if user.is_authenticated %}
-  <li><a class="create small" href="/verwaltung/website/download/add/">{% trans "neuen Download erstellen" %}</a></li>
-{% endif %}
 
 </ul>
 </div>
