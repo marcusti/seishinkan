@@ -95,12 +95,13 @@
               {{ meldung.get_text|linebreaksbr }}
             </li>
           {% endfor %}
+
         {% else %}
-<strong>
           <li class="postmeta">{% trans "Heute findet kein Training statt." %}</li>
-</strong>
         {% endif %}
+
         {% if user.is_authenticated %}<li class=""><a class="edit" href="/verwaltung/website/trainingaktuell/">{% trans "Meldungen bearbeiten" %}</a></li>{% endif %}
+
     </ul>
 </li>
 </ul>
