@@ -35,9 +35,9 @@
 {% for video in videos %}
 {% ifnotequal video.id vid %}
 <li>
-  <h5><a href="/video/{{ video.id }}/">{{ video.title }}</a></h5>
+  <h5><a href="/videos/{{ video.id }}/">{{ video.title }}</a></h5>
 
-    <a href="/video/{{video.id }}/" >
+    <a href="/videos/{{video.id }}/" >
       <img src="{{ video.thumbnail_url }}" class="imageleft" alt="[{{video.thumbnail_url}}]" title="{{video.title}}"/></a>
 
     {{ video.description|linebreaksbr }}
