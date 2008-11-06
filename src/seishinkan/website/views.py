@@ -101,6 +101,15 @@ def index( request, sid = 1 ):
         
     return __create_response( request, ctx )
 
+def my_404( request ):
+    ctx = __get_sidebar( request )
+    ctx['request_path'] = request.get_full_path()
+    if settings.SEND_BROKEN_LINK_EMAILS:
+        subject = 'Broken Link: %s' % request.get_full_path()
+        message = '%s' % (request)
+        mail_admins( subject, message, fail_silently=True)
+    return __create_response( request, ctx, template_name = '404.html' )
+
 def dynamic_url( request, sitename = '' ):
     if not sitename or sitename.strip() == '':
         return index( request )

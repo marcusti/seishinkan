@@ -55,3 +55,5 @@ if settings.DEBUG:
     urlpatterns += patterns( '',
         ( r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/max/eclipse/workspace/seishinkan/htdocs/static'} ),
      )
+
+handler404 = 'seishinkan.website.views.my_404'
