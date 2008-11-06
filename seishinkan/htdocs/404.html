@@ -2,10 +2,11 @@
 {% load i18n %}
 
 {% block content %}
-<br/><br/><br/><br/>
 <h3>Fehler 404</h3>
+
 <p>
+  <span class="postmeta">{{ request_path }}</span><br/>
   {% trans "Die angeforderte Seite wurde nicht gefunden." %}
 </p>
-<br/><br/><br/><br/>
+
 {% endblock %}
