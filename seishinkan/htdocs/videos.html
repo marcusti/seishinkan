@@ -5,6 +5,12 @@
 {% block content %}
 
 <h3>{% trans "Videos" %}</h3>
+
+{% if youtube_error %}
+  <p class="error">Beim Abrufen der Videos von Youtube ist ein Fehler aufgetreten. 
+  {% if vid %}<br/>Video: {{ vid }}{% endif %}</p>
+{% endif %}
+
 {% if watch %}
 
 <h5>{{ watch.title }}</h5>
