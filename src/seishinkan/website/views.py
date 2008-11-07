@@ -512,17 +512,21 @@ def video( request, vid = None ):
     ctx = __get_sidebar( request )
     ctx['menu'] = 'videos'
 
-    import youtube
-    username = 'eckido'
-    client = youtube.YouTubeClient( 'gmsnG0W2bTA' )
-    ctx['videos'] = client.list_by_user( username, page = 1, per_page = 10 )
-    ctx['username'] = username
+    try:
+        import youtube
+        username = 'eckido'
+        client = youtube.YouTubeClient( 'gmsnG0W2bTA' )
+        ctx['videos'] = client.list_by_user( username, page = 1, per_page = 10 )
+        ctx['username'] = username
 
-    if vid:
-        video = client.get_details( vid )
-        if video:
-            ctx['vid'] = vid
-            ctx['watch'] = video
+        if vid:
+            video = client.get_details( vid )
+            if video:
+                ctx['vid'] = vid
+                ctx['watch'] = video
+    except:
+        ctx['vid'] = vid
+        ctx['youtube_error'] = True
 
 #    import gdata.youtube.service
 #    ys = gdata.youtube.service.YouTubeService()
