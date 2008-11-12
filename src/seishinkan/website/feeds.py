@@ -7,9 +7,9 @@ from seishinkan.news.models import News
 
 class TerminFeed( Feed ):
     feed_type = Atom1Feed
-    title = u'aikido-dojo-seishinkan.de, Termine'
+    title = u'Seishinkan Termine'
     link = u'/termine/'
-    subtitle = u'Termine und Veranstaltungen des Aikido Dojo Seishinkan'
+    subtitle = u'Termine und Veranstaltungen des Aikido Dojo Seishinkan, www.aikido-dojo-seishinkan.de'
 
     def items( self ):
         return Termin.public_objects.all()[:30]
@@ -22,9 +22,9 @@ class TerminFeed( Feed ):
 
 class NewsFeed( Feed ):
     feed_type = Atom1Feed
-    title = u'aikido-dojo-seishinkan.de, News'
+    title = u'Seishinkan News'
     link = u'/news/'
-    subtitle = u'Artikel und Neuigkeiten aus dem Aikido Dojo Seishinkan'
+    subtitle = u'Artikel und Neuigkeiten aus dem Aikido Dojo Seishinkan, www.aikido-dojo-seishinkan.de'
 
     def items( self ):
         return News.public_objects.all()[:30]
@@ -39,7 +39,10 @@ class NewsFeed( Feed ):
         try:
             s = ''
             for author in item.autoren.iterator():
-                s = '%s %s' % ( s, author )
+                if len( s ) > 0:
+                    s += ', %s' % author
+                else:
+                    s += str ( author )
             return s.strip()
         except:
-            raise
+            pass

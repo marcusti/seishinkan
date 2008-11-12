@@ -3,7 +3,9 @@
 
 {% block content %}
 
-<h2>{%  trans "alle Termine"%}</h2>
+<h2>{%  trans "alle Termine"%}
+  <span class="postmeta"><a href="/feed/termine/" target="_blank"><img src="/static/images/rss-icon.png" alt="[Seishinkan Termine, Atom Feed]" title="Seishinkan Termine, Atom Feed" /></a></span>
+</h2>
 
 <div class="post">
 {% autoescape on%}

@@ -3,7 +3,9 @@
 
 {% block content %}
 
-<h2>{%  trans "alle Beiträge"%}</h2>
+<h2>{%  trans "alle Beiträge"%}
+  <span class="postmeta"><a href="/feed/news/" target="_blank"><img src="/static/images/rss-icon.png" alt="[Seishinkan News, Atom Feed]" title="Seishinkan News, Atom Feed" /></a></span>
+</h2>
 
 <div class="post">
 {% autoescape off %}
