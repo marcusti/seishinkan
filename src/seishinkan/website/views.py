@@ -49,8 +49,6 @@ def __get_sidebar( request ):
     ctx['training_heute'] = TrainingManager().get_einheiten_pro_tag( heute )
     ctx['termine_heute'] = Termin.public_objects.current()
     ctx['training_aktuell'] = TrainingAktuell.public_objects.get_aktuelle_meldungen()
-    ctx['path'] = request.path
-    ctx['host'] = request.META['HTTP_HOST']
     ctx['homepage'] = Seite.public_objects.get_homepage()
 
     ctx['db_version'] = db_version
@@ -59,6 +57,8 @@ def __get_sidebar( request ):
 
     try:
         ctx['wochentag'] = Wochentag.objects.get( id = heute )
+        ctx['path'] = request.path
+        ctx['host'] = request.META['HTTP_HOST']
     except:
         pass
 
