@@ -351,6 +351,10 @@ def mitglieder( request ):
 @login_required
 def mailinglist( request ):
     ctx = __get_sidebar( request )
+
+    if not ist_vorstand( request.user ):
+        return __create_response( request, ctx, 'keine_berechtigung.html' )
+
     ctx['menu'] = 'emailverteiler'
     ctx['mitglieder'] = Mitglied.public_objects.all()
 
@@ -617,6 +621,6 @@ def __create_response( request, context = {}, template_name = 'base.html' ):
 
 def ist_vorstand( user ):
     try:
-        return user.has_perm( 'members' )
+        return user.has_module_perms( 'members' )
     except:
         return False
