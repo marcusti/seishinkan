@@ -5,7 +5,7 @@ from datetime import date, datetime
 from django import get_version
 from django.contrib.admin.models import LogEntry
 from django.contrib.auth import login, logout
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
 from django.core.mail import mail_admins, send_mail, send_mass_mail
 from django.http import Http404, HttpResponseRedirect, HttpResponse
@@ -221,6 +221,9 @@ def admin_log( request ):
 
 @login_required
 def mitglieder_xls( request, status = None ):
+    if not ist_vorstand( request.user ):
+        return __create_response( request, ctx, 'keine_berechtigung.html' )
+
     workbook = xl.Workbook()
     sheet = workbook.add_sheet( 'Mitglieder' )
     header_font = xl.Font()
@@ -250,6 +253,9 @@ def mitglieder_xls( request, status = None ):
 
 @login_required
 def mitglieder_csv( request, status = None ):
+    if not ist_vorstand( request.user ):
+        return __create_response( request, ctx, 'keine_berechtigung.html' )
+
     response = HttpResponse( mimetype='text/csv' )
     response['Content-Disposition'] = 'attachment; filename=mitglieder.csv'
 
@@ -321,6 +327,22 @@ def __get_bool( bool ):
 @login_required
 def mitglieder( request ):
     ctx = __get_sidebar( request )
+
+    if not ist_vorstand( request.user ):
+        return __create_response( request, ctx, 'keine_berechtigung.html' )
+
+    ctx['menu'] = 'mitglieder'
+    ctx['status'] = STATUS
+
+    return __create_response( request, ctx, 'mitglieder.html' )
+
+@login_required
+def mitglieder( request ):
+    ctx = __get_sidebar( request )
+
+    if not ist_vorstand( request.user ):
+        return __create_response( request, ctx, 'keine_berechtigung.html' )
+
     ctx['menu'] = 'mitglieder'
     ctx['status'] = STATUS
 
@@ -333,6 +355,18 @@ def mailinglist( request ):
     ctx['mitglieder'] = Mitglied.public_objects.all()
 
     return __create_response( request, ctx, 'mailverteiler.html' )
+
+@login_required
+def permissions( request ):
+    ctx = __get_sidebar( request )
+
+    if not ist_vorstand( request.user ):
+        return __create_response( request, ctx, 'keine_berechtigung.html' )
+
+    ctx['users'] = User.objects.all().order_by( 'first_name', 'last_name' )
+    ctx['groups'] = Group.objects.all()
+
+    return __create_response( request, ctx, 'berechtigungen.html' )
 
 def impressum( request ):
     ctx = __get_sidebar( request )
@@ -580,3 +614,9 @@ def __create_response( request, context = {}, template_name = 'base.html' ):
         context,
         context_instance = RequestContext( request ),
     )
+
+def ist_vorstand( user ):
+    try:
+        return user.has_perm( 'members' )
+    except:
+        return False
