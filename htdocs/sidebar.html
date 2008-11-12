@@ -41,8 +41,10 @@
 	<ul class="">
 	  <li class="edit">{% trans "Hallo" %} {{ user.first_name }}.</li>
 	  <li class="page_item{% ifequal menu "admin_log" %} current{% endifequal %}"><a href="/log/">{% trans "Letzte &Auml;nderungen" %}</a></li>
+	{% if perms.members %}
 	  <li><a class="page_item{% ifequal menu "emailverteiler" %} current{% endifequal %}" href="/email/">{% trans "Email Verteiler" %}</a></li>
 	  <li><a class="page_item{% ifequal menu "mitglieder" %} current{% endifequal %}" href="/mitglieder/">{% trans "Mitgliederlisten" %}</a></li>
+	{% endif %}
 	  <li><a class="" href="/verwaltung/">{% trans "Verwaltung" %}</a></li>
 	  <li><a class="edit" href="/logout/">{% trans "Logout" %}</a></li>
 {% comment %}
@@ -67,6 +69,11 @@
 	<td>{{ user.last_login|date:"d.m.y H:i" }}</td>
       </tr>
     {% endfor %}
+
+    {% if perms.members %}
+      <td colspan="2"><a class="page_item{% ifequal menu "permissions" %} current{% endifequal %}" href="/permissions/">{% trans "Berechtigungen" %}</a></td>
+    {% endif %}
+
     {% endif %}
     </table>
 {% endif %}
