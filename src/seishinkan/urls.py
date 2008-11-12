@@ -1,13 +1,20 @@
 from django.conf.urls.defaults import *
 from django.conf import settings
 from django.contrib import admin
+from seishinkan.website.feeds import NewsFeed, TerminFeed
 
 admin.autodiscover()
+
+feeds = {
+  'termine': TerminFeed,
+  'news': NewsFeed,
+}
 
 urlpatterns = patterns( '',
     ( r'^i18n/', include( 'django.conf.urls.i18n' ) ),
     ( r'^verwaltung/doc/', include( 'django.contrib.admindocs.urls' ) ),
     ( r'^verwaltung/(.*)', admin.site.root ),
+    ( r'^feed/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
  )
 
 # Simple Generic Views
