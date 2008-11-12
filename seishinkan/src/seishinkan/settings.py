@@ -18,6 +18,7 @@ SSL_URLS = (
     r'/email/',
     r'/mitglieder/',
     r'/mitgliederliste/',
+    r'/permissions/',
     r'/verwaltung/',
 )
 
