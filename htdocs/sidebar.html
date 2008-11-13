@@ -46,6 +46,12 @@
 	  <li><a class="page_item{% ifequal menu "mitglieder" %} current{% endifequal %}" href="/mitglieder/">{% trans "Mitgliederlisten" %}</a></li>
 	{% endif %}
 	  <li><a class="" href="/verwaltung/">{% trans "Verwaltung" %}</a></li>
+	{% if nonpublic_sites %}
+          <li class="edit">{% trans "nicht oeffentlich" %}:</li>
+	{% for seite in nonpublic_sites %}
+	  <li><a class="page_item{% ifequal menu seite.url %} current{% endifequal %}" href="{{ seite.get_absolute_url }}">{{ seite.get_name }}</a></li>
+	{% endfor %}
+	{% endif %}
 	  <li><a class="edit" href="/logout/">{% trans "Logout" %}</a></li>
 {% comment %}
 	  <li class="page_item{% ifequal menu "mitglieder" %} current{% endifequal %}"><a href="/mitglieder/">{% trans "Alle Mitglieder" %}</a></li>
