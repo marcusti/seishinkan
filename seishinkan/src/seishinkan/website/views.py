@@ -64,13 +64,16 @@ def __get_sidebar( request ):
 
     if request.user.is_authenticated():
         ctx['users'] = User.objects.all().order_by( '-last_login' )
+        ctx['nonpublic_sites'] = Seite.objects.filter( public = False ).order_by( 'position' )
 
     return ctx
 
 def index( request, sid = 1 ):
     ctx = __get_sidebar( request )
 
-    seite = get_object_or_404( Seite.public_objects, id = sid )
+    seite = get_object_or_404( Seite.objects, id = sid )
+    if not seite.public and request.user.is_anonymous():
+        raise Http404
     ctx['seite'] = seite
     ctx['menu'] = seite.url
     ctx['artikel'] = Artikel.public_objects.get_by_category( sid )
@@ -114,7 +117,7 @@ def dynamic_url( request, sitename = '' ):
     if not sitename or sitename.strip() == '':
         return index( request )
 
-    seite = get_object_or_404( Seite.public_objects, url__iexact = sitename )
+    seite = get_object_or_404( Seite.objects, url__iexact = sitename )
     return index( request, seite.id )
 
 def kontakt( request ):
