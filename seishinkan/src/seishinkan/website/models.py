@@ -128,9 +128,9 @@ class Seite( AbstractModel ):
     name_en = models.CharField( _( u'Name (Englisch)' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     name_ja = models.CharField( _( u'Name (Japanisch)' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     url = models.SlugField( _( u'URL' ), unique = True, max_length = DEFAULT_MAX_LENGTH )
-    position = models.IntegerField( _( u'Position im Menü' ), default = 0 )
-    parent = models.ForeignKey( 'self', verbose_name = _( u'Über' ), null = True, blank = True, related_name = 'child_set' , help_text = u'Uebergeordnete Seite')
-    titelbild = models.ForeignKey( TitelBild, verbose_name = u'Bild im Kopf', blank = True, null = True, help_text = u'Wenn hier nichts ausgewaehlt wird, wird das Bild der uebergeordneten Seite verwendet.' )
+    position = models.IntegerField( _( u'Position im Menü' ), default = 0, help_text = _( u'Legt die Reihenfolge fest. Bei gleichen Werten wird alphabetisch nach Name sortiert.' ) )
+    parent = models.ForeignKey( 'self', verbose_name = _( u'Über' ), null = True, blank = True, related_name = 'child_set' , help_text = _( u'Übergeordnete Seite') )
+    titelbild = models.ForeignKey( TitelBild, verbose_name = u'Bild im Kopf', blank = True, null = True, help_text = _( u'Wenn hier nichts ausgewählt wird, wird das Bild der übergeordneten Seite verwendet.' ) )
     show_events = models.BooleanField( _( u'Enthält Termine Übersicht' ), default = False )
     show_news = models.BooleanField( _( u'Enthält Beiträge Übersicht' ), default = False )
     show_training = models.BooleanField( _( u'Enthält Trainingszeiten' ), default = False )
@@ -185,10 +185,10 @@ class Artikel( AbstractModel ):
     text_en = models.TextField( _( u'Text' ), blank = True )
     text_ja = models.TextField( _( u'Text' ), blank = True )
     text_src = models.CharField( _( u'Code' ), max_length = 5000, blank = True, help_text = u'Wird für einige Seiten benötigt, die Scripte enthalten. Z.B. bei der Google Map im Lageplan. Den Code bitte nicht im Editor Fenster von TinyMCE eingeben.' )
-    position = models.IntegerField( _( u'Position auf der Seite' ), default = 0, blank = True )
+    position = models.IntegerField( _( u'Position auf der Seite' ), default = 0, blank = True, help_text = u'Legt die Reihenfolge fest. Bei gleichen Werten wird alphabetisch nach Überschrift sortiert.' )
     bild = models.ForeignKey( Bild, verbose_name = u'Bild', blank = True, null = True )
     bild_ausrichtung = models.CharField( _( u'Bild Ausrichtung' ), max_length = DEFAULT_MAX_LENGTH, choices = AUSRICHTUNGEN, default = u'right', blank = True )
-    seite = models.ForeignKey( Seite, verbose_name = _( u'Seite' ) )
+    seite = models.ForeignKey( Seite, verbose_name = _( u'Seite' ), help_text = _( u'Auf welcher Seite soll der Artikel erscheinen?' ) )
 
     objects = models.Manager()
     public_objects = ArtikelManager()
@@ -313,8 +313,8 @@ class Trainingsart( AbstractModel ):
 
 class Training( AbstractModel ):
     '''Modell einer Trainingseinheit'''
-    von = models.TimeField( _( u'Von' ) )
-    bis = models.TimeField( _( u'Bis' ) )
+    von = models.TimeField( _( u'Von' ), help_text = _( u'Beginn des Trainings' ) )
+    bis = models.TimeField( _( u'Bis' ), help_text = _( u'Ende des Trainings' ) )
     art = models.ForeignKey( Trainingsart, verbose_name = _( u'Trainingsart' ) )
     wochentag = models.ForeignKey( Wochentag, verbose_name = _( u'Wochentag' ) )
 
