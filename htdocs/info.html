@@ -12,46 +12,42 @@
 </p>
 {% endcomment %}
 
-<p>
-  {% trans "Diese Webseite ist mit dem Django Web Framework erstellt." %}
-</p>
+<ul class="event">
 
-<p>
+<li>
+  {% trans "Das Aikido Dojo Seishinkan benutzt und empfiehlt die folgenden Opensource-Projekte" %}:
+
+  <p>
+    <a href="http://www.ubuntu.com/" target="_blank">
+      <img src="/static/images/UbuntuStrapLogo.png"
+           border="0" alt="[ubuntu]"
+           title="ubuntu - linux for human beings" /></a>
+
+  </p>
+  <p>
+    <a href="http://www.spreadfirefox.com/node&id=0&t=315" target="_blank"><img border="0" alt="Firefox 3" title="Firefox 3" src="http://sfx-images.mozilla.org/affiliates/Buttons/firefox3/FF3_88x31_g.png"/></a>
+  </p>
+</li>
+
+<li>
+  {% trans "Technische Informationen zur Webseite" %}:
+
+  <p>
+    <a href="http://www.djangoproject.com/documentation/" target="_blank">Django</a> {{ django_version }}<br/>
+    <a href="http://www.python.org/" target="_blank">Python</a> {{ python_version }}<br/>
+    <a href="{{ db_link }}" target="_blank">{{ db_version }}</a><br/>
+    <a href="http://www.ubuntu.com/" target="_blank">{{ os_version }}</a><br/>
+  </p>
+
   <a href="http://www.djangoproject.com/" target="_blank">
     <img src="http://media.djangoproject.com/img/badges/djangopowered126x54.gif"
      border="0" alt="Powered by Django."
      title="Powered by Django." /></a>
-</p>
 
-<p>
   <a href="http://www.python.org/" target="_blank"><img src="/static/images/python-powered-w-100x40.png" alt="[python]" title="python" /></a>
-</p>
+    <a href="http://validator.w3.org/check?uri=http%3A%2F%2Fseishinkan.dyndns.org%2F&charset=(detect+automatically)&doctype=Inline&group=0" target="_blank">
+       <img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0 Transitional" height="31" width="88" /></a>
+</li>
 
-<h2></h2>
-<p>
-  {% trans "Das Aikido Dojo Seishinkan benutzt und empfiehlt die folgenden Opensource-Projekte und Standards" %}:
-</p>
-
-<p>
-  <a href="http://www.ubuntu.com/" target="_blank">
-    <img src="/static/images/UbuntuStrapLogo.png"
-     border="0" alt="[ubuntu]"
-     title="ubuntu - linux for human beings" /></a>
-</p>
-
-<p>
-  <a href="http://www.spreadfirefox.com/node&id=0&t=315" target="_blank"><img border="0" alt="Firefox 3" title="Firefox 3" src="http://sfx-images.mozilla.org/affiliates/Buttons/firefox3/FF3_88x31_g.png"/></a>
-</p>
-
-<p>
-  <a href="http://validator.w3.org/check?uri=http%3A%2F%2Fseishinkan.dyndns.org%2F&charset=(detect+automatically)&doctype=Inline&group=0" target="_blank">
-    <img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0 Transitional" height="31" width="88" /></a>
-</p>
-
-<h2></h2>
-<p>
-  <a href="http://www.djangoproject.com/documentation/" target="_blank">Django</a> {{ django_version }}<br/>
-  <a href="{{ db_link }}" target="_blank">{{ db_version }}</a></td>
-</p>
-
+</ul>
 {% endblock %}
