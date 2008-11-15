@@ -3,7 +3,6 @@
   <div id="sidebar">
     <a href="/"><img src="/static/images/Seishinkan_peter_190.jpg" alt="[Seishinkan Logo]" title="Seishinkan Logo" /></a>
 
-<strong>
     <ul>
       <li>
         <ul>
@@ -29,13 +28,11 @@
         </ul>
       </li>
     </ul>
-</strong>
 
 {% if user.is_authenticated %}
     <br/>
     <h2>{% trans "Mitgliederbereich" %}</h2>
 
-<strong>
     <ul>
       <li>
 	<ul class="">
@@ -58,17 +55,9 @@
 	{% endif %}
 
 	  <li><a class="edit" href="/logout/">{% trans "Logout" %}</a></li>
-{% comment %}
-	  <li class="page_item{% ifequal menu "mitglieder" %} current{% endifequal %}"><a href="/mitglieder/">{% trans "Alle Mitglieder" %}</a></li>
-	  <li class="page_item{% ifequal menu "mitglieder" %} current{% endifequal %}"><a href="/mitglieder/aktive/">{% trans "aktive Mitglieder" %}</a></li>
-	  <li class="page_item{% ifequal menu "mitglieder" %} current{% endifequal %}"><a href="/mitglieder/passive/">{% trans "passive Mitglieder" %}</a></li>
-	  <li class="page_item{% ifequal menu "mitglieder" %} current{% endifequal %}"><a href="/ehrenmitglieder/">{% trans "Ehrenmitglieder" %}</a></li>
-	  <li class="page_item{% ifequal menu "mitglieder" %} current{% endifequal %}"><a href="/emailverteiler/">{% trans "Email Verteiler" %}</a></li>
-{% endcomment %}
 	</ul>
       </li>
     </ul>
-</strong>
 
     <br/>
     <table>
@@ -100,12 +89,10 @@
     <ul class="">
         {% if training_heute %}
           {% for training in training_heute %}
-<strong>
             <li class="page_item">
               <a href="/zeiten/">{{ training.von|time:"G:i" }} - {{ training.bis|time:"G:i" }}<br/>
                 {{ training.art }}</a>
             </li>
-</strong>
           {% endfor %}
 
           {% for meldung in training_aktuell%}
@@ -123,8 +110,6 @@
     </ul>
 </li>
 </ul>
-  {% if user.is_authenticated %}
-  {% endif %}
 
   </div>
 {% endif %}

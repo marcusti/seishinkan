@@ -17,10 +17,10 @@
   </table>
 
   <p>{% trans "Wenn Sie kein Automat sind geben Sie bitte die beiden Wörter ein *" %}</p>
-  <p>
-    {% autoescape off %}{{ html_captcha }}{% endautoescape %}
-    {% if captcha_error %}<br/><span class="small error"><ul class="errorlist"><li>{% trans "Falsche Eingabe" %}</li></ul></span>{% endif %}
-  </p>
+  <br/>
+
+  {% autoescape off %}{{ html_captcha }}{% endautoescape %}
+  {% if captcha_error %}<br/><span class="small error"><ul class="errorlist"><li>{% trans "Falsche Eingabe" %}</li></ul></span>{% endif %}
 
   <br/>
   <p><input id="kontakt-button" type="submit" value="{% trans "Nachricht absenden" %}" /></p>
