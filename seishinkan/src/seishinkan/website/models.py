@@ -16,12 +16,12 @@ AUSRICHTUNGEN = [
 ]
 
 class Wochentag( AbstractModel ):
-    name = models.CharField( _( u'Name' ), max_length=DEFAULT_MAX_LENGTH )
-    name_en = models.CharField( _( u'Name (Englisch)' ), max_length=DEFAULT_MAX_LENGTH, blank=True )
-    name_ja = models.CharField( _( u'Name (Japanisch)' ), max_length=DEFAULT_MAX_LENGTH, blank=True )
-    index = models.IntegerField( _( u'Index (Reihenfolge)' ), default=0 )
+    name = models.CharField( _( u'Name' ), max_length = DEFAULT_MAX_LENGTH )
+    name_en = models.CharField( _( u'Name (Englisch)' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
+    name_ja = models.CharField( _( u'Name (Japanisch)' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
+    index = models.IntegerField( _( u'Index (Reihenfolge)' ), default = 0 )
 
-    def get_name( self, language=None ):
+    def get_name( self, language = None ):
         return getattr( self, "name_%s" % ( language or translation.get_language()[:2] ), "" ) or self.name
 
     def __unicode__( self ):
@@ -33,8 +33,8 @@ class Wochentag( AbstractModel ):
         verbose_name_plural = _( u'Wochentage' )
 
 class Dokument( AbstractModel ):
-    name = models.CharField( _( u'Titel' ), max_length=DEFAULT_MAX_LENGTH, help_text=u'' )
-    datei = models.FileField( _( u'Datei' ), upload_to='dokumente/' )
+    name = models.CharField( _( u'Titel' ), max_length = DEFAULT_MAX_LENGTH, help_text = u'' )
+    datei = models.FileField( _( u'Datei' ), upload_to = 'dokumente/' )
 
     objects = models.Manager()
 
@@ -47,7 +47,7 @@ class Dokument( AbstractModel ):
         verbose_name_plural = _( u'Dokumente' )
 
 class Ort( AbstractModel ):
-    name = models.CharField( _( u'Titel' ), max_length=DEFAULT_MAX_LENGTH, help_text=u'' )
+    name = models.CharField( _( u'Titel' ), max_length = DEFAULT_MAX_LENGTH, help_text = u'' )
 
     objects = models.Manager()
 
@@ -61,14 +61,14 @@ class Ort( AbstractModel ):
 
 class BildManager( models.Manager ):
     def get_query_set( self ):
-        return super( BildManager, self ).get_query_set().filter( public=True )
+        return super( BildManager, self ).get_query_set().filter( public = True )
 
 class Bild( AbstractModel ):
-    name = models.CharField( _( u'Titel' ), max_length=DEFAULT_MAX_LENGTH, help_text=u'Der Name muss eindeutig sein.' )
-    bild = models.ImageField( _( u'Datei' ), upload_to='bilder/' )
-    vorschau = models.ImageField( _( u'Vorschau' ), upload_to='bilder/thumbs/', blank=True, editable=False )
-    max_breit = models.IntegerField( _( u'max. Breite' ), default=200, help_text=u'Das Bild wird automatisch auf die angegebene Breite skaliert. (Das Seitenverhältnis bleibt erhalten.)' )
-    max_hoch = models.IntegerField( _( u'max. Höhe' ), default=200, help_text=u'Das Bild wird automatisch auf die angegebene Höhe skaliert. (Das Seitenverhältnis bleibt erhalten.)' )
+    name = models.CharField( _( u'Titel' ), max_length = DEFAULT_MAX_LENGTH, help_text = u'Der Name muss eindeutig sein.' )
+    bild = models.ImageField( _( u'Datei' ), upload_to = 'bilder/' )
+    vorschau = models.ImageField( _( u'Vorschau' ), upload_to = 'bilder/thumbs/', blank = True, editable = False )
+    max_breit = models.IntegerField( _( u'max. Breite' ), default = 200, help_text = u'Das Bild wird automatisch auf die angegebene Breite skaliert. (Das Seitenverhältnis bleibt erhalten.)' )
+    max_hoch = models.IntegerField( _( u'max. Höhe' ), default = 200, help_text = u'Das Bild wird automatisch auf die angegebene Höhe skaliert. (Das Seitenverhältnis bleibt erhalten.)' )
 
     objects = models.Manager()
     public_objects = BildManager()
@@ -81,7 +81,7 @@ class Bild( AbstractModel ):
             THUMBNAIL_SIZE = ( 75, 75 )
             SCALE_SIZE = ( self.max_breit, self.max_hoch )
             if not self.vorschau:
-                self.vorschau.save( self.bild.path, self.bild, save=True )
+                self.vorschau.save( self.bild.path, self.bild, save = True )
             image = Image.open( self.bild.path )
             if image.mode not in ( 'L', 'RGB' ):
                 image = image.convert( 'RGB' )
@@ -115,28 +115,28 @@ class TitelBild( Bild ):
 
 class SeitenManager( models.Manager ):
     def get_query_set( self ):
-        return super( SeitenManager, self ).get_query_set().filter( public=True )
+        return super( SeitenManager, self ).get_query_set().filter( public = True )
 
     def get_homepage( self ):
         homepage = None
-        for hp in self.get_query_set().filter( is_homepage=True ):
+        for hp in self.get_query_set().filter( is_homepage = True ):
             homepage = hp
         return homepage
 
 class Seite( AbstractModel ):
-    name = models.CharField( _( u'Name' ), max_length=DEFAULT_MAX_LENGTH )
-    name_en = models.CharField( _( u'Name (Englisch)' ), max_length=DEFAULT_MAX_LENGTH, blank=True )
-    name_ja = models.CharField( _( u'Name (Japanisch)' ), max_length=DEFAULT_MAX_LENGTH, blank=True )
-    url = models.SlugField( _( u'URL' ), unique=True, max_length=DEFAULT_MAX_LENGTH )
-    position = models.IntegerField( _( u'Position im Menü' ), default=0, help_text=_( u'Legt die Reihenfolge fest. Bei gleichen Werten wird alphabetisch nach Name sortiert.' ) )
-    parent = models.ForeignKey( 'self', verbose_name=_( u'Über' ), null=True, blank=True, related_name='child_set' , help_text=_( u'Übergeordnete Seite' ) )
-    titelbild = models.ForeignKey( TitelBild, verbose_name=u'Bild im Kopf', blank=True, null=True, help_text=_( u'Wenn hier nichts ausgewählt wird, wird das Bild der übergeordneten Seite verwendet.' ) )
-    show_events = models.BooleanField( _( u'Enthält Termine Übersicht' ), default=False )
-    show_news = models.BooleanField( _( u'Enthält Beiträge Übersicht' ), default=False )
-    show_training = models.BooleanField( _( u'Enthält Trainingszeiten' ), default=False )
-    show_anfaenger = models.BooleanField( _( u'Enthält Anfängerkurs Info' ), default=False )
-    show_kinder = models.BooleanField( _( u'Enthält Kindertraining Info' ), default=False )
-    is_homepage = models.BooleanField( _( u'Ist Startseite' ), default=False, editable=False )
+    name = models.CharField( _( u'Name' ), max_length = DEFAULT_MAX_LENGTH )
+    name_en = models.CharField( _( u'Name (Englisch)' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
+    name_ja = models.CharField( _( u'Name (Japanisch)' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
+    url = models.SlugField( _( u'URL' ), unique = True, max_length = DEFAULT_MAX_LENGTH )
+    position = models.IntegerField( _( u'Position im Menü' ), default = 0, help_text = _( u'Legt die Reihenfolge fest. Bei gleichen Werten wird alphabetisch nach Name sortiert.' ) )
+    parent = models.ForeignKey( 'self', verbose_name = _( u'Über' ), null = True, blank = True, related_name = 'child_set' , help_text = _( u'Übergeordnete Seite' ) )
+    titelbild = models.ForeignKey( TitelBild, verbose_name = u'Bild im Kopf', blank = True, null = True, help_text = _( u'Wenn hier nichts ausgewählt wird, wird das Bild der übergeordneten Seite verwendet.' ) )
+    show_events = models.BooleanField( _( u'Enthält Termine Übersicht' ), default = False )
+    show_news = models.BooleanField( _( u'Enthält Beiträge Übersicht' ), default = False )
+    show_training = models.BooleanField( _( u'Enthält Trainingszeiten' ), default = False )
+    show_anfaenger = models.BooleanField( _( u'Enthält Anfängerkurs Info' ), default = False )
+    show_kinder = models.BooleanField( _( u'Enthält Kindertraining Info' ), default = False )
+    is_homepage = models.BooleanField( _( u'Ist Startseite' ), default = False, editable = False )
 
     objects = models.Manager()
     public_objects = SeitenManager()
@@ -151,12 +151,12 @@ class Seite( AbstractModel ):
         return None
     
     def get_sub_sites( self ):
-        return self.child_set.filter( public=True ).order_by( 'position', 'name' )
+        return self.child_set.filter( public = True ).order_by( 'position', 'name' )
 
     def has_sub_sites( self ):
-        return self.child_set.filter( public=True ).count() > 0
+        return self.child_set.filter( public = True ).count() > 0
 
-    def get_name( self, language=None ):
+    def get_name( self, language = None ):
         return getattr( self, "name_%s" % ( language or translation.get_language()[:2] ), "" ) or self.name
 
     def __unicode__( self ):
@@ -172,33 +172,33 @@ class Seite( AbstractModel ):
 
 class ArtikelManager( models.Manager ):
     def get_query_set( self ):
-        return super( ArtikelManager, self ).get_query_set().filter( public=True )
+        return super( ArtikelManager, self ).get_query_set().filter( public = True )
 
     def get_by_category( self, kid ):
-        return self.get_query_set().filter( seite=kid ).order_by( 'position', 'title' )
+        return self.get_query_set().filter( seite = kid ).order_by( 'position', 'title' )
 
 class Artikel( AbstractModel ):
-    title = models.CharField( _( u'Überschrift' ), max_length=DEFAULT_MAX_LENGTH, blank=True )
-    title_en = models.CharField( _( u'Überschrift' ), max_length=DEFAULT_MAX_LENGTH, blank=True )
-    title_ja = models.CharField( _( u'Überschrift' ), max_length=DEFAULT_MAX_LENGTH, blank=True )
-    text = models.TextField( _( u'Text' ), blank=True )
-    text_en = models.TextField( _( u'Text' ), blank=True )
-    text_ja = models.TextField( _( u'Text' ), blank=True )
-    text_src = models.CharField( _( u'Code' ), max_length=5000, blank=True, help_text=u'Wird für einige Seiten benötigt, die Scripte enthalten. Z.B. bei der Google Map im Lageplan. Den Code bitte nicht im Editor Fenster von TinyMCE eingeben.' )
-    position = models.IntegerField( _( u'Position auf der Seite' ), default=0, blank=True, help_text=u'Legt die Reihenfolge fest. Bei gleichen Werten wird alphabetisch nach Überschrift sortiert.' )
-    bild = models.ForeignKey( Bild, verbose_name=u'Bild', blank=True, null=True )
-    bild_ausrichtung = models.CharField( _( u'Bild Ausrichtung' ), max_length=DEFAULT_MAX_LENGTH, choices=AUSRICHTUNGEN, default=u'right', blank=True )
-    seite = models.ForeignKey( Seite, verbose_name=_( u'Seite' ), help_text=_( u'Auf welcher Seite soll der Artikel erscheinen?' ) )
+    title = models.CharField( _( u'Überschrift' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
+    title_en = models.CharField( _( u'Überschrift' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
+    title_ja = models.CharField( _( u'Überschrift' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
+    text = models.TextField( _( u'Text' ), blank = True )
+    text_en = models.TextField( _( u'Text' ), blank = True )
+    text_ja = models.TextField( _( u'Text' ), blank = True )
+    text_src = models.CharField( _( u'Code' ), max_length = 5000, blank = True, help_text = u'Wird für einige Seiten benötigt, die Scripte enthalten. Z.B. bei der Google Map im Lageplan. Den Code bitte nicht im Editor Fenster von TinyMCE eingeben.' )
+    position = models.IntegerField( _( u'Position auf der Seite' ), default = 0, blank = True, help_text = u'Legt die Reihenfolge fest. Bei gleichen Werten wird alphabetisch nach Überschrift sortiert.' )
+    bild = models.ForeignKey( Bild, verbose_name = u'Bild', blank = True, null = True )
+    bild_ausrichtung = models.CharField( _( u'Bild Ausrichtung' ), max_length = DEFAULT_MAX_LENGTH, choices = AUSRICHTUNGEN, default = u'right', blank = True )
+    seite = models.ForeignKey( Seite, verbose_name = _( u'Seite' ), help_text = _( u'Auf welcher Seite soll der Artikel erscheinen?' ) )
 
     objects = models.Manager()
     public_objects = ArtikelManager()
 
-    def get_title( self, language=None ):
+    def get_title( self, language = None ):
         return getattr( self, "title_%s" % ( language or translation.get_language()[:2] ), "" ) or self.title
     get_title.short_description = _( u'Überschrift' )
     get_title.allow_tags = False
 
-    def get_text( self, language=None ):
+    def get_text( self, language = None ):
         return getattr( self, "text_%s" % ( language or translation.get_language()[:2] ), "" ) or self.text
     get_text.short_description = _( u'Text' )
     get_text.allow_tags = False
@@ -228,19 +228,19 @@ class Artikel( AbstractModel ):
 
 class TerminManager( models.Manager ):
     def get_query_set( self ):
-        return super( TerminManager, self ).get_query_set().filter( public=True ).order_by( '-ende', '-beginn', 'title' )
+        return super( TerminManager, self ).get_query_set().filter( public = True ).order_by( '-ende', '-beginn', 'title' )
 
     def current( self ):
         heute = date.today()
-        return self.get_query_set().filter( Q( beginn__gte=heute ) | Q( ende__gte=heute ) ).order_by( 'ende', 'beginn', 'title' )
+        return self.get_query_set().filter( Q( beginn__gte = heute ) | Q( ende__gte = heute ) ).order_by( 'ende', 'beginn', 'title' )
 
 class Termin( AbstractModel ):
-    title = models.CharField( _( u'Überschrift' ), max_length=DEFAULT_MAX_LENGTH )
+    title = models.CharField( _( u'Überschrift' ), max_length = DEFAULT_MAX_LENGTH )
     text = models.TextField( _( u'Text' ) )
-    ort = models.ForeignKey( Ort, blank=True, null=True )
-    bild = models.ForeignKey( Bild, verbose_name=u'Bild', blank=True, null=True )
-    bild_ausrichtung = models.CharField( _( u'Bild Ausrichtung' ), max_length=DEFAULT_MAX_LENGTH, choices=AUSRICHTUNGEN, default=u'right', blank=True )
-    dokument = models.ForeignKey( Dokument, blank=True, null=True )
+    ort = models.ForeignKey( Ort, blank = True, null = True )
+    bild = models.ForeignKey( Bild, verbose_name = u'Bild', blank = True, null = True )
+    bild_ausrichtung = models.CharField( _( u'Bild Ausrichtung' ), max_length = DEFAULT_MAX_LENGTH, choices = AUSRICHTUNGEN, default = u'right', blank = True )
+    dokument = models.ForeignKey( Dokument, blank = True, null = True )
     beginn = models.DateField( _( u'Beginn' ) )
     ende = models.DateField( _( u'Ende' ) )
 
@@ -264,16 +264,16 @@ class Termin( AbstractModel ):
 
 class TrainingManager( models.Manager ):
     def get_einheit( self, tag, anfang ):
-        return Training.objects.get( public=True, wochentag=tag, von=anfang )
+        return Training.objects.get( public = True, wochentag = tag, von = anfang )
 
     def get_einheiten_pro_tag( self, tag ):
-        return Training.objects.filter( public=True, wochentag=tag )
+        return Training.objects.filter( public = True, wochentag = tag )
 
     def get_anfangs_zeiten( self ):
-        return Training.objects.filter( public=True ).values( 'von' ).order_by( 'von' ).distinct()
+        return Training.objects.filter( public = True ).values( 'von' ).order_by( 'von' ).distinct()
 
     def get_wochentage( self ):
-        return Wochentag.objects.filter( training__isnull=False, public=True ).distinct()
+        return Wochentag.objects.filter( training__isnull = False, public = True ).distinct()
 
     def get_wochenplan( self ):
         plan = []
@@ -288,19 +288,19 @@ class TrainingManager( models.Manager ):
         return plan
 
 class Trainingsart( AbstractModel ):
-    name = models.CharField( _( u'Name' ), max_length=DEFAULT_MAX_LENGTH )
-    name_en = models.CharField( _( u'Name (Englisch)' ), max_length=DEFAULT_MAX_LENGTH, blank=True )
-    name_ja = models.CharField( _( u'Name (Japanisch)' ), max_length=DEFAULT_MAX_LENGTH, blank=True )
-    text = models.TextField( _( u'Text' ), blank=True )
-    text_en = models.TextField( _( u'Text (Englisch)' ), blank=True )
-    text_ja = models.TextField( _( u'Text (Japanisch)' ), blank=True )
-    ist_anfaengerkurs = models.BooleanField( _( u'Anfängerkurs' ), default=False )
-    ist_kindertraining = models.BooleanField( _( u'Kindertraining' ), default=False )
+    name = models.CharField( _( u'Name' ), max_length = DEFAULT_MAX_LENGTH )
+    name_en = models.CharField( _( u'Name (Englisch)' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
+    name_ja = models.CharField( _( u'Name (Japanisch)' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
+    text = models.TextField( _( u'Text' ), blank = True )
+    text_en = models.TextField( _( u'Text (Englisch)' ), blank = True )
+    text_ja = models.TextField( _( u'Text (Japanisch)' ), blank = True )
+    ist_anfaengerkurs = models.BooleanField( _( u'Anfängerkurs' ), default = False )
+    ist_kindertraining = models.BooleanField( _( u'Kindertraining' ), default = False )
 
-    def get_name( self, language=None ):
+    def get_name( self, language = None ):
         return getattr( self, "name_%s" % ( language or translation.get_language()[:2] ), "" ) or self.name
 
-    def get_text( self, language=None ):
+    def get_text( self, language = None ):
         return getattr( self, "text_%s" % ( language or translation.get_language()[:2] ), "" ) or self.text
 
     def __unicode__( self ):
@@ -313,10 +313,10 @@ class Trainingsart( AbstractModel ):
 
 class Training( AbstractModel ):
     '''Modell einer Trainingseinheit'''
-    von = models.TimeField( _( u'Von' ), help_text=_( u'Beginn des Trainings' ) )
-    bis = models.TimeField( _( u'Bis' ), help_text=_( u'Ende des Trainings' ) )
-    art = models.ForeignKey( Trainingsart, verbose_name=_( u'Trainingsart' ) )
-    wochentag = models.ForeignKey( Wochentag, verbose_name=_( u'Wochentag' ) )
+    von = models.TimeField( _( u'Von' ), help_text = _( u'Beginn des Trainings' ) )
+    bis = models.TimeField( _( u'Bis' ), help_text = _( u'Ende des Trainings' ) )
+    art = models.ForeignKey( Trainingsart, verbose_name = _( u'Trainingsart' ) )
+    wochentag = models.ForeignKey( Wochentag, verbose_name = _( u'Wochentag' ) )
 
     def __unicode__( self ):
         return u'%s %s - %s'.strip() % ( self.wochentag, self.von, self.bis )
@@ -328,19 +328,19 @@ class Training( AbstractModel ):
 
 class TrainingAktuellManager( models.Manager ):
     def get_query_set( self ):
-        return super( TrainingAktuellManager, self ).get_query_set().filter( public=True )
+        return super( TrainingAktuellManager, self ).get_query_set().filter( public = True )
 
     def get_aktuelle_meldungen( self ):
         heute = date.today()
-        return self.get_query_set().filter( beginn__lte=heute, ende__gte=heute )
+        return self.get_query_set().filter( beginn__lte = heute, ende__gte = heute )
 
 class TrainingAktuell( AbstractModel ):
-    name = models.CharField( _( u'Name' ), max_length=DEFAULT_MAX_LENGTH, help_text=u'Der Name dient nur zur Übersicht und wird auf der Webseite nicht angezeigt.' )
-    text = models.TextField( _( u'Text' ), help_text=u'Dieser Text wird unter der Rubrik "Training heute" angezeigt.' )
-    text_en = models.TextField( _( u'Text (Englisch)' ), blank=True )
-    text_ja = models.TextField( _( u'Text (Japanisch)' ), blank=True )
-    beginn = models.DateField( _( u'Beginn' ), help_text=u'Ab diesem Datum wird der Text auf der Webseite angezeigt.' )
-    ende = models.DateField( _( u'Ende' ), help_text=u'Bis zu diesem Datum (einschließlich) wird der Text auf der Webseite angezeigt.' )
+    name = models.CharField( _( u'Name' ), max_length = DEFAULT_MAX_LENGTH, help_text = u'Der Name dient nur zur Übersicht und wird auf der Webseite nicht angezeigt.' )
+    text = models.TextField( _( u'Text' ), help_text = u'Dieser Text wird unter der Rubrik "Training heute" angezeigt.' )
+    text_en = models.TextField( _( u'Text (Englisch)' ), blank = True )
+    text_ja = models.TextField( _( u'Text (Japanisch)' ), blank = True )
+    beginn = models.DateField( _( u'Beginn' ), help_text = u'Ab diesem Datum wird der Text auf der Webseite angezeigt.' )
+    ende = models.DateField( _( u'Ende' ), help_text = u'Bis zu diesem Datum (einschließlich) wird der Text auf der Webseite angezeigt.' )
     
     objects = models.Manager()
     public_objects = TrainingAktuellManager()
@@ -348,7 +348,7 @@ class TrainingAktuell( AbstractModel ):
     def __unicode__( self ):
         return u'%s'.strip() % ( self.name )
 
-    def get_text( self, language=None ):
+    def get_text( self, language = None ):
         return getattr( self, "text_%s" % ( language or translation.get_language()[:2] ), "" ) or self.text
 
     def get_absolute_url( self ):
@@ -361,13 +361,13 @@ class TrainingAktuell( AbstractModel ):
 
 class DownloadManager( models.Manager ):
     def get_query_set( self ):
-        return super( DownloadManager, self ).get_query_set().filter( public=True )
+        return super( DownloadManager, self ).get_query_set().filter( public = True )
 
 class Download( AbstractModel ):
-    name = models.CharField( _( u'Name' ), max_length=DEFAULT_MAX_LENGTH )
+    name = models.CharField( _( u'Name' ), max_length = DEFAULT_MAX_LENGTH )
     text = models.TextField( _( u'Text' ) )
-    datei = models.FileField( _( u'Pfad' ), upload_to='downloads/' )
-    vorschau = models.ImageField( _( u'Vorschau' ), upload_to='bilder/thumbs/', blank=True, editable=False )
+    datei = models.FileField( _( u'Pfad' ), upload_to = 'downloads/' )
+    vorschau = models.ImageField( _( u'Vorschau' ), upload_to = 'bilder/thumbs/', blank = True, editable = False )
 
     objects = models.Manager()
     public_objects = DownloadManager()
@@ -411,8 +411,8 @@ class Kontakt( AbstractModel ):
     Das Model fuer das Formular  in der Website findet sich in forms.py.
     """
     sender = models.EmailField( _( u'Absender' ) )
-    betreff = models.CharField( _( u'Betreff' ), max_length=DEFAULT_MAX_LENGTH )
-    captcha = models.CharField( _( u'Captcha' ), max_length=DEFAULT_MAX_LENGTH )
+    betreff = models.CharField( _( u'Betreff' ), max_length = DEFAULT_MAX_LENGTH )
+    captcha = models.CharField( _( u'Captcha' ), max_length = DEFAULT_MAX_LENGTH )
     nachricht = models.TextField( _( u'Nachricht' ) )
     to = models.TextField( _( u'Empfänger' ) )
 

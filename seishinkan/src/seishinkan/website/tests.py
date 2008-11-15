@@ -9,8 +9,8 @@ NAME_SUB = 'Sub'
 
 class SeiteTest( TestCase ):
     def setUp( self ):
-        self.startseite = Seite.objects.create( name=NAME_START, url=NAME_START.lower(), is_homepage=True )
-        self.subseite = Seite.objects.create( name=NAME_SUB, url=NAME_SUB.lower(), parent=self.startseite )
+        self.startseite = Seite.objects.create( name = NAME_START, url = NAME_START.lower(), is_homepage = True )
+        self.subseite = Seite.objects.create( name = NAME_SUB, url = NAME_SUB.lower(), parent = self.startseite )
 
     def testStart( self ):
         self.failIf( self.startseite.public is False )
