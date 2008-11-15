@@ -22,9 +22,8 @@ from seishinkan.website.forms import LoginForm, KontaktForm
 from seishinkan.website.models import *
 import captcha
 import django
-import os
+import os, platform, re, sys
 import pyExcelerator as xl
-import re
 
 try:
     from django.db import connection
@@ -53,6 +52,8 @@ def __get_sidebar( request ):
     ctx['training_aktuell'] = TrainingAktuell.public_objects.get_aktuelle_meldungen()
     ctx['homepage'] = Seite.public_objects.get_homepage()
 
+    ctx['os_version'] = platform.platform( 1, 1 )
+    ctx['python_version'] = '%s.%s.%s %s (%s)' % sys.version_info
     ctx['db_version'] = db_version
     ctx['db_link'] = db_link
     ctx['django_version'] = get_version()
