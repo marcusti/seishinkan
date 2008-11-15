@@ -1,12 +1,11 @@
 #-*- coding: utf-8 -*-
 
-import django
 from datetime import date, datetime
 from django import get_version
 from django.contrib.admin.models import LogEntry
 from django.contrib.auth import login, logout
-from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User, Group
 from django.core.mail import mail_admins, send_mail, send_mass_mail
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
@@ -16,21 +15,23 @@ from django.views.generic.simple import direct_to_template, redirect_to
 from django.views.i18n import set_language
 from seishinkan import settings
 from seishinkan.links.models import Link, LinkKategorie
+from seishinkan.members.models import *
 from seishinkan.news.models import News
+from seishinkan.utils import UnicodeWriter
 from seishinkan.website.forms import LoginForm, KontaktForm
 from seishinkan.website.models import *
-from seishinkan.members.models import *
-from seishinkan.utils import UnicodeWriter
 import captcha
-import os, re
+import django
+import os
+import re
 import pyExcelerator as xl
 
 try:
     from django.db import connection
     cursor = connection.cursor()
-    cursor.execute("SELECT version()")
+    cursor.execute( "SELECT version()" )
     version = cursor.fetchone()[0]
-    if version.lower().startswith('postgresql'):
+    if version.lower().startswith( 'postgresql' ):
         db_version = version[:version.find( ' ', 12 )]
         db_link = 'http://www.postgresql.org/'
     else:
@@ -44,7 +45,7 @@ def __get_sidebar( request ):
 
     ctx = { }
     ctx['sidebar'] = True
-    ctx['seiten'] = Seite.public_objects.filter( parent__isnull = True ).order_by( 'position' )
+    ctx['seiten'] = Seite.public_objects.filter( parent__isnull=True ).order_by( 'position' )
     ctx['language'] = request.session.get( 'django_language', 'de' )
     ctx['training_heute'] = TrainingManager().get_einheiten_pro_tag( heute )
     ctx['termine_heute'] = Termin.public_objects.current()
@@ -56,7 +57,7 @@ def __get_sidebar( request ):
     ctx['django_version'] = get_version()
 
     try:
-        ctx['wochentag'] = Wochentag.objects.get( id = heute )
+        ctx['wochentag'] = Wochentag.objects.get( id=heute )
         ctx['path'] = request.path
         ctx['host'] = request.META['HTTP_HOST']
     except:
@@ -64,14 +65,14 @@ def __get_sidebar( request ):
 
     if request.user.is_authenticated():
         ctx['users'] = User.objects.all().order_by( '-last_login' )
-        ctx['nonpublic_sites'] = Seite.objects.filter( public = False ).order_by( 'position' )
+        ctx['nonpublic_sites'] = Seite.objects.filter( public=False ).order_by( 'position' )
 
     return ctx
 
-def index( request, sid = 1 ):
+def index( request, sid=1 ):
     ctx = __get_sidebar( request )
 
-    seite = get_object_or_404( Seite.objects, id = sid )
+    seite = get_object_or_404( Seite.objects, id=sid )
     if not seite.public and request.user.is_anonymous():
         raise Http404
     ctx['seite'] = seite
@@ -88,16 +89,16 @@ def index( request, sid = 1 ):
     if seite.show_training:
         ctx['wochenplan'] = TrainingManager().get_wochenplan()
         ctx['wochentage'] = TrainingManager().get_wochentage()
-        ctx['trainingsarten'] = Trainingsart.objects.filter( public = True )
+        ctx['trainingsarten'] = Trainingsart.objects.filter( public=True )
 
     if seite.show_anfaenger:
-        anfaengerkurse = Training.objects.filter( public = True, art__ist_anfaengerkurs = True )
+        anfaengerkurse = Training.objects.filter( public=True, art__ist_anfaengerkurs=True )
         if anfaengerkurse and anfaengerkurse.count() > 0:
             ctx['anfaengerkurs_liste'] = anfaengerkurse
             ctx['anfaengerkurs'] = anfaengerkurse[0].art
         
     if seite.show_kinder:
-        kindertraining = Training.objects.filter( public = True, art__ist_kindertraining = True )
+        kindertraining = Training.objects.filter( public=True, art__ist_kindertraining=True )
         if kindertraining and kindertraining.count() > 0:
             ctx['kindertraining_liste'] = kindertraining
             ctx['kindertraining'] = kindertraining[0].art
@@ -109,15 +110,15 @@ def my_404( request ):
     ctx['request_path'] = request.get_full_path()
     if settings.SEND_BROKEN_LINK_EMAILS:
         subject = 'Broken Link: %s' % request.get_full_path()
-        message = '%s' % (request)
-        mail_admins( subject, message, fail_silently=True)
-    return __create_response( request, ctx, template_name = '404.html' )
+        message = '%s' % ( request )
+        mail_admins( subject, message, fail_silently=True )
+    return __create_response( request, ctx, template_name='404.html' )
 
-def dynamic_url( request, sitename = '' ):
+def dynamic_url( request, sitename='' ):
     if not sitename or sitename.strip() == '':
         return index( request )
 
-    seite = get_object_or_404( Seite.objects, url__iexact = sitename )
+    seite = get_object_or_404( Seite.objects, url__iexact=sitename )
     return index( request, seite.id )
 
 def kontakt( request ):
@@ -143,10 +144,10 @@ def kontakt( request ):
         if form.is_valid():
             # Sending mail...
 
-            marcus = User.objects.get( username__iexact = 'marcus' )
-            ecki = User.objects.get( username__iexact = 'ecki' )
-            bert = User.objects.get( username__iexact = 'bert' )
-            ralf = User.objects.get( username__iexact = 'ralf' )
+            marcus = User.objects.get( username__iexact='marcus' )
+            ecki = User.objects.get( username__iexact='ecki' )
+            bert = User.objects.get( username__iexact='bert' )
+            ralf = User.objects.get( username__iexact='ralf' )
 
             to_users = [ ecki, marcus ]
 
@@ -179,7 +180,7 @@ def kontakt( request ):
             # mail_admins( subject, message, fail_silently=False)
 
             # In Datenbank speichern...
-            kontakt = Kontakt( sender = from_email, betreff = subject, nachricht = message )
+            kontakt = Kontakt( sender=from_email, betreff=subject, nachricht=message )
             kontakt.captcha = request.POST['recaptcha_response_field']
             to_text = ''
 
@@ -187,7 +188,7 @@ def kontakt( request ):
                 to_text += '%s;' % email
 
             if to_text.endswith( ';' ):
-                to_text = to_text[:-1]
+                to_text = to_text[: - 1]
 
             kontakt.to = to_text
             kontakt.save()
@@ -213,17 +214,17 @@ def admin_log( request ):
     else:
         qs = LogEntry.objects.none()
 
-    return object_list(
+    return object_list( 
         request,
-        queryset = qs,
-        paginate_by = 20,
-        allow_empty = True,
-        template_name = 'admin_log.html',
-        extra_context = ctx,
+        queryset=qs,
+        paginate_by=20,
+        allow_empty=True,
+        template_name='admin_log.html',
+        extra_context=ctx,
         )
 
 @login_required
-def mitglieder_xls( request, status = None ):
+def mitglieder_xls( request, status=None ):
     if not ist_vorstand( request.user ):
         return __create_response( request, ctx, 'keine_berechtigung.html' )
 
@@ -235,9 +236,9 @@ def mitglieder_xls( request, status = None ):
     header_style.font = header_font
     
     if status is None:
-        mitglieder = Mitglied.public_objects.all().exclude( status = 0 ).order_by( 'id' )
+        mitglieder = Mitglied.public_objects.all().exclude( status=0 ).order_by( 'id' )
     else:
-        mitglieder = Mitglied.public_objects.filter( status = status )
+        mitglieder = Mitglied.public_objects.filter( status=status )
 
     for y, header in enumerate( __get_headers() ):
         sheet.write( 0, y, header, header_style )
@@ -255,7 +256,7 @@ def mitglieder_xls( request, status = None ):
     return response
 
 @login_required
-def mitglieder_csv( request, status = None ):
+def mitglieder_csv( request, status=None ):
     if not ist_vorstand( request.user ):
         return __create_response( request, ctx, 'keine_berechtigung.html' )
 
@@ -266,9 +267,9 @@ def mitglieder_csv( request, status = None ):
     writer.writerow( __get_headers() )
 
     if status is None:
-        mitglieder = Mitglied.public_objects.all().exclude( status = 0 ).order_by( 'id' )
+        mitglieder = Mitglied.public_objects.all().exclude( status=0 ).order_by( 'id' )
     else:
-        mitglieder = Mitglied.public_objects.filter( status = status )
+        mitglieder = Mitglied.public_objects.filter( status=status )
 
     for m in mitglieder:
         writer.writerow( __get_content( m ) )
@@ -431,7 +432,7 @@ def seishinkan_login( request ):
                 try:
                     subject = '%s hat sich eingeloggt (%s)' % ( user.first_name, datetime.now().strftime( '%d.%m.%Y %H:%M' ) )
                     message = '%s\n\nClient: %s\nIP: %s' % ( subject, request.META['HTTP_USER_AGENT'], request.META['REMOTE_ADDR'] )
-                    mail_admins( subject, message, fail_silently = True )
+                    mail_admins( subject, message, fail_silently=True )
                 except:
                     pass
 
@@ -471,7 +472,7 @@ def bilder( request ):
         username = 'ehemkemeier'
         ps = gdata.photos.service.PhotosService()
         albums = []
-        for album in ps.GetFeed( '/data/feed/api/user/%s?kind=album&thumbsize=160&max-results=10' % ( username )  ).entry:
+        for album in ps.GetFeed( '/data/feed/api/user/%s?kind=album&thumbsize=160&max-results=10' % ( username ) ).entry:
             photos = []
             for photo in ps.GetFeed( '/data/feed/api/user/%s/album/%s?kind=photo&thumbsize=48&max-results=10' % ( username, album.name.text ) ).entry:
                 p = {
@@ -510,7 +511,7 @@ def bilder( request ):
         ctx['username'] = username
         ctx['albums'] = albums
     except Exception, ex:
-        mail_admins( 'Picasa error',  ex, fail_silently = False )
+        mail_admins( 'Picasa error', ex, fail_silently=False )
         ctx['picasa_error'] = True
         #raise ex
 
@@ -523,33 +524,33 @@ def downloads( request ):
 
     return __create_response( request, ctx, 'downloads.html' )
 
-def news( request, bid = None ):
+def news( request, bid=None ):
     ctx = __get_sidebar( request )
     ctx['menu'] = 'news'
 
     if bid:
         all_news = News.public_objects.all()
-        beitrag = get_object_or_404( News.public_objects, id = bid )
+        beitrag = get_object_or_404( News.public_objects, id=bid )
         ctx['beitrag'] = beitrag
         ctx['anzahl'] = all_news.count()
         try:
             heute = date.today()
-            ctx['next'] = beitrag.get_previous_by_beginn( public = True, beginn__lte = heute, ende__isnull = True )
-            ctx['previous'] = beitrag.get_next_by_beginn( public = True, beginn__lte = heute, ende__isnull = True )
+            ctx['next'] = beitrag.get_previous_by_beginn( public=True, beginn__lte=heute, ende__isnull=True )
+            ctx['previous'] = beitrag.get_next_by_beginn( public=True, beginn__lte=heute, ende__isnull=True )
         except:
             pass
         return __create_response( request, ctx, 'news.html' )
     else:
-        return object_list(
+        return object_list( 
             request,
-            queryset = News.public_objects.all(),
-            paginate_by = 20,
-            allow_empty = True,
-            template_name = 'news_list.html',
-            extra_context = ctx,
+            queryset=News.public_objects.all(),
+            paginate_by=20,
+            allow_empty=True,
+            template_name='news_list.html',
+            extra_context=ctx,
             )
 
-def video( request, vid = None ):
+def video( request, vid=None ):
     ctx = __get_sidebar( request )
     ctx['menu'] = 'videos'
 
@@ -557,7 +558,7 @@ def video( request, vid = None ):
         import youtube
         username = 'eckido'
         client = youtube.YouTubeClient( 'gmsnG0W2bTA' )
-        ctx['videos'] = client.list_by_user( username, page = 1, per_page = 10 )
+        ctx['videos'] = client.list_by_user( username, page=1, per_page=10 )
         ctx['username'] = username
 
         if vid:
@@ -594,32 +595,32 @@ def video( request, vid = None ):
     
     return __create_response( request, ctx, 'videos.html' )
 
-def termin( request, tid = None ):
+def termin( request, tid=None ):
     ctx = __get_sidebar( request )
 
     if tid:
-        ctx['termin'] = get_object_or_404( Termin.public_objects, id = tid )
+        ctx['termin'] = get_object_or_404( Termin.public_objects, id=tid )
         return __create_response( request, ctx, 'termin.html' )
     else:
-        return object_list(
+        return object_list( 
             request,
-            queryset = Termin.public_objects.all(),
-            paginate_by = 20,
-            allow_empty = True,
-            template_name = 'termine_list.html',
-            extra_context = ctx,
+            queryset=Termin.public_objects.all(),
+            paginate_by=20,
+            allow_empty=True,
+            template_name='termine_list.html',
+            extra_context=ctx,
             )
 
-def set_lang( request, code = settings.LANGUAGE_CODE ):
-    if code in dict(settings.LANGUAGES).keys():
+def set_lang( request, code=settings.LANGUAGE_CODE ):
+    if code in dict( settings.LANGUAGES ).keys():
         request.session['django_language'] = code
     return set_language( request )
 
-def __create_response( request, context = {}, template_name = 'base.html' ):
-    return render_to_response(
+def __create_response( request, context={}, template_name='base.html' ):
+    return render_to_response( 
         template_name,
         context,
-        context_instance = RequestContext( request ),
+        context_instance=RequestContext( request ),
     )
 
 def ist_vorstand( user ):
