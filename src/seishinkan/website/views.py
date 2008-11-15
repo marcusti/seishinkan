@@ -39,6 +39,7 @@ try:
         db_link = 'http://www.mysql.de/'
 except:
     db_version = ''
+    db_link = ''
 
 def __get_sidebar( request ):
     heute = int( datetime.today().strftime( '%w' ) )
