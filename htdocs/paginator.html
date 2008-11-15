@@ -1,6 +1,7 @@
 {% load i18n %}
 
 {# {% if is_paginated %} #}
+{% autoescape on %}
 <table class="paginator" align="center">
 <colgroup>
   <col width="15%" />
@@ -15,7 +16,7 @@
   {% ifnotequal page 1 %}
     <a href="{{ path }}" title="{% trans "zur ersten Seite" %}">{% trans "<<" %}</a>
   {% else %}
-    {% trans "<<" %}
+    &lt;&lt; {# {% trans "<<" %} #}
   {% endifnotequal %}
   </td>
 
@@ -41,9 +42,10 @@
   {% ifnotequal page pages %}
     <a href="{{ path }}?page={{ pages }}" title="{% trans "zur letzten Seite" %}">{% trans ">>" %}</a>
   {% else %}
-    {% trans ">>" %}
+    &gt;&gt{# {% trans ">>" %} #}
   {% endifnotequal %}
   </td>
+</tr>
 
 <tr>
   <td colspan="5" class="postmeta">
@@ -56,6 +58,6 @@
   </td>
 </tr>
 
-</tr>
 </table>
+{% endautoescape %}
 {# {% endif %}#}
