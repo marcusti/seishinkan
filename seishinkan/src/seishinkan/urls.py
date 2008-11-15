@@ -14,7 +14,7 @@ urlpatterns = patterns( '',
     ( r'^i18n/', include( 'django.conf.urls.i18n' ) ),
     ( r'^verwaltung/doc/', include( 'django.contrib.admindocs.urls' ) ),
     ( r'^verwaltung/(.*)', admin.site.root ),
-    ( r'^feed/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
+    ( r'^feed/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds} ),
  )
 
 # Simple Generic Views
@@ -61,7 +61,7 @@ urlpatterns += patterns( 'seishinkan.website.views',
 
 if settings.DEBUG:
     urlpatterns += patterns( '',
-        ( r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/max/eclipse/workspace/seishinkan/htdocs/static'} ),
+        ( r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT} ),
      )
 
 handler404 = 'seishinkan.website.views.my_404'
