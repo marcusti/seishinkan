@@ -57,6 +57,33 @@ class MitgliederManager( models.Manager ):
     def get_query_set( self ):
         return super( MitgliederManager, self ).get_query_set().filter( public = True )
 
+    def get_mitglieder( self ):
+        return self.get_query_set().all().exclude( status = 0 )
+
+    def get_nichtmitglieder( self ):
+        return self.get_query_set().filter( status = 0 )
+
+    def get_aktive( self ):
+        return self.get_query_set().filter( status = 1 )
+
+    def get_passive( self ):
+        return self.get_query_set().filter( status = 2 )
+
+    def get_ehrenmitglieder( self ):
+        return self.get_query_set().filter( status = 3 )
+
+    def get_mitglieder_mit_email( self ):
+        return self.get_mitglieder().filter( bekommt_emails = True ).exclude( email__exact = '' )
+
+    def get_mitglieder_ohne_email( self ):
+        return self.get_mitglieder().filter( email = '' )
+
+    def get_vorstand( self ):
+        return self.get_mitglieder().filter( ist_vorstand = True )
+
+    def get_trainer( self ):
+        return self.get_mitglieder().filter( ist_trainer = True )
+
 class Mitglied( AbstractModel ):
     vorname = models.CharField( _( u'Vorname' ), max_length = DEFAULT_MAX_LENGTH )
     nachname = models.CharField( _( u'Nachname' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
@@ -91,6 +118,17 @@ class Mitglied( AbstractModel ):
         return age( self.geburt )
     alter.short_description = _( u'Alter' )
     alter.allow_tags = True
+
+    def name_und_email( self ):
+        name = self.name()
+        email = self.email.strip()
+        if not name == '' and not email == '':
+            return '"%s" <%s>' % (name, email)
+        if email == '':
+            return name
+        if name == '':
+            return email
+        return ''
 
     def ist_mitglied( self ):
         return not self.status == 0

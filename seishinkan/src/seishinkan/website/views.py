@@ -362,7 +362,10 @@ def mailinglist( request ):
         return __create_response( request, ctx, 'keine_berechtigung.html' )
 
     ctx['menu'] = 'emailverteiler'
-    ctx['mitglieder'] = Mitglied.public_objects.all()
+    ctx['vorstand'] = Mitglied.public_objects.get_mitglieder_mit_email().filter( ist_vorstand = True )
+    ctx['trainer'] = Mitglied.public_objects.get_mitglieder_mit_email().filter( ist_trainer = True )
+    ctx['mit_mail'] = Mitglied.public_objects.get_mitglieder_mit_email()
+    ctx['ohne_mail'] = Mitglied.public_objects.get_mitglieder_ohne_email()
 
     return __create_response( request, ctx, 'mailverteiler.html' )
 
