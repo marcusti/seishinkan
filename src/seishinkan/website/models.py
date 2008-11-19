@@ -421,6 +421,9 @@ class Kontakt( AbstractModel ):
     kurzform.short_description = _( u'Nachricht (kurz)' )
     kurzform.allow_tags = False
 
+    def __unicode__( self ):
+        return u'%s %s'.strip() % ( self.sender, self.betreff )
+
     class Meta:
         ordering = ['-creation']
         verbose_name = _( u'Kontakt' )
