@@ -6,7 +6,7 @@ from django.contrib.admin.models import LogEntry
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
-from django.core.mail import mail_admins, send_mail, send_mass_mail
+from django.core.mail import mail_admins, send_mail, send_mass_mail, EmailMessage
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
@@ -144,7 +144,6 @@ def kontakt( request ):
 
         form = KontaktForm( request.POST )
         if form.is_valid():
-            # Sending mail...
 
             marcus = User.objects.get( username__iexact = 'marcus' )
             ecki = User.objects.get( username__iexact = 'ecki' )
@@ -152,48 +151,37 @@ def kontakt( request ):
             ralf = User.objects.get( username__iexact = 'ralf' )
 
             to_users = [ ecki, marcus ]
-
-            name = form.data['name']
-            if name:
-                from_email = '%s <%s>' % ( name, form.data['email'] )
-            else:
-                from_email = form.data['email']
-            subject = '%s%s' % ( settings.EMAIL_SUBJECT_PREFIX, form.data['subject'] )
-            message = '%s\n\n%s' % ( form.data['message'], settings.EMAIL_MESSAGE_POSTFIX )
-
             to_list = []
             for user in to_users:
                 if user.email:
                     to_list.append( user.email )
 
-            mails = []
+            name = form.data['name']
 
-            # Wenn gewünscht, Kopie an den Absender...
-            if form.data.get( 'copy_to_me', False ):
-                to_list.append( from_email )
+            if name:
+                from_email = '%s <%s>' % ( name, form.data['email'] )
+            else:
+                from_email = form.data['email']
 
-            # Je eine Mail an die ausgewählten User senden...
-            for email in to_list:
-                mails.append( ( subject, message, from_email, [email] ) )
-            
-            send_mass_mail( mails )
-            
-            # An die Admins der Webanwendung: 
-            # mail_admins( subject, message, fail_silently=False)
+            subject = form.data['subject']
+            message = form.data['message']
+
+#            # Wenn gewünscht, Kopie an den Absender...
+#            if form.data.get( 'copy_to_me', False ):
+#                to_list.append( from_email )
+#
 
             # In Datenbank speichern...
             kontakt = Kontakt( sender = from_email, betreff = subject, nachricht = message )
             kontakt.captcha = request.POST['recaptcha_response_field']
-            to_text = ''
-
-            for email in to_list:
-                to_text += '%s;' % email
-
-            if to_text.endswith( ';' ):
-                to_text = to_text[: - 1]
-
-            kontakt.to = to_text
+            kontakt.to = to_list
             kontakt.save()
+
+            # Email senden
+            subject = settings.EMAIL_SUBJECT_PREFIX + subject
+            message = 'Absender: %s\n\n%s\n\n\n\n%s' % ( from_email, message, settings.EMAIL_MESSAGE_POSTFIX )
+            mail = EmailMessage( subject = subject, body = message, to = to_list, bcc = [], headers = { 'Reply-To': from_email } )
+            mail.send()
             
             ctx['form'] = form
             return __create_response( request, ctx, 'kontakt_ok.html' )
