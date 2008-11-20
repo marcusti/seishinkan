@@ -6,7 +6,7 @@ from django.contrib.admin.models import LogEntry
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
-from django.core.mail import mail_admins, send_mail, send_mass_mail, EmailMessage
+from django.core.mail import mail_admins, send_mail, send_mass_mail, EmailMessage, SMTPConnection
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
@@ -169,7 +169,6 @@ def kontakt( request ):
 #            # Wenn gewünscht, Kopie an den Absender...
 #            if form.data.get( 'copy_to_me', False ):
 #                to_list.append( from_email )
-#
 
             # In Datenbank speichern...
             kontakt = Kontakt( sender = from_email, betreff = subject, nachricht = message )
@@ -182,7 +181,24 @@ def kontakt( request ):
             message = 'Absender: %s\n\n%s\n\n\n\n%s' % ( from_email, message, settings.EMAIL_MESSAGE_POSTFIX )
             mail = EmailMessage( subject = subject, body = message, to = to_list, bcc = [], headers = { 'Reply-To': from_email } )
             mail.send()
-            
+
+#            # Connection zum Strato SMTP Server
+#            con = SMTPConnection()
+#            con.host = settings.STRATO_EMAIL_HOST
+#            con.username = settings.STRATO_EMAIL_HOST_USER
+#            con.password = settings.STRATO_EMAIL_HOST_PASSWORD
+#            con.use_tls = settings.STRATO_EMAIL_USE_TLS
+#
+#            # Email zusammenbauen und verschicken
+#            email = EmailMessage()
+#            email.subject = subject
+#            email.body = message
+#            # Empfängerliste in Blindkopie (bcc)
+#            email.bcc = to_list
+#            email.headers = { 'Reply-To': from_email }
+#            email.connection = con
+#            email.send()
+
             ctx['form'] = form
             return __create_response( request, ctx, 'kontakt_ok.html' )
     else:
