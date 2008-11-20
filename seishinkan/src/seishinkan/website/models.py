@@ -92,9 +92,12 @@ class Bild( AbstractModel ):
             super( Bild, self ).save()
 
     def admin_thumb( self ):
-        w = self.vorschau.width
-        h = self.vorschau.height
-        return u'<img src="%s" width="%s" height="%s" />' % ( self.vorschau.url, w, h )
+        try:
+            w = self.vorschau.width
+            h = self.vorschau.height
+            return u'<img src="%s" width="%s" height="%s" />' % ( self.vorschau.url, w, h )
+        except:
+            return ''
     admin_thumb.short_description = _( u'Bild' )
     admin_thumb.allow_tags = True
 
