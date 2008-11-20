@@ -11,7 +11,7 @@ NAME_SUB = 'Sub'
 class EmailTest( TestCase ):
     def setUp( self ):
         self.SUBJECT = 'Hallo'
-        self.BODY = 'Django JUnit Email Test'
+        self.BODY = 'Django UnitTest Email'
 
     def testAdminEmail( self ):
         mail.mail_admins( self.SUBJECT, self.BODY )
