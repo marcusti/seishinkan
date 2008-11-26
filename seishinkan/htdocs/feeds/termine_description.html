@@ -1,3 +1,9 @@
 {% autoescape off %}
-{{ obj.text }}
+{% if obj.bild %}
+  <p><img
+       src="{{ obj.bild.bild.url }}"
+       title="{{ obj.bild.name }}"
+       alt="[{{ obj.bild.name }}]" /></p>
+{% endif %}
+<p>{{ obj.text }}</p>
 {% endautoescape %}
