@@ -64,7 +64,7 @@ class BildManager( models.Manager ):
         return super( BildManager, self ).get_query_set().filter( public = True )
 
 class Bild( AbstractModel ):
-    name = models.CharField( _( u'Titel' ), max_length = DEFAULT_MAX_LENGTH, help_text = u'Der Name muss eindeutig sein.' )
+    name = models.CharField( _( u'Titel' ), unique = True, max_length = DEFAULT_MAX_LENGTH, help_text = u'Der Name muss eindeutig sein.' )
     bild = models.ImageField( _( u'Datei' ), upload_to = 'bilder/' )
     vorschau = models.ImageField( _( u'Vorschau' ), upload_to = 'bilder/thumbs/', blank = True, editable = False )
     max_breit = models.IntegerField( _( u'max. Breite' ), default = 200, help_text = u'Das Bild wird automatisch auf die angegebene Breite skaliert. (Das Seitenverhältnis bleibt erhalten.)' )
