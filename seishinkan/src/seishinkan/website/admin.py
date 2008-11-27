@@ -86,6 +86,7 @@ class DownloadAdmin( admin.ModelAdmin ):
 
 class KontaktAdmin( admin.ModelAdmin ):
     ordering = [ '-creation' ]
+    date_hierarchy = 'creation'
     search_fields = [ 'sender', 'betreff', 'nachricht' ]
     list_display = ( 'sender', 'betreff', 'kurzform', 'creation' )
     list_display_links = ( 'sender', 'betreff', 'kurzform' )
