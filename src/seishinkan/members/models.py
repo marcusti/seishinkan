@@ -5,11 +5,16 @@ from django.utils.translation import ugettext_lazy as _
 from seishinkan.utils import DEFAULT_MAX_LENGTH, AbstractModel
 from seishinkan.website.templatetags.seishinkan_tags import *
 
+STATUS_NICHT_MITGLIED = 0
+STATUS_AKTIV = 1
+STATUS_PASSIV = 2
+STATUS_EHRENMITGLIED = 3
+
 STATUS = [
-    ( 0, _( u'Nicht Mitglied' ) ),
-    ( 1, _( u'Aktiv' ) ),
-    ( 2, _( u'Passiv' ) ),
-    ( 3, _( u'Ehrenmitglied' ) ),
+    ( STATUS_NICHT_MITGLIED, _( u'Nicht Mitglied' ) ),
+    ( STATUS_AKTIV, _( u'Aktiv' ) ),
+    ( STATUS_PASSIV, _( u'Passiv' ) ),
+    ( STATUS_EHRENMITGLIED, _( u'Ehrenmitglied' ) ),
 ]
 
 GRADUIERUNGEN = [
@@ -58,19 +63,19 @@ class MitgliederManager( models.Manager ):
         return super( MitgliederManager, self ).get_query_set().filter( public = True )
 
     def get_mitglieder( self ):
-        return self.get_query_set().all().exclude( status = 0 )
+        return self.get_query_set().all().exclude( status = STATUS_NICHT_MITGLIED )
 
     def get_nichtmitglieder( self ):
-        return self.get_query_set().filter( status = 0 )
+        return self.get_query_set().filter( status = STATUS_NICHT_MITGLIED )
 
     def get_aktive( self ):
-        return self.get_query_set().filter( status = 1 )
+        return self.get_query_set().filter( status = STATUS_AKTIV )
 
     def get_passive( self ):
-        return self.get_query_set().filter( status = 2 )
+        return self.get_query_set().filter( status = STATUS_PASSIV )
 
     def get_ehrenmitglieder( self ):
-        return self.get_query_set().filter( status = 3 )
+        return self.get_query_set().filter( status = STATUS_EHRENMITGLIED )
 
     def get_mitglieder_mit_email( self ):
         return self.get_mitglieder().filter( bekommt_emails = True ).exclude( email__exact = '' )
@@ -131,22 +136,25 @@ class Mitglied( AbstractModel ):
         return ''
 
     def ist_mitglied( self ):
-        return not self.status == 0
+        return not self.status == STATUS_NICHT_MITGLIED
 
     def ist_aktiv( self ):
-        return self.status == 1
+        return self.status == STATUS_AKTIV
 
     def ist_passiv( self ):
-        return self.status == 2
+        return self.status == STATUS_PASSIV
 
     def ist_ehrenmitglied( self ):
-        return self.status == 3
+        return self.status == STATUS_EHRENMITGLIED
 
     def __unicode__( self ):
         return self.name()
 
     def aktuelle_graduierung( self ):
-        return self.graduierung_set.latest( 'datum' )
+        try:
+            return max( self.graduierung_set.all() )
+        except:
+            return ''
     aktuelle_graduierung.short_description = _( u'Graduierung' )
     aktuelle_graduierung.allow_tags = True
 
@@ -161,8 +169,14 @@ class Graduierung( AbstractModel ):
     graduierung = models.IntegerField( _( u'Graduierung' ), choices = GRADUIERUNGEN )
     text = models.TextField( _( u'Text' ), blank = True )
 
+    def __cmp__( self, other ):
+        return cmp( self.graduierung, other.graduierung )
+
     def __unicode__( self ):
-        return self.get_graduierung_display()
+        if self.graduierung:
+            return self.get_graduierung_display()
+        else:
+            return ''
 
     class Meta:
         ordering = ['-graduierung']
