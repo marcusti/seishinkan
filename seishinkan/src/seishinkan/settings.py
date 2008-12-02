@@ -11,7 +11,7 @@ http://www.aikido-dojo-seishinkan.de/
 SEND_BROKEN_LINK_EMAILS = False
 SEND_MAIL_ON_LOGIN = True
 
-SSL_URLS = (
+SSL_URLS = [
     r'/log/',
     r'/login/',
     r'/logout/',
@@ -20,7 +20,7 @@ SSL_URLS = (
     r'/mitgliederliste/',
     r'/permissions/',
     r'/verwaltung/',
-)
+]
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -70,6 +70,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.doc.XViewMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'seishinkan.utils.ssl.SSLRedirect',
 )
 
@@ -80,6 +81,7 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
+    'django.contrib.flatpages',
     'django.contrib.admin',
     'django.contrib.admindocs',
     'seishinkan.website',
