@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from django import get_version
 from django.contrib.admin.models import LogEntry
 from django.contrib.auth import login, logout
@@ -17,12 +17,12 @@ from seishinkan import settings
 from seishinkan.links.models import Link, LinkKategorie
 from seishinkan.members.models import *
 from seishinkan.news.models import News
-from seishinkan.utils import UnicodeWriter
+from seishinkan.utils import UnicodeWriter, get_next_month
 from seishinkan.website.forms import LoginForm, KontaktForm
 from seishinkan.website.models import *
 import captcha
 import django
-import os, platform, re, sys
+import locale, os, platform, re, sys
 import pyExcelerator as xl
 
 try:
@@ -336,16 +336,113 @@ def __get_bool( bool ):
         return 'N'
 
 @login_required
-def mitglieder( request ):
-    ctx = __get_sidebar( request )
+def trainerliste_xls( request, year, month ):
+    try:
+        year = int( year )
+        month = int( month )
+    except:
+        nm = get_next_month()
+        year = nm.year
+        month = nm.month
 
-    if not ist_vorstand( request.user ):
-        return __create_response( request, ctx, 'keine_berechtigung.html' )
+    locale.setlocale( locale.LC_ALL, 'de_DE' )
 
-    ctx['menu'] = 'mitglieder'
-    ctx['status'] = STATUS
+    datum = date( year, month, 1 )
+    workbook = xl.Workbook()
+    sheet = workbook.add_sheet( 'Trainerliste %s' % datum.strftime( '%Y-%m' ) )
+    sheet.set_print_grid( True )
+    sheet.set_portrait( False )
+    sheet.set_fit_num_pages( 1 )
+    sheet.set_header_str( '' )
 
-    return __create_response( request, ctx, 'mitglieder.html' )
+    font = xl.Font()
+    font.name = 'Bitstream Vera Sans'
+    center = xl.Alignment()
+    center.horz = xl.Alignment.HORZ_CENTER
+    center.vert = xl.Alignment.VERT_CENTER
+    left = xl.Alignment()
+    left.horz = xl.Alignment.HORZ_LEFT
+    left.vert = xl.Alignment.VERT_CENTER
+    orient = xl.Alignment()
+    orient.orie = xl.Alignment.ORIENTATION_90_CC
+
+    style = xl.XFStyle()
+    style.font = font
+    style.alignment = center
+
+    fb = xl.Font()
+    fb.height = font.height * 2
+    big = xl.XFStyle()
+    big.font = fb
+    big.alignment = left
+
+    sheet.row( 0 ).set_style( style )
+    sheet.write( 0, 0, datum.strftime( '%B %Y' ), big )
+
+    style.alignment = center
+    COLX = 5
+    i = COLX
+    alle_trainer =  Mitglied.public_objects.get_trainer()
+    anzahl_trainer = len ( alle_trainer )
+    for t in reversed( sorted( alle_trainer ) ):
+        sheet.write( 0, i, t.vorname, style )
+        i += 1
+    
+    einTag = timedelta( days = 1 )
+    style.alignment = center
+    row = 1
+    while month == datum.month:
+        einheitenProTag = TrainingManager().get_einheiten_pro_tag( int( datum.strftime( '%w' ) ) )
+        for training in einheitenProTag:
+            sheet.row( row ).set_style( style )
+            style.alignment = center
+            sheet.write( row, 0, datum.strftime( '%d.%m.%Y' ), style )
+            style.alignment = center
+            sheet.write( row, 1, training.wochentag.get_name()[:2], style )
+            style.alignment = center
+            sheet.write( row, 2, training.von.strftime( '%H:%M' ), style )
+            sheet.write( row, 3, training.bis.strftime( '%H:%M' ), style )
+            style.alignment = left
+            sheet.write( row, 4, training.art.get_name(), style )
+
+            style.alignment = center
+            for i in range( anzahl_trainer ):
+                sheet.write( row, i+COLX, '', style )
+            
+            x1 = chr( ord( 'A' ) + COLX ) + str( row + 1 )
+            x2 = chr( ord( 'F' ) + anzahl_trainer - 1 ) + str( row + 1 )
+            sheet.write( row, COLX+anzahl_trainer, xl.Formula( 'COUNTA(%s:%s)' % ( x1, x2 ) ), style )
+                
+            row += 1
+        datum += einTag
+
+    row += 1
+    fon = ''
+    for t in reversed( sorted( alle_trainer ) ):
+        if t.mobil:
+            fon += '%s: %s, ' % ( t.vorname, t.mobil )
+    f2 = xl.Font()
+    f2.height = font.height * 3 / 4
+    style.alignment = left
+    style.font = f2
+    sheet.write( row, 0, fon, style )
+    
+    sheet.row(0).height = 256 * 3
+
+    sheet.col(0).width = 256 * 12
+    sheet.col(1).width = 256 * 5
+    sheet.col(2).width = 256 * 7
+    sheet.col(3).width = 256 * 7
+    sheet.col(4).width = 256 * 18
+    for i in range( anzahl_trainer ):
+        sheet.col(i+COLX).width = 256 * 12
+    sheet.col(COLX + anzahl_trainer).width = 256 * 5
+
+    filename = 'trainerliste-%s.xls' % datetime.now().strftime( '%Y-%m-%d-%H%M%S' )
+    workbook.save( 'tmp/' + filename )
+    response = HttpResponse( open( 'tmp/' + filename, 'r' ).read(), mimetype = 'application/ms-excel' )
+    response['Content-Disposition'] = 'attachment; filename=%s' % filename
+    return response
 
 @login_required
 def mitglieder( request ):
@@ -356,6 +453,7 @@ def mitglieder( request ):
 
     ctx['menu'] = 'mitglieder'
     ctx['status'] = STATUS
+    ctx['months'] = [ date.today(), get_next_month() ]
 
     return __create_response( request, ctx, 'mitglieder.html' )
 

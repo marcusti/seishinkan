@@ -1,10 +1,20 @@
 #-*- coding: utf-8 -*-
 
+from datetime import date
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 import csv, codecs, cStringIO
 
 DEFAULT_MAX_LENGTH = 200
+
+def get_next_month( adate = date.today()):
+    try:
+        if adate.month == 12:
+            return date( adate.year + 1, 1, 1 )
+        else:
+            return date( adate.year, adate.month + 1, 1 )
+    except:
+        return None
 
 class AbstractModel( models.Model ):
     public = models.BooleanField( _( u'Öffentlich' ), default = True, help_text = '' )

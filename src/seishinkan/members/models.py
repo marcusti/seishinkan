@@ -147,6 +147,11 @@ class Mitglied( AbstractModel ):
     def ist_ehrenmitglied( self ):
         return self.status == STATUS_EHRENMITGLIED
 
+    def __cmp__( self, other ):
+        if self.aktuelle_graduierung() == other.aktuelle_graduierung():
+            return cmp( self.__unicode__(), other.__unicode__() )
+        return cmp( self.aktuelle_graduierung(), other.aktuelle_graduierung() )
+
     def __unicode__( self ):
         return self.name()
 
@@ -170,6 +175,8 @@ class Graduierung( AbstractModel ):
     text = models.TextField( _( u'Text' ), blank = True )
 
     def __cmp__( self, other ):
+        if self.graduierung == other.graduierung:
+            return cmp( other.datum, self.datum )
         return cmp( self.graduierung, other.graduierung )
 
     def __unicode__( self ):
