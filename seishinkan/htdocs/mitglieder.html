@@ -13,4 +13,17 @@
 {% endfor %}
 </ul>
 
+<h3>{%trans "Trainerlisten" %}</h3>
+<ul class="event">
+{% for monat in months %} 
+ <li><a href="/trainerliste/{{ monat|date:"Y" }}/{{ monat|date:"n" }}/" class="">Trainerliste {{ monat|date:"F Y" }}</a> (blanko)</li>
+{% endfor %}
+</ul>
+
+<h3>{%trans "Teilnehmererlisten" %}</h3>
+<ul class="event">
+{% for monat in months %} 
+ <li><a href="/teilnehmerliste/{{ monat|date:"Y" }}/{{ monat|date:"n" }}/" class="">Teilnehmerliste {{ monat|date:"F Y" }}</a> (noch in Arbeit)</li>
+{% endfor %}
+</ul>
 {% endblock %}
