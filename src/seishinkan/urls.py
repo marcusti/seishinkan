@@ -55,6 +55,7 @@ urlpatterns += patterns( 'seishinkan.website.views',
     ( r'^mitglieder/xls/$', 'mitglieder_xls' ),
     ( r'^mitglieder/xls/(\d+)/$', 'mitglieder_xls' ),
     ( r'^trainerliste/(\d+)/(\d+)/$', 'trainerliste_xls' ),
+    ( r'^teilnehmerliste/(\d+)/(\d+)/$', 'teilnehmerliste_xls' ),
 
     # dynamic_url muss am Ende stehen
     ( r'^(.+)/$', 'dynamic_url' ),
