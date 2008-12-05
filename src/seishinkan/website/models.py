@@ -278,6 +278,12 @@ class TrainingManager( models.Manager ):
     def get_wochentage( self ):
         return Wochentag.objects.filter( training__isnull = False, public = True ).distinct()
 
+    def get_wochentage_ids( self ):
+        return self.get_wochentage().values_list( 'id', flat = True )
+
+    def get_kinder_wochentage_ids( self ):
+        return Wochentag.objects.filter( training__isnull = False, training__art__ist_kindertraining = True, public = True ).distinct().values_list( 'id', flat = True )
+
     def get_wochenplan( self ):
         plan = []
         for zeit in self.get_anfangs_zeiten():

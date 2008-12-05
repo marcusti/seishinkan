@@ -166,7 +166,7 @@ def kontakt( request ):
             subject = form.data['subject']
             message = form.data['message']
 
-            # Wenn gew√ºnscht, Kopie an den Absender...
+            # Wenn gewÅ¸nscht, Kopie an den Absender...
             if form.data.get( 'copy_to_me', False ):
                 to_list.append( from_email )
 
@@ -194,7 +194,7 @@ def kontakt( request ):
             email.subject = subject
             email.body = message
             email.from_email = from_email
-            # Empf√§ngerliste in Blindkopie (bcc)
+            # EmpfÅ‰ngerliste in Blindkopie (bcc)
             email.bcc = to_list
             email.headers = { 'Reply-To': from_email }
             email.connection = con
@@ -439,6 +439,109 @@ def trainerliste_xls( request, year, month ):
     sheet.col(COLX + anzahl_trainer).width = 256 * 5
 
     filename = 'trainerliste-%s.xls' % datetime.now().strftime( '%Y-%m-%d-%H%M%S' )
+    workbook.save( 'tmp/' + filename )
+    response = HttpResponse( open( 'tmp/' + filename, 'r' ).read(), mimetype = 'application/ms-excel' )
+    response['Content-Disposition'] = 'attachment; filename=%s' % filename
+    return response
+
+@login_required
+def teilnehmerliste_xls( request, year, month ):
+    try:
+        year = int( year )
+        month = int( month )
+    except:
+        nm = get_next_month()
+        year = nm.year
+        month = nm.month
+
+    locale.setlocale( locale.LC_ALL, 'de_DE' )
+
+    datum = date( year, month, 1 )
+    workbook = xl.Workbook()
+    sheet = workbook.add_sheet( 'Teilnehmerliste %s' % datum.strftime( '%Y-%m' ) )
+    sheet.set_print_grid( True )
+    sheet.set_portrait( False )
+    sheet.set_fit_num_pages( 2 )
+    sheet.set_header_str( '' )
+
+    font = xl.Font()
+    font.name = 'Bitstream Vera Sans'
+    fb = xl.Font()
+    fb.bold = True
+    center = xl.Alignment()
+    center.horz = xl.Alignment.HORZ_CENTER
+    center.vert = xl.Alignment.VERT_CENTER
+    left = xl.Alignment()
+    left.horz = xl.Alignment.HORZ_LEFT
+    left.vert = xl.Alignment.VERT_CENTER
+    orient = xl.Alignment()
+    orient.orie = xl.Alignment.ORIENTATION_90_CC
+
+    style = xl.XFStyle()
+    style.font = fb
+
+    style.alignment = left
+    sheet.write( 0, 0, datum.strftime( '%B %Y' ), style )
+    sheet.write( 1, 0, 'Vorname', style )
+    sheet.write( 1, 1, 'Name', style )
+
+    style.alignment = center
+    style.font = font
+
+    wochentage = TrainingManager().get_wochentage_ids()
+    i = 2
+    for tag in range( 1, 32 ):
+        try:
+            datum = date( year, month, tag )
+            wochentag = int( datum.strftime( '%w' ) )
+            if wochentag in wochentage:
+                sheet.write( 0, i, datum.strftime( '%a' ), style )
+                sheet.write( 1, i, datum.strftime( '%d.' ), style )
+                i += 1
+        except:
+            i += 1
+
+    erwachsene = Mitglied.public_objects.get_nicht_passive_mitglieder().filter( ist_kind = False )
+    anzahl_erwachsene = len( erwachsene )
+    for i, erwachsener in enumerate( erwachsene):
+        style.alignment = left
+        row = i + 2
+        sheet.write( row, 0, erwachsener.vorname, style )
+        sheet.write( row, 1, erwachsener.nachname, style )
+
+    style.alignment = left
+    style.font = fb
+
+    row = anzahl_erwachsene + 4
+    style.alignment = left
+    sheet.write( row, 0, 'Kindertraining', style )
+    sheet.write( row + 1, 0, 'Vorname', style )
+    sheet.write( row + 1, 1, 'Name', style )
+
+    style.alignment = center
+    style.font = font
+
+    wochentage = TrainingManager().get_kinder_wochentage_ids()
+    i = 2
+    for tag in range( 1, 32 ):
+        try:
+            datum = date( year, month, tag )
+            wochentag = int( datum.strftime( '%w' ) )
+            if wochentag in wochentage:
+                sheet.write( row, i, datum.strftime( '%a' ), style )
+                sheet.write( row + 1, i, datum.strftime( '%d.' ), style )
+                i += 1
+        except:
+            i += 1
+
+    kinder = Mitglied.public_objects.get_nicht_passive_mitglieder().filter( ist_kind = True )
+    for i, kind in enumerate( kinder):
+        style.alignment = left
+        row = i + anzahl_erwachsene + 6
+        sheet.write( row, 0, kind.vorname, style )
+        sheet.write( row, 1, kind.nachname, style )
+
+    filename = 'teilnehmerliste-%s.xls' % datetime.now().strftime( '%Y-%m-%d-%H%M%S' )
     workbook.save( 'tmp/' + filename )
     response = HttpResponse( open( 'tmp/' + filename, 'r' ).read(), mimetype = 'application/ms-excel' )
     response['Content-Disposition'] = 'attachment; filename=%s' % filename

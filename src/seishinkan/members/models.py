@@ -77,6 +77,9 @@ class MitgliederManager( models.Manager ):
     def get_ehrenmitglieder( self ):
         return self.get_query_set().filter( status = STATUS_EHRENMITGLIED )
 
+    def get_nicht_passive_mitglieder( self ):
+        return self.get_mitglieder().exclude( status = STATUS_PASSIV )
+
     def get_mitglieder_mit_email( self ):
         return self.get_mitglieder().filter( bekommt_emails = True ).exclude( email__exact = '' )
 
