@@ -8,22 +8,20 @@
 
 {# --- REAKTEURE --- #}
 {% spaceless %}
-<h5><a href="mailto:{% for user in users %}{% if user.email and user.is_active %}&quot;{% spaceless %}{{ user.first_name }} {{ user.last_name }}{% endspaceless %}&quot; &lt;{{ user.email }}&gt;{% if not forloop.last %}, {% endif %}{% endif %}{% endfor %}">Verteiler Redakteure</a></h5>
+<h5><a href="mailto:{% for user in redakteure %}&quot;{% spaceless %}{{ user.first_name }} {{ user.last_name }}{% endspaceless %}&quot; &lt;{{ user.email }}&gt;{% if not forloop.last %}, {% endif %}{% endfor %}">Verteiler Redakteure</a><span class="postmeta"> ({{ redakteure|length }})</span></h5>
 {% endspaceless %}
 
 <p class="small">
-{% for user in users %}
-  {% if user.email and user.is_active %}
+{% for user in redakteure %}
     <a href="mailto:&quot;{% spaceless %}{{ user.first_name }} {{ user.last_name }}{% endspaceless %}&quot; &lt;{{ user.email }}&gt;">
     &quot;{% spaceless %}{{ user.first_name }} {{ user.last_name }}{% endspaceless %}&quot; &lt;{{ user.email }}&gt;</a>
     <br/>
-  {% endif %}
 {% endfor %}
 </p>
 
 {# --- VORSTAND --- #}
 {% spaceless %}
-<h5><a href="mailto:{% for mitglied in vorstand %}{{ mitglied.name_und_email }}{% if not forloop.last %}, {% endif %}{% endfor %}">Verteiler Vorstand</a></h5>
+<h5><a href="mailto:{% for mitglied in vorstand %}{{ mitglied.name_und_email }}{% if not forloop.last %}, {% endif %}{% endfor %}">Verteiler Vorstand</a><span class="postmeta"> ({{ vorstand|length }})</span></h5>
 {% endspaceless %}
 
 <p class="small">
@@ -36,7 +34,7 @@
 
 {# --- TRAINER --- #}
 {% spaceless %}
-<h5><a href="mailto:{% for mitglied in trainer %}{{ mitglied.name_und_email }}{% if not forloop.last %}, {% endif %}{% endfor %}">Verteiler Trainer</a></h5>
+<h5><a href="mailto:{% for mitglied in trainer %}{{ mitglied.name_und_email }}{% if not forloop.last %}, {% endif %}{% endfor %}">Verteiler Trainer</a><span class="postmeta"> ({{ trainer|length }})</span></h5>
 {% endspaceless %}
 
 <p class="small">
@@ -49,7 +47,7 @@
 
 {# --- MITGLIEDER --- #}
 {% spaceless %}
-<h5><a href="mailto:{% for mitglied in mit_mail %}{{ mitglied.name_und_email }}{% if not forloop.last %}, {% endif %}{% endfor %}">Verteiler Mitglieder</a></h5>
+<h5><a href="mailto:{% for mitglied in mit_mail %}{{ mitglied.name_und_email }}{% if not forloop.last %}, {% endif %}{% endfor %}">Verteiler Mitglieder</a><span class="postmeta"> ({{ mit_mail|length }})</span></h5>
 {% endspaceless %}
 
 <p class="small">
@@ -60,7 +58,7 @@
 {% endfor %}
 </p>
 
-<h5>Mitglieder ohne Email</h5>
+<h5>Mitglieder ohne Email<span class="postmeta"> ({{ ohne_mail|length }})</span></h5>
 <p class="small">
 {% for mitglied in ohne_mail %}
     {{ mitglied.name }}

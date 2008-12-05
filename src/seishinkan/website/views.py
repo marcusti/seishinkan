@@ -380,7 +380,7 @@ def trainerliste_xls( request, year, month ):
     sheet.write( 0, 0, datum.strftime( '%B %Y' ), big )
 
     style.alignment = center
-    COLX = 5
+    COLX = 6
     i = COLX
     alle_trainer =  Mitglied.public_objects.get_trainer()
     anzahl_trainer = len ( alle_trainer )
@@ -396,21 +396,22 @@ def trainerliste_xls( request, year, month ):
         for training in einheitenProTag:
             sheet.row( row ).set_style( style )
             style.alignment = center
-            sheet.write( row, 0, datum.strftime( '%d.%m.%Y' ), style )
+            sheet.write( row, 0, row, style )
+            sheet.write( row, 1, datum.strftime( '%d.%m.%Y' ), style )
             style.alignment = center
-            sheet.write( row, 1, training.wochentag.get_name()[:2], style )
+            sheet.write( row, 2, training.wochentag.get_name()[:2], style )
             style.alignment = center
-            sheet.write( row, 2, training.von.strftime( '%H:%M' ), style )
-            sheet.write( row, 3, training.bis.strftime( '%H:%M' ), style )
+            sheet.write( row, 3, training.von.strftime( '%H:%M' ), style )
+            sheet.write( row, 4, training.bis.strftime( '%H:%M' ), style )
             style.alignment = left
-            sheet.write( row, 4, training.art.get_name(), style )
+            sheet.write( row, 5, training.art.get_name(), style )
 
             style.alignment = center
             for i in range( anzahl_trainer ):
                 sheet.write( row, i+COLX, '', style )
             
             x1 = chr( ord( 'A' ) + COLX ) + str( row + 1 )
-            x2 = chr( ord( 'F' ) + anzahl_trainer - 1 ) + str( row + 1 )
+            x2 = chr( ord( 'A' ) + COLX + anzahl_trainer - 1 ) + str( row + 1 )
             sheet.write( row, COLX+anzahl_trainer, xl.Formula( 'COUNTA(%s:%s)' % ( x1, x2 ) ), style )
                 
             row += 1
@@ -429,11 +430,12 @@ def trainerliste_xls( request, year, month ):
     
     sheet.row(0).height = 256 * 3
 
-    sheet.col(0).width = 256 * 12
-    sheet.col(1).width = 256 * 5
-    sheet.col(2).width = 256 * 7
+    sheet.col(0).width = 256 * 5
+    sheet.col(1).width = 256 * 12
+    sheet.col(2).width = 256 * 5
     sheet.col(3).width = 256 * 7
-    sheet.col(4).width = 256 * 18
+    sheet.col(4).width = 256 * 7
+    sheet.col(5).width = 256 * 18
     for i in range( anzahl_trainer ):
         sheet.col(i+COLX).width = 256 * 12
     sheet.col(COLX + anzahl_trainer).width = 256 * 5
@@ -568,6 +570,7 @@ def mailinglist( request ):
         return __create_response( request, ctx, 'keine_berechtigung.html' )
 
     ctx['menu'] = 'emailverteiler'
+    ctx['redakteure'] = User.objects.filter( email__isnull = False, email__contains = '@', is_active = True, is_staff = True ).order_by( 'first_name', 'last_name', 'username' )
     ctx['vorstand'] = Mitglied.public_objects.get_mitglieder_mit_email().filter( ist_vorstand = True )
     ctx['trainer'] = Mitglied.public_objects.get_mitglieder_mit_email().filter( ist_trainer = True )
     ctx['mit_mail'] = Mitglied.public_objects.get_mitglieder_mit_email()
