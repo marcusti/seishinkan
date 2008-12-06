@@ -9,8 +9,8 @@ class LandAdmin( admin.ModelAdmin ):
 
 class GraduierungAdmin( admin.ModelAdmin ):
     ordering = ['-graduierung', '-datum', 'person']
-    list_display = ( 'person', 'datum', 'graduierung', 'public', 'modified', 'id' )
-    list_filter = ( 'graduierung', 'person' )
+    list_display = ( 'person', 'datum', 'graduierung', 'vorschlag', 'public', 'modified', 'id' )
+    list_filter = ( 'vorschlag', 'graduierung', 'person' )
     search_fields = ( 'person__vorname', 'person__nachname' )
 
 class GraduierungInline( admin.TabularInline ):

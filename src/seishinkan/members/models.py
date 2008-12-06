@@ -160,9 +160,9 @@ class Mitglied( AbstractModel ):
 
     def aktuelle_graduierung( self ):
         try:
-            return max( self.graduierung_set.all() )
+            return max( self.graduierung_set.filter( vorschlag = False, public = True ) )
         except:
-            return ''
+            return None
     aktuelle_graduierung.short_description = _( u'Graduierung' )
     aktuelle_graduierung.allow_tags = True
 
@@ -171,14 +171,26 @@ class Mitglied( AbstractModel ):
         verbose_name = _( u'Mitglied' )
         verbose_name_plural = _( u'Mitglieder' )
 
+class GraduierungManager( models.Manager ):
+    def get_query_set( self ):
+        return super( GraduierungManager, self ).get_query_set().filter( public = True )
+
 class Graduierung( AbstractModel ):
     person = models.ForeignKey( Mitglied, verbose_name = _( u'Person' ) )
     datum = models.DateField( _( u'Datum' ), blank = True, null = True )
     graduierung = models.IntegerField( _( u'Graduierung' ), choices = GRADUIERUNGEN )
     text = models.TextField( _( u'Text' ), blank = True )
+    vorschlag = models.BooleanField( _( u'Vorschlag' ), default = False )
+
+    objects = models.Manager()
+    public_objects = GraduierungManager()
 
     def __cmp__( self, other ):
+        if self is None or other is None:
+            return 1
         if self.graduierung == other.graduierung:
+            if self.datum is None or other.datum is None:
+                return -1
             return cmp( other.datum, self.datum )
         return cmp( self.graduierung, other.graduierung )
 
