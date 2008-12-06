@@ -464,6 +464,8 @@ def teilnehmerliste_xls( request, year, month ):
     sheet.set_print_grid( True )
     sheet.set_portrait( False )
     sheet.set_fit_num_pages( 2 )
+    sheet.set_fit_width_to_pages( 1 )
+    sheet.set_fit_height_to_pages( 1 )
     sheet.set_header_str( '' )
 
     font = xl.Font()
@@ -543,6 +545,11 @@ def teilnehmerliste_xls( request, year, month ):
         sheet.write( row, 0, kind.vorname, style )
         sheet.write( row, 1, kind.nachname, style )
 
+    sheet.col(0).width = 256 * 20
+    sheet.col(1).width = 256 * 20
+    for i in range( 31 ):
+        sheet.col(i + 2).width = 256 * 5
+
     filename = 'teilnehmerliste-%s.xls' % datetime.now().strftime( '%Y-%m-%d-%H%M%S' )
     workbook.save( 'tmp/' + filename )
     response = HttpResponse( open( 'tmp/' + filename, 'r' ).read(), mimetype = 'application/ms-excel' )
@@ -550,17 +557,31 @@ def teilnehmerliste_xls( request, year, month ):
     return response
 
 @login_required
-def mitglieder( request ):
+def mitgliederlisten( request ):
     ctx = __get_sidebar( request )
 
     if not ist_vorstand( request.user ):
         return __create_response( request, ctx, 'keine_berechtigung.html' )
 
-    ctx['menu'] = 'mitglieder'
+    ctx['menu'] = 'mitgliederlisten'
     ctx['status'] = STATUS
     ctx['months'] = [ date.today(), get_next_month() ]
 
     return __create_response( request, ctx, 'mitglieder.html' )
+
+@login_required
+def graduierungen( request ):
+    ctx = __get_sidebar( request )
+
+    if not ist_vorstand( request.user ):
+        return __create_response( request, ctx, 'keine_berechtigung.html' )
+
+    ctx['menu'] = 'graduierungen'
+
+    ctx['vorschlaege'] = Graduierung.public_objects.filter( vorschlag = True )
+    ctx['mitglieder'] = reversed( sorted( Mitglied.public_objects.get_mitglieder() ) )
+
+    return __create_response( request, ctx, 'graduierungen.html' )
 
 @login_required
 def mailinglist( request ):

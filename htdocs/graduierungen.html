@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load seishinkan_tags %}
+
+{% block content %}
+
+<h3>{%trans "Vorschläge zur Graduierung" %}</h3>
+
+<ul class="event">
+{% if vorschlaege %}
+ {% for vorschlag in vorschlaege %} 
+  <li>{{ vorschlag.get_graduierung_display }} <a href="#" class="">{{ vorschlag.peron }}</a></li>
+ {% endfor %}
+{% else %}
+ <li>{% trans "Zur Zeit gibt es keine Vorschläge" %}.</li>
+{% endif %}
+</ul>
+
+<h3>{%trans "Graduierungen" %}</h3>
+
+<ul class="event">
+{% for mitglied in mitglieder %} 
+ <li>{{ mitglied.aktuelle_graduierung }} <a href="/verwaltung/members/mitglied/{{ mitglied.id }}/" class="">{{ mitglied }}</a></li>
+{% endfor %}
+</ul>
+
+{% endblock %}
