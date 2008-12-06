@@ -41,7 +41,8 @@
 
 	{% if perms.members %}
 	  <li><a class="page_item{% ifequal menu "emailverteiler" %} current{% endifequal %}" href="/email/">{% trans "Email Verteiler" %}</a></li>
-	  <li><a class="page_item{% ifequal menu "mitglieder" %} current{% endifequal %}" href="/mitglieder/">{% trans "Excellisten" %}</a></li>
+	  <li><a class="page_item{% ifequal menu "mitgliederlisten" %} current{% endifequal %}" href="/mitglieder/">{% trans "Mitgliederlisten" %}</a></li>
+	  <li><a class="page_item{% ifequal menu "graduierungen" %} current{% endifequal %}" href="/graduierungen/">{% trans "Graduierungen" %}</a></li>
 	{% endif %}
 
 	  <li><a class="" href="/static/webalizer/">{% trans "Statistik" %}</a></li>
