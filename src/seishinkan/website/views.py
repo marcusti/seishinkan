@@ -312,18 +312,22 @@ def __get_content( m ):
         ]
 
 def __get_graduierung( mitglied ):
+    if mitglied is None or mitglied.graduierung is None:
+        return ''
     try:
-        return mitglied.aktuelle_graduierung().get_graduierung_display()
+        return mitglied.aktuelle_graduierung()
     except:
         return ''
 
 def __get_graduierung_datum( mitglied ):
     try:
-        return __get_datum( mitglied.aktuelle_graduierung().datum )
+        return __get_datum( mitglied.graduierung_datum )
     except:
         return ''
 
 def __get_datum( datum ):
+    if datum is None:
+        return ''
     try:
         return datum.strftime( '%d.%m.%Y' )
     except:
@@ -579,7 +583,7 @@ def graduierungen( request ):
     ctx['menu'] = 'graduierungen'
 
     ctx['vorschlaege'] = Graduierung.public_objects.filter( vorschlag = True )
-    ctx['mitglieder'] = reversed( sorted( Mitglied.public_objects.get_mitglieder() ) )
+    ctx['mitglieder'] = Mitglied.public_objects.get_mitglieder().order_by( '-graduierung', 'graduierung_datum', 'vorname', 'nachname' )
 
     return __create_response( request, ctx, 'graduierungen.html' )
 

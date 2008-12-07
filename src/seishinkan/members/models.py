@@ -1,7 +1,7 @@
 #-*- coding: utf-8 -*-
 
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext as _
 from seishinkan.utils import DEFAULT_MAX_LENGTH, AbstractModel
 from seishinkan.website.templatetags.seishinkan_tags import *
 
@@ -60,7 +60,13 @@ class Land( AbstractModel ):
 
 class MitgliederManager( models.Manager ):
     def get_query_set( self ):
-        return super( MitgliederManager, self ).get_query_set().filter( public = True )
+        SQL_GRAD = "SELECT MAX(graduierung) FROM members_graduierung WHERE members_graduierung.vorschlag=false AND members_graduierung.person_id=members_mitglied.id"
+        SQL_DATUM = "SELECT datum FROM members_graduierung WHERE members_graduierung.person_id=members_mitglied.id AND graduierung=(%s)" % SQL_GRAD
+        return super( MitgliederManager, self ).get_query_set().extra( select = { 'graduierung': SQL_GRAD, 'graduierung_datum': SQL_DATUM } )
+
+class PublicMitgliederManager( MitgliederManager ):
+    def get_query_set( self ):
+        return super( PublicMitgliederManager, self ).get_query_set().filter( public = True )
 
     def get_mitglieder( self ):
         return self.get_query_set().all().exclude( status = STATUS_NICHT_MITGLIED )
@@ -114,8 +120,8 @@ class Mitglied( AbstractModel ):
     ist_kind = models.BooleanField( _( u'Kind' ), default = False )
     bekommt_emails = models.BooleanField( _( u'bekommt Emails' ), default = True )
 
-    objects = models.Manager()
-    public_objects = MitgliederManager()
+    objects = MitgliederManager()
+    public_objects = PublicMitgliederManager()
 
     def name( self ):
         return ( u'%s %s' % ( self.vorname, self.nachname ) ).strip()
@@ -150,19 +156,14 @@ class Mitglied( AbstractModel ):
     def ist_ehrenmitglied( self ):
         return self.status == STATUS_EHRENMITGLIED
 
-    def __cmp__( self, other ):
-        if self.aktuelle_graduierung() == other.aktuelle_graduierung():
-            return cmp( self.__unicode__(), other.__unicode__() )
-        return cmp( self.aktuelle_graduierung(), other.aktuelle_graduierung() )
-
     def __unicode__( self ):
         return self.name()
 
     def aktuelle_graduierung( self ):
-        try:
-            return max( self.graduierung_set.filter( vorschlag = False, public = True ) )
-        except:
-            return None
+        for i, g in GRADUIERUNGEN:
+            if i == self.graduierung:
+                return g
+        return ''
     aktuelle_graduierung.short_description = _( u'Graduierung' )
     aktuelle_graduierung.allow_tags = True
 
@@ -184,15 +185,6 @@ class Graduierung( AbstractModel ):
 
     objects = models.Manager()
     public_objects = GraduierungManager()
-
-    def __cmp__( self, other ):
-        if self is None or other is None:
-            return 1
-        if self.graduierung == other.graduierung:
-            if self.datum is None or other.datum is None:
-                return -1
-            return cmp( other.datum, self.datum )
-        return cmp( self.graduierung, other.graduierung )
 
     def __unicode__( self ):
         if self.graduierung:
