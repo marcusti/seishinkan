@@ -16,6 +16,7 @@ SSL_URLS = [
     r'/login/',
     r'/logout/',
     r'/email/',
+    r'/graduierungen/',
     r'/mitglieder/',
     r'/mitgliederliste/',
     r'/permissions/',
