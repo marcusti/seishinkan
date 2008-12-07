@@ -518,6 +518,10 @@ div.imageright img, img.imageright {
   display: block;
 } */
 
+.columnhover tr:hover {
+  background-color: #fce94f;
+}
+
 .white, .archiv .white {
   background-color: white;
 }

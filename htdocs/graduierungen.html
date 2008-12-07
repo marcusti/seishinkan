@@ -4,24 +4,46 @@
 
 {% block content %}
 
-<h3>{%trans "Vorschläge zur Graduierung" %}</h3>
+<table class="archiv">
+<tr><td colspan="4" class="white"><h3>{%trans "Vorschläge zur Graduierung" %}</h3></td></tr>
 
-<ul class="event">
 {% if vorschlaege %}
+ <tr>
+  <th>Name</th>
+  <th>Grad</th>
+  <th colspan="2">Datum</th>
+ </tr>
  {% for vorschlag in vorschlaege %} 
-  <li>{{ vorschlag.get_graduierung_display }} <a href="#" class="">{{ vorschlag.peron }}</a></li>
+ <tr class="{% cycle 'archiv' 'white' %}">
+  <td><a href="/verwaltung/members/mitglied/{{ vorschlag.person.id }}/" title="{{ vorschlag.person }}, {{ vorschlag.person.alter }}, {{ vorschlag.person.get_status_display }}" class="">{{ vorschlag.person }}</a></td>
+  <td>{{ vorschlag }}</td>
+  <td class="postmeta">{{ vorschlag.datum|date:"d.m.Y" }}</td>
+  <td class="postmeta"></td>
+ </tr>
  {% endfor %}
+ <tr><td colspan="4" class="white postmeta">{{ vorschlaege|length }} Vorschl{{ vorschlaege|pluralize:"ag,äge" }}</td></tr>
+
 {% else %}
- <li>{% trans "Zur Zeit gibt es keine Vorschläge" %}.</li>
+ <tr><td colspan="4" class="white">{% trans "Zur Zeit gibt es keine Vorschläge" %}.</td></tr>
 {% endif %}
-</ul>
 
-<h3>{%trans "Graduierungen" %}</h3>
+<tr><td colspan="4" class="white"><h3>{%trans "Graduierungen" %}</h3></td></tr>
 
-<ul class="event">
+ <tr>
+  <th>Name</th>
+  <th>Grad</th>
+  <th colspan="2">Datum</th>
+ </tr>
 {% for mitglied in mitglieder %} 
- <li>{{ mitglied.aktuelle_graduierung }} <a href="/verwaltung/members/mitglied/{{ mitglied.id }}/" class="">{{ mitglied }}</a></li>
+ <tr class="{% cycle 'white' 'white' %}">
+  <td><a href="/verwaltung/members/mitglied/{{ mitglied.id }}/" title="{{ mitglied }}, {{ mitglied.alter }}, {{ mitglied.get_status_display }}" class="">{{ mitglied }}</a></td>
+  <td>{{ mitglied.aktuelle_graduierung }}</td>
+  <td class="postmeta">{{ mitglied.graduierung_datum|date:"d.m.Y" }}</td>
+  <td class="postmeta">{{ mitglied.graduierung_datum|timesince }}</td>
+ </tr>
 {% endfor %}
-</ul>
+
+ <tr><td colspan="4" class="white postmeta">{{ mitglieder|length }} Graduierung{{ mitglieder|pluralize:"en" }}</td></tr>
+</table>
 
 {% endblock %}
