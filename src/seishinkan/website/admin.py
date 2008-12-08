@@ -57,7 +57,7 @@ class TerminAdmin( admin.ModelAdmin ):
 
 class TrainingsartAdmin( admin.ModelAdmin ):
     ordering = ['name']
-    list_display = ( 'name', 'ist_anfaengerkurs', 'ist_kindertraining', 'public', 'id' )
+    list_display = ( 'name', 'ist_anfaengerkurs', 'ist_kindertraining', 'ist_jugendtraining', 'public', 'id' )
     fieldsets = (
         ( 'Deutsch', { 'fields': ( 'name', 'text', ) } ),
         ( 'Englisch', { 'fields': ( 'name_en', 'text_en' ), 'classes': ( 'collapse', ) } ),

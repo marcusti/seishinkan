@@ -139,6 +139,7 @@ class Seite( AbstractModel ):
     show_training = models.BooleanField( _( u'Enthält Trainingszeiten' ), default = False )
     show_anfaenger = models.BooleanField( _( u'Enthält Anfängerkurs Info' ), default = False )
     show_kinder = models.BooleanField( _( u'Enthält Kindertraining Info' ), default = False )
+    show_jugend = models.BooleanField( _( u'Enthält KJugendtraining Info' ), default = False )
     is_homepage = models.BooleanField( _( u'Ist Startseite' ), default = False, editable = False )
 
     objects = models.Manager()
@@ -305,6 +306,7 @@ class Trainingsart( AbstractModel ):
     text_ja = models.TextField( _( u'Text (Japanisch)' ), blank = True )
     ist_anfaengerkurs = models.BooleanField( _( u'Anfängerkurs' ), default = False )
     ist_kindertraining = models.BooleanField( _( u'Kindertraining' ), default = False )
+    ist_jugendtraining = models.BooleanField( _( u'Jugendtraining' ), default = False )
 
     def get_name( self, language = None ):
         return getattr( self, "name_%s" % ( language or translation.get_language()[:2] ), "" ) or self.name
