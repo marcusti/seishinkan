@@ -139,7 +139,7 @@ class Seite( AbstractModel ):
     show_training = models.BooleanField( _( u'Enthält Trainingszeiten' ), default = False )
     show_anfaenger = models.BooleanField( _( u'Enthält Anfängerkurs Info' ), default = False )
     show_kinder = models.BooleanField( _( u'Enthält Kindertraining Info' ), default = False )
-    show_jugend = models.BooleanField( _( u'Enthält KJugendtraining Info' ), default = False )
+    show_jugend = models.BooleanField( _( u'Enthält Jugendtraining Info' ), default = False )
     is_homepage = models.BooleanField( _( u'Ist Startseite' ), default = False, editable = False )
 
     objects = models.Manager()

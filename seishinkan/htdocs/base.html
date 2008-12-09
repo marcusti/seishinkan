@@ -135,6 +135,31 @@
     </ul>
   {% endif %}
 
+  {% if seite.show_jugend %}
+    <br/>
+    <h5>{{ jugendtraining.get_name }}</h5>
+    <ul class="event">
+    <li>
+    <table>
+    {% for training in jugendtraining_liste %}
+      <tr>
+        <td>{{ training.wochentag }}</td>
+        <td>{{ training.von|time:"G:i" }} - {{ training.bis|time:"G:i" }}</td>
+      </tr>
+    {% endfor %}
+    </table>
+    </li>
+
+    {% if jugendtraining.get_text %}
+    <li class="postmeta">
+      {{ jugendtraining.get_text|linebreaksbr }}
+      {% if user.is_authenticated %}<a class="edit small" href="/verwaltung/website/trainingsart/{{ jugendtraining.id }}/">{% trans "bearbeiten" %}</a>{% endif %}
+    </li>
+    {% endif %}
+
+    </ul>
+  {% endif %}
+
   {% if seite.show_events %}
     <br/>
     <h5>{% trans "aktuelle Termine" %}</h5>
