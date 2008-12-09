@@ -62,7 +62,7 @@ class TrainingsartAdmin( admin.ModelAdmin ):
         ( 'Deutsch', { 'fields': ( 'name', 'text', ) } ),
         ( 'Englisch', { 'fields': ( 'name_en', 'text_en' ), 'classes': ( 'collapse', ) } ),
         ( 'Japanisch', { 'fields': ( 'name_ja', 'text_ja' ), 'classes': ( 'collapse', ) } ),
-        ( None, { 'fields': ( 'ist_anfaengerkurs', 'ist_kindertraining', 'public' ) } ),
+        ( None, { 'fields': ( 'ist_anfaengerkurs', 'ist_kindertraining', 'ist_jugendtraining', 'public' ) } ),
     )
 
 class TrainingAdmin( admin.ModelAdmin ):
