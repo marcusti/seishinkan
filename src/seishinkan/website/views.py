@@ -105,6 +105,12 @@ def index( request, sid = 1 ):
             ctx['kindertraining_liste'] = kindertraining
             ctx['kindertraining'] = kindertraining[0].art
         
+    if seite.show_jugend:
+        jugendtraining = Training.objects.filter( public = True, art__ist_jugendtraining = True )
+        if jugendtraining and jugendtraining.count() > 0:
+            ctx['jugendtraining_liste'] = jugendtraining
+            ctx['jugendtraining'] = jugendtraining[0].art
+        
     return __create_response( request, ctx )
 
 def my_404( request ):
