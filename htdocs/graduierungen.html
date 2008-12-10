@@ -17,8 +17,8 @@
  <tr class="{% cycle 'archiv' 'white' %}">
   <td><a href="/verwaltung/members/mitglied/{{ vorschlag.person.id }}/" title="{{ vorschlag.person }}, {{ vorschlag.person.alter }}, {{ vorschlag.person.get_status_display }}" class="">{{ vorschlag.person }}</a></td>
   <td>{{ vorschlag }}</td>
-  <td class="postmeta">{{ vorschlag.datum|date:"d.m.Y" }}</td>
-  <td class="postmeta"></td>
+  <td class="postmeta{% if vorschlag.datum|is_past %} error{% endif %}">{{ vorschlag.datum|date:"d.m.Y" }}</td>
+  <td class="postmeta">{{ vorschlag.person.graduierung }}</td>
  </tr>
  {% endfor %}
  <tr><td colspan="4" class="white postmeta">{{ vorschlaege|length }} Vorschl{{ vorschlaege|pluralize:"ag,äge" }}</td></tr>
@@ -35,12 +35,14 @@
   <th colspan="2">Datum</th>
  </tr>
 {% for mitglied in mitglieder %} 
+{% if not mitglied.vorschlag %}
  <tr class="{% cycle 'white' 'white' %}">
   <td><a href="/verwaltung/members/mitglied/{{ mitglied.id }}/" title="{{ mitglied }}, {{ mitglied.alter }}, {{ mitglied.get_status_display }}" class="">{{ mitglied }}</a></td>
   <td>{{ mitglied.aktuelle_graduierung }}</td>
   <td class="postmeta">{{ mitglied.graduierung_datum|date:"d.m.Y" }}</td>
   <td class="postmeta">{{ mitglied.graduierung_datum|timesince }}</td>
  </tr>
+{% endif %}
 {% endfor %}
 
  <tr><td colspan="4" class="white postmeta">{{ mitglieder|length }} Graduierung{{ mitglieder|pluralize:"en" }}</td></tr>
