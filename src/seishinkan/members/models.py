@@ -60,9 +60,11 @@ class Land( AbstractModel ):
 
 class MitgliederManager( models.Manager ):
     def get_query_set( self ):
+        SQL_VORSCHLAG = "SELECT MAX(graduierung) FROM members_graduierung WHERE members_graduierung.vorschlag=true AND members_graduierung.person_id=members_mitglied.id"
+        SQL_VORSCHLAG_DATUM = "SELECT datum FROM members_graduierung WHERE members_graduierung.person_id=members_mitglied.id AND graduierung=(%s)" % SQL_VORSCHLAG
         SQL_GRAD = "SELECT MAX(graduierung) FROM members_graduierung WHERE members_graduierung.vorschlag=false AND members_graduierung.person_id=members_mitglied.id"
-        SQL_DATUM = "SELECT datum FROM members_graduierung WHERE members_graduierung.person_id=members_mitglied.id AND graduierung=(%s)" % SQL_GRAD
-        return super( MitgliederManager, self ).get_query_set().extra( select = { 'graduierung': SQL_GRAD, 'graduierung_datum': SQL_DATUM } )
+        SQL_GRAD_DATUM = "SELECT datum FROM members_graduierung WHERE members_graduierung.person_id=members_mitglied.id AND graduierung=(%s)" % SQL_GRAD
+        return super( MitgliederManager, self ).get_query_set().extra( select = { 'graduierung': SQL_GRAD, 'graduierung_datum': SQL_GRAD_DATUM, 'vorschlag': SQL_VORSCHLAG, 'vorschlag_datum': SQL_VORSCHLAG_DATUM } )
 
 class PublicMitgliederManager( MitgliederManager ):
     def get_query_set( self ):
@@ -160,10 +162,10 @@ class Mitglied( AbstractModel ):
         return self.name()
 
     def aktuelle_graduierung( self ):
-        for i, g in GRADUIERUNGEN:
-            if i == self.graduierung:
-                return g
-        return ''
+        try:
+            return Graduierung.public_objects.get( person__id = self.id, graduierung = self.graduierung )
+        except:
+            return ''
     aktuelle_graduierung.short_description = _( u'Graduierung' )
     aktuelle_graduierung.allow_tags = True
 

@@ -590,6 +590,7 @@ def graduierungen( request ):
 
     ctx['vorschlaege'] = Graduierung.public_objects.filter( vorschlag = True )
     ctx['mitglieder'] = Mitglied.public_objects.get_mitglieder().order_by( '-graduierung', 'graduierung_datum', 'vorname', 'nachname' )
+#    ctx['vorschlaege'] = Mitglied.public_objects.get_mitglieder().filter( vorschlag = True ).order_by( '-graduierung', 'graduierung_datum', 'vorname', 'nachname' )
 
     return __create_response( request, ctx, 'graduierungen.html' )
 
