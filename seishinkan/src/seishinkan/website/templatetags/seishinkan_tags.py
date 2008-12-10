@@ -37,3 +37,10 @@ def age( value ):
         return today.year - value.year - 1
     except:
         return ''
+
+@register.filter
+def is_past( a_date ):
+    try:
+        return a_date < date.today()
+    except:
+        return False
