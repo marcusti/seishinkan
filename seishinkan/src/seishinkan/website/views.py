@@ -321,7 +321,7 @@ def __get_graduierung( mitglied ):
     if mitglied is None or mitglied.graduierung is None:
         return ''
     try:
-        return mitglied.aktuelle_graduierung()
+        return mitglied.aktuelle_graduierung().get_graduierung_display()
     except:
         return ''
 
