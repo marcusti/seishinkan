@@ -5,6 +5,14 @@
 
 <h3>{% trans "Trainingszeiten" %}</h3>
 
+<ul class="event">
+        {% for meldung in training_aktuell%}
+          <li class="page_item small">
+            {{ meldung.get_text|linebreaksbr }}
+          </li>
+        {% endfor %}
+</ul>
+
 <div class="postentry">
   <table id="trainingszeiten" class="small">
     <tr>

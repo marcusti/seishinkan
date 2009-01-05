@@ -1,8 +1,6 @@
 #-*- coding: utf-8 -*-
 # Django settings for seishinkan project.
 
-from mysettings import *
-
 EMAIL_SUBJECT_PREFIX = '[seishinkan.de] '
 EMAIL_MESSAGE_POSTFIX = '''---
 Diese Nachricht wurde aus dem Kontaktformular der Website des Aikido Dojo Seishinkan verschickt.
@@ -90,3 +88,8 @@ INSTALLED_APPS = (
     'seishinkan.news',
     'seishinkan.links',
 )
+
+try:
+    from mysettings import *
+except ImportError:
+    pass
