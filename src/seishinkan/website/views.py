@@ -392,9 +392,9 @@ def trainerliste_xls( request, year, month ):
     style.alignment = center
     COLX = 6
     i = COLX
-    alle_trainer =  Mitglied.public_objects.get_trainer()
+    alle_trainer =  Mitglied.public_objects.get_trainer().order_by('-graduierung', 'graduierung_datum')
     anzahl_trainer = len ( alle_trainer )
-    for t in reversed( sorted( alle_trainer ) ):
+    for t in alle_trainer:
         sheet.write( 0, i, t.vorname, style )
         i += 1
     
@@ -429,7 +429,7 @@ def trainerliste_xls( request, year, month ):
 
     row += 1
     fon = ''
-    for t in reversed( sorted( alle_trainer ) ):
+    for t in alle_trainer:
         if t.mobil:
             fon += '%s: %s, ' % ( t.vorname, t.mobil )
     f2 = xl.Font()
