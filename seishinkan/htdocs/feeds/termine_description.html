@@ -1,4 +1,5 @@
 {% autoescape off %}
+<p><b>{% if obj.beginn %}{{ obj.beginn|date:"l, d.m.Y" }}{% if obj.ende %}{% ifnotequal obj.beginn obj.ende%} - {{ obj.ende|date:"l, d.m.Y" }}{% endifnotequal %}{% endif %}{% endif %}</b></p>
 {% if obj.bild %}
   <p><img
        src="{{ obj.bild.bild.url }}"

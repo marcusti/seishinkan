@@ -677,7 +677,7 @@ def seishinkan_login( request ):
             if settings.SEND_MAIL_ON_LOGIN and not user.username == 'marcus':
                 try:
                     subject = '%s hat sich eingeloggt (%s)' % ( user.first_name, datetime.now().strftime( '%d.%m.%Y %H:%M' ) )
-                    message = '%s\n\nClient: %s\nIP: %s' % ( subject, request.META['HTTP_USER_AGENT'], request.META['REMOTE_ADDR'] )
+                    message = '%s\n\nClient: %s\nIP: %s\n\nhttp://www.aikido-dojo-seishinkan.de/' % ( subject, request.META['HTTP_USER_AGENT'], request.META['REMOTE_ADDR'] )
                     mail_admins( subject, message, fail_silently = True )
                 except:
                     pass
