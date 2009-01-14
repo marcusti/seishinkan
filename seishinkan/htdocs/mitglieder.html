@@ -15,15 +15,17 @@
 
 <h3>{%trans "Trainerlisten" %}</h3>
 <ul class="event">
+  <li class="postmeta">Blanko Liste als Vorlage fuer den monatlichen Trainingsplan.</li>
 {% for monat in months %} 
- <li><a href="/trainerliste/{{ monat|date:"Y" }}/{{ monat|date:"n" }}/" class="">Trainerliste {{ monat|date:"F Y" }}</a> (blanko)</li>
+ <li><a href="/trainerliste/{{ monat|date:"Y" }}/{{ monat|date:"n" }}/" class="">Trainerliste {{ monat|date:"F Y" }}</a></li>
 {% endfor %}
 </ul>
 
 <h3>{%trans "Teilnehmererlisten" %}</h3>
 <ul class="event">
+  <li class="postmeta">Blanko Teilnehmerliste aller Mitglieder nach Vornamen sortiert. Drucklayout bitte manuell anpassen.</li>
 {% for monat in months %} 
- <li><a href="/teilnehmerliste/{{ monat|date:"Y" }}/{{ monat|date:"n" }}/" class="">Teilnehmerliste {{ monat|date:"F Y" }}</a> (noch in Arbeit)</li>
+ <li><a href="/teilnehmerliste/{{ monat|date:"Y" }}/{{ monat|date:"n" }}/" class="">Teilnehmerliste {{ monat|date:"F Y" }}</a></li>
 {% endfor %}
 </ul>
 {% endblock %}
