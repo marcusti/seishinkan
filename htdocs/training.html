@@ -5,6 +5,7 @@
 
 <h3>{% trans "Trainingszeiten" %}</h3>
 
+{% if training_aktuell %}
 <ul class="event">
         {% for meldung in training_aktuell%}
           <li class="page_item small">
@@ -12,6 +13,7 @@
           </li>
         {% endfor %}
 </ul>
+{% endif %}
 
 <div class="postentry">
   <table id="trainingszeiten" class="small">
