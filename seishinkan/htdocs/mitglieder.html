@@ -15,7 +15,7 @@
 
 <h3>{%trans "Trainerlisten" %}</h3>
 <ul class="event">
-  <li class="postmeta">Blanko Liste als Vorlage fuer den monatlichen Trainingsplan.</li>
+  <li class="postmeta">Blanko Liste als Vorlage für den monatlichen Trainingsplan.</li>
 {% for monat in months %} 
  <li><a href="/trainerliste/{{ monat|date:"Y" }}/{{ monat|date:"n" }}/" class="">Trainerliste {{ monat|date:"F Y" }}</a></li>
 {% endfor %}
