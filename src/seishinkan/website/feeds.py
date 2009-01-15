@@ -1,5 +1,6 @@
 #-*- coding: utf-8 -*-
 
+from datetime import datetime
 from django.contrib.syndication.feeds import Feed
 from django.utils.feedgenerator import Atom1Feed
 from seishinkan.website.models import Termin
@@ -16,7 +17,9 @@ class TerminFeed( Feed ):
 
     def item_pubdate( self, item ):
         try:
-            return item.modified
+            #return item.modified
+            b = item.beginn
+            return datetime( b.year, b.month, b.day )
         except:
             pass
 
