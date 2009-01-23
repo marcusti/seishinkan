@@ -43,7 +43,7 @@ class News( AbstractModel ):
     text.allow_tags = True
 
     def neu( self ):
-        return ( date.today() - self.beginn ).days < 7
+        return ( date.today() - self.beginn ).days < 14
     neu.short_description = _( u'Neu' )
     neu.allow_tags = False
 
