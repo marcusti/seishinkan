@@ -1,4 +1,4 @@
 {% autoescape off %}
 {{ obj.einleitung }}
-{{ obj.text }}
+{{ obj.text|truncatewords:100 }}
 {% endautoescape %}
