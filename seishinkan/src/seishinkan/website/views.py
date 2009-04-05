@@ -351,7 +351,7 @@ def trainerliste_xls( request, year, month ):
         year = int( year )
         month = int( month )
     except:
-        nm = get_next_month()
+        nm = get_next_month( date.today() )
         year = nm.year
         month = nm.month
 
@@ -462,7 +462,7 @@ def teilnehmerliste_xls( request, year, month ):
         year = int( year )
         month = int( month )
     except:
-        nm = get_next_month()
+        nm = get_next_month( date.today() )
         year = nm.year
         month = nm.month
 
@@ -575,7 +575,7 @@ def mitgliederlisten( request ):
 
     ctx['menu'] = 'mitgliederlisten'
     ctx['status'] = STATUS
-    ctx['months'] = [ date.today(), get_next_month() ]
+    ctx['months'] = [ date.today(), get_next_month( date.today() ) ]
 
     return __create_response( request, ctx, 'mitglieder.html' )
 
