@@ -19,32 +19,32 @@ STATUS = [
 
 GRADUIERUNGEN = [
     ( 1000, _( u'10. Dan' ) ),
-    ( 900,   _( u'9. Dan' ) ),
-    ( 800,   _( u'8. Dan' ) ),
-    ( 700,   _( u'7. Dan' ) ),
-    ( 600,   _( u'6. Dan' ) ),
-    ( 500,   _( u'5. Dan' ) ),
-    ( 400,   _( u'4. Dan' ) ),
-    ( 300,   _( u'3. Dan' ) ),
-    ( 200,   _( u'2. Dan' ) ),
-    ( 100,   _( u'1. Dan' ) ),
+    ( 900, _( u'9. Dan' ) ),
+    ( 800, _( u'8. Dan' ) ),
+    ( 700, _( u'7. Dan' ) ),
+    ( 600, _( u'6. Dan' ) ),
+    ( 500, _( u'5. Dan' ) ),
+    ( 400, _( u'4. Dan' ) ),
+    ( 300, _( u'3. Dan' ) ),
+    ( 200, _( u'2. Dan' ) ),
+    ( 100, _( u'1. Dan' ) ),
 
-    ( 50,    _( u'1. Kyu' ) ),
-    ( 40,    _( u'2. Kyu' ) ),
-    ( 30,    _( u'3. Kyu' ) ),
-    ( 20,    _( u'4. Kyu' ) ),
-    ( 10,    _( u'5. Kyu' ) ),
+    ( 50, _( u'1. Kyu' ) ),
+    ( 40, _( u'2. Kyu' ) ),
+    ( 30, _( u'3. Kyu' ) ),
+    ( 20, _( u'4. Kyu' ) ),
+    ( 10, _( u'5. Kyu' ) ),
 
-    ( -10,    _( u'1.2 Kinder-Kyu' ) ),
-    ( -11,    _( u'1.1 Kinder-Kyu' ) ),
-    ( -20,    _( u'2.2 Kinder-Kyu' ) ),
-    ( -21,    _( u'2.1 Kinder-Kyu' ) ),
-    ( -30,    _( u'3.2 Kinder-Kyu' ) ),
-    ( -31,    _( u'3.1 Kinder-Kyu' ) ),
-    ( -40,    _( u'4.2 Kinder-Kyu' ) ),
-    ( -41,    _( u'4.1 Kinder-Kyu' ) ),
-    ( -50,    _( u'5.2 Kinder-Kyu' ) ),
-    ( -51,    _( u'5.1 Kinder-Kyu' ) ),
+    ( -10, _( u'1.2 Kinder-Kyu' ) ),
+    ( -11, _( u'1.1 Kinder-Kyu' ) ),
+    ( -20, _( u'2.2 Kinder-Kyu' ) ),
+    ( -21, _( u'2.1 Kinder-Kyu' ) ),
+    ( -30, _( u'3.2 Kinder-Kyu' ) ),
+    ( -31, _( u'3.1 Kinder-Kyu' ) ),
+    ( -40, _( u'4.2 Kinder-Kyu' ) ),
+    ( -41, _( u'4.1 Kinder-Kyu' ) ),
+    ( -50, _( u'5.2 Kinder-Kyu' ) ),
+    ( -51, _( u'5.1 Kinder-Kyu' ) ),
 ]
 
 class Land( AbstractModel ):
@@ -139,7 +139,7 @@ class Mitglied( AbstractModel ):
         name = self.name()
         email = self.email.strip()
         if not name == '' and not email == '':
-            return '"%s" <%s>' % (name, email)
+            return '"%s" <%s>' % ( name, email )
         if email == '':
             return name
         if name == '':

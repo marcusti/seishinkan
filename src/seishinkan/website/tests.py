@@ -14,8 +14,8 @@ NAME_SUB = 'Sub'
 
 class UtilsTest( TestCase ):
     def testNextMonth( self ):
-        self.assertEquals( get_next_month( date( 2008, 12, 29 ) ), date(2009, 1, 1) )
-        self.assertEquals( get_next_month( date( 2009, 1, 1 ) ), date(2009, 2, 1) )
+        self.assertEquals( get_next_month( date( 2008, 12, 29 ) ), date( 2009, 1, 1 ) )
+        self.assertEquals( get_next_month( date( 2009, 1, 1 ) ), date( 2009, 2, 1 ) )
 
 class EmailTest( TestCase ):
     def setUp( self ):
@@ -69,13 +69,13 @@ class SeiteTest( TestCase ):
 
     def testLogin( self ):
         c = Client()
-        self.failIf( c.login( username='super', password='toll' ) )
-        self.failIf( c.login( username='bla', password='blubb' ) )
-        self.failUnless( c.login( username='super', password='super' ) )
+        self.failIf( c.login( username = 'super', password = 'toll' ) )
+        self.failIf( c.login( username = 'bla', password = 'blubb' ) )
+        self.failUnless( c.login( username = 'super', password = 'super' ) )
 
     def testMitgliederlisten( self ):
         c = Client()
-        self.failUnless( c.login( username='super', password='super' ) )
+        self.failUnless( c.login( username = 'super', password = 'super' ) )
 
         response = c.post( '/mitglieder/' )
         self.assertEquals( response.status_code, 200 )

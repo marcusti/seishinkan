@@ -110,7 +110,7 @@ class Bild( AbstractModel ):
         verbose_name_plural = _( u'Bilder' )
 
 class TitelBild( Bild ):
-    
+
     class Meta:
         ordering = ['name']
         verbose_name = _( u'Bild im Kopf' )
@@ -153,7 +153,7 @@ class Seite( AbstractModel ):
             return self.parent.titelbild
 
         return None
-    
+
     def get_sub_sites( self ):
         return self.child_set.filter( public = True ).order_by( 'position', 'name' )
 
@@ -254,7 +254,7 @@ class Termin( AbstractModel ):
     def ist_heute( self ):
         heute = date.today()
         return self.beginn <= heute and self.ende >= heute
-    
+
     def get_absolute_url( self ):
         return '/termin/%i/' % self.id
 
@@ -352,7 +352,7 @@ class TrainingAktuell( AbstractModel ):
     text_ja = models.TextField( _( u'Text (Japanisch)' ), blank = True )
     beginn = models.DateField( _( u'Beginn' ), help_text = u'Ab diesem Datum wird der Text auf der Webseite angezeigt.' )
     ende = models.DateField( _( u'Ende' ), help_text = u'Bis zu diesem Datum (einschließlich) wird der Text auf der Webseite angezeigt.' )
-    
+
     objects = models.Manager()
     public_objects = TrainingAktuellManager()
 
