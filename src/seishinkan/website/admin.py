@@ -31,7 +31,7 @@ class ArtikelAdmin( admin.ModelAdmin ):
     list_display = ( 'get_title', 'preview', 'seite', 'position', 'public', 'id' )
     list_display_links = ( 'get_title', 'preview' )
     list_filter = ( 'seite', )
-    fieldsets = (
+    fieldsets = ( 
         ( None, { 'fields': ( 'seite', 'position', 'public' ) } ),
         ( 'Bild', { 'fields': ( 'bild', 'bild_ausrichtung' ) } ),
         ( 'HTML Code', { 'fields': ( 'text_src', ) } ),
@@ -58,7 +58,7 @@ class TerminAdmin( admin.ModelAdmin ):
 class TrainingsartAdmin( admin.ModelAdmin ):
     ordering = ['name']
     list_display = ( 'name', 'ist_anfaengerkurs', 'ist_kindertraining', 'ist_jugendtraining', 'public', 'id' )
-    fieldsets = (
+    fieldsets = ( 
         ( 'Deutsch', { 'fields': ( 'name', 'text', ) } ),
         ( 'Englisch', { 'fields': ( 'name_en', 'text_en' ), 'classes': ( 'collapse', ) } ),
         ( 'Japanisch', { 'fields': ( 'name_ja', 'text_ja' ), 'classes': ( 'collapse', ) } ),
@@ -73,7 +73,7 @@ class TrainingAktuellAdmin( admin.ModelAdmin ):
     ordering = [ '-ende', '-beginn', 'name' ]
     search_fields = [ 'name', 'text' ]
     list_display = ( 'name', 'text', 'beginn', 'ende', 'public' )
-    fieldsets = (
+    fieldsets = ( 
         ( None, { 'fields': ( 'name', 'text', 'beginn', 'ende', 'public' ) } ),
         ( 'Englisch', { 'fields': ( 'text_en', ), 'classes': ( 'collapse', ) } ),
         ( 'Japanisch', { 'fields': ( 'text_ja', ), 'classes': ( 'collapse', ) } ),

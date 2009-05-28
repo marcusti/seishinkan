@@ -21,7 +21,7 @@ class MitgliedAdmin( admin.ModelAdmin ):
     ordering = ['id']
     list_display = ( 'id', 'vorname', 'nachname', 'aktuelle_graduierung', 'status', 'email', 'alter', 'mitglied_seit' )
     list_display_links = ( 'vorname', 'nachname' )
-    list_filter = ( 'status', 'land', 'ist_vorstand', 'ist_trainer', 'ist_kind', 'mitglied_seit')
+    list_filter = ( 'status', 'land', 'ist_vorstand', 'ist_trainer', 'ist_kind', 'mitglied_seit' )
     list_per_page = 200
     search_fields = ( 'vorname', 'nachname', 'email', 'text' )
     inlines = [ GraduierungInline, ]

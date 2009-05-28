@@ -84,7 +84,7 @@ def index( request, sid = 1 ):
     if seite.show_events:
         ctx['termine'] = Termin.public_objects.current()
         ctx['anzahl_termine'] = Termin.public_objects.all().count()
-        
+
     if seite.show_news:
         ctx['beitraege'] = News.public_objects.all()
 
@@ -98,19 +98,19 @@ def index( request, sid = 1 ):
         if anfaengerkurse and anfaengerkurse.count() > 0:
             ctx['anfaengerkurs_liste'] = anfaengerkurse
             ctx['anfaengerkurs'] = anfaengerkurse[0].art
-        
+
     if seite.show_kinder:
         kindertraining = Training.objects.filter( public = True, art__ist_kindertraining = True )
         if kindertraining and kindertraining.count() > 0:
             ctx['kindertraining_liste'] = kindertraining
             ctx['kindertraining'] = kindertraining[0].art
-        
+
     if seite.show_jugend:
         jugendtraining = Training.objects.filter( public = True, art__ist_jugendtraining = True )
         if jugendtraining and jugendtraining.count() > 0:
             ctx['jugendtraining_liste'] = jugendtraining
             ctx['jugendtraining'] = jugendtraining[0].art
-        
+
     return __create_response( request, ctx )
 
 def my_404( request ):
@@ -172,7 +172,7 @@ def kontakt( request ):
             subject = form.data['subject']
             message = form.data['message']
 
-            # Wenn gewÅ¸nscht, Kopie an den Absender...
+            # Wenn gewÔøΩÔøΩnscht, Kopie an den Absender...
             if form.data.get( 'copy_to_me', False ):
                 to_list.append( from_email )
 
@@ -200,7 +200,7 @@ def kontakt( request ):
             email.subject = subject
             email.body = message
             email.from_email = from_email
-            # EmpfÅ‰ngerliste in Blindkopie (bcc)
+            # EmpfÔøΩÔøΩngerliste in Blindkopie (bcc)
             email.bcc = to_list
             email.headers = { 'Reply-To': from_email }
             email.connection = con
@@ -247,7 +247,7 @@ def mitglieder_xls( request, status = None ):
     header_font.bold = True
     header_style = xl.XFStyle()
     header_style.font = header_font
-    
+
     if status is None:
         mitglieder = Mitglied.public_objects.all().exclude( status = 0 ).order_by( 'id' )
     else:
@@ -261,7 +261,7 @@ def mitglieder_xls( request, status = None ):
         for y, content in enumerate( __get_content( mitglied ) ):
             sheet.write( x + 1, y, content )
             col = y
-            
+
     filename = 'mitglieder-%s.xls' % datetime.now().strftime( '%Y%m%d-%H%M%S' )
     workbook.save( 'tmp/' + filename )
     response = HttpResponse( open( 'tmp/' + filename, 'r' ).read(), mimetype = 'application/ms-excel' )
@@ -392,12 +392,12 @@ def trainerliste_xls( request, year, month ):
     style.alignment = center
     COLX = 6
     i = COLX
-    alle_trainer =  Mitglied.public_objects.get_trainer().order_by('-graduierung', 'graduierung_datum')
+    alle_trainer = Mitglied.public_objects.get_trainer().order_by( '-graduierung', 'graduierung_datum' )
     anzahl_trainer = len ( alle_trainer )
     for t in alle_trainer:
         sheet.write( 0, i, t.vorname, style )
         i += 1
-    
+
     einTag = timedelta( days = 1 )
     style.alignment = center
     row = 1
@@ -418,12 +418,12 @@ def trainerliste_xls( request, year, month ):
 
             style.alignment = center
             for i in range( anzahl_trainer ):
-                sheet.write( row, i+COLX, '', style )
-            
+                sheet.write( row, i + COLX, '', style )
+
             x1 = chr( ord( 'A' ) + COLX ) + str( row + 1 )
             x2 = chr( ord( 'A' ) + COLX + anzahl_trainer - 1 ) + str( row + 1 )
-            sheet.write( row, COLX+anzahl_trainer, xl.Formula( 'COUNTA(%s:%s)' % ( x1, x2 ) ), style )
-                
+            sheet.write( row, COLX + anzahl_trainer, xl.Formula( 'COUNTA(%s:%s)' % ( x1, x2 ) ), style )
+
             row += 1
         datum += einTag
 
@@ -437,18 +437,18 @@ def trainerliste_xls( request, year, month ):
     style.alignment = left
     style.font = f2
     sheet.write( row, 0, fon, style )
-    
-    sheet.row(0).height = 256 * 3
 
-    sheet.col(0).width = 256 * 5
-    sheet.col(1).width = 256 * 12
-    sheet.col(2).width = 256 * 5
-    sheet.col(3).width = 256 * 7
-    sheet.col(4).width = 256 * 7
-    sheet.col(5).width = 256 * 18
+    sheet.row( 0 ).height = 256 * 3
+
+    sheet.col( 0 ).width = 256 * 5
+    sheet.col( 1 ).width = 256 * 12
+    sheet.col( 2 ).width = 256 * 5
+    sheet.col( 3 ).width = 256 * 7
+    sheet.col( 4 ).width = 256 * 7
+    sheet.col( 5 ).width = 256 * 18
     for i in range( anzahl_trainer ):
-        sheet.col(i+COLX).width = 256 * 12
-    sheet.col(COLX + anzahl_trainer).width = 256 * 5
+        sheet.col( i + COLX ).width = 256 * 12
+    sheet.col( COLX + anzahl_trainer ).width = 256 * 5
 
     filename = 'trainerliste-%s.xls' % datetime.now().strftime( '%Y-%m-%d-%H%M%S' )
     workbook.save( 'tmp/' + filename )
@@ -517,7 +517,7 @@ def teilnehmerliste_xls( request, year, month ):
 
     erwachsene = Mitglied.public_objects.get_nicht_passive_mitglieder().filter( ist_kind = False )
     anzahl_erwachsene = len( erwachsene )
-    for i, erwachsener in enumerate( erwachsene):
+    for i, erwachsener in enumerate( erwachsene ):
         style.alignment = left
         row = i + 2
         sheet.write( row, 0, erwachsener.vorname, style )
@@ -549,16 +549,16 @@ def teilnehmerliste_xls( request, year, month ):
             i += 1
 
     kinder = Mitglied.public_objects.get_nicht_passive_mitglieder().filter( ist_kind = True )
-    for i, kind in enumerate( kinder):
+    for i, kind in enumerate( kinder ):
         style.alignment = left
         row = i + anzahl_erwachsene + 6
         sheet.write( row, 0, kind.vorname, style )
         sheet.write( row, 1, kind.nachname, style )
 
-    sheet.col(0).width = 256 * 20
-    sheet.col(1).width = 256 * 20
+    sheet.col( 0 ).width = 256 * 20
+    sheet.col( 1 ).width = 256 * 20
     for i in range( 31 ):
-        sheet.col(i + 2).width = 256 * 5
+        sheet.col( i + 2 ).width = 256 * 5
 
     filename = 'teilnehmerliste-%s.xls' % datetime.now().strftime( '%Y-%m-%d-%H%M%S' )
     workbook.save( 'tmp/' + filename )
@@ -753,7 +753,7 @@ def bilder( request ):
                 pass
 
             albums.append( a )
-            
+
         ctx['username'] = username
         ctx['albums'] = albums
     except Exception, ex:
@@ -838,7 +838,7 @@ def video( request, vid = None ):
 #        videos.append( v )
 #        
 #    ctx['videos'] = videos
-    
+
     return __create_response( request, ctx, 'videos.html' )
 
 def termin( request, tid = None ):

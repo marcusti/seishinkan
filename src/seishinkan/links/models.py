@@ -28,12 +28,12 @@ class LinkKategorie( models.Model ):
         return u'%s' % ( self.name )
 
     class Meta:
-        ordering =[ 'position', 'name' ]
+        ordering = [ 'position', 'name' ]
         verbose_name = _( u'Link-Kategorie' )
         verbose_name_plural = _( u'Link-Kategorien' )
 
 class LinkKategorieAdmin( admin.ModelAdmin ):
-    ordering =[ 'position', 'name' ]
+    ordering = [ 'position', 'name' ]
     list_display = ( 'name', 'position', 'public', 'modified' )
     list_display_links = ( 'name', )
 
@@ -64,7 +64,7 @@ class Link( models.Model ):
         verbose_name = _( u'Link' )
         verbose_name_plural = _( u'Links' )
 
-class LinkAdmin(admin.ModelAdmin):
+class LinkAdmin( admin.ModelAdmin ):
     ordering = [ 'title' ]
     list_display = ( 'title', 'url', 'kategorie', 'position', 'public' )
     list_display_links = ( 'title', 'url' )
