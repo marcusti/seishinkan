@@ -1,16 +1,49 @@
 #-*- coding: utf-8 -*-
 
 from datetime import date
+from django import get_version
+from django.contrib.auth.models import User
 from django.core import mail
+from django.db import connection
 from django.test import TestCase
 from django.test.client import Client
-from django.contrib.auth.models import User
-from django.conf import settings
-from seishinkan.website.models import Seite
+from seishinkan import settings
 from seishinkan.utils import get_next_month
+from seishinkan.website.models import Seite
 
 NAME_START = 'Start'
 NAME_SUB = 'Sub'
+
+print 'Django version ', get_version()
+
+class ConnectionTest( TestCase ):
+    def testConnection( self ):
+        cursor = connection.cursor()
+        cursor.execute( "SELECT version()" )
+        version = cursor.fetchone()[0]
+        self.assertTrue( len( version ) > 0 )
+
+class DependencyTest( TestCase ):
+    def testPil( self ):
+        try:
+            import PIL
+            PIL.__name__
+        except:
+            self.fail( 'library not found: PIL' )
+
+    def testGData( self ):
+        try:
+            import gdata
+            gdata.__author__
+        except:
+            self.fail( 'library not found: gdata' )
+
+    def testPyExcelerator( self ):
+        try:
+            import pyExcelerator
+            pyExcelerator.__rev_id__
+        except:
+            self.fail( 'library not found: pyExcelerator' )
 
 class UtilsTest( TestCase ):
     def testNextMonth( self ):
@@ -83,5 +116,5 @@ class SeiteTest( TestCase ):
 
         # get latest context in list of rendered contexts
         ctx = response.context[ len( response.context ) - 1 ]
-        self.assertEquals( ctx['menu'], 'mitglieder' )
+        self.assertEquals( ctx['menu'], 'mitgliederlisten' )
         self.failUnless( ctx['months'] is not None )
