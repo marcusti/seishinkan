@@ -6,12 +6,12 @@ from django.contrib.admin.models import LogEntry
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
-from django.core.mail import mail_admins, send_mail, send_mass_mail, EmailMessage, SMTPConnection
+from django.core.mail import mail_admins, EmailMessage, SMTPConnection
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
-from django.views.generic.list_detail import object_list, object_detail
-from django.views.generic.simple import direct_to_template, redirect_to
+from django.views.generic.list_detail import object_list
+from django.views.generic.simple import redirect_to
 from django.views.i18n import set_language
 from seishinkan import settings
 from seishinkan.links.models import Link, LinkKategorie
@@ -21,9 +21,11 @@ from seishinkan.utils import UnicodeWriter, get_next_month
 from seishinkan.website.forms import LoginForm, KontaktForm
 from seishinkan.website.models import *
 import captcha
-import django
-import locale, os, platform, re, sys
+import locale
+import os
+import platform
 import pyExcelerator as xl
+import sys
 
 try:
     from django.db import connection
@@ -238,6 +240,8 @@ def admin_log( request ):
 
 @login_required
 def mitglieder_xls( request, status = None ):
+    ctx = __get_sidebar( request )
+
     if not ist_vorstand( request.user ):
         return __create_response( request, ctx, 'keine_berechtigung.html' )
 
@@ -257,10 +261,8 @@ def mitglieder_xls( request, status = None ):
         sheet.write( 0, y, header, header_style )
 
     for x, mitglied in enumerate( mitglieder ):
-        col = 0
         for y, content in enumerate( __get_content( mitglied ) ):
             sheet.write( x + 1, y, content )
-            col = y
 
     filename = 'mitglieder-%s.xls' % datetime.now().strftime( '%Y%m%d-%H%M%S' )
     workbook.save( 'tmp/' + filename )
@@ -270,6 +272,8 @@ def mitglieder_xls( request, status = None ):
 
 @login_required
 def mitglieder_csv( request, status = None ):
+    ctx = __get_sidebar( request )
+
     if not ist_vorstand( request.user ):
         return __create_response( request, ctx, 'keine_berechtigung.html' )
 
