@@ -238,6 +238,8 @@ def admin_log( request ):
 
 @login_required
 def mitglieder_xls( request, status = None ):
+    ctx = __get_sidebar( request )
+
     if not ist_vorstand( request.user ):
         return __create_response( request, ctx, 'keine_berechtigung.html' )
 
@@ -270,6 +272,8 @@ def mitglieder_xls( request, status = None ):
 
 @login_required
 def mitglieder_csv( request, status = None ):
+    ctx = __get_sidebar( request )
+
     if not ist_vorstand( request.user ):
         return __create_response( request, ctx, 'keine_berechtigung.html' )
 
