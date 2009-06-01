@@ -9,6 +9,8 @@ http://www.aikido-dojo-seishinkan.de/
 SEND_BROKEN_LINK_EMAILS = False
 SEND_MAIL_ON_LOGIN = True
 
+TMP_DIR = '/tmp/'
+
 SSL_URLS = [
     r'/log/',
     r'/login/',
@@ -20,8 +22,6 @@ SSL_URLS = [
     r'/permissions/',
     r'/verwaltung/',
 ]
-
-SSL_URLS = []
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
