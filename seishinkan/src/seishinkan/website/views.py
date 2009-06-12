@@ -359,7 +359,7 @@ def trainerliste_xls( request, year, month ):
         year = nm.year
         month = nm.month
 
-    locale.setlocale( locale.LC_ALL, 'de_DE' )
+    #locale.setlocale( locale.LC_ALL, 'de_DE' )
 
     datum = date( year, month, 1 )
     workbook = xl.Workbook()
@@ -409,16 +409,14 @@ def trainerliste_xls( request, year, month ):
         einheitenProTag = TrainingManager().get_einheiten_pro_tag( int( datum.strftime( '%w' ) ) )
         for training in einheitenProTag:
             sheet.row( row ).set_style( style )
-            style.alignment = center
-            sheet.write( row, 0, row, style )
-            sheet.write( row, 1, datum.strftime( '%d.%m.%Y' ), style )
-            style.alignment = center
-            sheet.write( row, 2, training.wochentag.get_name()[:2], style )
-            style.alignment = center
-            sheet.write( row, 3, training.von.strftime( '%H:%M' ), style )
-            sheet.write( row, 4, training.bis.strftime( '%H:%M' ), style )
             style.alignment = left
-            sheet.write( row, 5, training.art.get_name(), style )
+            sheet.write( row, 0, training.wochentag.get_name()[:2], style )
+            style.alignment = center
+            sheet.write( row, 1, datum.strftime( '%d.%m.%Y' ), style )
+            sheet.write( row, 2, training.von.strftime( '%H:%M' ), style )
+            sheet.write( row, 3, training.bis.strftime( '%H:%M' ), style )
+            style.alignment = left
+            sheet.write( row, 4, training.art.get_name(), style )
 
             style.alignment = center
             for i in range( anzahl_trainer ):
@@ -455,8 +453,8 @@ def trainerliste_xls( request, year, month ):
     sheet.col( COLX + anzahl_trainer ).width = 256 * 5
 
     filename = 'trainerliste-%s.xls' % datetime.now().strftime( '%Y-%m-%d-%H%M%S' )
-    workbook.save( 'tmp/' + filename )
-    response = HttpResponse( open( 'tmp/' + filename, 'r' ).read(), mimetype = 'application/ms-excel' )
+    workbook.save( '/tmp/' + filename )
+    response = HttpResponse( open( '/tmp/' + filename, 'r' ).read(), mimetype = 'application/ms-excel' )
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
     return response
 
