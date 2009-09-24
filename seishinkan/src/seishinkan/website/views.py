@@ -227,7 +227,7 @@ def admin_log( request ):
     else:
         qs = LogEntry.objects.none()
 
-    return object_list( 
+    return object_list(
         request,
         queryset = qs,
         paginate_by = 20,
@@ -714,54 +714,7 @@ def links( request ):
 def bilder( request ):
     ctx = __get_sidebar( request )
     ctx['menu'] = 'bilder'
-
-    try:
-        import gdata.photos.service
-        username = 'ehemkemeier'
-        ps = gdata.photos.service.PhotosService()
-        albums = []
-        for album in ps.GetFeed( '/data/feed/api/user/%s?kind=album&thumbsize=160&max-results=10' % ( username ) ).entry:
-            photos = []
-            for photo in ps.GetFeed( '/data/feed/api/user/%s/album/%s?kind=photo&thumbsize=48&max-results=10' % ( username, album.name.text ) ).entry:
-                p = {
-                    'url': photo.GetHtmlLink().href,
-                    'thumb_url': photo.media.thumbnail[0].url,
-                    'thumb_height': photo.media.thumbnail[0].height,
-                    'thumb_width': photo.media.thumbnail[0].width,
-                    }
-
-                if photo.summary.text:
-                    p['title'] = photo.summary.text
-                else:
-                    p['title'] = photo.title.text
-
-                photos.append( p )
-
-            a = {
-                'title': album.title.text,
-                'name': album.name.text,
-                'url': album.GetHtmlLink().href,
-                'numcomments': album.commentCount.text,
-                'numphotos': album.numphotos.text,
-                'thumb_url': album.media.thumbnail[0].url,
-                'thumb_height': album.media.thumbnail[0].height,
-                'thumb_width': album.media.thumbnail[0].width,
-                'photos': photos,
-                }
-
-            try:
-                a['timestamp'] = album.timestamp.text[:10]
-            except:
-                pass
-
-            albums.append( a )
-
-        ctx['username'] = username
-        ctx['albums'] = albums
-    except Exception, ex:
-        mail_admins( 'Picasa error', ex, fail_silently = False )
-        ctx['picasa_error'] = True
-        #raise ex
+    ctx['username'] = 'ehemkemeier'
 
     return __create_response( request, ctx, 'bilder.html' )
 
@@ -789,7 +742,7 @@ def news( request, bid = None ):
             pass
         return __create_response( request, ctx, 'news.html' )
     else:
-        return object_list( 
+        return object_list(
             request,
             queryset = News.public_objects.all(),
             paginate_by = 20,
@@ -838,7 +791,7 @@ def video( request, vid = None ):
 #            'xml': video,
 #            }
 #        videos.append( v )
-#        
+#
 #    ctx['videos'] = videos
 
     return __create_response( request, ctx, 'videos.html' )
@@ -850,7 +803,7 @@ def termin( request, tid = None ):
         ctx['termin'] = get_object_or_404( Termin.public_objects, id = tid )
         return __create_response( request, ctx, 'termin.html' )
     else:
-        return object_list( 
+        return object_list(
             request,
             queryset = Termin.public_objects.all(),
             paginate_by = 20,
@@ -865,7 +818,7 @@ def set_lang( request, code = settings.LANGUAGE_CODE ):
     return set_language( request )
 
 def __create_response( request, context = {}, template_name = 'base.html' ):
-    return render_to_response( 
+    return render_to_response(
         template_name,
         context,
         context_instance = RequestContext( request ),

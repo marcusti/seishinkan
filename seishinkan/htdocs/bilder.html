@@ -2,41 +2,43 @@
 {% load i18n %}
 {% load seishinkan_tags %}
 
+{% block js %}
+ <link  href="/static/js/jquery.slimbox2/jquery.slimbox2.css" rel="stylesheet" type="text/css"/>
+ <script src="/static/js/jquery.slimbox2/jquery.slimbox2.js" type="text/javascript"></script>
+ <script src="/static/js/jquery.blockUI.js" type="text/javascript"></script>
+
+ <link  href="/static/css/pwi.css" rel="stylesheet" type="text/css"/>
+ <script src="/static/js/jquery.pwi.js" type="text/javascript"></script>
+
+ <script type="text/javascript">
+  $(document).ready(function() {
+   $("#images").pwi({
+    username: 'ehemkemeier',
+    albumMaxResults: 20,
+    albumThumbSize: 160,
+    maxResults: 75,
+    thumbSize: 72,
+    thumbCrop: 1,
+    photoSize: 640,
+    showAlbumTitles: true,
+    showAlbumPhotoCount: true,
+    showAlbumdate: true,
+   });
+  });
+ </script>
+{% endblock %}
+
 {% block content %}
 
-<h3>{% trans "Bilder" %}</h3>
+<h3>{% trans "Fotoalben" %}</h3>
 
-{% spaceless %}
-{% if picasa_error %}
-  {% trans "Beim Übertragen der Bilder von Picasa ist ein Fehler aufgetreten. Versuchen Sie es später noch einmal." %}
-  <a href="">{% trans "Neu laden" %}.</a>
-{% else %}
+<div id="images"></div>
+
 <ul class="event">
-{% for album in albums %}
-  <li>
-    <div class="left imageleft">
-      <h5><a href="{{ album.url }}" target="_blank">{{ album.title }}</a></h5>
-      <a href="{{ album.url }}" target="_blank">
-        <img class="left" src="{{ album.thumb_url }}" alt="[{{ album.title}}]" title="{{ album.title }}" width="{{ album.thumb_width }}" height="{{ album.thumb_height }}" /></a>
-
-      {% for photo in album.photos %}
-        <a href="{{ photo.url }}" target="_blank"><img src="{{ photo.thumb_url }}" alt="[{{ photo.title }}]" title="{{ photo.title }}" width="{{ photo.thumb_width }}" height="{{ photo.thumb_height }}" /></a>
-      {% endfor %}
-    </div>
-
-    <div class="clear postmeta">
-      {{ album.timestamp|fromtimestamp|date:"d.m.Y" }}
-      {% if album.numphotos %}, {% blocktrans count album.numphotos as x %}{{ x }} Bild{% plural %}{{ x }} Bilder{% endblocktrans %}{% endif %}
-      {% if album.numcomments %}, {% blocktrans count album.numcomments as x %}{{ x }} Kommentar{% plural %}{{ x }} Kommentare{% endblocktrans %}{% endif %}
-    </div>
-  </li>
-{% endfor %}
-  <li>&nbsp;</li>
   <li class="postmeta">
     <a href="http://picasaweb.google.com/{{ username }}" target="_blank"><img src="/static/bilder/picasaweblogo-de.gif" alt="" title="Picasa Web Alben" /></a>
     <a href="http://picasaweb.google.com/{{ username }}" target="_blank">{% trans "Alle Fotoalben bei Picasa anzeigen." %}</a>
   </li>
 </ul>
-{% endif %}
-{% endspaceless %}
+
 {% endblock %}
