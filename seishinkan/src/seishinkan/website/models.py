@@ -9,6 +9,7 @@ from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
 from seishinkan.utils import DEFAULT_MAX_LENGTH, AbstractModel
 import os
+from PIL import Image
 
 AUSRICHTUNGEN = [
     ( u'left', u'links' ),
@@ -65,8 +66,8 @@ class BildManager( models.Manager ):
 
 class Bild( AbstractModel ):
     name = models.CharField( _( u'Titel' ), unique = True, max_length = DEFAULT_MAX_LENGTH, help_text = u'Der Name muss eindeutig sein.' )
-    bild = models.ImageField( _( u'Datei' ), upload_to = 'bilder/' )
-    vorschau = models.ImageField( _( u'Vorschau' ), upload_to = 'bilder/thumbs/', blank = True, editable = False )
+    bild = models.ImageField( _( u'Datei' ), upload_to = 'bilder' )
+    vorschau = models.ImageField( _( u'Vorschau' ), upload_to = 'bilder/thumbs', blank = True, editable = False )
     max_breit = models.IntegerField( _( u'max. Breite' ), default = 200, help_text = u'Das Bild wird automatisch auf die angegebene Breite skaliert. (Das Seitenverhältnis bleibt erhalten.)' )
     max_hoch = models.IntegerField( _( u'max. Höhe' ), default = 200, help_text = u'Das Bild wird automatisch auf die angegebene Höhe skaliert. (Das Seitenverhältnis bleibt erhalten.)' )
 
@@ -74,22 +75,25 @@ class Bild( AbstractModel ):
     public_objects = BildManager()
 
     def save( self ):
-        if self.bild:
-            if not self.name or self.name.strip() == '':
-                self.name = self.bild.path
-            from PIL import Image
-            THUMBNAIL_SIZE = ( 75, 75 )
-            SCALE_SIZE = ( self.max_breit, self.max_hoch )
-            if not self.vorschau:
-                self.vorschau.save( self.bild.path, self.bild, save = True )
-            image = Image.open( self.bild.path )
-            if image.mode not in ( 'L', 'RGB' ):
-                image = image.convert( 'RGB' )
-            image.thumbnail( SCALE_SIZE, Image.ANTIALIAS )
-            image.save( self.bild.path )
-            image.thumbnail( THUMBNAIL_SIZE, Image.ANTIALIAS )
-            image.save( self.vorschau.path )
-            super( Bild, self ).save()
+        if not self.id and not self.bild:
+            return
+   
+        super(Bild, self).save()
+
+        if not self.name or self.name.strip() == '':
+            self.name = self.bild.path
+
+        THUMBNAIL_SIZE = ( 75, 75 )
+        SCALE_SIZE = ( self.max_breit, self.max_hoch )
+        if not self.vorschau:
+            self.vorschau.save( self.bild.path, self.bild, save = True )
+
+        image = Image.open( self.bild.path )
+        image.resize( SCALE_SIZE )
+        image.save( self.bild.path )
+
+        image.thumbnail( THUMBNAIL_SIZE, Image.ANTIALIAS )
+        image.save( self.vorschau.path )
 
     def admin_thumb( self ):
         try:
