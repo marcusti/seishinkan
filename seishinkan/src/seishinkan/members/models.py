@@ -1,6 +1,7 @@
 #-*- coding: utf-8 -*-
 
 from django.db import models
+from django.db.models import Max
 from django.utils.translation import ugettext as _
 from seishinkan.utils import DEFAULT_MAX_LENGTH, AbstractModel
 from seishinkan.website.templatetags.seishinkan_tags import *
@@ -58,15 +59,7 @@ class Land( AbstractModel ):
         verbose_name = _( u'Land' )
         verbose_name_plural = _( u'Länder' )
 
-class MitgliederManager( models.Manager ):
-    def get_query_set( self ):
-        SQL_VORSCHLAG = "SELECT MAX(graduierung) FROM members_graduierung WHERE members_graduierung.vorschlag=true AND members_graduierung.person_id=members_mitglied.id"
-        SQL_VORSCHLAG_DATUM = "SELECT datum FROM members_graduierung WHERE members_graduierung.person_id=members_mitglied.id AND graduierung=(%s)" % SQL_VORSCHLAG
-        SQL_GRAD = "SELECT MAX(graduierung) FROM members_graduierung WHERE members_graduierung.vorschlag=false AND members_graduierung.person_id=members_mitglied.id"
-        SQL_GRAD_DATUM = "SELECT datum FROM members_graduierung WHERE members_graduierung.person_id=members_mitglied.id AND graduierung=(%s)" % SQL_GRAD
-        return super( MitgliederManager, self ).get_query_set().extra( select = { 'graduierung': SQL_GRAD, 'graduierung_datum': SQL_GRAD_DATUM, 'vorschlag': SQL_VORSCHLAG, 'vorschlag_datum': SQL_VORSCHLAG_DATUM } )
-
-class PublicMitgliederManager( MitgliederManager ):
+class PublicMitgliederManager( models.Manager ):
     def get_query_set( self ):
         return super( PublicMitgliederManager, self ).get_query_set().filter( public = True )
 
@@ -122,7 +115,7 @@ class Mitglied( AbstractModel ):
     ist_kind = models.BooleanField( _( u'Kind' ), default = False )
     bekommt_emails = models.BooleanField( _( u'bekommt Emails' ), default = True )
 
-    objects = MitgliederManager()
+    objects = models.Manager()
     public_objects = PublicMitgliederManager()
 
     def name( self ):
@@ -162,10 +155,9 @@ class Mitglied( AbstractModel ):
         return self.name()
 
     def aktuelle_graduierung( self ):
-        try:
-            return Graduierung.public_objects.get( person__id = self.id, graduierung = self.graduierung )
-        except:
-            return ''
+        graduierungen = Graduierung.public_objects.filter( person__id = self.id, vorschlag = False )
+        agg = graduierungen.aggregate( max_grad = Max( 'graduierung' ) )
+        return graduierungen.filter( graduierung = agg['max_grad'] ).latest( 'datum' )
     aktuelle_graduierung.short_description = _( u'Graduierung' )
     aktuelle_graduierung.allow_tags = True
 

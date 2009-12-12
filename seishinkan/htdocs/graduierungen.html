@@ -39,8 +39,8 @@
  <tr class="{% cycle 'white' 'white' %}">
   <td><a href="/verwaltung/members/mitglied/{{ mitglied.id }}/" title="{{ mitglied }}, {{ mitglied.alter }}, {{ mitglied.get_status_display }}" class="">{{ mitglied }}</a></td>
   <td>{{ mitglied.aktuelle_graduierung }}</td>
-  <td class="postmeta">{{ mitglied.graduierung_datum|date:"d.m.Y" }}</td>
-  <td class="postmeta">{{ mitglied.graduierung_datum|timesince }}</td>
+  <td class="postmeta">{{ mitglied.aktuelle_graduierung.datum|date:"d.m.Y" }}</td>
+  <td class="postmeta">{{ mitglied.aktuelle_graduierung.datum|timesince }}</td>
  </tr>
 {% endif %}
 {% endfor %}

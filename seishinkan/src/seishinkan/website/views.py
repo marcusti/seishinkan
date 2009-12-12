@@ -322,8 +322,6 @@ def __get_content( m ):
         ]
 
 def __get_graduierung( mitglied ):
-    if mitglied is None or mitglied.graduierung is None:
-        return ''
     try:
         return mitglied.aktuelle_graduierung().get_graduierung_display()
     except:
@@ -331,7 +329,7 @@ def __get_graduierung( mitglied ):
 
 def __get_graduierung_datum( mitglied ):
     try:
-        return __get_datum( mitglied.graduierung_datum )
+        return __get_datum( mitglied.aktuelle_graduierung().datum )
     except:
         return ''
 
@@ -348,6 +346,16 @@ def __get_bool( bool ):
         return 'J'
     else:
         return 'N'
+
+def __sort_by_graduation( a, b ):
+    ga = a.aktuelle_graduierung()
+    gb = b.aktuelle_graduierung()
+    if ga is None or gb is None:
+        return cmp( ga, gb)
+    if ga.graduierung == gb.graduierung:
+        return cmp( gb.datum, ga.datum )
+    else:
+        return cmp( ga.graduierung, gb.graduierung )
 
 @login_required
 def trainerliste_xls( request, year, month ):
@@ -394,9 +402,10 @@ def trainerliste_xls( request, year, month ):
     sheet.write( 0, 0, datum.strftime( '%B %Y' ), big )
 
     style.alignment = center
-    COLX = 6
+    COLX = 5
     i = COLX
-    alle_trainer = Mitglied.public_objects.get_trainer().order_by( '-graduierung', 'graduierung_datum' )
+    alle_trainer = list( Mitglied.public_objects.get_trainer() )
+    alle_trainer.sort( lambda x, y: __sort_by_graduation( y, x ) )
     anzahl_trainer = len ( alle_trainer )
     for t in alle_trainer:
         sheet.write( 0, i, t.vorname, style )
@@ -591,7 +600,7 @@ def graduierungen( request ):
     ctx['menu'] = 'graduierungen'
 
     ctx['vorschlaege'] = Graduierung.public_objects.filter( vorschlag = True )
-    ctx['mitglieder'] = Mitglied.public_objects.get_mitglieder().order_by( '-graduierung', 'graduierung_datum', 'vorname', 'nachname' )
+    ctx['mitglieder'] = Mitglied.public_objects.get_mitglieder().order_by( 'graduierung', 'graduierung__datum', 'vorname', 'nachname' )
 #    ctx['vorschlaege'] = Mitglied.public_objects.get_mitglieder().filter( vorschlag = True ).order_by( '-graduierung', 'graduierung_datum', 'vorname', 'nachname' )
 
     return __create_response( request, ctx, 'graduierungen.html' )
