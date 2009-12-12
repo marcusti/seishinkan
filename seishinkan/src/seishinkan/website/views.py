@@ -764,44 +764,34 @@ def video( request, vid = None ):
     ctx = __get_sidebar( request )
     ctx['menu'] = 'videos'
 
-    try:
-        import youtube
-        username = 'eckido'
-        client = youtube.YouTubeClient( 'gmsnG0W2bTA' )
-        ctx['videos'] = client.list_by_user( username, page = 1, per_page = 10 )
-        ctx['username'] = username
+    username = 'eckido'
+    ctx['username'] = username
 
-        if vid:
-            video = client.get_details( vid )
-            if video:
-                ctx['vid'] = vid
-                ctx['watch'] = video
-    except:
+    import gdata.youtube.service
+    ys = gdata.youtube.service.YouTubeService()
+    videos = []
+    if vid:
+        video = ys.GetYouTubeVideoEntry(video_id = vid)
         ctx['vid'] = vid
-        ctx['youtube_error'] = True
+        ctx['watch'] = video
 
-#    import gdata.youtube.service
-#    ys = gdata.youtube.service.YouTubeService()
-#    videos = []
-#    if vid:
-#        feed = None
-#    else:
-#        feed = ys.GetYouTubeVideoFeed( 'http://gdata.youtube.com/feeds/api/videos?author=%s&orderby=published&max-results=10' % username )
-#
-#    for video in feed.entry:
-#        v = {
-#            'id': video.id.text,
-#            'title': video.media.title.text,
-#            'description': video.media.description.text,
-#            'length': video.media.duration.seconds,
-#            'view_count': video.statistics.view_count,
-#            'author': username,
-#            'thumbnail_url': video.media.thumbnail[0].url,
-#            'xml': video,
-#            }
-#        videos.append( v )
-#
-#    ctx['videos'] = videos
+    feed = ys.GetYouTubeVideoFeed( 'http://gdata.youtube.com/feeds/api/videos?author=%s&orderby=published&max-results=10' % username )
+    for video in feed.entry:
+        v = {
+            'id': video.id.text,
+            'title': video.media.title.text,
+            'url': video.media.player.url,
+            'flash': video.GetSwfUrl(),
+            'description': video.media.description.text,
+            'length': video.media.duration.seconds,
+            'view_count': video.statistics.view_count,
+            'author': username,
+            'thumbnail_url': video.media.thumbnail[0].url,
+            'xml': video,
+            }
+        videos.append( v )
+
+    ctx['videos'] = videos
 
     return __create_response( request, ctx, 'videos.html' )
 

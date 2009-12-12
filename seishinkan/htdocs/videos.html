@@ -19,18 +19,14 @@
 
 <p>
   <object width="425" height="344"><param name="movie"
-    value="http://www.youtube.com/v/{{vid }}&hl=en&fs=1"></param><param name="allowFullScreen"
-    value="true"></param><embed src="http://www.youtube.com/v/{{vid}}&hl=en&fs=1"
+    value="{{ vid }}"></param><param name="allowFullScreen"
+    value="true"></param><embed src="{{vid}}&hl=en&fs=1"
     type="application/x-shockwave-flash"
     allowfullscreen="true"
     width="425" height="344"></embed>
   </object>
 
   <div class="clear postmeta">
-    {{ watch.upload_time|fromtimestamp|date:"d.m.Y" }},
-    {% trans "Länge" %}: {{ watch.length_seconds }} sec,
-    {% trans "Aufrufe" %}: {{ watch.view_count }},
-    {% trans "Autor" %}: <a href="http://www.youtube.com/user/{{ watch.author }}" target="_blank">{{ watch.author }}</a>
   </div>
 </p>
 
@@ -41,19 +37,22 @@
 {% for video in videos %}
 {% ifnotequal video.id vid %}
 <li>
-  <h5><a href="/videos/{{ video.id }}/">{{ video.title }}</a></h5>
+  <h5><a href="{{ video.url }}">{{ video.title }}</a></h5>
 
-    <a href="/videos/{{video.id }}/" >
-      <img src="{{ video.thumbnail_url }}" class="imageleft" alt="[{{video.thumbnail_url}}]" title="{{video.title}}"/></a>
+  <object width="425" height="344"><param name="movie"
+    value="{{ video.flash }}"></param><param name="allowFullScreen"
+    value="true"></param><embed src="{{ video.flash }}"
+    type="application/x-shockwave-flash"
+    allowfullscreen="true"
+    width="425" height="344"></embed>
+  </object>
 
-    {{ video.description|linebreaksbr }}
+  <div class="clear postmeta">
+    {% trans "Aufrufe" %}: {{ video.view_count }}
+  </div>
 
-    <div class="clear postmeta">
-      {{ video.upload_time|fromtimestamp|date:"d.m.Y" }},
-      {% trans "Länge" %}: {{ video.length_seconds }} sec,
-      {% trans "Aufrufe" %}: {{ video.view_count }},
-      {% trans "Autor" %}: <a href="http://www.youtube.com/user/{{ video.author }}" target="_blank">{{ video.author }}</a>
-    </div>
+  <div>{{ video.description|default:""|linebreaksbr }}</div>
+
 </li>
 {% endifnotequal %}
 {% endfor %}
