@@ -1,0 +1,14 @@
+syntax: glob
+
+static/bilder
+static/dokumente
+static/downloads
+htdocs/media
+mysettings.py
+*.pyc
+*.yaml
+*.json
+*.sqlite
+*.tgz
+*~
+
