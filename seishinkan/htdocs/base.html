@@ -188,7 +188,7 @@
      <li class="small">
         <a href="/termin/archiv/">{% trans "Archiv" %}</a>
         <span class="postmeta">({{ anzahl_termine }})</span>
-        <span class="postmeta"><a href="/feed/termine/" target="_blank"><img src="/static/images/rss-icon.png" alt="[Seishinkan Termine, Atom Feed]" title="Seishinkan Termine, Atom Feed" /></a></span>
+        <span class="postmeta"><a href="/feed/termine/" target="_blank"><img src="/static/images/rss-icon.png" width="16" height="16" alt="[Seishinkan Termine, Atom Feed]" title="Seishinkan Termine, Atom Feed" /></a></span>
         {% if user.is_authenticated %}<a class="create small" href="/verwaltung/website/termin/add/">{% trans "neuer Termin" %}</a>{% endif %}
     </li>
    </ul>
@@ -219,7 +219,7 @@
           <a href="/news/archiv/">
           {% trans "Archiv" %}</a>
           <span class="postmeta">({{ beitraege|length }})</span>
-          <span class="postmeta"><a href="/feed/news/" target="_blank"><img src="/static/images/rss-icon.png" alt="[Seishinkan News, Atom Feed]" title="Seishinkan News, Atom Feed" /></a></span>
+          <span class="postmeta"><a href="/feed/news/" target="_blank"><img src="/static/images/rss-icon.png" width="16" height="16" alt="[Seishinkan News, Atom Feed]" title="Seishinkan News, Atom Feed" /></a></span>
           {% if user.is_authenticated %}<a class="create small" href="/verwaltung/news/news/add/">{% trans "neuer Beitrag" %}</a>{% endif %}
       </li>
     {% endif %}
@@ -272,9 +272,9 @@
           </li>
 {% endcomment %}
           <li>
-            <a href="/lang/de/"><img class="flag" src="/static/images/de.png" alt="[de]" title="Deutsch" /></a>
-            <a href="/lang/en/"><img class="flag" src="/static/images/en.png" alt="[en]" title="English" /></a>
-            <a href="/lang/ja/"><img class="flag" src="/static/images/ja.png" alt="[ja]" title="日本語" /></a>
+            <a href="/lang/de/"><img class="flag" width="20" height="12" src="/static/images/de.png" alt="[de]" title="Deutsch" /></a>
+            <a href="/lang/en/"><img class="flag" width="20" height="12" src="/static/images/en.png" alt="[en]" title="English" /></a>
+            <a href="/lang/ja/"><img class="flag" width="20" height="12" src="/static/images/ja.png" alt="[ja]" title="日本語" /></a>
 {% comment %}
             <a href="/lang/fr/"><img class="flag" src="/static/images/fr.png" alt="[fr]" title="Français" /></a>
             <a href="/lang/es/"><img class="flag" src="/static/images/es.png" alt="[es]" title="Español" /></a>

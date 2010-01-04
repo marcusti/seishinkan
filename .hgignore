@@ -1,6 +1,7 @@
 syntax: glob
 
 logs
+static/js/tiny_mce
 static/bilder
 static/dokumente
 static/downloads
