@@ -1,9 +1,12 @@
 syntax: glob
 
+logs
 static/bilder
 static/dokumente
 static/downloads
+static/webalizer
 htdocs/media
+tmp
 mysettings.py
 *.pyc
 *.yaml
