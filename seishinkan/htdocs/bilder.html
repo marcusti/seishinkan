@@ -51,6 +51,7 @@
 </ul>
 {% endif %}
 
+{% if photos %}
 <h3>{{ photos.title.text }}</h3>
 <h4 class="postmeta">{{  photos.numphotos.text}} Fotos, {{ photos.timestamp.text|slice:":10"|fromtimestamp|date:"l, j. F Y" }}</h4>
 <div class="entry">
@@ -66,15 +67,14 @@
 {% endfor %}
 </div>
 
-<div class="entry">Album <a href="{{ photos.GetHtmlLink.href }}">{{ photos.title.text }}</a> bei Picasaweb ansehen.</div>
+<br/>
+<div class="">Album <a href="{{ photos.GetHtmlLink.href }}">{{ photos.title.text }}</a> bei Picasaweb ansehen.</div>
+{% endif %}
 
-
-
-<ul class="event">
-  <li class="postmeta">
-    <a href="http://picasaweb.google.com/{{ username }}" target="_blank"><img src="/static/bilder/picasaweblogo-de.gif" alt="" title="Picasa Web Alben" /></a>
+<br/>
+<div class="">
     <a href="http://picasaweb.google.com/{{ username }}" target="_blank">{% trans "Alle Fotoalben bei Picasa anzeigen." %}</a>
-  </li>
-</ul>
+    <br/><br/><a href="http://picasaweb.google.com/" target="_blank"><img src="/static/bilder/picasaweblogo-de.gif" alt="" title="Picasa Web Alben" /></a>
+</div>
 
 {% endblock %}
