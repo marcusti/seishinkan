@@ -2,6 +2,19 @@
 {% load i18n %}
 {% load seishinkan_tags %}
 
+{% block css %}
+ <link rel="stylesheet" href="/static/css/highslide.css" type="text/css" media="screen" />
+{% endblock %}
+
+{% block js %}
+ <script src="/static/js/highslide.min.js" type="text/javascript"></script>
+ <script type="text/javascript">
+  hs.graphicsDir = '/static/css/graphics/';
+  hs.wrapperClassName = 'wide-border';
+  hs.showCredits = false;
+ </script>
+{% endblock %}
+
 {% block content %}
 
 <h3><a href="/bilder/">{% trans "Fotoalben" %}</a></h3>
