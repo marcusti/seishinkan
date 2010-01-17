@@ -24,6 +24,7 @@ import captcha
 import django
 import locale, os, platform, re, sys
 import pyExcelerator as xl
+import gdata.photos.service
 
 try:
     from django.db import connection
@@ -726,6 +727,29 @@ def bilder( request ):
     ctx['username'] = 'ehemkemeier'
 
     return __create_response( request, ctx, 'bilder.html' )
+
+def picasa_albums(request):
+    ctx = __get_sidebar( request )
+    ctx['menu'] = 'bilder'
+    try:
+        service = gdata.photos.service.PhotosService()
+        albums = service.GetUserFeed(user = 'ehemkemeier')
+        ctx['albums'] = albums
+        return __create_response(request, ctx, 'bilder.html')
+    except:
+        raise Http404
+
+def picasa_photos(request, album_name):
+    ctx = __get_sidebar( request )
+    ctx['menu'] = 'bilder'
+    try:
+        service = gdata.photos.service.PhotosService()
+        url = '/data/feed/api/user/ehemkemeier/album/%s?kind=photo&max-results=300&thumbsize=104' % str(album_name)
+        photos = service.GetFeed(url)
+        ctx['photos'] = photos
+        return __create_response(request, ctx, 'bilder.html')
+    except:
+        raise Http404
 
 def downloads( request ):
     ctx = __get_sidebar( request )

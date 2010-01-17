@@ -2,37 +2,60 @@
 {% load i18n %}
 {% load seishinkan_tags %}
 
-{% block js %}
- <link  href="/static/js/jquery.slimbox2/jquery.slimbox2.css" rel="stylesheet" type="text/css"/>
- <script src="/static/js/jquery.slimbox2/jquery.slimbox2.js" type="text/javascript"></script>
- <script src="/static/js/jquery.blockUI.js" type="text/javascript"></script>
-
- <link  href="/static/css/pwi.css" rel="stylesheet" type="text/css"/>
- <script src="/static/js/jquery.pwi.js" type="text/javascript"></script>
-
- <script type="text/javascript">
-  $(document).ready(function() {
-   $("#images").pwi({
-    username: 'ehemkemeier',
-    albumMaxResults: 20,
-    albumThumbSize: 160,
-    maxResults: 75,
-    thumbSize: 72,
-    thumbCrop: 1,
-    photoSize: 640,
-    showAlbumTitles: true,
-    showAlbumPhotoCount: true,
-    showAlbumdate: true,
-   });
-  });
- </script>
-{% endblock %}
-
 {% block content %}
 
-<h3>{% trans "Fotoalben" %}</h3>
+<h3><a href="/bilder/">{% trans "Fotoalben" %}</a></h3>
 
-<div id="images"></div>
+{% if albums %}
+<ul class="event">
+{% for album in albums.entry %}
+<li>
+<h3>{{ album.title.text }}</h3>
+<h4 class="postmeta">
+  {{ album.numphotos.text }} Fotos,
+
+  {% ifequal album.commentCount.text "0" %}
+    keine Kommentare,
+  {% else %}
+    {% ifequal album.commentCount.text "1" %}
+      1 Kommentar,
+    {% else %}
+      {{ album.commentCount.text }} Kommentare,
+    {% endifequal %}
+  {% endifequal %}
+
+  {{ album.timestamp.text|slice:":10"|fromtimestamp|date:"l, j. F Y" }}
+</h4>
+
+<div>
+    <a href="/bilder/{{ album.name.text }}/"><img src="{{ album.media.thumbnail.0.url}}" width="160" height="160" class="imageleft"/></a>
+    {% if album.summary.text %}<p>{{ album.summary.text }}</p>{% endif %}
+    {% if album.text %}<p>{{ album.text }}</p>{% endif %}
+</div>
+<div class="clear"></div>
+</li>
+{% endfor %}
+</ul>
+{% endif %}
+
+<h3>{{ photos.title.text }}</h3>
+<h4 class="postmeta">{{  photos.numphotos.text}} Fotos, {{ photos.timestamp.text|slice:":10"|fromtimestamp|date:"l, j. F Y" }}</h4>
+<div class="entry">
+{% for photo in photos.entry %}
+  <a href="{{ photo.content.src }}" class="highslide" onclick="return hs.expand(this)">
+    <img src="{{ photo.media.thumbnail.0.url}}"
+         class="photo-left"
+         title="{{ photo.title.text }}"
+         alt="[{{ photo.title.text }}]"
+         width="104" height="104"/>
+  </a>
+  {% if photo.summary.text %}<div class="highslide-caption">{{ photo.summary.text }}</div>{% endif %}
+{% endfor %}
+</div>
+
+<div class="entry">Album <a href="{{ photos.GetHtmlLink.href }}">{{ photos.title.text }}</a> bei Picasaweb ansehen.</div>
+
+
 
 <ul class="event">
   <li class="postmeta">
