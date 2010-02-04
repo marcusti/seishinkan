@@ -185,7 +185,7 @@ def kontakt( request ):
 
             # Email senden
             subject = settings.EMAIL_SUBJECT_PREFIX + subject
-            message = '%s\n\n%s' % ( message, settings.EMAIL_MESSAGE_POSTFIX )
+            message = '%s schrieb:\n\n%s\n\n%s' % ( from_email, message, settings.EMAIL_MESSAGE_POSTFIX )
 #            mail = EmailMessage( subject = subject, body = message, to = to_list, bcc = [], headers = { 'Reply-To': from_email } )
 #            mail.send()
 
@@ -200,7 +200,7 @@ def kontakt( request ):
             email = EmailMessage()
             email.subject = subject
             email.body = message
-            email.from_email = from_email
+            email.from_email = settings.STRATO_EMAIL_HOST_USER
             # Empf��ngerliste in Blindkopie (bcc)
             email.bcc = to_list
             email.headers = { 'Reply-To': from_email }
