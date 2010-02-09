@@ -17,6 +17,11 @@ urlpatterns = patterns( '',
     ( r'^feed/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds} ),
  )
 
+if 'rosetta' in settings.INSTALLED_APPS:
+    urlpatterns += patterns('',
+        url(r'^rosetta/', include('rosetta.urls')),
+    )
+
 # Simple Generic Views
 urlpatterns += patterns( 'django.views.generic.simple',
     ( r'^accounts/$', 'redirect_to', {'url': '/'} ),

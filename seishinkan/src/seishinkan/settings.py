@@ -17,6 +17,7 @@ SSL_URLS = [
     r'/mitgliederliste/',
     r'/permissions/',
     r'/verwaltung/',
+    r'/rosetta/',
 ]
 
 # Local time zone for this installation. Choices can be found here:
@@ -85,6 +86,7 @@ INSTALLED_APPS = (
     'seishinkan.members',
     'seishinkan.news',
     'seishinkan.links',
+    'rosetta',
 )
 
 try:
