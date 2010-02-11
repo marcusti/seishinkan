@@ -803,6 +803,9 @@ def video( request, vid = None ):
 
     feed = ys.GetYouTubeVideoFeed( 'http://gdata.youtube.com/feeds/api/videos?author=%s&orderby=published&max-results=10' % username )
     for video in feed.entry:
+        viewcount = 0
+        if video.statistics:
+            viewcount = video.statistics.view_count
         v = {
             'id': video.id.text,
             'title': video.media.title.text,
@@ -810,7 +813,7 @@ def video( request, vid = None ):
             'flash': video.GetSwfUrl(),
             'description': video.media.description.text,
             'length': video.media.duration.seconds,
-            'view_count': video.statistics.view_count,
+            'view_count': viewcount,
             'author': username,
             'thumbnail_url': video.media.thumbnail[0].url,
             'xml': video,
