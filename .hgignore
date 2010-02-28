@@ -16,6 +16,7 @@ mysettings.py
 *.pyc
 *.yaml
 *.json
+*.log
 *.sqlite
 *.tgz
 *~

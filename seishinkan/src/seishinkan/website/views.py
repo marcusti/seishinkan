@@ -585,9 +585,15 @@ def mitgliederlisten( request ):
     if not ist_vorstand( request.user ):
         return __create_response( request, ctx, 'keine_berechtigung.html' )
 
+    d = date.today()
+    months = []
+    for i in range(5):
+        months.append(d)
+        d = get_next_month(d)
+
     ctx['menu'] = 'mitgliederlisten'
     ctx['status'] = STATUS
-    ctx['months'] = [ date.today(), get_next_month( date.today() ) ]
+    ctx['months'] = months
 
     return __create_response( request, ctx, 'mitglieder.html' )
 
