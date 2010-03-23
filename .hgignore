@@ -11,6 +11,7 @@ static/media
 htdocs/media
 tmp
 mysettings.py
+*.dump
 *.pid
 *.nginx
 *.pyc
