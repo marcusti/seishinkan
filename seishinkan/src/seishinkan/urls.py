@@ -13,7 +13,7 @@ feeds = {
 urlpatterns = patterns( '',
     ( r'^i18n/', include( 'django.conf.urls.i18n' ) ),
     ( r'^verwaltung/doc/', include( 'django.contrib.admindocs.urls' ) ),
-    ( r'^verwaltung/(.*)', admin.site.root ),
+    ( r'^verwaltung/', include(admin.site.urls) ),
     ( r'^feed/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds} ),
  )
 
