@@ -56,11 +56,11 @@ class Link( models.Model ):
     def __unicode__( self ):
         return u'%s' % ( self.title )
 
-    def get_absolute_url( self ):
-        return '/links/'
+#    def get_absolute_url( self ):
+#        return '/links/'
 
     class Meta:
-        ordering = [ 'title' ]
+        ordering = [ 'position', 'title' ]
         verbose_name = _( u'Link' )
         verbose_name_plural = _( u'Links' )
 
