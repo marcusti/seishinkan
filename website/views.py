@@ -754,7 +754,7 @@ def picasa_photos(request, album_name):
     ctx['username'] = 'ehemkemeier'
     try:
         service = gdata.photos.service.PhotosService()
-        url = '/data/feed/api/user/%s/album/%s?kind=photo&max-results=300&thumbsize=104' % (ctx['username'], str(album_name))
+        url = '/data/feed/api/user/%s/album/%s?kind=photo&max-results=300&imgmax=800&thumbsize=104' % (ctx['username'], str(album_name))
         photos = service.GetFeed(url)
         ctx['photos'] = photos
         return __create_response(request, ctx, 'bilder.html')
