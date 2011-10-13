@@ -1,0 +1,6 @@
+django
+django-rosetta
+gdata
+markdown
+pyExcelerator
+south

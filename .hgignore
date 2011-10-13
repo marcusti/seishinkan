@@ -20,5 +20,6 @@ mysettings.py
 *.log
 *.sqlite
 *.tgz
+*.sublime-*
 *~
 

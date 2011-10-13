@@ -54,7 +54,7 @@ def __get_sidebar( request ):
     ctx['homepage'] = Seite.public_objects.get_homepage()
 
     ctx['os_version'] = platform.platform( 1, 1 )
-    ctx['python_version'] = '%s.%s.%s %s (%s)' % sys.version_info
+    ctx['python_version'] = '%s' % sys.version
     ctx['db_version'] = db_version
     ctx['db_link'] = db_link
     ctx['django_version'] = get_version()
