@@ -49,6 +49,7 @@ def __get_sidebar(request):
 
     ctx = {}
     ctx['sidebar'] = True
+    ctx['request'] = request
     ctx['seiten'] = Seite.public_objects.filter(parent__isnull=True).order_by('position')
     ctx['language'] = request.session.get('django_language', 'de')
     ctx['training_heute'] = TrainingManager().get_einheiten_pro_tag(heute)
