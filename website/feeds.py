@@ -1,7 +1,7 @@
 #-*- coding: utf-8 -*-
 
 from datetime import datetime
-from django.contrib.syndication.feeds import Feed
+from django.contrib.syndication.views import Feed
 from django.utils.feedgenerator import Atom1Feed
 from seishinkan.website.models import Termin
 from seishinkan.news.models import News

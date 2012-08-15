@@ -14,7 +14,8 @@ urlpatterns = patterns('',
     (r'^i18n/', include('django.conf.urls.i18n')),
     (r'^verwaltung/doc/', include('django.contrib.admindocs.urls')),
     (r'^verwaltung/', include(admin.site.urls)),
-    (r'^feed/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
+    (r'^feed/termine/$', TerminFeed()),
+    (r'^feed/news/$', NewsFeed()),
 )
 
 if 'rosetta' in settings.INSTALLED_APPS:
