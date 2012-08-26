@@ -383,7 +383,7 @@ def trainerliste_xls(request, year, month):
         year = nm.year
         month = nm.month
 
-    locale.setlocale(locale.LC_ALL, 'de_DE')
+    locale.setlocale(locale.LC_ALL, 'de_DE.utf8')
 
     datum = date(year, month, 1)
     workbook = xl.Workbook()
@@ -494,7 +494,7 @@ def teilnehmerliste_xls(request, year, month):
         year = nm.year
         month = nm.month
 
-    locale.setlocale(locale.LC_ALL, 'de_DE')
+    locale.setlocale(locale.LC_ALL, 'de_DE.utf8')
 
     datum = date(year, month, 1)
     workbook = xl.Workbook()
