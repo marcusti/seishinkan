@@ -272,8 +272,8 @@ def mitglieder_xls(request, status=None):
             sheet.write(x + 1, y, content)
 
     filename = 'mitglieder-%s.xls' % datetime.now().strftime('%Y%m%d-%H%M%S')
-    workbook.save('tmp/' + filename)
-    response = HttpResponse(open('tmp/' + filename, 'r').read(), mimetype='application/ms-excel')
+    workbook.save('/tmp/' + filename)
+    response = HttpResponse(open('/tmp/' + filename, 'r').read(), mimetype='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
     return response
 
@@ -589,8 +589,8 @@ def teilnehmerliste_xls(request, year, month):
         sheet.col(i + 2).width = 256 * 5
 
     filename = 'teilnehmerliste-%s.xls' % datetime.now().strftime('%Y-%m-%d-%H%M%S')
-    workbook.save('tmp/' + filename)
-    response = HttpResponse(open('tmp/' + filename, 'r').read(), mimetype='application/ms-excel')
+    workbook.save('/tmp/' + filename)
+    response = HttpResponse(open('/tmp/' + filename, 'r').read(), mimetype='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
     return response
 
