@@ -1,8 +1,8 @@
 import urllib2, urllib
 
-API_SSL_SERVER="https://api-secure.recaptcha.net"
-API_SERVER="http://api.recaptcha.net"
-VERIFY_SERVER="api-verify.recaptcha.net"
+API_SSL_SERVER="https://www.google.com/recaptcha/api"
+API_SERVER="http://www.google.com/recaptcha/api"
+VERIFY_SERVER="www.google.com"
 
 class RecaptchaResponse(object):
     def __init__(self, is_valid, error_code=None):
@@ -20,7 +20,7 @@ def displayhtml (public_key,
 
     error_param = ''
     if error:
-	error_param = '&error=%s' % error
+        error_param = '&error=%s' % error
 
     if use_ssl:
         server = API_SSL_SERVER
@@ -59,17 +59,21 @@ def submit (recaptcha_challenge_field,
             len (recaptcha_response_field) and len (recaptcha_challenge_field)):
         return RecaptchaResponse (is_valid = False, error_code = 'incorrect-captcha-sol')
     
-    
-    
+
+    def encode_if_necessary(s):
+        if isinstance(s, unicode):
+            return s.encode('utf-8')
+        return s
+
     params = urllib.urlencode ({
-	    'privatekey': private_key,
-            'remoteip' : remoteip,
-	    'challenge': recaptcha_challenge_field,
-	    'response' : recaptcha_response_field,
-	    })
+            'privatekey': encode_if_necessary(private_key),
+            'remoteip' :  encode_if_necessary(remoteip),
+            'challenge':  encode_if_necessary(recaptcha_challenge_field),
+            'response' :  encode_if_necessary(recaptcha_response_field),
+            })
 
     request = urllib2.Request (
-        url = "http://%s/verify" % VERIFY_SERVER,
+        url = "http://%s/recaptcha/api/verify" % VERIFY_SERVER,
         data = params,
         headers = {
             "Content-type": "application/x-www-form-urlencoded",
@@ -88,5 +92,3 @@ def submit (recaptcha_challenge_field,
         return RecaptchaResponse (is_valid=True)
     else:
         return RecaptchaResponse (is_valid=False, error_code = return_values [1])
-
-
