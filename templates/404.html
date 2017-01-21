@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<h3>Fehler 404</h3>
+
+<p>
+  <span class="postmeta">{{ request_path }}</span><br/>
+  {% trans "Die angeforderte Seite wurde nicht gefunden." %}
+</p>
+
+{% endblock %}

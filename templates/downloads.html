@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load seishinkan_tags %}
+
+{% block content %}
+
+<h3>{% trans "Downloads" %}</h3>
+
+{% if user.is_authenticated %}
+  <p><a class="create small" href="/verwaltung/website/download/add/">{% trans "neuen Download erstellen" %}</a></p>
+{% endif %}
+
+{% if downloads %}
+<div class="post">
+<div class="postentry">
+<ul class="event">
+
+{% for download in downloads %}
+  <li>
+{#    {% if download.vorschau %}<img class="left" src="{{ download.vorschau.url }}" width="{{ download.vorschau.width }}" height="{{ download.vorschau.height }}" alt="[]" title="" />{% endif %} #}
+{#    <div class="right small postmeta">{{ download.modified|date:"d.m.Y G:i" }}</div> #}
+    <div class="right small postmeta">
+      {{ download.datei.size|filesizeformat }},
+      {{ download.datei|extension|lower }}
+    </div>
+    {% if download.neu %}<span class="neu">{% trans "NEU" %}</span>{% endif %}
+    <a href="{{ download.datei.url }}">{{ download.name }}</a>
+    <br/>
+    {{ download.text|linebreaksbr }}
+    {% if user.is_authenticated %}<a class="edit small" href="/verwaltung/website/download/{{ download.id }}/">{% trans "bearbeiten" %}</a>{% endif %}
+    <div class="clear"></div>
+  </li>
+{% endfor %}
+
+</ul>
+</div>
+</div>
+{% endif %}
+
+{% endblock %}

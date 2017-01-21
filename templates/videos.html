@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load seishinkan_tags %}
+
+{% block content %}
+
+<h3>{% trans "Videos" %}</h3>
+
+{% if youtube_error %}
+  <p class="error">Beim Abrufen der Videos von Youtube ist ein Fehler aufgetreten. 
+  {% if vid %}<br/>Video: {{ vid }}{% endif %}</p>
+{% endif %}
+
+{% if watch %}
+
+<h5>{{ watch.title }}</h5>
+
+{{ watch.description|linebreaksbr }}
+
+<p>
+  <object width="425" height="344"><param name="movie"
+    value="{{ vid }}"></param><param name="allowFullScreen"
+    value="true"></param><embed src="{{vid}}&hl=en&fs=1"
+    type="application/x-shockwave-flash"
+    allowfullscreen="true"
+    width="425" height="344"></embed>
+  </object>
+
+  <div class="clear postmeta">
+  </div>
+</p>
+
+<br/>
+{% endif %}
+
+<ul class="event">
+{% for video in videos %}
+{% ifnotequal video.id vid %}
+<li>
+  <h5><a href="{{ video.url }}">{{ video.title }}</a></h5>
+
+  <object width="425" height="344"><param name="movie"
+    value="{{ video.flash }}"></param><param name="allowFullScreen"
+    value="true"></param><embed src="{{ video.flash }}"
+    type="application/x-shockwave-flash"
+    allowfullscreen="true"
+    width="425" height="344"></embed>
+  </object>
+
+  <div class="clear postmeta">
+    {% trans "Aufrufe" %}: {{ video.view_count }}
+  </div>
+
+  <div>{{ video.description|default:""|linebreaksbr }}</div>
+
+</li>
+{% endifnotequal %}
+{% endfor %}
+  <li>&nbsp;</li>
+  <li class="postmeta">
+    <a href="http://www.youtube.com/user/{{ username }}" target="_blank"><img src="/static/bilder/YouTube.jpg" alt="" title="" /></a>
+    <a href="http://www.youtube.com/user/{{ username }}" target="_blank">{% trans "Alle Videos bei Youtube anzeigen." %}</a>
+  </li>
+</ul>
+{% endblock %}

@@ -1,0 +1,119 @@
+body{margin:0;padding:0;background:#e8e8ce;font-size:90%;font-family:"Lucida Grande","Lucida Sans Unicode",Verdana,Arial,sans-serif;color:#333;text-align:center;}
+p{font-size:1em;line-height:1.5em;margin:1.2em 0;}
+ol,ul{font-size:1em;line-height:1.5em;margin:1.2em 0 1em 1em;padding:0;}
+h1,h2,h3,h4,h5,h6{margin:1em 0 1em 0;font-family:"Lucida Grande",Tahoma,Arial,sans-serif;color:#9bbb38;}
+h1,h2{font-size:1.4em;}
+h3{font-size:1.3em;}
+h4{font-size:1.2em;}
+h5{font-size:1.1em;}
+h6{font-size:1em;}
+a{text-decoration:none;}
+a:link{color:#b96f17;}
+a:visited,a:active{color:#e58712;}
+a:hover{color:#9bbb38;}
+input,textarea,select{border:1px solid #c1c0b5;background:#fafaf0;font-size:1em;font-family:"Lucida Sans Unicode",Tahoma,Arial,sans-serif;}
+blockquote{margin:1.2em 20px;padding:.1em 20px;border-top:1px solid #e8e7d0;border-bottom:1px solid #e8e7d0;background:#fafaf0;}
+.small,small{font-size:.9em;}
+.smaller{font-size:.7em;}
+code{font-size:1.1em;font-family:"Courier New",Courier,monospace;background:#fafaf0;color:#666;}
+form{margin:0;padding:0;border:0;}
+a img{border:0;}
+#wrapper{margin:0 auto;width:800px;background-color:#FFF;text-align:left;}
+#header{background-color:#f5f5e7;background-color:#FFF;border-bottom:10px solid #9bbb38;border-top:10px solid #e8e8ce;}
+#header h1{margin:0;font-size:1.8em;}
+#header h1 a{text-decoration:none;color:#80904f;}
+#navigation{height:1.5em;background:#9bbb38;color:#fff;}
+#navigation li{float:left;list-style-type:none;border-right:1px solid #fff;white-space:nowrap;}
+#navigation li a{display:block;padding:0 10px;text-transform:uppercase;text-decoration:none;background-color:inherit;color:#fff;}
+* html #navigation a{width:1%;}
+#navigation .selected,#navigation a:hover{background:#80b0da;background:#2a5a8a;background:#FFF;color:#9bbb38;text-decoration:none;}
+#content{float:left;margin:0 0 0 20px;width:550px;overflow:hidden;display:inline;}
+#sidebar{float:right;margin:0 20px 0 20px;padding:1.8em 0 0 0;width:190px;font-size:.9em;font-weight:bold;overflow:hidden;display:inline;}
+#footer{clear:both;font-size:.9em;text-align:right;}
+#footer table{margin:10px 0 0 0;padding:10px 0 20px 0;background-color:#e8e8ce;border-top:10px solid #9bbb38;font-size:.9em;text-align:right;}
+#sidebar h2{display:inline;margin:1.2em 0 .6em 0;padding:0 10px 0 0;font-size:1.1em;}
+#sidebar h2 a{color:#9bbb38;}
+#sidebar h2 a:hover{color:#e58712;}
+#sidebar ul{margin:0;padding:0;list-style-type:none;}
+#sidebar ul ul{margin:.75em 0;border-top:1px solid #e8e7d0;background-color:#fafaf0;}
+#sidebar ul ul li{padding:0 0 0 10px;border-bottom:1px solid #e8e7d0;}
+#sidebar ul ul li a{display:block;margin:0 0 0 -10px;padding:.1em 10px;width:190px;voice-family:"\"}\"";voice-family:inherit;width:170px;}
+html>body #sidebar ul ul li a{width:170px;}
+#sidebar ul ul li a:hover{background-color:#FFF;}
+#sidebar ul ul ul{margin:0 0 0 -10px;border:none;}
+#sidebar ul ul ul li{margin:0 0 0 -10px;padding:0 0 0 35px;border-bottom:none;border-top:1px solid #e8e7d0;}
+#sidebar ul ul ul li a{margin:0 0 0 -25px;padding:.1em 10px .1em 25px;width:190px;voice-family:"\"}\"";voice-family:inherit;width:155px;}
+html>body #sidebar ul ul ul li a{width:155px;}
+#wp-calendar{margin:0 0 1.2em 0;width:190px;border:1px solid #e8e7d0;background:#fafaf0;line-height:1.2em;text-align:center;voice-family:"\"}\"";voice-family:inherit;width:188px;}
+html>body #wp-calendar{width:188px;}
+#wp-calendar caption{margin:1.2em 0 0 0;padding:.4em 0;background:#9bbb38;color:#FFF;font-weight:bold;}
+#wp-calendar td{border:0;border-collapse:collapse;background:#FFF;}
+#wp-calendar td a{display:block;width:100%;}
+#wp-calendar td.pad{background:transparent;}
+#wp-calendar td#next,#wp-calendar td#prev{padding:.1em 2px;background:transparent;}
+#wp-calendar td#next a,#wp-calendar td#prev a{display:inline;}
+#wp-calendar td#next{text-align:right;}
+#wp-calendar td#prev{text-align:left;}
+.post{clear:both;}
+.posttitle{margin-bottom:0;width:100%;color:#FFF;overflow:auto;}
+.posttitle a{float:left;padding:0 10px;}
+.posttitle a:link,.posttitle a:visited{color:#FFF;}
+.posttitle a:hover,.posttitle a:active{color:#80904f;}
+.postmeta{margin-top:0;padding-top:.1em;font-size:.9em;color:#999;}
+.postentry{text-align:justify;}
+.postentry p{font-size:1em;line-height:1.5em;}
+.postentry ul{font-size:1em;line-height:1.5em;margin:0;padding:0;}
+.postentry li{padding:0 20px;}
+.permalink{margin:0 1.8em 0 0;padding:0 0 0 14px;}
+.commentslink{padding:0 0 0 17px;}
+.postnav{width:100%;padding:1.2em 0;overflow:auto;}
+.prev{float:left;}
+.next{float:right;}
+.event{border-bottom:1px solid #e8e7d0;list-style-type:none;}
+.event li{border-top:1px solid #e8e7d0;padding:.1em 10px;background-color:#FFF;}
+.flags{border-bottom:0 solid #9bbb38;list-style-type:none;padding:0;margin:0;}
+.flags li{border-top:0 solid #9bbb38;padding:0;margin:1em 0 0 0;background-color:#e8e8ce;}
+#commentlist{margin:1.2em 0;padding:0;border-bottom:1px solid #e8e7d0;list-style-type:none;}
+#commentlist li{border-top:1px solid #e8e7d0;padding:.1em 20px;background-color:#FFF;}
+.alt{background-color:#fafaf0!important;}
+.commenttitle{margin-bottom:0;font-size:1.1em;}
+.commentmeta{margin-top:0;font-size:.9em;color:#999;}
+#comment{width:98%;}
+.widget_calendar h2{display:none!important;}
+.widget_search div{margin:1.2em 0;}
+#sidebar #s{margin-bottom:2px;width:180px;}
+div.image{margin:1.2em 0;}
+div.imagecenter{margin:1.2em 0;text-align:center;}
+div.imagecenter img{margin:0 auto;}
+div.imageleft,img.imageleft{float:left;margin:0 15px .2em 0;padding:0;}
+div.imageright,img.imageright{float:right;margin:0 0 .2em 15px;padding:0;}
+div.image img,img.image,div.imagecenter img,div.imageleft img,img.imageleft,div.imageright img,img.imageright{padding:5px;border:0 solid #c1c0b5;background:#FFF;}
+#trainingszeiten{width:100%;}
+#trainingszeiten td{text-align:center;margin:0;padding:.2em;background-color:#fafaf0;}
+#trainingszeiten th{text-align:center;margin:0;padding:.2em;color:white;background-color:#9bbb38;}
+.archiv table{width:100%;}
+.archiv td{text-align:left;vertical-align:top;margin:0;padding:.2em;background-color:#f5f5e7;}
+.archiv th{font-size:1em;text-align:left;vertical-align:top;margin:0;padding:.2em;color:white;background-color:#9bbb38;}
+.columnhover tr:hover{background-color:#fce94f;}
+.white,.archiv .white{background-color:white;}
+#trainingszeiten .training4{background-color:#9bbb38;}
+#trainingszeiten .training5{background-color:#e8e8ce;}
+#trainingszeiten .training3{background-color:#fce94f;}
+#trainingszeiten .training6{background-color:#fce94f;}
+#trainingszeiten .training2{background-color:#e8e8ce;}
+#trainingszeiten .training1{background-color:#e8e8ce;}
+a.edit{background-color:#edd400;color:white;}
+a.edit:hover{color:#edd400;background-color:white;}
+a.create{background-color:#f57900;color:white;}
+a.create:hover{color:#f57900;background-color:white;}
+a.create,a.create:hover,a.edit,a.edit:hover{padding:0 2px;}
+.neu{background-color:#f57900;color:white;padding:0 2px;}
+.error{color:red;}
+.errorlist{list-style-type:circle;list-style-position:inside;}
+.errorlist li{list-style-type:none;list-style-position:inside;}
+.right{float:right;}
+.left{float:left;}
+.clear{clear:both;}
+img.flag{border:1px solid #c1c0b5;margin:0;padding:0;}
+.current{background:#e8e8ce;}
+.paginator td{padding:0 1em;text-align:center;}

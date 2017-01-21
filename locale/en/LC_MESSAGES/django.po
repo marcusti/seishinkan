@@ -1,0 +1,990 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-02-09 23:23+0100\n"
+"PO-Revision-Date: 2010-02-09 23:30\n"
+"Last-Translator: Marcus Titze <marcus.titze@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Translated-Using: django-rosetta 0.5.2\n"
+
+#: htdocs/404.html:9
+msgid "Die angeforderte Seite wurde nicht gefunden."
+msgstr "The requested site could not be found."
+
+#: htdocs/500.html:7
+msgid "Please try again later."
+msgstr ""
+
+#: htdocs/admin_log.html:7
+msgid "Letzte Änderungen"
+msgstr ""
+
+#: htdocs/base.html:58
+msgid "Seite bearbeiten"
+msgstr "edit site"
+
+#: htdocs/base.html:59
+msgid "neue Seite erstellen"
+msgstr "create new site"
+
+#: htdocs/base.html:60
+msgid "neuen Artikel erstellen"
+msgstr "create new article"
+
+#: htdocs/base.html:70
+msgid "Artikel bearbeiten"
+msgstr "edit article"
+
+#: htdocs/base.html:111 htdocs/base.html.py:135 htdocs/base.html.py:160
+#: htdocs/base.html:183 htdocs/base.html.py:214 htdocs/downloads.html:30
+#: htdocs/links.html:19 htdocs/mailverteiler.html:30
+#: htdocs/mailverteiler.html.py:43 htdocs/mailverteiler.html:56
+#: htdocs/mailverteiler.html.py:65 htdocs/news.html:9 htdocs/news_list.html:21
+#: htdocs/termin.html:10 htdocs/termine_list.html:20
+msgid "bearbeiten"
+msgstr "edit"
+
+#: htdocs/base.html:169
+msgid "aktuelle Termine"
+msgstr "Current Events"
+
+#: htdocs/base.html:172
+msgid "Zur Zeit gibt es keine aktuellen Termine."
+msgstr "No events, sorry."
+
+#: htdocs/base.html:177
+msgid "HEUTE"
+msgstr "TODAY"
+
+#: htdocs/base.html:190 htdocs/base.html.py:221
+msgid "Archiv"
+msgstr "Archive"
+
+#: htdocs/base.html:193
+msgid "neuer Termin"
+msgstr "new event"
+
+#: htdocs/base.html:200
+msgid "aktuelle Beiträge"
+msgstr "Current News"
+
+#: htdocs/base.html:203
+msgid "Zur Zeit gibt es keine Beiträge."
+msgstr "No news, sorry."
+
+#: htdocs/base.html:208 htdocs/downloads.html:26 htdocs/news_list.html:16
+msgid "NEU"
+msgstr "NEW"
+
+#: htdocs/base.html:224
+msgid "neuer Beitrag"
+msgstr "new article"
+
+#: htdocs/base.html:242 htdocs/sidebar.html:58
+msgid "Logout"
+msgstr ""
+
+#: htdocs/base.html:243 htdocs/sidebar.html:49
+msgid "Verwaltung"
+msgstr "Admin"
+
+#: htdocs/base.html:245 htdocs/login.html:8 htdocs/login.html.py:31
+msgid "Login"
+msgstr ""
+
+#: htdocs/base.html:247 htdocs/info.html:5 htdocs/sysinfo.html:5
+msgid "Info"
+msgstr ""
+
+#: htdocs/base.html:248 htdocs/impressum.html:5
+msgid "Impressum"
+msgstr ""
+
+#: htdocs/base.html:251
+msgid "Startseite"
+msgstr "Home"
+
+#: htdocs/base.html:254
+msgid "nach oben"
+msgstr "top"
+
+#: htdocs/base.html:263
+msgid "Sprachauswahl"
+msgstr "Language selection"
+
+#: htdocs/bilder.html:20
+msgid "Fotoalben"
+msgstr "Galleries"
+
+#: htdocs/bilder.html:76
+msgid "Alle Fotoalben bei Picasa anzeigen."
+msgstr "Show all pictures at Picasa."
+
+#: htdocs/downloads.html:7 htdocs/sidebar.html:25
+#: src/seishinkan/website/models.py:421
+msgid "Downloads"
+msgstr ""
+
+#: htdocs/downloads.html:10
+msgid "neuen Download erstellen"
+msgstr ""
+
+#: htdocs/graduierungen.html:8
+msgid "Vorschläge zur Graduierung"
+msgstr "Graduation suggestions"
+
+#: htdocs/graduierungen.html:27
+msgid "Zur Zeit gibt es keine Vorschläge"
+msgstr "No suggestions"
+
+#: htdocs/graduierungen.html:30 htdocs/sidebar.html:45
+#: src/seishinkan/members/models.py:192
+msgid "Graduierungen"
+msgstr "Graduations"
+
+#: htdocs/info.html:32
+msgid "Technische Informationen zur Webseite"
+msgstr ""
+
+#: htdocs/kontakt.html:6 htdocs/kontakt_ok.html:6 htdocs/sidebar.html:27
+#: src/seishinkan/website/models.py:444
+msgid "Kontakt"
+msgstr "Contact"
+
+#: htdocs/kontakt.html:19
+msgid "Wenn Sie kein Automat sind geben Sie bitte die beiden Wörter ein *"
+msgstr "Please type the two words *"
+
+#: htdocs/kontakt.html:23
+msgid "Falsche Eingabe"
+msgstr "Please try again."
+
+#: htdocs/kontakt.html:26
+msgid "Nachricht absenden"
+msgstr "Submit"
+
+#: htdocs/kontakt.html:30
+msgid "erforderliche Angaben"
+msgstr "required"
+
+#: htdocs/kontakt_ok.html:9
+msgid "Vielen Dank für Ihr Interesse. Die Nachricht wurde erfolgreich an das Aikido Dojo Seishinkan versandt."
+msgstr "Your message has been sent to Aikido Dojo Seishinkan. Thank you for your interest."
+
+#: htdocs/links.html:6 htdocs/sidebar.html:26
+#: src/seishinkan/links/models.py:65
+msgid "Links"
+msgstr ""
+
+#: htdocs/links.html:7
+msgid "neuen Link erstellen"
+msgstr ""
+
+#: htdocs/login.html:41
+msgid "Falscher Benutzername oder Passwort."
+msgstr "Wrong username or password."
+
+#: htdocs/mailverteiler.html:7 htdocs/sidebar.html:43
+msgid "Email Verteiler"
+msgstr ""
+
+#: htdocs/mitglieder.html:7 htdocs/sidebar.html:44
+msgid "Mitgliederlisten"
+msgstr "Lists of Members"
+
+#: htdocs/mitglieder.html:10
+msgid "Alle Mitglieder"
+msgstr "All Members"
+
+#: htdocs/mitglieder.html:12 src/seishinkan/members/models.py:167
+msgid "Mitglieder"
+msgstr "Members"
+
+#: htdocs/mitglieder.html:12 src/seishinkan/members/models.py:110
+msgid "Status"
+msgstr "Status"
+
+#: htdocs/mitglieder.html:16
+#, fuzzy
+msgid "Trainerlisten"
+msgstr "Practice Schedule"
+
+#: htdocs/mitglieder.html:24
+#, fuzzy
+msgid "Teilnehmererlisten"
+msgstr "Lists of Members"
+
+#: htdocs/news.html:33
+msgid "nächster Beitrag"
+msgstr "next article"
+
+#: htdocs/news.html:34
+msgid "voriger Beitrag"
+msgstr "previous article"
+
+#: htdocs/news.html:36
+msgid "alle Beiträge anzeigen"
+msgstr "show all articles"
+
+#: htdocs/news_list.html:6
+msgid "alle Beiträge"
+msgstr "News Items"
+
+#: htdocs/news_list.html:23
+msgid "Wörter"
+msgstr "words"
+
+#: htdocs/paginator.html:17
+msgid "zur ersten Seite"
+msgstr "first page"
+
+#: htdocs/paginator.html:17
+msgid "<<"
+msgstr ""
+
+#: htdocs/paginator.html:25
+msgid "eine Seite zurück"
+msgstr "previous page"
+
+#: htdocs/paginator.html:25 htdocs/paginator.html.py:27
+msgid "zurück"
+msgstr "back"
+
+#: htdocs/paginator.html:31 src/seishinkan/website/models.py:178
+#: src/seishinkan/website/models.py:199
+msgid "Seite"
+msgstr "Page"
+
+#: htdocs/paginator.html:31 htdocs/paginator.html.py:55
+msgid "von"
+msgstr "of"
+
+#: htdocs/paginator.html:35
+msgid "eine Seite vor"
+msgstr "next page"
+
+#: htdocs/paginator.html:35 htdocs/paginator.html.py:37
+msgid "vor"
+msgstr "next"
+
+#: htdocs/paginator.html:43
+msgid "zur letzten Seite"
+msgstr "last page"
+
+#: htdocs/paginator.html:43
+msgid ">>"
+msgstr ""
+
+#: htdocs/paginator.html:53
+msgid "Treffer"
+msgstr "Items"
+
+#: htdocs/sidebar.html:22 src/seishinkan/news/models.py:69
+msgid "Beiträge"
+msgstr "News"
+
+#: htdocs/sidebar.html:23 src/seishinkan/website/models.py:114
+msgid "Bilder"
+msgstr "Images"
+
+#: htdocs/sidebar.html:24 htdocs/videos.html:7
+msgid "Videos"
+msgstr ""
+
+#: htdocs/sidebar.html:34
+msgid "Mitgliederbereich"
+msgstr "Members"
+
+#: htdocs/sidebar.html:39
+msgid "Hallo"
+msgstr "Welcome"
+
+#: htdocs/sidebar.html:40
+msgid "Letzte &Auml;nderungen"
+msgstr ""
+
+#: htdocs/sidebar.html:48
+msgid "Statistik"
+msgstr "Statistics"
+
+#: htdocs/sidebar.html:52
+msgid "nicht öffentlich"
+msgstr "not public"
+
+#: htdocs/sidebar.html:66
+msgid "Zuletzt angemeldet"
+msgstr "Last login"
+
+#: htdocs/sidebar.html:75
+msgid "Berechtigungen"
+msgstr "Permissions"
+
+#: htdocs/sidebar.html:86
+msgid "Training heute"
+msgstr "Today's Practice"
+
+#: htdocs/sidebar.html:100
+msgid "Heute findet kein Training statt."
+msgstr "No practice today, sorry."
+
+#: htdocs/sidebar.html:109
+msgid "Meldungen bearbeiten"
+msgstr "edit messages"
+
+#: htdocs/termin.html:40
+msgid "alle Termine anzeigen (Archiv)"
+msgstr "show all events (archive)"
+
+#: htdocs/termine_list.html:6
+msgid "alle Termine"
+msgstr "Events"
+
+#: htdocs/training.html:6
+msgid "Trainingszeiten"
+msgstr "Practice Schedule"
+
+#: htdocs/videos.html:51
+msgid "Aufrufe"
+msgstr "Views"
+
+#: htdocs/videos.html:62
+msgid "Alle Videos bei Youtube anzeigen."
+msgstr "Show all videos at youtube."
+
+#: htdocs/admin/base_site.html:4 htdocs/admin/base_site.html.py:7
+msgid "Aikido Dojo Seishinkan"
+msgstr ""
+
+#: src/seishinkan/settings.py:48
+msgid "Deutsch"
+msgstr ""
+
+#: src/seishinkan/settings.py:49
+msgid "English"
+msgstr ""
+
+#: src/seishinkan/settings.py:50
+msgid "日本語"
+msgstr ""
+
+#: src/seishinkan/links/models.py:18 src/seishinkan/links/models.py:46
+#: src/seishinkan/website/models.py:196
+msgid "Position auf der Seite"
+msgstr "Position on site"
+
+#: src/seishinkan/links/models.py:20 src/seishinkan/links/models.py:49
+#: src/seishinkan/utils/__init__.py:20
+msgid "Öffentlich"
+msgstr "Public"
+
+#: src/seishinkan/links/models.py:21 src/seishinkan/links/models.py:50
+#: src/seishinkan/utils/__init__.py:21
+msgid "Erfasst am"
+msgstr "Created"
+
+#: src/seishinkan/links/models.py:22 src/seishinkan/links/models.py:51
+#: src/seishinkan/utils/__init__.py:22
+msgid "Geändert am"
+msgstr "Modified"
+
+#: src/seishinkan/links/models.py:32
+msgid "Link-Kategorie"
+msgstr "Link Category"
+
+#: src/seishinkan/links/models.py:33
+msgid "Link-Kategorien"
+msgstr "Link Categories"
+
+#: src/seishinkan/links/models.py:45 src/seishinkan/members/models.py:108
+#: src/seishinkan/members/models.py:177 src/seishinkan/news/models.py:25
+#: src/seishinkan/website/models.py:192 src/seishinkan/website/models.py:193
+#: src/seishinkan/website/models.py:194 src/seishinkan/website/models.py:211
+#: src/seishinkan/website/models.py:247 src/seishinkan/website/models.py:308
+#: src/seishinkan/website/models.py:354 src/seishinkan/website/models.py:383
+msgid "Text"
+msgstr "Text"
+
+#: src/seishinkan/links/models.py:47
+msgid "Kategorie"
+msgstr "Category"
+
+#: src/seishinkan/links/models.py:64
+msgid "Link"
+msgstr ""
+
+#: src/seishinkan/members/models.py:15
+msgid "Nicht Mitglied"
+msgstr "Not a Member"
+
+#: src/seishinkan/members/models.py:16
+msgid "Aktiv"
+msgstr "Active"
+
+#: src/seishinkan/members/models.py:17
+msgid "Passiv"
+msgstr "Passive"
+
+#: src/seishinkan/members/models.py:18
+msgid "Ehrenmitglied"
+msgstr "Honorary Member"
+
+#: src/seishinkan/members/models.py:22
+msgid "10. Dan"
+msgstr ""
+
+#: src/seishinkan/members/models.py:23
+msgid "9. Dan"
+msgstr ""
+
+#: src/seishinkan/members/models.py:24
+msgid "8. Dan"
+msgstr ""
+
+#: src/seishinkan/members/models.py:25
+msgid "7. Dan"
+msgstr ""
+
+#: src/seishinkan/members/models.py:26
+msgid "6. Dan"
+msgstr ""
+
+#: src/seishinkan/members/models.py:27
+msgid "5. Dan"
+msgstr ""
+
+#: src/seishinkan/members/models.py:28
+msgid "4. Dan"
+msgstr ""
+
+#: src/seishinkan/members/models.py:29
+msgid "3. Dan"
+msgstr ""
+
+#: src/seishinkan/members/models.py:30
+msgid "2. Dan"
+msgstr ""
+
+#: src/seishinkan/members/models.py:31
+msgid "1. Dan"
+msgstr ""
+
+#: src/seishinkan/members/models.py:33
+msgid "1. Kyu"
+msgstr ""
+
+#: src/seishinkan/members/models.py:34
+msgid "2. Kyu"
+msgstr ""
+
+#: src/seishinkan/members/models.py:35
+msgid "3. Kyu"
+msgstr ""
+
+#: src/seishinkan/members/models.py:36
+msgid "4. Kyu"
+msgstr ""
+
+#: src/seishinkan/members/models.py:37
+msgid "5. Kyu"
+msgstr ""
+
+#: src/seishinkan/members/models.py:39
+msgid "1.2 Kinder-Kyu"
+msgstr ""
+
+#: src/seishinkan/members/models.py:40
+msgid "1.1 Kinder-Kyu"
+msgstr ""
+
+#: src/seishinkan/members/models.py:41
+msgid "2.2 Kinder-Kyu"
+msgstr ""
+
+#: src/seishinkan/members/models.py:42
+msgid "2.1 Kinder-Kyu"
+msgstr ""
+
+#: src/seishinkan/members/models.py:43
+msgid "3.2 Kinder-Kyu"
+msgstr ""
+
+#: src/seishinkan/members/models.py:44
+msgid "3.1 Kinder-Kyu"
+msgstr ""
+
+#: src/seishinkan/members/models.py:45
+msgid "4.2 Kinder-Kyu"
+msgstr ""
+
+#: src/seishinkan/members/models.py:46
+msgid "4.1 Kinder-Kyu"
+msgstr ""
+
+#: src/seishinkan/members/models.py:47
+msgid "5.2 Kinder-Kyu"
+msgstr ""
+
+#: src/seishinkan/members/models.py:48
+msgid "5.1 Kinder-Kyu"
+msgstr ""
+
+#: src/seishinkan/members/models.py:52 src/seishinkan/members/models.py:123
+#: src/seishinkan/website/models.py:20 src/seishinkan/website/models.py:134
+#: src/seishinkan/website/models.py:305 src/seishinkan/website/models.py:353
+#: src/seishinkan/website/models.py:382
+msgid "Name"
+msgstr ""
+
+#: src/seishinkan/members/models.py:59 src/seishinkan/members/models.py:102
+#, fuzzy
+msgid "Land"
+msgstr "Mobile"
+
+#: src/seishinkan/members/models.py:60
+#, fuzzy
+msgid "Länder"
+msgstr "Length"
+
+#: src/seishinkan/members/models.py:97
+msgid "Vorname"
+msgstr "Firtsname"
+
+#: src/seishinkan/members/models.py:98
+msgid "Nachname"
+msgstr "Lastname"
+
+#: src/seishinkan/members/models.py:99
+msgid "PLZ"
+msgstr "Zip"
+
+#: src/seishinkan/members/models.py:100
+msgid "Stadt"
+msgstr "City"
+
+#: src/seishinkan/members/models.py:101
+msgid "Straße"
+msgstr "Street"
+
+#: src/seishinkan/members/models.py:103
+msgid "Telefon"
+msgstr "Phone"
+
+#: src/seishinkan/members/models.py:104
+msgid "Telefax"
+msgstr "Fax"
+
+#: src/seishinkan/members/models.py:105
+msgid "Handy"
+msgstr "Mobile"
+
+#: src/seishinkan/members/models.py:106
+msgid "E-Mail"
+msgstr "Email"
+
+#: src/seishinkan/members/models.py:107
+msgid "Geburt"
+msgstr "Birth"
+
+#: src/seishinkan/members/models.py:111
+msgid "Mitglied seit"
+msgstr "Member since"
+
+#: src/seishinkan/members/models.py:112
+msgid "Austritt am"
+msgstr "exit date"
+
+#: src/seishinkan/members/models.py:113
+msgid "Vorstand"
+msgstr "Board"
+
+#: src/seishinkan/members/models.py:114
+msgid "Trainer"
+msgstr ""
+
+#: src/seishinkan/members/models.py:115
+msgid "Kind"
+msgstr "Child"
+
+#: src/seishinkan/members/models.py:116
+msgid "bekommt Emails"
+msgstr "receives email"
+
+#: src/seishinkan/members/models.py:128
+msgid "Alter"
+msgstr "Age"
+
+#: src/seishinkan/members/models.py:161 src/seishinkan/members/models.py:176
+#: src/seishinkan/members/models.py:191
+msgid "Graduierung"
+msgstr "Graduation"
+
+#: src/seishinkan/members/models.py:166
+msgid "Mitglied"
+msgstr "Member"
+
+#: src/seishinkan/members/models.py:174
+msgid "Person"
+msgstr ""
+
+#: src/seishinkan/members/models.py:175 src/seishinkan/news/models.py:40
+msgid "Datum"
+msgstr "Date"
+
+#: src/seishinkan/members/models.py:178
+msgid "Vorschlag"
+msgstr "Suggestion"
+
+#: src/seishinkan/news/models.py:23 src/seishinkan/website/models.py:189
+#: src/seishinkan/website/models.py:190 src/seishinkan/website/models.py:191
+#: src/seishinkan/website/models.py:206 src/seishinkan/website/models.py:246
+msgid "Überschrift"
+msgstr "Header"
+
+#: src/seishinkan/news/models.py:24
+msgid "Einleitung"
+msgstr "Introduction"
+
+#: src/seishinkan/news/models.py:27 src/seishinkan/website/models.py:198
+#: src/seishinkan/website/models.py:250
+msgid "Bild Ausrichtung"
+msgstr "Image alignment"
+
+#: src/seishinkan/news/models.py:28
+msgid "veröffentlicht"
+msgstr "publish"
+
+#: src/seishinkan/news/models.py:29
+msgid "endet"
+msgstr "ends"
+
+#: src/seishinkan/news/models.py:47 src/seishinkan/website/models.py:392
+msgid "Neu"
+msgstr "New"
+
+#: src/seishinkan/news/models.py:63 src/seishinkan/website/models.py:70
+#: src/seishinkan/website/models.py:229 src/seishinkan/website/models.py:385
+msgid "Vorschau"
+msgstr "Preview"
+
+#: src/seishinkan/news/models.py:68
+msgid "Beitrag"
+msgstr "News"
+
+#: src/seishinkan/website/forms.py:11
+msgid "Benutzername"
+msgstr "Username"
+
+#: src/seishinkan/website/forms.py:13
+msgid "Benutzername wird benötigt."
+msgstr "username required"
+
+#: src/seishinkan/website/forms.py:14
+msgid "Benutzername ist zu kurz."
+msgstr "username is too short"
+
+#: src/seishinkan/website/forms.py:19
+msgid "Passwort"
+msgstr "Password"
+
+#: src/seishinkan/website/forms.py:22
+msgid "Passwort wird benötigt."
+msgstr "password required"
+
+#: src/seishinkan/website/forms.py:23
+msgid "Passort ist zu kurz."
+msgstr "password is too short"
+
+#: src/seishinkan/website/forms.py:34
+msgid "Bitte einen gültigen Benutzernamen und Passwort eingeben. Dabei ist die Groß-/Kleinschreibung zu beachten."
+msgstr "Please enter username and password. Words are case-sensitive."
+
+#: src/seishinkan/website/forms.py:37
+msgid "Dieses Benutzerkonto ist nicht aktiv. Anmeldung nicht erlaubt."
+msgstr "This user account is not active."
+
+#: src/seishinkan/website/forms.py:47
+msgid "Ihr Name"
+msgstr "Your name"
+
+#: src/seishinkan/website/forms.py:53
+msgid "Ihre Email-Adresse"
+msgstr "Your E-mail"
+
+#: src/seishinkan/website/forms.py:58
+msgid "Kopie an mich senden"
+msgstr "Send a copy to me"
+
+#: src/seishinkan/website/forms.py:63 src/seishinkan/website/models.py:429
+msgid "Betreff"
+msgstr "Subject"
+
+#: src/seishinkan/website/forms.py:69 src/seishinkan/website/models.py:431
+msgid "Nachricht"
+msgstr "Message"
+
+#: src/seishinkan/website/models.py:21 src/seishinkan/website/models.py:135
+#: src/seishinkan/website/models.py:306
+msgid "Name (Englisch)"
+msgstr ""
+
+#: src/seishinkan/website/models.py:22 src/seishinkan/website/models.py:136
+#: src/seishinkan/website/models.py:307
+msgid "Name (Japanisch)"
+msgstr ""
+
+#: src/seishinkan/website/models.py:23
+msgid "Index (Reihenfolge)"
+msgstr ""
+
+#: src/seishinkan/website/models.py:33 src/seishinkan/website/models.py:334
+msgid "Wochentag"
+msgstr "Weekday"
+
+#: src/seishinkan/website/models.py:34
+msgid "Wochentage"
+msgstr "Weekdays"
+
+#: src/seishinkan/website/models.py:37 src/seishinkan/website/models.py:51
+#: src/seishinkan/website/models.py:68
+msgid "Titel"
+msgstr "Title"
+
+#: src/seishinkan/website/models.py:38 src/seishinkan/website/models.py:69
+msgid "Datei"
+msgstr "File"
+
+#: src/seishinkan/website/models.py:47
+msgid "Dokument"
+msgstr "Document"
+
+#: src/seishinkan/website/models.py:48
+msgid "Dokumente"
+msgstr "Douments"
+
+#: src/seishinkan/website/models.py:60
+msgid "Ort"
+msgstr "Place"
+
+#: src/seishinkan/website/models.py:61
+msgid "Orte"
+msgstr "Places"
+
+#: src/seishinkan/website/models.py:71
+msgid "max. Breite"
+msgstr "max. Width"
+
+#: src/seishinkan/website/models.py:72
+msgid "max. Höhe"
+msgstr "max. Height"
+
+#: src/seishinkan/website/models.py:105 src/seishinkan/website/models.py:113
+msgid "Bild"
+msgstr "Image"
+
+#: src/seishinkan/website/models.py:120
+msgid "Bild im Kopf"
+msgstr "Header Image"
+
+#: src/seishinkan/website/models.py:121
+msgid "Bilder im Kopf"
+msgstr "Header Images"
+
+#: src/seishinkan/website/models.py:137
+msgid "URL"
+msgstr ""
+
+#: src/seishinkan/website/models.py:138
+msgid "Position im Menü"
+msgstr "Position in Menu"
+
+#: src/seishinkan/website/models.py:138
+msgid "Legt die Reihenfolge fest. Bei gleichen Werten wird alphabetisch nach Name sortiert."
+msgstr ""
+
+#: src/seishinkan/website/models.py:139
+msgid "Über"
+msgstr "Parent"
+
+#: src/seishinkan/website/models.py:139
+#, fuzzy
+msgid "Übergeordnete Seite"
+msgstr "first page"
+
+#: src/seishinkan/website/models.py:140
+msgid "Wenn hier nichts ausgewählt wird, wird das Bild der übergeordneten Seite verwendet."
+msgstr ""
+
+#: src/seishinkan/website/models.py:141
+msgid "Enthält Termine Übersicht"
+msgstr "includes events overview"
+
+#: src/seishinkan/website/models.py:142
+msgid "Enthält Beiträge Übersicht"
+msgstr "includes news overview"
+
+#: src/seishinkan/website/models.py:143
+msgid "Enthält Trainingszeiten"
+msgstr "includes training schedule"
+
+#: src/seishinkan/website/models.py:144
+msgid "Enthält Anfängerkurs Info"
+msgstr "includes beginners course info"
+
+#: src/seishinkan/website/models.py:145
+msgid "Enthält Kindertraining Info"
+msgstr "includes childrens practice info"
+
+#: src/seishinkan/website/models.py:146
+#, fuzzy
+msgid "Enthält Jugendtraining Info"
+msgstr "includes childrens practice info"
+
+#: src/seishinkan/website/models.py:147
+msgid "Ist Startseite"
+msgstr "is homepage"
+
+#: src/seishinkan/website/models.py:179
+msgid "Seiten"
+msgstr "Pages"
+
+#: src/seishinkan/website/models.py:195
+msgid "Code"
+msgstr ""
+
+#: src/seishinkan/website/models.py:199
+msgid "Auf welcher Seite soll der Artikel erscheinen?"
+msgstr ""
+
+#: src/seishinkan/website/models.py:234 src/seishinkan/website/models.py:235
+msgid "Artikel"
+msgstr "Article"
+
+#: src/seishinkan/website/models.py:252 src/seishinkan/website/models.py:357
+msgid "Beginn"
+msgstr "Begin"
+
+#: src/seishinkan/website/models.py:253 src/seishinkan/website/models.py:358
+msgid "Ende"
+msgstr "End"
+
+#: src/seishinkan/website/models.py:270
+msgid "Termin"
+msgstr "Event"
+
+#: src/seishinkan/website/models.py:271
+msgid "Termine"
+msgstr "Events"
+
+#: src/seishinkan/website/models.py:309 src/seishinkan/website/models.py:355
+msgid "Text (Englisch)"
+msgstr ""
+
+#: src/seishinkan/website/models.py:310 src/seishinkan/website/models.py:356
+msgid "Text (Japanisch)"
+msgstr ""
+
+#: src/seishinkan/website/models.py:311
+msgid "Anfängerkurs"
+msgstr "Beginners Course"
+
+#: src/seishinkan/website/models.py:312
+msgid "Kindertraining"
+msgstr "Childrens Practice"
+
+#: src/seishinkan/website/models.py:313
+#, fuzzy
+msgid "Jugendtraining"
+msgstr "Childrens Practice"
+
+#: src/seishinkan/website/models.py:326 src/seishinkan/website/models.py:333
+msgid "Trainingsart"
+msgstr ""
+
+#: src/seishinkan/website/models.py:327
+msgid "Trainingsarten"
+msgstr ""
+
+#: src/seishinkan/website/models.py:331
+msgid "Von"
+msgstr "From"
+
+#: src/seishinkan/website/models.py:331
+#, fuzzy
+msgid "Beginn des Trainings"
+msgstr "Childrens Practice"
+
+#: src/seishinkan/website/models.py:332
+msgid "Bis"
+msgstr "To"
+
+#: src/seishinkan/website/models.py:332
+#, fuzzy
+msgid "Ende des Trainings"
+msgstr "Childrens Practice"
+
+#: src/seishinkan/website/models.py:341 src/seishinkan/website/models.py:342
+msgid "Training"
+msgstr ""
+
+#: src/seishinkan/website/models.py:374
+msgid "Training Aktuell Meldung"
+msgstr "Current Announcment"
+
+#: src/seishinkan/website/models.py:375
+msgid "Training Aktuell Meldungen"
+msgstr "Current Announcments"
+
+#: src/seishinkan/website/models.py:384
+msgid "Pfad"
+msgstr "Path"
+
+#: src/seishinkan/website/models.py:420
+msgid "Download"
+msgstr ""
+
+#: src/seishinkan/website/models.py:428
+msgid "Absender"
+msgstr "Sender"
+
+#: src/seishinkan/website/models.py:430
+msgid "Captcha"
+msgstr ""
+
+#: src/seishinkan/website/models.py:432
+msgid "Empfänger"
+msgstr ""
+
+#: src/seishinkan/website/models.py:436
+msgid "Nachricht (kurz)"
+msgstr "Shor Message"
+
+#: src/seishinkan/website/models.py:445
+msgid "Kontakte"
+msgstr "Contacts"
+
+#~ msgid "Beim Übertragen der Bilder von Picasa ist ein Fehler aufgetreten. Versuchen Sie es später noch einmal."
+#~ msgstr "Problem receiving images from Picasa. Please try again later."
+
+#~ msgid "Neu laden"
+#~ msgstr "Reload"
+
+#~ msgid "aktive Mitglieder"
+#~ msgstr "Active Members"
+
+#~ msgid "passive Mitglieder"
+#~ msgstr "Passive Members"
+
+#~ msgid "Ehrenmitglieder"
+#~ msgstr "Honorary Members"
+
+#~ msgid "Autor"
+#~ msgstr "Author"

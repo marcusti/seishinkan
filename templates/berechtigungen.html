@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load seishinkan_tags %}
+
+{% block content %}
+
+<h3>Berechtigungen</h3>
+
+<table cellspacing="0" cellpadding="5">
+{% if users %}
+<tr>
+  <th>Benutzer</th>
+  <th>Gruppen</th>
+  <th>Verwaltung</th>
+  <th>Superuser</th>
+</tr>
+{% for user in users %}
+  <tr>
+    <td>{{ user.first_name }} {{ user.last_name }}</td>
+    <td>
+    {% for id, group in user.groups.values_list %}
+      {{ group }}{% if not forloop.last %},{% endif %}
+    {% endfor %}
+    </td>
+    <td align="center">{% if user.is_staff %}X{% endif %}</td>
+    <td align="center">{% if user.is_superuser %}X{% endif %}</td>
+  </tr>
+{% endfor %}
+
+{% endif %}
+</table>
+
+{% for group in groups %}
+  <h5>{{ group }}</h5>
+  <ul class="event postmeta">
+  {% for id, p in group.permissions.values_list %}
+    <li>{{ p }}</li>
+  {% endfor %}
+  </ul>
+{% endfor %}
+
+
+{% endblock %}

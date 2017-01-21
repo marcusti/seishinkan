@@ -1,0 +1,42 @@
+{% load i18n %}
+
+{% if wochenplan %}
+<div class="post">
+
+<h3>{% trans "Trainingszeiten" %}</h3>
+
+{% if training_aktuell %}
+<ul class="event">
+        {% for meldung in training_aktuell%}
+          <li class="page_item small">
+            {{ meldung.get_text|linebreaksbr }}
+          </li>
+        {% endfor %}
+</ul>
+{% endif %}
+
+<div class="postentry">
+  <table id="trainingszeiten" class="small">
+    <tr>
+      {% for tag in wochentage %}
+        <th>{{ tag }}</th>
+      {% endfor %}
+    </tr>
+
+    {% for tage in wochenplan %}
+      <tr>
+      {% for training in tage %}
+        <td class="training{{ training.art.id }}">
+          {% if training %}
+            {{ training.von|time:"G:i" }} - {{ training.bis|time:"G:i" }}
+            <br />{{ training.art }}
+          {% endif %}
+        </td>
+      {% endfor %}
+      </tr>
+    {% endfor %}
+  </table>
+
+</div>
+</div>
+{% endif %}

@@ -1,0 +1,116 @@
+{% load i18n %}
+{% if sidebar %}
+  <div id="sidebar">
+    <a href="/"><img src="/static/images/Seishinkan_peter_190.jpg" width="190" height="119" alt="[Seishinkan Logo]" title="Seishinkan Logo" /></a>
+
+    <ul>
+      <li>
+        <ul>
+          {% for seite in seiten %}
+            <li class="page_item{% ifequal menu seite.url %} current{% endifequal %}"><a href="{{ seite.get_absolute_url }}">{{ seite.get_name }}</a>
+              {% if seite.has_sub_sites %}
+              <ul>
+              {% for sub in seite.get_sub_sites %}
+                <li class="page_item{% ifequal menu sub.url %} current{% endifequal %}"><a href="{{ sub.get_absolute_url }}">{{ sub.get_name }}</a></li>
+              {% endfor %}
+              </ul>
+              {% endif %}
+            </li>
+          {% endfor %}
+
+            <li>&nbsp;</li>
+            <li class="page_item{% ifequal menu "news" %} current{% endifequal %}"><a href="/news/">{% trans "Beiträge" %}</a></li>
+            <li class="page_item{% ifequal menu "bilder" %} current{% endifequal %}"><a href="/bilder/">{% trans "Bilder" %}</a></li>
+            <li class="page_item{% ifequal menu "videos" %} current{% endifequal %}"><a href="https://www.youtube.com/user/eckido/videos?shelf_id=0&view=0&sort=dd" target="_blank">{% trans "Videos" %}</a></li>
+            <li class="page_item{% ifequal menu "downloads" %} current{% endifequal %}"><a href="/downloads/">{% trans "Downloads" %}</a></li>
+            <li class="page_item{% ifequal menu "links" %} current{% endifequal %}"><a href="/links/">{% trans "Links" %}</a></li>
+            <li class="page_item{% ifequal menu "kontakt" %} current{% endifequal %}"><a href="/kontakt/">{% trans "Kontakt" %}</a></li>
+        </ul>
+      </li>
+    </ul>
+
+{% if user.is_authenticated %}
+    <br/>
+    <h2>{% trans "Mitgliederbereich" %}</h2>
+
+    <ul>
+      <li>
+	<ul class="">
+	  <li class="edit">{% trans "Hallo" %} {{ user.first_name }}.</li>
+	  <li class="page_item{% ifequal menu "admin_log" %} current{% endifequal %}"><a href="/log/">{% trans "Letzte &Auml;nderungen" %}</a></li>
+
+	{% if perms.members %}
+	  <li><a class="page_item{% ifequal menu "emailverteiler" %} current{% endifequal %}" href="/email/">{% trans "Email Verteiler" %}</a></li>
+	  <li><a class="page_item{% ifequal menu "mitgliederlisten" %} current{% endifequal %}" href="/mitglieder/">{% trans "Mitgliederlisten" %}</a></li>
+	  <li><a class="page_item{% ifequal menu "graduierungen" %} current{% endifequal %}" href="/graduierungen/">{% trans "Graduierungen" %}</a></li>
+	{% endif %}
+
+	  <li><a class="" href="/static/webalizer/">{% trans "Statistik" %}</a></li>
+	  <li><a class="" href="/verwaltung/">{% trans "Verwaltung" %}</a></li>
+
+	{% if nonpublic_sites %}
+          <li class="edit postmeta">{% trans "nicht öffentlich" %}:</li>
+	{% for seite in nonpublic_sites %}
+	  <li><a class="page_item{% ifequal menu seite.url %} current{% endifequal %}" href="{{ seite.get_absolute_url }}">{{ seite.get_name }}</a></li>
+	{% endfor %}
+	{% endif %}
+
+	  <li><a class="edit" href="/logout/">{% trans "Logout" %}</a></li>
+	</ul>
+      </li>
+    </ul>
+
+    <br/>
+    <table>
+    {% if users %}
+      <tr class="postmeta"><th colspan="2">{% trans "Zuletzt angemeldet" %}:</th></tr>
+    {% for user in users %}
+      <tr class="postmeta">
+	<td>{{ user.first_name }}</td>
+	<td>{{ user.last_login|date:"d.m.y H:i" }}</td>
+      </tr>
+    {% endfor %}
+
+    {% if perms.members %}
+      <td colspan="2"><a class="page_item{% ifequal menu "permissions" %} current{% endifequal %}" href="/permissions/">{% trans "Berechtigungen" %}</a></td>
+    {% endif %}
+
+    {% endif %}
+    </table>
+{% endif %}
+
+    <br/>
+    <p><a href="http://www.tendo-world-aikido.de/" target="_blank"><img src="/static/images/tendo-world-aikido-190.png" width="190" height="33" alt="[tendo world aikido]" title="tendo world aikido" /></a></p>
+    <br/>
+
+    <h2><a href="/zeiten/">{% trans "Training heute" %},<br/>{% now "l, d.m." %}</a></h2>
+
+<ul>
+<li>
+    <ul class="">
+        {% if training_heute %}
+          {% for training in training_heute %}
+            <li class="page_item">
+              <a href="/zeiten/">{{ training.von|time:"G:i" }} - {{ training.bis|time:"G:i" }}<br/>
+                {{ training.art }}</a>
+            </li>
+          {% endfor %}
+
+        {% else %}
+          <li class="postmeta">{% trans "Heute findet kein Training statt." %}</li>
+        {% endif %}
+
+        {% for meldung in training_aktuell%}
+          <li class="page_item small">
+            {{ meldung.get_text|linebreaksbr }}
+          </li>
+        {% endfor %}
+
+        {% if user.is_authenticated %}<li class=""><a class="edit" href="/verwaltung/website/trainingaktuell/">{% trans "Meldungen bearbeiten" %}</a></li>{% endif %}
+
+    </ul>
+</li>
+</ul>
+
+  </div>
+{% endif %}

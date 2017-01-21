@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<h2>{%  trans "alle Beiträge"%}
+  <span class="postmeta"><a href="/feed/news/" target="_blank"><img src="/static/images/rss-icon.png" alt="[Seishinkan News, Atom Feed]" title="Seishinkan News, Atom Feed" /></a></span>
+</h2>
+
+<div class="post">
+{% autoescape off %}
+<ul class="event">
+{% for beitrag in object_list %}
+  <li>
+   <div class="right postmeta">
+    {% if beitrag.neu %}<span class="neu">{% trans "NEU" %}</span>{% endif %}
+    {{ beitrag.datum|date:"d.m.Y" }}
+   </div>
+   <div>
+    <a href="{{ beitrag.get_absolute_url }}" >{{ beitrag.title }}</a>
+    {% if user.is_authenticated %}<a class="edit small" href="/verwaltung/news/news/{{ beitrag.id }}/">{% trans "bearbeiten" %}</a>{% endif %}
+    <br/>{% for autor in beitrag.autoren.all %}<span class="postmeta">{{ autor }}{% if not forloop.last %}, {% endif %}</span>{% endfor %}
+    <span class="postmeta small">({{ beitrag.text|striptags|wordcount }} {% trans "Wörter" %})</span>
+   </div>
+  </li>
+{% endfor %}
+</ul>
+{% endautoescape %}
+
+{% include "paginator.html" %}
+
+</div>
+{% endblock %}

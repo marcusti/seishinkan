@@ -1,0 +1,26 @@
+syntax: glob
+
+.git
+log
+logs
+static/js/tiny_mce
+static/bilder
+static/dokumente
+static/downloads
+static/webalizer
+static/media
+htdocs/media
+tmp
+mysettings.py
+*.dump
+*.pid
+*.nginx
+*.pyc
+*.yaml
+*.json
+*.log
+*.sqlite
+*.tgz
+*.sublime-*
+*~
+

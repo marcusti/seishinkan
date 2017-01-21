@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load seishinkan_tags %}
+
+{% block content %}
+
+<h3>{%trans "Mitgliederlisten" %}</h3>
+
+<ul class="event">
+  <li>{% trans "Alle Mitglieder" %} <a href="/mitglieder/xls/" class="postmeta">Excel</a> <a href="/mitglieder/csv/" class="postmeta">csv</a></li>
+{% for s in status %} 
+ <li>{% trans "Mitglieder" %} ({% trans "Status" %} "{{ s.1 }}") <a href="/mitglieder/xls/{{ s.0 }}/" class="postmeta">Excel</a> <a href="/mitglieder/csv/{{ s.0 }}/" class="postmeta">csv</a></li>
+{% endfor %}
+</ul>
+
+<h3>{%trans "Trainerlisten" %}</h3>
+<ul class="event">
+  <li class="postmeta">Blanko Liste als Vorlage für den monatlichen Trainingsplan.</li>
+{% for monat in months %} 
+ <li><a href="/trainerliste/{{ monat|date:"Y" }}/{{ monat|date:"n" }}/" class="">Trainerliste {{ monat|date:"F Y" }}</a></li>
+{% endfor %}
+</ul>
+
+<h3>{%trans "Teilnehmererlisten" %}</h3>
+<ul class="event">
+  <li class="postmeta">Blanko Teilnehmerliste aller Mitglieder nach Vornamen sortiert. Drucklayout bitte manuell anpassen.</li>
+{% for monat in months %} 
+ <li><a href="/teilnehmerliste/{{ monat|date:"Y" }}/{{ monat|date:"n" }}/" class="">Teilnehmerliste {{ monat|date:"F Y" }}</a></li>
+{% endfor %}
+</ul>
+{% endblock %}

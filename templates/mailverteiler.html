@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load seishinkan_tags %}
+
+{% block content %}
+
+<h3>{%trans "Email Verteiler" %}</h3>
+
+{# --- REAKTEURE --- #}
+{% spaceless %}
+<h5><a href="mailto:{% for user in redakteure %}&quot;{% spaceless %}{{ user.first_name }} {{ user.last_name }}{% endspaceless %}&quot; &lt;{{ user.email }}&gt;{% if not forloop.last %}, {% endif %}{% endfor %}">Verteiler Redakteure</a><span class="postmeta"> ({{ redakteure|length }})</span></h5>
+{% endspaceless %}
+
+<p class="small">
+{% for user in redakteure %}
+    <a href="mailto:&quot;{% spaceless %}{{ user.first_name }} {{ user.last_name }}{% endspaceless %}&quot; &lt;{{ user.email }}&gt;">
+    &quot;{% spaceless %}{{ user.first_name }} {{ user.last_name }}{% endspaceless %}&quot; &lt;{{ user.email }}&gt;</a>
+    <br/>
+{% endfor %}
+</p>
+
+{# --- VORSTAND --- #}
+{% spaceless %}
+<h5><a href="mailto:{% for mitglied in vorstand %}{{ mitglied.name_und_email }}{% if not forloop.last %}, {% endif %}{% endfor %}">Verteiler Vorstand</a><span class="postmeta"> ({{ vorstand|length }})</span></h5>
+{% endspaceless %}
+
+<p class="small">
+{% for mitglied in vorstand %}
+    <a href="mailto:{{ mitglied.name_und_email }}">{{ mitglied.name_und_email }}</a>
+    {% if user.is_authenticated %}<a href="/verwaltung/members/mitglied/{{ mitglied.id }}/" class="edit smaller">{% trans "bearbeiten" %}</a>{% endif %}
+    <br/>
+{% endfor %}
+</p>
+
+{# --- TRAINER --- #}
+{% spaceless %}
+<h5><a href="mailto:{% for mitglied in trainer %}{{ mitglied.name_und_email }}{% if not forloop.last %}, {% endif %}{% endfor %}">Verteiler Trainer</a><span class="postmeta"> ({{ trainer|length }})</span></h5>
+{% endspaceless %}
+
+<p class="small">
+{% for mitglied in trainer %}
+    <a href="mailto:{{ mitglied.name_und_email }}">{{ mitglied.name_und_email }}</a>
+    {% if user.is_authenticated %}<a href="/verwaltung/members/mitglied/{{ mitglied.id }}/" class="edit smaller">{% trans "bearbeiten" %}</a>{% endif %}
+    <br/>
+{% endfor %}
+</p>
+
+{# --- MITGLIEDER --- #}
+{% spaceless %}
+<h5><a href="mailto:{% for mitglied in mit_mail %}{{ mitglied.name_und_email }}{% if not forloop.last %}, {% endif %}{% endfor %}">Verteiler Mitglieder</a><span class="postmeta"> ({{ mit_mail|length }})</span></h5>
+{% endspaceless %}
+
+<p class="small">
+{% for mitglied in mit_mail %}
+    <a href="mailto:{{ mitglied.name_und_email }}">{{ mitglied.name_und_email }}</a>
+    {% if user.is_authenticated %}<a href="/verwaltung/members/mitglied/{{ mitglied.id }}/" class="edit smaller">{% trans "bearbeiten" %}</a>{% endif %}
+    <br/>
+{% endfor %}
+</p>
+
+<h5>Mitglieder ohne Email<span class="postmeta"> ({{ ohne_mail|length }})</span></h5>
+<p class="small">
+{% for mitglied in ohne_mail %}
+    {{ mitglied.name }}
+    {% if user.is_authenticated %}<a href="/verwaltung/members/mitglied/{{ mitglied.id }}/" class="edit smaller">{% trans "bearbeiten" %}</a>{% endif %}
+    <br/>
+{% endfor %}
+</p>
+
+{% endblock %}

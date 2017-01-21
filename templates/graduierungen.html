@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load seishinkan_tags %}
+
+{% block content %}
+
+<table class="archiv">
+<tr><td colspan="4" class="white"><h3>{%trans "Vorschläge zur Graduierung" %}</h3></td></tr>
+
+{% if vorschlaege %}
+ <tr>
+  <th>Name</th>
+  <th>Grad</th>
+  <th colspan="2">Datum</th>
+ </tr>
+ {% for vorschlag in vorschlaege %} 
+ <tr class="{% cycle 'archiv' 'white' %}">
+  <td><a href="/verwaltung/members/mitglied/{{ vorschlag.person.id }}/" title="{{ vorschlag.person }}, {{ vorschlag.person.alter }}, {{ vorschlag.person.get_status_display }}" class="">{{ vorschlag.person }}</a></td>
+  <td>{{ vorschlag }}</td>
+  <td class="postmeta{% if vorschlag.datum|is_past %} error{% endif %}">{{ vorschlag.datum|date:"d.m.Y" }}</td>
+  <td class="postmeta">{{ vorschlag.person.graduierung }}</td>
+ </tr>
+ {% endfor %}
+ <tr><td colspan="4" class="white postmeta">{{ vorschlaege|length }} Vorschl{{ vorschlaege|pluralize:"ag,äge" }}</td></tr>
+
+{% else %}
+ <tr><td colspan="4" class="white">{% trans "Zur Zeit gibt es keine Vorschläge" %}.</td></tr>
+{% endif %}
+
+<tr><td colspan="4" class="white"><h3>{%trans "Graduierungen" %}</h3></td></tr>
+
+ <tr>
+  <th>Name</th>
+  <th>Grad</th>
+  <th colspan="2">Datum</th>
+ </tr>
+{% for mitglied in mitglieder %} 
+{% if not mitglied.vorschlag %}
+ <tr class="{% cycle 'white' 'white' %}">
+  <td><a href="/verwaltung/members/mitglied/{{ mitglied.id }}/" title="{{ mitglied }}, {{ mitglied.alter }}, {{ mitglied.get_status_display }}" class="">{{ mitglied }}</a></td>
+  <td>{{ mitglied.aktuelle_graduierung }}</td>
+  <td class="postmeta">{{ mitglied.aktuelle_graduierung.datum|date:"d.m.Y" }}</td>
+  <td class="postmeta">{{ mitglied.aktuelle_graduierung.datum|timesince }}</td>
+ </tr>
+{% endif %}
+{% endfor %}
+
+ <tr><td colspan="4" class="white postmeta">{{ mitglieder|length }} Graduierung{{ mitglieder|pluralize:"en" }}</td></tr>
+</table>
+
+{% endblock %}

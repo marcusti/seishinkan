@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load seishinkan_tags %}
+
+{% block content %}
+
+<h3>{%trans "Letzte Änderungen" %}</h3>
+
+<ul class="event">
+{% for log in object_list %}
+  <li class="small">
+    <div class="right postmeta">
+      {{ log.action_time|date:"D, d.m.Y H:i:s" }}
+    </div>
+    <div>
+      {{ log.user.first_name }}:<br/>
+      {{ log.content_type }} &quot;<a href="/verwaltung/{{ log.get_admin_url }}">{{ log.object_repr }}</a>&quot;
+      {% if log.is_change %}ge&auml;ndert{% endif %}
+      {% if log.is_addition %}hinzugef&uuml;gt{% endif %}
+      {% if log.is_deletion %}gel&ouml;scht{% endif %}
+      <br/>
+      <span class="postmeta">{{ log.change_message }}</span>
+    </div>
+  </li>
+{% endfor %}
+</ul>
+
+{% include "paginator.html" %}
+
+{% endblock %}

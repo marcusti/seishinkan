@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<h3>{%trans "Links" %}</h3>
+{% if user.is_authenticated %}<a class="create small" href="/verwaltung/links/link/add/">{% trans "neuen Link erstellen" %}</a>{% endif %}
+
+{% autoescape on%}
+<div class="post">
+<div class="postentry">
+{% for kat in kategorien %}
+<h5>{{ kat.name }}</h5>
+<ul class="event">
+ {% for link in links %}
+  {% ifequal link.kategorie.id kat.id %}
+  <li>
+    <a href="{{ link.url }}" target="_blank">{{ link.title }}</a><br/>
+    <span class="small">{{ link.text }} {% if user.is_authenticated %}<a class="edit small" href="/verwaltung/links/link/{{ link.id }}/">{% trans "bearbeiten" %}</a>{% endif %}</span>
+  </li>
+  {% endifequal %}
+ {% endfor %}
+</ul>
+{% endfor %}
+</div>
+</div>
+{% endautoescape %}
+
+{% endblock %}

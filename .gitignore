@@ -1,0 +1,15 @@
+.hg
+logs
+*.dump
+*.pyc
+mysettings.py
+generate_cert.sh
+log
+logs
+templates/static/js/tiny_mce
+templates/static/bilder
+templates/static/dokumente
+templates/static/downloads
+templates/static/webalizer
+templates/static/media
+tmp

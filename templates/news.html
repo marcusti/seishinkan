@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+{% if beitrag %}
+<div class="post">
+
+{% if user.is_authenticated %}
+  <p><a class="edit small" href="/verwaltung/news/news/{{beitrag.id}}/">{% trans "bearbeiten" %}</a></p>
+{% endif %}
+
+<p>
+  {{ beitrag.datum|date:"l, d. F Y" }}<br/>
+  {% for autor in beitrag.autoren.all %}{{ autor }}{% if not forloop.last %}, {% endif %}{% endfor %}
+</p>
+
+{% autoescape off%}
+  <h3>{{ beitrag.title }}</h3>
+  <div class="postentry">
+    <h6>{{ beitrag.einleitung }}</h6>
+    {% if beitrag.bild %}
+      <p><img class="image{% if beitrag.bild_ausrichtung %}{{ beitrag.bild_ausrichtung }}{% endif %}"
+           src="{{ beitrag.bild.bild.url }}"
+           title="{{ beitrag.bild.name }}"
+           alt="[{{ beitrag.bild.name }}]" /></p>
+    {% endif %}
+    <p>{{ beitrag.text }}</p>
+  </div>
+{% endautoescape %}
+
+<br/>
+<ul class="postmeta event clear">
+  {% if next %}<li>{% trans "nächster Beitrag" %}: <a href="{{ next.get_absolute_url }}">{{ next.title }}</a></li>{% endif %}
+  {% if previous %}<li>{% trans "voriger Beitrag" %}: <a href="{{ previous.get_absolute_url }}">{{ previous.title }}</a></li>{% endif %}
+  <li>
+    <a href="/news/archiv/">{% trans "alle Beiträge anzeigen" %}</a>
+    ({{ anzahl }})
+  </li>
+</ul>
+
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<h2>{%  trans "alle Termine"%}
+  <span class="postmeta"><a href="/feed/termine/" target="_blank"><img src="/static/images/rss-icon.png" alt="[Seishinkan Termine, Atom Feed]" title="Seishinkan Termine, Atom Feed" /></a></span>
+</h2>
+
+<div class="post">
+{% autoescape on%}
+<ul class="event">
+{% for termin in object_list %}
+  <li>
+    <div class="right postmeta">
+      {{ termin.beginn|date:"d.m.Y" }}{% ifnotequal termin.beginn termin.ende %} - {{ termin.ende|date:"d.m.Y" }}{% endifnotequal %}
+    </div>
+    <div>
+      <a href="{{ termin.get_absolute_url }}" title="{{ termin.text|slice:":200" }} [...]">{{ termin.title }}</a>
+      {% if user.is_authenticated %}<a class="edit small" href="/verwaltung/website/termin/{{ termin.id }}/">{% trans "bearbeiten" %}</a>{% endif %}
+      {% if termin.ort %}<br/><span class="postmeta">Ort: {{ termin.ort }}</span>{% endif %}
+    </div>
+  </li>
+{% endfor %}
+</ul>
+{% endautoescape %}
+
+{% include "paginator.html" %}
+
+</div>
+{% endblock %}
+
