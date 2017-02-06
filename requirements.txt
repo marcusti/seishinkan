@@ -5,4 +5,5 @@ gdata
 gunicorn
 markdown
 pyExcelerator
+requests
 south

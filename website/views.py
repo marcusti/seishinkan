@@ -27,6 +27,7 @@ import platform
 import sys
 import pyExcelerator as xl
 import gdata.photos.service
+import requests
 
 try:
     from django.db import connection
@@ -144,13 +145,16 @@ def kontakt(request):
 
     if request.method == 'POST':
         # Check the captcha
-        challenge_field = request.POST['recaptcha_challenge_field']
-        response_field = request.POST['recaptcha_response_field']
-        remote = request.META['REMOTE_ADDR']
+        # challenge_field = request.POST['recaptcha_challenge_field']
+        response_field = request.POST['g-recaptcha-response']
+        # remote = request.META['REMOTE_ADDR']
+        r = requests.post("https://www.google.com/recaptcha/api/siteverify", data={"secret": settings.RECAPTCHA_PRIVATE_KEY, "response": response_field})
+        j = r.json()
+        print j
 
-        check_captcha = captcha.submit(challenge_field, response_field, settings.RECAPTCHA_PRIVATE_KEY, remote)
+        #check_captcha = captcha.submit(challenge_field, response_field, settings.RECAPTCHA_PRIVATE_KEY, remote)
 
-        if check_captcha.is_valid is False:
+        if not r.status_code == 200 or j['success'] == False:
             # Captcha is wrong, show an error ...
             ctx['form'] = KontaktForm(request.POST)
             ctx['captcha_error'] = True
@@ -185,7 +189,7 @@ def kontakt(request):
 
             # In Datenbank speichern...
             kontakt = Kontakt(sender=from_email, betreff=subject, nachricht=message)
-            kontakt.captcha = request.POST['recaptcha_response_field']
+            #kontakt.captcha = request.POST['g-recaptcha-response']
             kontakt.to = to_list
             kontakt.save()
 
