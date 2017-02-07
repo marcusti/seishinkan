@@ -8,19 +8,19 @@ from seishinkan.utils import DEFAULT_MAX_LENGTH
 class LoginForm( forms.Form ):
     username = forms.CharField( max_length = DEFAULT_MAX_LENGTH,
                                 min_length = 4,
-                                label = _( 'Benutzername' ),
+                                label = _( u'Benutzername' ),
                                 required = True,
-                                error_messages = {'required': _( 'Benutzername wird benötigt.' ),
-                                                  'min_length': _( 'Benutzername ist zu kurz.' ),
+                                error_messages = {'required': _( u'Benutzername wird benötigt.' ),
+                                                  'min_length': _( u'Benutzername ist zu kurz.' ),
                                                   },
                                 )
     password = forms.CharField( max_length = DEFAULT_MAX_LENGTH,
                                 min_length = 4,
-                                label = _( 'Passwort' ),
+                                label = _( u'Passwort' ),
                                 required = True,
                                 widget = forms.PasswordInput,
-                                error_messages = {'required': _( 'Passwort wird benötigt.' ),
-                                                  'min_length': _( 'Passort ist zu kurz.' ),
+                                error_messages = {'required': _( u'Passwort wird benötigt.' ),
+                                                  'min_length': _( u'Passort ist zu kurz.' ),
                                                   },
                                 )
 
@@ -31,10 +31,10 @@ class LoginForm( forms.Form ):
         self.user = authenticate( username = username, password = password )
 
         if self.user is None:
-            raise forms.ValidationError, _( 'Bitte einen gültigen Benutzernamen und Passwort eingeben. Dabei ist die Groß-/Kleinschreibung zu beachten.' )
+            raise forms.ValidationError, _( u'Bitte einen gültigen Benutzernamen und Passwort eingeben. Dabei ist die Groß-/Kleinschreibung zu beachten.' )
 
         elif not self.user.is_active:
-            raise forms.ValidationError, _( 'Dieses Benutzerkonto ist nicht aktiv. Anmeldung nicht erlaubt.' )
+            raise forms.ValidationError, _( u'Dieses Benutzerkonto ist nicht aktiv. Anmeldung nicht erlaubt.' )
 
         return super( LoginForm, self ).clean()
 
@@ -44,29 +44,29 @@ class LoginForm( forms.Form ):
 class KontaktForm( forms.Form ):
     name = forms.CharField( max_length = DEFAULT_MAX_LENGTH,
                             min_length = 1,
-                            label = _( 'Ihr Name' ),
+                            label = _( u'Ihr Name' ),
                             required = False,
                             )
 
     email = forms.EmailField( max_length = DEFAULT_MAX_LENGTH,
                              min_length = 4,
-                             label = _( 'Ihre Email-Adresse' ),
+                             label = _( u'Ihre Email-Adresse' ),
                              required = True,
                              )
 
     copy_to_me = forms.BooleanField( required = False,
-                                     label = _( 'Kopie an mich senden' ),
+                                     label = _( u'Kopie an mich senden' ),
                                      )
 
     subject = forms.CharField( max_length = DEFAULT_MAX_LENGTH,
                               min_length = 4,
-                              label = _( 'Betreff' ),
+                              label = _( u'Betreff' ),
                               required = True,
                               )
 
     message = forms.CharField( max_length = 5000,
                               min_length = 4,
-                              label = _( 'Nachricht' ),
+                              label = _( u'Nachricht' ),
                               required = True,
                               widget = forms.Textarea,
                               )

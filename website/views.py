@@ -145,16 +145,12 @@ def kontakt(request):
 
     if request.method == 'POST':
         # Check the captcha
-        # challenge_field = request.POST['recaptcha_challenge_field']
-        response_field = request.POST['g-recaptcha-response']
-        # remote = request.META['REMOTE_ADDR']
+        response_field = request.POST.get('g-recaptcha-response')
         r = requests.post("https://www.google.com/recaptcha/api/siteverify", data={"secret": settings.RECAPTCHA_PRIVATE_KEY, "response": response_field})
         j = r.json()
         print j
 
-        #check_captcha = captcha.submit(challenge_field, response_field, settings.RECAPTCHA_PRIVATE_KEY, remote)
-
-        if not r.status_code == 200 or j['success'] == False:
+        if not r.status_code == 200 or j.get('success', False) == False:
             # Captcha is wrong, show an error ...
             ctx['form'] = KontaktForm(request.POST)
             ctx['captcha_error'] = True
@@ -226,9 +222,7 @@ def kontakt(request):
     else:
         form = KontaktForm()
 
-    html_captcha = captcha.displayhtml(settings.RECAPTCHA_PUB_KEY)
     ctx['form'] = form
-    ctx['html_captcha'] = html_captcha
 
     return __create_response(request, ctx, 'kontakt.html')
 
