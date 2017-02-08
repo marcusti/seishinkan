@@ -1,9 +1,7 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
- <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-
+ <meta charset="utf-8">
  <meta name="publisher" content="Aikido Dojo Seishinkan, Hamburg" />
  <meta name="revisit-after" content="30 days" />
  <meta name="description" content="Aikido Dojo Seishinkan, Hamburg. Tendoryu Aikido. Aikido videos, informations about aikido, training, beginners courses childrens training, seminars etc. in german, english, french, spanish, russian" />
@@ -266,7 +264,7 @@
              <input name="next" type="hidden" value="{{ request.path }}{% if request.META.QUERY_STRING %}?{{ request.META.QUERY_STRING }}{% endif %}" />
              <select name="language" id="language">
              {% for lang in LANGUAGES %}
-               <option value="{{ lang.0 }}" {% ifequal language lang.0 %}selected="selected"{% endifequal %}>{{ lang.1 }}</option>
+               <option value="{{ lang.0 }}" {% ifequal LANG lang.0 %}selected{% endifequal %}>{{ lang.1 }}</option>
              {% endfor %}
              </select>
             </form>
