@@ -1,4 +1,4 @@
-django==1.3.6
+django==1.11.29
 django-rosetta
 docutils
 gdata
